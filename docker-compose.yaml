@@ -1,0 +1,44 @@
+version: '3.8'
+
+networks:
+  fonzigo-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: fonzigo-frontend
+    ports:
+      - "80:80"
+    networks:
+      - fonzigo-network
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: fonzigo-backend
+    ports:
+      - "5000:5000"
+    networks:
+      - fonzigo-network
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - database
+
+  database:
+    build: ./database
+    container_name: fonzigo-database
+    ports:
+      - "5432:5432"
+    networks:
+      - fonzigo-network
+    volumes:
+      - db-data:/var/lib/postgresql/data
