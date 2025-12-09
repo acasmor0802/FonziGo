@@ -2,12 +2,14 @@
 
 package fonzigo.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class Usuario {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'USER'")
+    @Column(nullable = false, length = 20)
     private Role role = Role.USER;
 
     @OneToMany(mappedBy = "user")

@@ -1,12 +1,14 @@
 
 package fonzigo.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Carrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

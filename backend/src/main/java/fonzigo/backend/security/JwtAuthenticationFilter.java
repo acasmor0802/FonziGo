@@ -26,20 +26,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/v3/api-docs") || 
+               path.startsWith("/swagger-ui") ||
+               path.equals("/swagger-ui.html") ||
+               path.startsWith("/webjars");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                    FilterChain filterChain) throws ServletException, IOException {
         try {
-            String path = request.getRequestURI();
-            
-            // SALTAR Swagger y OpenAPI
-            if (path.startsWith("/v3/api-docs") || 
-                path.startsWith("/swagger-ui") ||
-                path.equals("/swagger-ui.html") ||
-                path.startsWith("/webjars")) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
@@ -49,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            jwt = authHeader.substring(7); // Extrae el token después de "Bearer "
+            jwt = authHeader.substring(7);
             userEmail = jwtService.extractUsername(jwt);
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
