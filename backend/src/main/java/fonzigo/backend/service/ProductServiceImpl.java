@@ -7,6 +7,8 @@ import fonzigo.backend.entity.Product;
 import fonzigo.backend.repository.CategoryRepository;
 import fonzigo.backend.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +30,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductDTO> getAllProducts(Pageable pageable) {
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return productPage.map(this::convertToDto);
     }
 
     @Override
