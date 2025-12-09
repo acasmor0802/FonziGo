@@ -1,11 +1,14 @@
 package fonzigo.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import fonzigo.backend.dto.LoginRequestDTO;
 import fonzigo.backend.dto.LoginResponseDTO;
 import fonzigo.backend.dto.UsuarioDTO;
 import fonzigo.backend.dto.UsuarioRegistroDTO;
 import fonzigo.backend.security.JwtService;
 import fonzigo.backend.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Autenticación y registro de usuarios")
 public class AuthenticationController {
 
     private final UsuarioService usuarioService;
@@ -31,13 +35,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UsuarioDTO> register(@RequestBody UsuarioRegistroDTO request) {
+    @Operation(summary = "Registrar nuevo usuario", description = "Crea una nueva cuenta de usuario")
+    public ResponseEntity<UsuarioDTO> register(@Valid @RequestBody UsuarioRegistroDTO request) {
         UsuarioDTO usuario = usuarioService.registerUser(request);
         return ResponseEntity.status(201).body(usuario);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
+    @Operation(summary = "Iniciar sesión", description = "Autentica un usuario y retorna un token JWT")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -62,6 +68,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/me")
+    @Operation(summary = "Obtener usuario actual", description = "Retorna los datos del usuario autenticado")
     public ResponseEntity<UsuarioDTO> getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UsuarioDTO usuario = usuarioService.getUserByEmail(email);

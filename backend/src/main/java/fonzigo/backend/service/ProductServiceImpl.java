@@ -66,6 +66,14 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
+    public ProductDTO updateProductImage(Long id, String imageUrl) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setImageUrl(imageUrl);
+        Product updated = productRepository.save(product);
+        return convertToDto(updated);
+    }
+
     private ProductDTO convertToDto(Product product) {
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(product, productDTO, "category");

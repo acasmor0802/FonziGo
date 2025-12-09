@@ -1,3 +1,4 @@
+// backend/src/main/java/fonzigo/backend/entity/Usuario.java
 
 package fonzigo.backend.entity;
 
@@ -21,6 +22,10 @@ public class Usuario {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'USER'")
+    private Role role = Role.USER;
 
     @OneToMany(mappedBy = "user")
     private List<Pedido> recentPurchases;
