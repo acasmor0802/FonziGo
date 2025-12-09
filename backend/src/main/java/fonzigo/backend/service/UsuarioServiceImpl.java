@@ -38,6 +38,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public UsuarioDTO getUserByEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + email));
+        return convertToDto(usuario);
+    }
+
+
+    @Override
     public UsuarioDTO registerUser(UsuarioRegistroDTO usuarioRegistroDTO) {
         Usuario user = new Usuario();
         BeanUtils.copyProperties(usuarioRegistroDTO, user);

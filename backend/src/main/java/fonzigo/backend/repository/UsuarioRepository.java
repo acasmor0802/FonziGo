@@ -1,4 +1,3 @@
-
 package fonzigo.backend.repository;
 
 import fonzigo.backend.entity.Usuario;

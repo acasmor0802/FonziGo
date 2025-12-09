@@ -5,6 +5,7 @@ import fonzigo.backend.entity.Price;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 import fonzigo.backend.entity.Product;
 import fonzigo.backend.entity.Supermarket;
 
