@@ -1,8 +1,114 @@
-/* Colors */
+// 00-settings/_variables.sass
 
-$background: #FFF1D5;
-$primary-blue: #333F51;
-$primary-blue-alt: #576C8A;
-$secundary-yellow: #FFF1D5;
-$secundary-yellow-alt: #FFD379;
+// ===============================================
+// Design Tokens - CSS Custom Properties
+// ===============================================
 
+:root
+  // -----------------------------------------------
+  // Colores
+  // -----------------------------------------------
+
+  // Colores Primarios y Secundarios
+  --background: #FFF1D5
+  --primary-blue: #333F51
+  --primary-blue-alt: #576C8A
+  --primary-blue-light: #7A92B5
+  --secundary-yellow: #FFF1D5
+  --secundary-yellow-alt: #FFD379
+  --secundary-yellow-dark: #FFC850
+
+  // Colores Semánticos
+  --success: #A7FFB7
+  --error: #CE8282
+
+  // -----------------------------------------------
+  // Tipografía
+  // -----------------------------------------------
+
+  // Familias de Fuentes
+  --font-primary: 'Open Sans', sans-serif
+  --font-secondary: 'Montserrat', sans-serif
+
+  // Tamaños de Fuente (Escala Modular)
+  --text-xs: 0.8rem
+  --text-sm: 0.9rem
+  --text-base: 1rem
+  --text-lg: 1.125rem
+  --text-xl: 1.25rem
+  --text-2xl: 1.563rem
+  --text-3xl: 1.953rem
+  --text-4xl: 2.441rem
+  --text-5xl: 3.052rem
+
+  // Pesos de Fuente
+  --font-light: 300
+  --font-regular: 400
+  --font-medium: 500
+  --font-semibold: 600
+  --font-bold: 700
+
+  // Alturas de Línea
+  --line-height-tight: 1.2
+  --line-height-normal: 1.5
+  --line-height-relaxed: 1.8
+
+  // -----------------------------------------------
+  // Sistema de Espaciado (basado en 0.25rem)
+  // -----------------------------------------------
+
+  --spacing-1: 0.25rem
+  --spacing-2: 0.5rem
+  --spacing-3: 0.75rem
+  --spacing-4: 1rem
+  --spacing-5: 1.25rem
+  --spacing-6: 1.5rem
+  --spacing-8: 2rem
+  --spacing-10: 2.5rem
+  --spacing-12: 3rem
+  --spacing-16: 4rem
+  --spacing-20: 5rem
+  --spacing-24: 6rem
+
+  // -----------------------------------------------
+  // Elevaciones (Sombras)
+  // -----------------------------------------------
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05)
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)
+
+  // -----------------------------------------------
+  // Bordes y Radios
+  // -----------------------------------------------
+
+  // Grosor de Borde
+  --border-thin: 1px
+  --border-medium: 2px
+  --border-thick: 4px
+
+  // Radios de Borde
+  --radius-sm: 0.125rem
+  --radius-md: 0.25rem
+  --radius-lg: 0.5rem
+  --radius-xl: 0.75rem
+  --radius-full: 9999px
+
+  // -----------------------------------------------
+  // Transiciones
+  // -----------------------------------------------
+
+  --transition-fast: 150ms ease-in-out
+  --transition-base: 300ms ease-in-out
+  --transition-slow: 500ms ease-in-out
+
+// -----------------------------------------------
+// Breakpoints (Puntos de Quiebre) - Sass variables
+// -----------------------------------------------
+// Nota: Los breakpoints siguen siendo variables Sass ya que se usan en @media queries
+
+$breakpoint-sm: 640px
+$breakpoint-md: 768px
+$breakpoint-lg: 1024px
+$breakpoint-xl: 1280px

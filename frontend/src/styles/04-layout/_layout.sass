@@ -1,0 +1,55 @@
+// 04-layout/_layout.sass
+
+// ===============================================
+// Sistema de Layout
+// ===============================================
+
+// -----------------------------------------------
+// .container: Envuelve el contenido para proporcionar un ancho máximo y alineación central.
+// -----------------------------------------------
+.container
+  width: 100%
+  max-width: $breakpoint-lg // Ancho máximo desde las variables
+  margin-left: auto
+  margin-right: auto
+  padding-left: $spacing-4 // Relleno lateral para pantallas más pequeñas
+  padding-right: $spacing-4
+
+// -----------------------------------------------
+// .grid: Un sistema de rejilla (grid) básico de 12 columnas usando CSS Grid.
+// Ejemplo:
+// .grid
+//   .grid-col-4
+//   .grid-col-8
+// -----------------------------------------------
+.grid
+  display: grid
+  grid-template-columns: repeat(12, 1fr) // 12 columnas de fracción igual
+  gap: $spacing-6 // Espacio entre los elementos de la rejilla
+
+// -----------------------------------------------
+// Clases de Ayuda para la Expansión de Columnas en la Rejilla
+// Usa estas clases para definir cuántas columnas debe ocupar un elemento.
+// -----------------------------------------------
+@for $i from 1 through 12
+  .grid-col-#{$i}
+    grid-column: span $i
+
+// -----------------------------------------------
+// Clases de Ayuda Responsivas para la Expansión de Columnas en la Rejilla
+// Estas clases se aplican a partir de un breakpoint específico.
+// Ejemplo: <div class="grid-col-12 grid-col-md-6">
+//          Esto ocupará el ancho completo en móvil y la mitad del ancho en pantallas medianas o superiores.
+// -----------------------------------------------
+
+// Pantallas medianas (md) y superiores
+@media (min-width: $breakpoint-md)
+  @for $i from 1 through 12
+    .grid-col-md-#{$i}
+      grid-column: span $i
+
+// Pantallas grandes (lg) y superiores
+@media (min-width: $breakpoint-lg)
+  @for $i from 1 through 12
+    .grid-col-lg-#{$i}
+      grid-column: span $i

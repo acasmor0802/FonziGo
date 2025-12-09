@@ -1,0 +1,136 @@
+// 01-tools/_mixins.sass
+
+// ===============================================
+// Mixins
+// ===============================================
+
+// -----------------------------------------------
+// Mixin de Propiedad Responsiva
+// Aplica diferentes valores a una propiedad según los breakpoints.
+// Ejemplo:
+// .mi-elemento
+//   +responsive-prop(padding, $spacing-2, $spacing-4, $spacing-6)
+// -----------------------------------------------
+=responsive-prop($property, $small, $medium, $large)
+  #{$property}: $small
+  @media (min-width: $breakpoint-md)
+    #{$property}: $medium
+  @media (min-width: $breakpoint-lg)
+    #{$property}: $large
+
+// -----------------------------------------------
+// Mixin para Centrar con Flexbox
+// Centra el contenido usando flexbox.
+// Ejemplo:
+// .mi-contenedor
+//   +flex-center
+// -----------------------------------------------
+=flex-center
+  display: flex
+  justify-content: center
+  align-items: center
+
+// -----------------------------------------------
+// Mixin de Estilo de Fuente
+// Aplica estilos de fuente consistentes usando las variables definidas.
+// Ejemplo:
+// .mi-texto
+//   +font-style($text-lg, $font-bold)
+// -----------------------------------------------
+=font-style($size, $weight: $font-regular, $line-height: $line-height-normal)
+  font-size: $size
+  font-weight: $weight
+  line-height: $line-height
+
+// -----------------------------------------------
+// Mixin para Transición Suave
+// Aplica transiciones consistentes a propiedades.
+// Ejemplo:
+// .mi-elemento
+//   +smooth-transition(color, background-color)
+// -----------------------------------------------
+=smooth-transition($properties...)
+  transition-property: $properties
+  transition-duration: var(--transition-base)
+  transition-timing-function: ease-in-out
+
+// -----------------------------------------------
+// Mixin para Borde Consistente
+// Aplica bordes con el estilo del sistema de diseño.
+// Ejemplo:
+// .mi-card
+//   +border-style(var(--primary-blue-light))
+// -----------------------------------------------
+=border-style($color, $width: var(--border-medium))
+  border: $width solid $color
+  border-radius: var(--radius-sm)
+
+// -----------------------------------------------
+// Mixin para Estado Hover
+// Aplica estilos de hover comunes.
+// Ejemplo:
+// .mi-boton
+//   +hover-lift
+// -----------------------------------------------
+=hover-lift
+  transition: all var(--transition-base)
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: var(--shadow-md)
+
+// -----------------------------------------------
+// Mixin para Botón Base
+// Aplica los estilos base compartidos por todos los botones.
+// -----------------------------------------------
+=button-base
+  padding: var(--spacing-3) var(--spacing-5)
+  border: none
+  border-radius: var(--radius-sm)
+  font-size: var(--text-base)
+  cursor: pointer
+  font-weight: var(--font-semibold)
+  font-family: var(--font-secondary)
+  text-transform: uppercase
+  letter-spacing: 0.05em
+  transition: all var(--transition-base)
+  
+  &:hover
+    opacity: 0.85
+  
+  &:active
+    transform: translateY(1px)
+
+// -----------------------------------------------
+// Mixin para Input Base
+// Aplica los estilos base compartidos por inputs.
+// -----------------------------------------------
+=input-base
+  background-color: var(--background)
+  border: var(--border-medium) solid var(--primary-blue-light)
+  color: var(--primary-blue)
+  padding: var(--spacing-3) var(--spacing-4)
+  border-radius: var(--radius-sm)
+  font-size: var(--text-base)
+  font-family: var(--font-primary)
+  transition: border-color var(--transition-base)
+  
+  &:focus
+    outline: none
+    border-color: var(--primary-blue)
+  
+  &::placeholder
+    color: var(--primary-blue-light)
+
+// -----------------------------------------------
+// Mixin para Card Base
+// Aplica los estilos base compartidos por cards.
+// -----------------------------------------------
+=card-base
+  background-color: var(--background)
+  border-radius: var(--radius-sm)
+  border: var(--border-medium) solid var(--primary-blue-light)
+  transition: border-color var(--transition-base), box-shadow var(--transition-base)
+  
+  &:hover
+    border-color: var(--primary-blue)
+    box-shadow: var(--shadow-md)

@@ -1,0 +1,49 @@
+// 02-generic/_reset.sass
+
+// ===============================================
+// Reset CSS
+// ===============================================
+
+// -----------------------------------------------
+// 1. Usar un modelo de box-sizing más intuitivo.
+// 2. Eliminar el margen y relleno predeterminados.
+// 3. Establecer el renderizado de fuente predeterminado.
+// 4. Heredar box-sizing a todos los elementos.
+// -----------------------------------------------
+*, *::before, *::after
+  box-sizing: border-box
+
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, dl, dd, ol, ul, figure, hr, fieldset, legend
+  margin: 0
+  padding: 0
+
+html
+  -webkit-text-size-adjust: 100% // Prevenir la inflación del tamaño de fuente en iOS
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale // Habilitar el suavizado de fuente en macOS
+  line-height: $line-height-normal // Usar la altura de línea definida en las variables
+
+// Eliminar estilos de lista en elementos ul, ol con un atributo de clase
+ul[class], ol[class]
+  list-style: none
+
+// Los elementos A que no tienen una clase obtienen estilos predeterminados
+a:not([class])
+  text-decoration-skip-ink: auto
+
+// Facilitar el trabajo con imágenes
+img
+  display: block
+  max-width: 100%
+
+// Heredar fuentes para elementos de formulario
+input, button, textarea, select
+  font: inherit
+
+// Eliminar todas las animaciones y transiciones para las personas que prefieren no verlas
+@media (prefers-reduced-motion: reduce)
+  *
+    animation-duration: 0.01ms !important
+    animation-iteration-count: 1 !important
+    transition-duration: 0.01ms !important
+    scroll-behavior: auto !important
