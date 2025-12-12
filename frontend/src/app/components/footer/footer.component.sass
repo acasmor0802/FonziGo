@@ -1,0 +1,59 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// -----------------------------------------------
+// Footer Component
+// -----------------------------------------------
+
+.footer
+  background-color: var(--primary-blue)
+  color: var(--background)
+  padding: var(--spacing-4)
+  margin-top: auto
+
+  &__container
+    max-width: 1200px
+    margin-inline: auto
+    +flex-center
+    flex-direction: column
+    gap: var(--spacing-4)
+
+  // -----------------------------------------------
+  // Navigation
+  // -----------------------------------------------
+
+  &__nav
+    display: flex
+    gap: var(--spacing-6)
+    flex-wrap: wrap
+    justify-content: center
+
+  &__nav-link
+    color: var(--background)
+    text-decoration: none
+    font-size: var(--text-sm)
+    +smooth-transition(color)
+
+    &:hover
+      color: var(--secundary-yellow-alt)
+
+  // -----------------------------------------------
+  // Copyright
+  // -----------------------------------------------
+
+  &__copy
+    font-size: var(--text-xs)
+    color: var(--background)
+    margin: 0
+    text-align: center
+
+  // -----------------------------------------------
+  // Responsive
+  // -----------------------------------------------
+
+  @media (max-width: $breakpoint-md)
+    &__nav
+      gap: var(--spacing-4)
+
+    &__nav-link
+      font-size: var(--text-xs)

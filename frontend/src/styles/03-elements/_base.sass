@@ -92,25 +92,29 @@ body
 // -----------------------------------------------
 
 .btn
-  +button-base
+  padding: var(--spacing-2) var(--spacing-4)
+  border-radius: var(--radius-sm)
+  border: none
+  +font-style(var(--text-sm), var(--font-medium))
+  cursor: pointer
+  +smooth-transition(background-color, color, transform, border-color)
+  text-decoration: none
+  white-space: nowrap
 
 .btn-primary
-  background-color: var(--primary-blue)
-  color: var(--background)
-  border: var(--border-medium) solid var(--primary-blue)
-
-  &:hover
-    background-color: var(--primary-blue-alt)
-    border-color: var(--primary-blue-alt)
+  background-color: var(--secundary-yellow-alt)
+  color: var(--primary-blue)
+  +hover-lift
 
 .btn-secondary
-  background-color: var(--secundary-yellow-dark)
-  color: var(--primary-blue)
-  border: var(--border-medium) solid var(--secundary-yellow-dark)
+  background-color: transparent
+  color: var(--background)
+  +border-style(var(--background))
 
   &:hover
-    background-color: var(--secundary-yellow-alt)
     border-color: var(--secundary-yellow-alt)
+    color: var(--secundary-yellow-alt)
+    background-color: rgba(255, 209, 213, 0.1)
 
 .btn-outline
   background-color: transparent
@@ -386,9 +390,6 @@ a
   color: var(--primary-blue)
   text-decoration: none
 
-  &:hover
-    color: var(--primary-blue-alt)
-    text-decoration: underline
 
 // -----------------------------------------------
 // Utilidades de Espaciado

@@ -1,0 +1,38 @@
+<header class="header">
+  <div class="header__container">
+    <!-- Logo/Image Section -->
+    <section class="header__logo-section">
+      <img src="1.svg" alt="FonziGo" class="header__logo">
+    </section>
+
+    <!-- Action Items -->
+    <section class="header__actions">
+      <!-- Theme Toggle -->
+      <button 
+        class="header__theme-toggle" 
+        (click)="toggleTheme()" 
+        [attr.aria-label]="themeLabel"
+        type="button"
+      >
+        <span class="header__theme-icon">{{ themeIcon }}</span>
+      </button>
+
+      <!-- Shopping Cart -->
+      <button class="header__cart" type="button" aria-label="Ver carrito de compras">
+        <span class="header__cart-icon">Carrito 🛒</span>
+        <span class="header__cart-count">0</span>
+      </button>
+
+      <!-- Auth Navigation -->
+      <nav class="header__nav" aria-label="Navegación de autenticación">
+        <a routerLink="/login" class="btn btn-secondary">
+          Iniciar sesión
+        </a>
+        
+        <a routerLink="/register" class="btn btn-primary">
+          Registrarse
+        </a>
+      </nav>
+    </section>
+  </div>
+</header>

@@ -1,0 +1,81 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// Header Component Styles
+// Estilos para la barra de navegación principal
+
+.header
+  background-color: var(--primary-blue)
+  color: var(--background)
+  padding: var(--spacing-4)
+  position: sticky
+  top: 0
+  z-index: 100
+  box-shadow: var(--shadow-md)
+
+  // Contenedor principal con distribución espacio-entre
+  &__container
+    +flex-center
+    justify-content: space-between
+    gap: var(--spacing-2)
+
+  // Secciones del header
+  &__logo-section,
+  &__actions
+    +flex-center
+    flex-shrink: 0
+
+  // Logo con transición suave
+  &__logo
+    height: 50px
+    width: auto
+    max-width: 150px
+    object-fit: contain
+    +smooth-transition(transform)
+
+    &:hover
+      transform: scale(1.05)
+
+  // Contenedor de acciones
+  &__actions
+    gap: var(--spacing-6)
+
+  // Nav de autenticación
+  &__nav
+    display: flex
+    gap: var(--spacing-6)
+    align-items: center
+    justify-content: center
+
+  // Botones de icono (carrito y tema)
+  &__cart,
+  &__theme-toggle
+    +flex-center
+    background: transparent
+    border: none
+    color: var(--background)
+    cursor: pointer
+    padding: var(--spacing-2)
+    font-size: var(--text-2xl)
+    +smooth-transition(color, transform)
+
+    &:hover
+      color: var(--secundary-yellow-alt)
+      transform: scale(1.02)
+
+  // Carrito con badge de contador
+  &__cart
+    position: relative
+
+  // Badge del contador de items
+  &__cart-count
+    position: absolute
+    top: -8px
+    right: -8px
+    background-color: var(--error)
+    color: var(--background)
+    border-radius: var(--radius-full)
+    width: 20px
+    height: 20px
+    +flex-center
+    +font-style(var(--text-xs), var(--font-bold))

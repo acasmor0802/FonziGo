@@ -32,12 +32,12 @@
 
 // -----------------------------------------------
 // Mixin de Estilo de Fuente
-// Aplica estilos de fuente consistentes usando las variables definidas.
+// Aplica estilos de fuente consistentes usando CSS variables.
 // Ejemplo:
 // .mi-texto
-//   +font-style($text-lg, $font-bold)
+//   +font-style(--text-lg, --font-bold)
 // -----------------------------------------------
-=font-style($size, $weight: $font-regular, $line-height: $line-height-normal)
+=font-style($size: var(--text-base), $weight: var(--font-regular), $line-height: var(--line-height-normal))
   font-size: $size
   font-weight: $weight
   line-height: $line-height
