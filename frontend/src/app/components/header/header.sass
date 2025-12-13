@@ -10,8 +10,14 @@
   padding: var(--spacing-4)
   position: sticky
   top: 0
-  z-index: 100
+  z-index: var(--z-header)
   box-shadow: var(--shadow-md)
+
+  @media (max-width: $breakpoint-sm)
+    padding: var(--spacing-3) var(--spacing-2)
+
+  @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+    padding: var(--spacing-4) var(--spacing-3)
 
   // Contenedor principal con distribución espacio-entre
   &__container
@@ -19,33 +25,113 @@
     justify-content: space-between
     gap: var(--spacing-2)
 
-  // Secciones del header
-  &__logo-section,
-  &__actions
+  // Logo section
+  &__logo-section
     +flex-center
     flex-shrink: 0
 
   // Logo con transición suave
   &__logo
-    height: 50px
+    height: var(--spacing-12)
     width: auto
-    max-width: 150px
+    max-width: calc(var(--spacing-12) * 3)
     object-fit: contain
     +smooth-transition(transform)
 
     &:hover
       transform: scale(1.05)
 
+    @media (max-width: $breakpoint-sm)
+      height: var(--spacing-10)
+      max-width: calc(var(--spacing-10) * 3)
+
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+      height: calc(var(--spacing-10) + var(--spacing-1))
+      max-width: calc(var(--spacing-12) * 2.8)
+
   // Contenedor de acciones
   &__actions
+    display: flex
+    align-items: center
+    flex-shrink: 0
     gap: var(--spacing-6)
+
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+      gap: var(--spacing-4)
+
+    @media (max-width: $breakpoint-md)
+      position: fixed
+      top: 0
+      right: calc(var(--spacing-6) * -100)
+      height: 100vh
+      width: 80%
+      max-width: calc(var(--spacing-6) * 10)
+      background-color: var(--primary-blue)
+      flex-direction: column
+      align-items: stretch
+      justify-content: flex-start
+      padding: var(--spacing-8) var(--spacing-6)
+      box-shadow: var(--shadow-xl)
+      transition: right var(--transition-base)
+      z-index: var(--z-mobile-menu)
+
+      &--open
+        right: 0
+
+  // Botón hamburguesa (solo móvil y tablet)
+  &__hamburger
+    display: none
+    flex-direction: column
+    gap: var(--spacing-1)
+    background: transparent
+    border: none
+    cursor: pointer
+    padding: var(--spacing-2)
+    z-index: var(--z-hamburger)
+
+    @media (max-width: $breakpoint-md)
+      display: flex
+
+  &__hamburger-line
+    width: calc(var(--spacing-6) + var(--spacing-1))
+    height: var(--spacing-1)
+    background-color: var(--background)
+    border-radius: var(--radius-sm)
+    +smooth-transition(transform, opacity)
+
+  &__hamburger--active
+    .header__hamburger-line
+      &:nth-child(1)
+        transform: rotate(45deg) translateY(var(--spacing-2))
+      
+      &:nth-child(2)
+        opacity: 0
+      
+      &:nth-child(3)
+        transform: rotate(-45deg) translateY(calc(var(--spacing-2) * -1))
+
+  // Overlay oscuro (solo móvil y tablet)
+  &__overlay
+    @media (max-width: $breakpoint-md)
+      position: fixed
+      inset: 0
+      background-color: rgba(0, 0, 0, 0.5)
+      z-index: var(--z-overlay)
 
   // Nav de autenticación
   &__nav
     display: flex
     gap: var(--spacing-6)
     align-items: center
-    justify-content: center
+
+    @media (max-width: $breakpoint-md)
+      flex-direction: column
+      width: 100%
+      gap: var(--spacing-4)
+
+      a
+        width: 100%
+        text-align: center
 
   // Botones de icono (carrito y tema)
   &__cart,
@@ -59,7 +145,11 @@
     font-size: var(--text-2xl)
     +smooth-transition(color, transform)
 
-    &:hover
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+      font-size: var(--text-xl)
+      padding: var(--spacing-1)
+
+    &:hover:not(:disabled)
       color: var(--secundary-yellow-alt)
       transform: scale(1.02)
 
@@ -70,12 +160,12 @@
   // Badge del contador de items
   &__cart-count
     position: absolute
-    top: -8px
-    right: -8px
+    top: calc(var(--spacing-1) * -1)
+    right: calc(var(--spacing-1) * -1)
     background-color: var(--error)
     color: var(--background)
     border-radius: var(--radius-full)
-    width: 20px
-    height: 20px
+    width: var(--spacing-5)
+    height: var(--spacing-5)
     +flex-center
     +font-style(var(--text-xs), var(--font-bold))

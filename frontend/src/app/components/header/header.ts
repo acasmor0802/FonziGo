@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 })
 export class Header implements OnInit {
   isDarkMode = signal(false);
+  isMobileMenuOpen = signal(false);
   themeIcon = computed(() => this.isDarkMode() ? '☀️' : '🌙');
   themeLabel = computed(() => 
     this.isDarkMode() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'
@@ -27,6 +28,14 @@ export class Header implements OnInit {
     this.isDarkMode.update(value => !value);
     this.persistTheme();
     this.applyTheme();
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update(value => !value);
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
   }
 
   private initializeTheme(): void {

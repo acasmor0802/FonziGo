@@ -1,0 +1,21 @@
+<div class="form-group">
+  <label [for]="id" class="form-label">
+    {{ label }}
+    <span *ngIf="required" class="form-label__required" aria-label="obligatorio">*</span>
+  </label>
+  
+  <select 
+    [id]="id"
+    [name]="name"
+    [required]="required"
+    class="form-select"
+  >
+    <option value="" disabled selected>{{ placeholder }}</option>
+    <option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <small *ngIf="helpText" class="form-help-text">{{ helpText }}</small>
+  <small *ngIf="errorText" class="form-error-text">{{ errorText }}</small>
+</div>

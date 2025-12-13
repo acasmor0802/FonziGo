@@ -5,8 +5,21 @@
       <img src="1.svg" alt="FonziGo" class="header__logo">
     </section>
 
+    <!-- Botón Hamburguesa (solo móvil) -->
+    <button 
+      class="header__hamburger"
+      (click)="toggleMobileMenu()"
+      [attr.aria-label]="isMobileMenuOpen() ? 'Cerrar menú' : 'Abrir menú'"
+      [class.header__hamburger--active]="isMobileMenuOpen()"
+      type="button"
+    >
+      <span class="header__hamburger-line"></span>
+      <span class="header__hamburger-line"></span>
+      <span class="header__hamburger-line"></span>
+    </button>
+
     <!-- Action Items -->
-    <section class="header__actions">
+    <section class="header__actions" [class.header__actions--open]="isMobileMenuOpen()">
       <!-- Theme Toggle -->
       <button 
         class="header__theme-toggle" 
@@ -25,14 +38,21 @@
 
       <!-- Auth Navigation -->
       <nav class="header__nav" aria-label="Navegación de autenticación">
-        <a routerLink="/login" class="btn btn-secondary">
+        <a routerLink="/login" class="btn btn-secondary" (click)="closeMobileMenu()">
           Iniciar sesión
         </a>
         
-        <a routerLink="/register" class="btn btn-primary">
+        <a routerLink="/register" class="btn btn-primary" (click)="closeMobileMenu()">
           Registrarse
         </a>
       </nav>
     </section>
   </div>
+
+  <!-- Overlay para cerrar el menú -->
+  <div 
+    *ngIf="isMobileMenuOpen()" 
+    class="header__overlay"
+    (click)="closeMobileMenu()"
+  ></div>
 </header>

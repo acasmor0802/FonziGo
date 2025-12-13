@@ -29,7 +29,7 @@
   &__legend
     @include font-style(var(--text-2xl), var(--font-semibold))
     color: var(--primary-blue)
-    margin: 0 0 var(--spacing-2) 0
+    margin-bottom: var(--spacing-2)
 
   &__submit
     @include button-base
@@ -50,7 +50,6 @@
     display: flex
     align-items: center
     gap: var(--spacing-3)
-    margin: 0
 
     &::before,
     &::after
@@ -117,7 +116,6 @@
     font-size: var(--text-sm)
     color: var(--primary-blue-light)
     text-align: center
-    margin: 0
 
   &__link
     color: var(--primary-blue)
