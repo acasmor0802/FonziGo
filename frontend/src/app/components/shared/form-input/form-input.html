@@ -1,0 +1,24 @@
+<div class="form-input">
+  <label class="form-input__label" [for]="id">
+    {{ label }}
+    <span *ngIf="required" class="form-input__required" aria-hidden="true">*</span>
+  </label>
+
+  <input
+    class="form-input__control"
+    [id]="id"
+    [type]="type"
+    [name]="name || id"
+    [placeholder]="placeholder"
+    [required]="required"
+    [attr.aria-required]="required ? 'true' : null"
+  />
+
+  <p *ngIf="helpText" class="form-input__help">
+    {{ helpText }}
+  </p>
+
+  <p *ngIf="errorText" class="form-input__error" role="alert">
+    {{ errorText }}
+  </p>
+</div>

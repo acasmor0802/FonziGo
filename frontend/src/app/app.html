@@ -1,8 +1,40 @@
-
 <app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
 
-<main class="main-content">
-  <router-outlet></router-outlet>
+<main class="main-content" style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+  <section style="margin-bottom: 3rem;">
+    <h2>Componente Alert</h2>
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+      <app-alert type="success" [closeable]="true">
+        ✓ ¡Operación exitosa! Tu producto ha sido agregado al carrito.
+      </app-alert>
+      <app-alert type="error" [closeable]="true">
+        ✗ Error: No se pudo procesar la solicitud.
+      </app-alert>
+      <app-alert type="warning">
+        ⚠ Advertencia: Este producto tiene stock limitado.
+      </app-alert>
+      <app-alert type="info">
+        ℹ Información: Los precios se actualizan cada hora.
+      </app-alert>
+    </div>
+  </section>
+
+  <section style="margin-bottom: 3rem;">
+    <h2>Componente Product Card</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 1rem;">
+      <app-product-card [product]="sampleProduct" variant="grid"></app-product-card>
+    </div>
+  </section>
+
+  <section style="margin-bottom: 3rem;">
+    <h2>Componente Login</h2>
+    <app-login></app-login>
+  </section>
+
+  <section style="margin-bottom: 3rem;">
+    <h2>Componente Register</h2>
+    <app-register></app-register>
+  </section>
 </main>
+
+<app-footer></app-footer>

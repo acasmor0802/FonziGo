@@ -11,10 +11,10 @@
       <button 
         class="header__theme-toggle" 
         (click)="toggleTheme()" 
-        [attr.aria-label]="themeLabel"
+        [attr.aria-label]="themeLabel()"
         type="button"
       >
-        <span class="header__theme-icon">{{ themeIcon }}</span>
+        <span class="header__theme-icon">{{ themeIcon() }}</span>
       </button>
 
       <!-- Shopping Cart -->

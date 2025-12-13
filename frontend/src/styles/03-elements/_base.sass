@@ -3,7 +3,8 @@
 // ===============================================
 // Estilos Base del Proyecto
 // ===============================================
-// Nota: El reset está definido en 01-base/_reset.sass
+// Nota: Los estilos específicos de componentes deben estar en sus archivos .sass
+// Este archivo solo contiene estilos verdaderamente globales
 
 // -----------------------------------------------
 // Estilos globales del body
@@ -18,77 +19,25 @@ body
   font-weight: var(--font-regular)
 
 // -----------------------------------------------
-// Nota: El contenedor principal está definido en 04-layout/_layout.sass
+// Inputs y Formularios
 // -----------------------------------------------
 
-// -----------------------------------------------
-// Cards de productos
-// -----------------------------------------------
+input, select, textarea
+  +input-base
+  margin: 0
 
-.product-card
-  +card-base
-  padding: var(--spacing-5)
-  text-align: center
-  cursor: pointer
-  display: flex
-  flex-direction: column
-  gap: var(--spacing-3)
-
-  .product-image-wrapper
-    +flex-center
-    +border-style(var(--secundary-yellow-alt), var(--border-thin))
-    width: 100%
-    height: 140px
-    background-color: var(--background)
-    padding: var(--spacing-2)
-
-  img
-    width: 100%
-    height: 100%
-    object-fit: contain
-
-  .product-info
-    display: flex
-    flex-direction: column
-    gap: var(--spacing-2)
-    border-top: var(--border-thin) solid var(--secundary-yellow-alt)
-    padding-top: var(--spacing-3)
-
-  .product-name
-    font-size: var(--text-sm)
-    color: var(--primary-blue)
-    margin-bottom: var(--spacing-1)
-    font-family: var(--font-primary)
-    font-weight: var(--font-medium)
-    line-height: var(--line-height-tight)
-    min-height: 2.4em
-
-  .product-price-wrapper
-    display: flex
-    flex-direction: column
-    gap: var(--spacing-1)
-
-  .product-price
-    font-size: var(--text-2xl)
-    font-weight: var(--font-bold)
-    color: var(--primary-blue)
-    font-family: var(--font-secondary)
-    letter-spacing: -0.02em
-
-  .product-unit
-    font-size: var(--text-xs)
-    color: var(--primary-blue-alt)
-    font-weight: var(--font-regular)
-
-  .product-store
-    font-size: var(--text-xs)
-    color: var(--primary-blue-light)
-    font-weight: var(--font-medium)
-    text-transform: uppercase
-    letter-spacing: 0.05em
+label
+  display: block
+  font-size: var(--text-sm)
+  font-weight: var(--font-semibold)
+  color: var(--primary-blue)
+  margin: 0 0 var(--spacing-2) 0
+  font-family: var(--font-secondary)
+  text-transform: uppercase
+  letter-spacing: 0.05em
 
 // -----------------------------------------------
-// Botones
+// Botones base
 // -----------------------------------------------
 
 .btn
@@ -100,18 +49,28 @@ body
   +smooth-transition(background-color, color, transform, border-color)
   text-decoration: none
   white-space: nowrap
+  display: inline-flex
+  align-items: center
+  justify-content: center
+
+  &:disabled
+    opacity: 0.6
+    cursor: not-allowed
 
 .btn-primary
   background-color: var(--secundary-yellow-alt)
   color: var(--primary-blue)
   +hover-lift
 
+  &:hover:not(:disabled)
+    background-color: var(--secundary-yellow-dark)
+
 .btn-secondary
   background-color: transparent
   color: var(--background)
   +border-style(var(--background))
 
-  &:hover
+  &:hover:not(:disabled)
     border-color: var(--secundary-yellow-alt)
     color: var(--secundary-yellow-alt)
     background-color: rgba(255, 209, 213, 0.1)
@@ -121,26 +80,9 @@ body
   color: var(--primary-blue)
   border: var(--border-medium) solid var(--primary-blue)
 
-  &:hover
+  &:hover:not(:disabled)
     background-color: var(--primary-blue)
     color: var(--background)
-
-// -----------------------------------------------
-// Inputs y Formularios
-// -----------------------------------------------
-
-input, select, textarea
-  +input-base
-
-label
-  display: block
-  font-size: var(--text-sm)
-  font-weight: var(--font-semibold)
-  color: var(--primary-blue)
-  margin-bottom: var(--spacing-2)
-  font-family: var(--font-secondary)
-  text-transform: uppercase
-  letter-spacing: 0.05em
 
 // -----------------------------------------------
 // Modal
@@ -362,6 +304,7 @@ h1, h2, h3, h4, h5, h6
   font-weight: var(--font-bold)
   line-height: var(--line-height-tight)
   color: var(--primary-blue)
+  margin: 0
 
 h1
   font-size: var(--text-5xl)
@@ -382,7 +325,7 @@ h6
   font-size: var(--text-lg)
 
 p
-  margin-bottom: var(--spacing-4)
+  margin: 0 0 var(--spacing-4) 0
   line-height: var(--line-height-relaxed)
 
 a
@@ -390,178 +333,5 @@ a
   color: var(--primary-blue)
   text-decoration: none
 
-
-// -----------------------------------------------
-// Utilidades de Espaciado
-// -----------------------------------------------
-
-.mt-1
-  margin-top: var(--spacing-1)
-
-.mt-2
-  margin-top: var(--spacing-2)
-
-.mt-3
-  margin-top: var(--spacing-3)
-
-.mt-4
-  margin-top: var(--spacing-4)
-
-.mt-6
-  margin-top: var(--spacing-6)
-
-.mt-8
-  margin-top: var(--spacing-8)
-
-.mb-1
-  margin-bottom: var(--spacing-1)
-
-.mb-2
-  margin-bottom: var(--spacing-2)
-
-.mb-3
-  margin-bottom: var(--spacing-3)
-
-.mb-4
-  margin-bottom: var(--spacing-4)
-
-.mb-6
-  margin-bottom: var(--spacing-6)
-
-.mb-8
-  margin-bottom: var(--spacing-8)
-
-.p-2
-  padding: var(--spacing-2)
-
-.p-4
-  padding: var(--spacing-4)
-
-.p-6
-  padding: var(--spacing-6)
-
-// -----------------------------------------------
-// Utilidades de Texto
-// -----------------------------------------------
-
-.text-center
-  text-align: center
-
-.text-right
-  text-align: right
-
-.text-left
-  text-align: left
-
-.text-xs
-  font-size: var(--text-xs)
-
-.text-sm
-  font-size: var(--text-sm)
-
-.text-base
-  font-size: var(--text-base)
-
-.text-lg
-  font-size: var(--text-lg)
-
-.text-xl
-  font-size: var(--text-xl)
-
-.font-light
-  font-weight: var(--font-light)
-
-.font-regular
-  font-weight: var(--font-regular)
-
-.font-medium
-  font-weight: var(--font-medium)
-
-.font-semibold
-  font-weight: var(--font-semibold)
-
-.font-bold
-  font-weight: var(--font-bold)
-
-// -----------------------------------------------
-// Utilidades de Flexbox
-// -----------------------------------------------
-
-.flex
-  display: flex
-
-.flex-center
-  display: flex
-  justify-content: center
-  align-items: center
-
-.flex-between
-  display: flex
-  justify-content: space-between
-  align-items: center
-
-.flex-col
-  flex-direction: column
-
-.flex-wrap
-  flex-wrap: wrap
-
-.gap-1
-  gap: var(--spacing-1)
-
-.gap-2
-  gap: var(--spacing-2)
-
-.gap-3
-  gap: var(--spacing-3)
-
-.gap-4
-  gap: var(--spacing-4)
-
-.gap-6
-  gap: var(--spacing-6)
-
-// -----------------------------------------------
-// Utilidades de Display
-// -----------------------------------------------
-
-.block
-  display: block
-
-.inline-block
-  display: inline-block
-
-.hidden
-  display: none
-
-// -----------------------------------------------
-// Utilidades de Bordes
-// -----------------------------------------------
-
-.rounded-sm
-  border-radius: var(--radius-sm)
-
-.rounded-md
-  border-radius: var(--radius-md)
-
-.rounded-lg
-  border-radius: var(--radius-lg)
-
-.rounded-xl
-  border-radius: var(--radius-xl)
-
-// -----------------------------------------------
-// Utilidades de Sombras
-// -----------------------------------------------
-
-.shadow-sm
-  box-shadow: var(--shadow-sm)
-
-.shadow-md
-  box-shadow: var(--shadow-md)
-
-.shadow-lg
-  box-shadow: var(--shadow-lg)
-
-.shadow-xl
-  box-shadow: var(--shadow-xl)
+  &:hover
+    color: var(--secundary-yellow-dark)

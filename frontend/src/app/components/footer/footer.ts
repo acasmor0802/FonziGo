@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
   selector: 'app-footer',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.sass']
+  templateUrl: './footer.html',
+  styleUrls: ['./footer.sass']
 })
-export class FooterComponent {
-  currentYear = new Date().getFullYear();
+export class Footer {
+  readonly currentYear = new Date().getFullYear();
 }

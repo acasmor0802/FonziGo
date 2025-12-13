@@ -1,0 +1,52 @@
+@use '../../../../styles/00-settings/variables' as *
+@use '../../../../styles/01-tools/mixins' as *
+
+// -----------------------------------------------
+// Alert Component
+// -----------------------------------------------
+
+.alert
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: var(--spacing-4)
+  border-radius: var(--radius-md)
+  border-left: var(--border-thick) solid
+  +smooth-transition(opacity)
+
+  &__content
+    flex: 1
+    font-size: var(--text-sm)
+
+  &__close
+    background: none
+    border: none
+    cursor: pointer
+    font-size: var(--text-lg)
+    color: inherit
+    padding: var(--spacing-1)
+    +smooth-transition(opacity)
+
+    &:hover
+      opacity: 0.7
+
+  // Variantes
+  &--success
+    background-color: var(--success)
+    color: var(--primary-blue)
+    border-color: var(--primary-blue)
+
+  &--error
+    background-color: var(--error)
+    color: var(--background)
+    border-color: var(--primary-blue)
+
+  &--warning
+    background-color: var(--secundary-yellow-alt)
+    color: var(--primary-blue)
+    border-color: var(--primary-blue)
+
+  &--info
+    background-color: var(--primary-blue-light)
+    color: var(--background)
+    border-color: var(--primary-blue)
