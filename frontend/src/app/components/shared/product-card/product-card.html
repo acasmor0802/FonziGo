@@ -1,46 +1,60 @@
-<div class="product-card">
+<article class="product-card">
   <!-- IMAGEN -->
   <div class="product-card__image">
     <img [src]="product.image" [alt]="product.name" />
-    <span *ngIf="bestPrice()?.discount" class="product-card__badge">-{{ bestPrice()!.discount }}%</span>
+    @if (bestPrice()?.discount) {
+      <span class="product-card__badge">-{{ bestPrice()!.discount }}%</span>
+    }
   </div>
 
   <!-- INFORMACIÓN -->
   <div class="product-card__info">
-    <h3 class="product-card__name">{{ product.name }}</h3>
-    <p class="product-card__category">{{ product.category }}</p>
+    <!-- Header -->
+    <div class="product-card__header">
+      <h3 class="product-card__name">{{ product.name }}</h3>
+      <p class="product-card__category">{{ product.category }}</p>
+    </div>
     
     <!-- RATING -->
-    <div *ngIf="product.rating" class="product-card__rating">
-      <span class="rating-stars">
-        <span *ngFor="let i of [1,2,3,4,5]" [class.active]="i <= Math.round(product.rating!)">★</span>
-      </span>
-      <span class="rating-text">{{ product.rating }} ({{ product.reviews }})</span>
-    </div>
+    @if (product.rating) {
+      <div class="product-card__rating">
+        <span class="rating-stars">
+          @for (i of [1,2,3,4,5]; track i) {
+            <span [class.active]="i <= Math.round(product.rating!)">★</span>
+          }
+        </span>
+        <span class="rating-text">{{ product.rating }} ({{ product.reviews }})</span>
+      </div>
+    }
 
     <!-- PRECIO -->
     <div class="product-card__price">
       <div class="price-main">
         <span class="price-amount">€{{ bestPrice()!.price.toFixed(2) }}</span>
-        <span *ngIf="bestPrice()!.originalPrice" class="price-original">€{{ bestPrice()!.originalPrice!.toFixed(2) }}</span>
+        @if (bestPrice()!.originalPrice) {
+          <span class="price-original">€{{ bestPrice()!.originalPrice!.toFixed(2) }}</span>
+        }
       </div>
       <p class="price-store">{{ bestPrice()!.store }}</p>
+      
+      <!-- AHORRO -->
+      @if (savingsAmount() > 0) {
+        <div class="product-card__savings">
+          ¡Ahorras €{{ savingsAmount().toFixed(2) }}!
+        </div>
+      } @else {
+        <div class="product-card__savings-placeholder"></div>
+      }
     </div>
 
-    <!-- AHORRO -->
-    <div *ngIf="savingsAmount() > 0" class="product-card__savings">
-      ¡Ahorras €{{ savingsAmount().toFixed(2) }}!
-    </div>
+    <!-- BOTÓN -->
+    <app-button 
+      type="button" 
+      variant="primary" 
+      size="sm" 
+      class="product-card__button"
+    >
+      Ver ofertas
+    </app-button>
   </div>
-
-  <!-- BOTÓN -->
-  <app-button 
-    type="button" 
-    variant="primary" 
-    size="md" 
-    [fullWidth]="true"
-    class="product-card__button"
-  >
-    Ver ofertas
-  </app-button>
-</div>
+</article>

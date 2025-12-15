@@ -4,7 +4,7 @@
 .main-content
   flex: 1
   display: flex
-  align-items: center
+  align-items: flex-start
   justify-content: center
   padding: var(--spacing-8) var(--spacing-4)
   width: 100%
@@ -12,5 +12,24 @@
   
   &__container
     width: 100%
-    max-width: 600px
+    max-width: 1600px
     margin: 0 auto
+
+// Grid de productos - 6 por fila
+.products-grid
+  display: grid
+  grid-template-columns: repeat(6, 1fr)
+  gap: var(--spacing-3)
+  width: 100%
+  
+  @media (max-width: 1400px)
+    grid-template-columns: repeat(4, 1fr)
+  
+  @media (max-width: 1024px)
+    grid-template-columns: repeat(3, 1fr)
+  
+  @media (max-width: 768px)
+    grid-template-columns: repeat(2, 1fr)
+  
+  @media (max-width: 500px)
+    grid-template-columns: 1fr
