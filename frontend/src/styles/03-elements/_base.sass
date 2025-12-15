@@ -1,13 +1,31 @@
-// elements/_base.sass
+// 03-elements/_base.sass
 
 // ===============================================
-// Estilos Base del Proyecto
+// Estilos Base para Elementos HTML
 // ===============================================
-// Nota: Los estilos específicos de componentes deben estar en sus archivos .sass
-// Este archivo solo contiene estilos verdaderamente globales
+// Este archivo contiene SOLO estilos para elementos HTML sin clases
+// Los componentes específicos (.btn, .card, .alert) viven en sus propios archivos
+// Siguiendo la metodología ITCSS: especificidad baja, alcance amplio
 
 // -----------------------------------------------
-// Estilos globales del body
+// Document Root
+// -----------------------------------------------
+
+*,
+*::before,
+*::after
+  box-sizing: inherit
+
+html
+  box-sizing: border-box
+  font-size: 16px
+  scroll-behavior: smooth
+
+  @media (prefers-reduced-motion: reduce)
+    scroll-behavior: auto
+
+// -----------------------------------------------
+// Body
 // -----------------------------------------------
 
 body
@@ -20,282 +38,10 @@ body
   line-height: var(--line-height-normal)
   font-weight: var(--font-regular)
   overflow-x: hidden
-
-// -----------------------------------------------
-// Inputs y Formularios
-// -----------------------------------------------
-
-input, select, textarea
-  +input-base
-  margin: 0
-
-label
-  display: block
-  font-size: var(--text-sm)
-  font-weight: var(--font-semibold)
-  color: var(--primary-blue)
-  margin: 0 0 var(--spacing-2) 0
-  font-family: var(--font-secondary)
-  text-transform: uppercase
-  letter-spacing: 0.05em
-
-// -----------------------------------------------
-// Botones base
-// -----------------------------------------------
-
-.btn
-  padding: var(--spacing-2) var(--spacing-4)
-  border-radius: var(--radius-sm)
-  border: none
-  +font-style(var(--text-sm), var(--font-medium))
-  cursor: pointer
-  +smooth-transition(background-color, color, transform, border-color)
-  text-decoration: none
-  white-space: nowrap
-  display: inline-flex
-  align-items: center
-  justify-content: center
-
-  &:disabled
-    opacity: 0.6
-    cursor: not-allowed
-
-.btn-primary
-  background-color: var(--secundary-yellow-alt)
-  color: var(--primary-blue)
-  +hover-lift
-
-  &:hover:not(:disabled)
-    background-color: var(--secundary-yellow-dark)
-
-.btn-secondary
-  background-color: transparent
-  color: var(--background)
-  +border-style(var(--background))
-
-  &:hover:not(:disabled)
-    border-color: var(--secundary-yellow-alt)
-    color: var(--secundary-yellow-alt)
-
-.btn-outline
-  background-color: transparent
-  color: var(--primary-blue)
-  border: var(--border-medium) solid var(--primary-blue)
-
-  &:hover:not(:disabled)
-    background-color: var(--primary-blue)
-    color: var(--background)
-
-// -----------------------------------------------
-// Modal
-// -----------------------------------------------
-
-.modal
-  position: fixed
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
-  background-color: var(--background)
-  border-radius: var(--radius-sm)
-  padding: var(--spacing-8)
-  box-shadow: var(--shadow-xl)
-  z-index: 1000
-  max-width: 500px
-  width: 90%
-  border: var(--border-thick) solid var(--primary-blue)
-
-.modal-overlay
-  position: fixed
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  background-color: rgba(51, 63, 81, 0.75)
-  z-index: 999
-
-.modal-header
-  display: flex
-  justify-content: space-between
-  align-items: center
-  margin-bottom: var(--spacing-6)
-  padding-bottom: var(--spacing-4)
-  border-bottom: var(--border-medium) solid var(--primary-blue-light)
-
-  h2
-    font-family: var(--font-secondary)
-    color: var(--primary-blue)
-    font-size: var(--text-2xl)
-    font-weight: var(--font-bold)
-    text-transform: uppercase
-    letter-spacing: 0.02em
-
-.modal-close
-  +flex-center
-  +border-style(var(--primary-blue-light))
-  +smooth-transition(background-color, color, border-color)
-  background: none
-  color: var(--primary-blue)
-  font-size: var(--text-xl)
-  cursor: pointer
-  padding: 0
-  width: 36px
-  height: 36px
-
-  &:hover
-    background-color: var(--primary-blue)
-    color: var(--background)
-    border-color: var(--primary-blue)
-
-.modal-body
-  margin-bottom: var(--spacing-6)
-  color: var(--primary-blue)
-
-.modal-footer
-  display: flex
-  justify-content: flex-end
-  gap: var(--spacing-3)
-  padding-top: var(--spacing-4)
-  border-top: var(--border-medium) solid var(--primary-blue-light)
-
-// -----------------------------------------------
-// Grid de productos
-// Nota: Para layouts de página completa, usar el sistema .grid definido en 04-layout/_layout.sass
-// -----------------------------------------------
-
-.products-grid
-  display: grid
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))
-  gap: var(--spacing-4)
-  margin-top: var(--spacing-6)
-
-  @media (min-width: $breakpoint-md)
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))
-    gap: var(--spacing-5)
-
-  @media (min-width: $breakpoint-lg)
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
-    gap: var(--spacing-6)
-
-// -----------------------------------------------
-// Logos de supermercados
-// -----------------------------------------------
-
-.store-logo
-  +border-style(var(--primary-blue-light))
-  width: 64px
-  height: 64px
-  object-fit: contain
-  background-color: var(--background)
-  padding: var(--spacing-2)
-  cursor: pointer
-  +smooth-transition(border-color)
-
-  &:hover
-    border-color: var(--primary-blue)
-
-.store-logos-container
-  display: flex
-  gap: var(--spacing-4)
-  flex-wrap: wrap
-  justify-content: center
-  padding: var(--spacing-4)
-
-// -----------------------------------------------
-// Lista de items
-// -----------------------------------------------
-
-.item-list
-  list-style: none
-
-  li
-    +border-style(var(--primary-blue-light))
-    padding: var(--spacing-4)
-    background-color: var(--background)
-    margin-bottom: var(--spacing-3)
-    display: flex
-    align-items: center
-    gap: var(--spacing-4)
-    +smooth-transition(border-color)
-
-    &:hover
-      border-color: var(--primary-blue)
-
-// -----------------------------------------------
-// Mensajes y Alertas
-// -----------------------------------------------
-
-.alert
-  padding: var(--spacing-4)
-  border-radius: var(--radius-sm)
-  border: var(--border-medium) solid transparent
-  font-family: var(--font-primary)
-  font-size: var(--text-base)
-  margin-bottom: var(--spacing-4)
-
-  &.alert-success
-    background-color: var(--success)
-    color: var(--primary-blue)
-    border-color: var(--primary-blue-light)
-
-  &.alert-error
-    background-color: var(--error)
-    color: var(--background)
-    border-color: var(--primary-blue)
-
-// -----------------------------------------------
-// Badge/Tag
-// -----------------------------------------------
-
-.badge
-  display: inline-block
-  padding: var(--spacing-2) var(--spacing-3)
-  border-radius: var(--radius-sm)
-  font-size: var(--text-xs)
-  font-weight: var(--font-bold)
-  font-family: var(--font-secondary)
-  text-transform: uppercase
-  letter-spacing: 0.05em
-  border: var(--border-medium) solid transparent
-
-  &.badge-primary
-    background-color: var(--primary-blue)
-    color: var(--background)
-    border-color: var(--primary-blue)
-
-  &.badge-secondary
-    background-color: var(--secundary-yellow-dark)
-    color: var(--primary-blue)
-    border-color: var(--secundary-yellow-dark)
-
-  &.badge-success
-    background-color: var(--success)
-    color: var(--primary-blue)
-    border-color: var(--success)
-
-  &.badge-error
-    background-color: var(--error)
-    color: var(--background)
-    border-color: var(--error)
-
-// -----------------------------------------------
-// Scrollbar personalizado
-// -----------------------------------------------
-
-::-webkit-scrollbar
-  width: 10px
-  height: 10px
-
-::-webkit-scrollbar-track
-  background: var(--background)
-  border: var(--border-thin) solid var(--primary-blue-light)
-
-::-webkit-scrollbar-thumb
-  background: var(--primary-blue-light)
-  border-radius: var(--radius-sm)
-  border: var(--border-thin) solid var(--background)
-
-  &:hover
-    background: var(--primary-blue-alt)
+  min-height: 100vh
+  text-rendering: optimizeLegibility
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
 // -----------------------------------------------
 // Tipografía
@@ -306,16 +52,28 @@ h1, h2, h3, h4, h5, h6
   font-weight: var(--font-bold)
   line-height: var(--line-height-tight)
   color: var(--primary-blue)
-  margin: 0
+  margin: 0 0 var(--spacing-4) 0
+  text-wrap: balance
 
 h1
   font-size: var(--text-5xl)
+  margin-bottom: var(--spacing-6)
+
+  @media (max-width: $breakpoint-md)
+    font-size: var(--text-4xl)
 
 h2
   font-size: var(--text-4xl)
+  margin-bottom: var(--spacing-5)
+
+  @media (max-width: $breakpoint-md)
+    font-size: var(--text-3xl)
 
 h3
   font-size: var(--text-3xl)
+
+  @media (max-width: $breakpoint-md)
+    font-size: var(--text-2xl)
 
 h4
   font-size: var(--text-2xl)
@@ -329,11 +87,315 @@ h6
 p
   margin: 0 0 var(--spacing-4) 0
   line-height: var(--line-height-relaxed)
+  text-wrap: pretty
+
+strong, b
+  font-weight: var(--font-bold)
+
+em, i
+  font-style: italic
+
+small
+  font-size: var(--text-sm)
+
+mark
+  background-color: var(--secundary-yellow-alt)
+  color: var(--primary-blue)
+  padding: var(--spacing-1) var(--spacing-2)
+
+code
+  font-family: 'Courier New', monospace
+  font-size: 0.9em
+  background-color: var(--gray-100)
+  padding: var(--spacing-1) var(--spacing-2)
+  border-radius: var(--radius-sm)
+
+pre
+  margin: var(--spacing-4) 0
+  padding: var(--spacing-4)
+  background-color: var(--gray-100)
+  border-radius: var(--radius-md)
+  overflow-x: auto
+
+  code
+    background: none
+    padding: 0
+
+blockquote
+  margin: var(--spacing-6) 0
+  padding: var(--spacing-4) var(--spacing-6)
+  border-left: var(--border-thick) solid var(--primary-blue)
+  background-color: rgba(51, 63, 81, 0.05)
+  font-style: italic
+
+// -----------------------------------------------
+// Enlaces
+// -----------------------------------------------
 
 a
-  +smooth-transition(color)
+  +smooth-transition(color, text-decoration-color)
   color: var(--primary-blue)
-  text-decoration: none
+  text-decoration: underline
+  text-decoration-color: transparent
+  text-underline-offset: 3px
+
+  &:hover,
+  &:focus
+    color: var(--primary-blue-alt)
+    text-decoration-color: var(--primary-blue-alt)
+
+  &:active
+    color: var(--secundary-yellow-dark)
+
+  &:focus-visible
+    outline: var(--border-medium) solid var(--primary-blue)
+    outline-offset: var(--spacing-1)
+    border-radius: var(--radius-sm)
+
+// -----------------------------------------------
+// Listas
+// -----------------------------------------------
+
+ul, ol
+  margin: 0 0 var(--spacing-4) 0
+  padding-left: var(--spacing-6)
+  line-height: var(--line-height-relaxed)
+
+  li
+    margin-bottom: var(--spacing-2)
+
+    &:last-child
+      margin-bottom: 0
+
+ul
+  list-style-type: disc
+
+  ul
+    list-style-type: circle
+
+    ul
+      list-style-type: square
+
+ol
+  list-style-type: decimal
+
+dl
+  margin: 0 0 var(--spacing-4) 0
+
+  dt
+    font-weight: var(--font-semibold)
+    margin-bottom: var(--spacing-1)
+
+  dd
+    margin: 0 0 var(--spacing-3) var(--spacing-4)
+
+// -----------------------------------------------
+// Tablas
+// -----------------------------------------------
+
+table
+  width: 100%
+  border-collapse: collapse
+  margin: var(--spacing-6) 0
+  border: var(--border-thin) solid var(--primary-blue-light)
+
+thead
+  background-color: var(--primary-blue)
+  color: var(--background)
+
+th
+  padding: var(--spacing-3) var(--spacing-4)
+  text-align: left
+  font-weight: var(--font-semibold)
+  font-family: var(--font-secondary)
+
+td
+  padding: var(--spacing-3) var(--spacing-4)
+  border-top: var(--border-thin) solid var(--primary-blue-light)
+
+tbody tr
+  +smooth-transition(background-color)
 
   &:hover
-    color: var(--secundary-yellow-dark)
+    background-color: rgba(51, 63, 81, 0.05)
+
+// -----------------------------------------------
+// Formularios - Elementos Base
+// -----------------------------------------------
+
+button
+  font-family: inherit
+  cursor: pointer
+  background: none
+  border: none
+  padding: 0
+  margin: 0
+
+  &:focus-visible
+    outline: var(--border-medium) solid var(--primary-blue)
+    outline-offset: var(--spacing-1)
+
+input,
+select,
+textarea
+  +input-base
+  margin: 0
+  font-size: var(--text-base)
+  width: 100%
+
+label
+  display: block
+  font-size: var(--text-sm)
+  font-weight: var(--font-semibold)
+  color: var(--primary-blue)
+  margin: 0 0 var(--spacing-2) 0
+  font-family: var(--font-secondary)
+  text-transform: uppercase
+  letter-spacing: 0.05em
+
+fieldset
+  margin: 0 0 var(--spacing-6) 0
+  padding: var(--spacing-6)
+  border: var(--border-medium) solid var(--primary-blue-light)
+  border-radius: var(--radius-md)
+
+legend
+  padding: 0 var(--spacing-3)
+  font-family: var(--font-secondary)
+  font-weight: var(--font-bold)
+  font-size: var(--text-lg)
+  color: var(--primary-blue)
+
+// -----------------------------------------------
+// Imágenes y Media
+// -----------------------------------------------
+
+img,
+picture,
+video,
+canvas,
+svg
+  display: block
+  max-width: 100%
+  height: auto
+
+img
+  border-style: none
+
+figure
+  margin: var(--spacing-6) 0
+
+  img
+    margin-bottom: var(--spacing-3)
+
+figcaption
+  font-size: var(--text-sm)
+  color: var(--gray-600)
+  text-align: center
+  font-style: italic
+
+// -----------------------------------------------
+// Elementos de Sección
+// -----------------------------------------------
+
+hr
+  margin: var(--spacing-8) 0
+  border: 0
+  border-top: var(--border-medium) solid var(--primary-blue-light)
+  height: 0
+
+address
+  font-style: normal
+  margin: var(--spacing-4) 0
+  line-height: var(--line-height-relaxed)
+
+// -----------------------------------------------
+// Scrollbar Personalizado
+// -----------------------------------------------
+
+::-webkit-scrollbar
+  width: 12px
+  height: 12px
+
+::-webkit-scrollbar-track
+  background: var(--background)
+  border: var(--border-thin) solid var(--primary-blue-light)
+
+::-webkit-scrollbar-thumb
+  background: var(--primary-blue-light)
+  border-radius: var(--radius-md)
+  border: 2px solid var(--background)
+
+  &:hover
+    background: var(--primary-blue-alt)
+
+  &:active
+    background: var(--primary-blue)
+
+// -----------------------------------------------
+// Estados de Selección
+// -----------------------------------------------
+
+::selection
+  background-color: var(--secundary-yellow-alt)
+  color: var(--primary-blue)
+
+::-moz-selection
+  background-color: var(--secundary-yellow-alt)
+  color: var(--primary-blue)
+
+// -----------------------------------------------
+// Estados de Focus para Accesibilidad
+// -----------------------------------------------
+
+:focus
+  outline: none
+
+:focus-visible
+  outline: var(--border-medium) solid var(--primary-blue)
+  outline-offset: var(--spacing-1)
+
+// -----------------------------------------------
+// Print Styles
+// -----------------------------------------------
+
+@media print
+  *,
+  *::before,
+  *::after
+    background: transparent !important
+    color: #000 !important
+    box-shadow: none !important
+    text-shadow: none !important
+
+  a,
+  a:visited
+    text-decoration: underline
+
+  a[href]::after
+    content: " (" attr(href) ")"
+
+  abbr[title]::after
+    content: " (" attr(title) ")"
+
+  pre,
+  blockquote
+    border: var(--border-thin) solid #999
+    page-break-inside: avoid
+
+  thead
+    display: table-header-group
+
+  tr,
+  img
+    page-break-inside: avoid
+
+  p,
+  h2,
+  h3
+    orphans: 3
+    widows: 3
+
+  h2,
+  h3
+    page-break-after: avoid
