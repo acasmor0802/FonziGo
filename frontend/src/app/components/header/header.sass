@@ -81,16 +81,23 @@
   // Botón hamburguesa (solo móvil y tablet)
   &__hamburger
     display: none
-    flex-direction: column
-    gap: var(--spacing-1)
-    background: transparent
-    border: none
-    cursor: pointer
-    padding: var(--spacing-2)
     z-index: var(--z-hamburger)
 
     @media (max-width: $breakpoint-md)
       display: flex
+    
+    ::ng-deep .btn
+      flex-direction: column
+      gap: var(--spacing-1)
+      background: transparent
+      border: none
+      padding: var(--spacing-2)
+      min-width: auto
+      
+      &:hover:not(:disabled):not(.btn--loading)
+        background: transparent
+        transform: none
+        box-shadow: none
 
   &__hamburger-line
     width: calc(var(--spacing-6) + var(--spacing-1))
@@ -132,26 +139,74 @@
       a
         width: 100%
         text-align: center
+    
+    // Estilos para los enlaces de autenticación
+    a
+      display: inline-flex
+      align-items: center
+      justify-content: center
+      padding: var(--spacing-3) var(--spacing-6)
+      font-size: var(--text-base)
+      font-weight: var(--font-semibold)
+      text-decoration: none
+      white-space: nowrap
+      border-radius: var(--radius-sm)
+      +smooth-transition(background-color, transform, border-color)
+      
+      &.btn-secondary
+        background-color: transparent
+        color: var(--background)
+        border: var(--border-medium) solid var(--background)
+        +smooth-transition(background-color, color, transform, border-color)
+        
+        &:hover
+          border-color: var(--secundary-yellow-alt)
+          color: var(--secundary-yellow-alt)
+          transform: translateY(-1px)
+      
+      &.btn-primary
+        background-color: var(--secundary-yellow-alt)
+        color: var(--primary-blue)
+        border: var(--border-medium) solid var(--secundary-yellow-alt)
+        
+        &:hover
+          background-color: var(--secundary-yellow-dark)
+          border-color: var(--secundary-yellow-dark)
+          transform: translateY(-1px)
+          box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3)
 
   // Botones de icono (carrito y tema)
   &__cart,
   &__theme-toggle
     +flex-center
-    background: transparent
-    border: none
-    color: var(--background)
-    cursor: pointer
-    padding: var(--spacing-2)
     font-size: var(--text-2xl)
-    +smooth-transition(color, transform)
+    
+    ::ng-deep .btn
+      background: transparent
+      border: none
+      color: var(--background)
+      padding: var(--spacing-2)
+      +smooth-transition(color, transform)
+      
+      &:hover:not(:disabled):not(.btn--loading)
+        color: var(--secundary-yellow-alt)
+        transform: scale(1.02)
+        background: transparent
+        box-shadow: none
 
     @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
       font-size: var(--text-xl)
-      padding: var(--spacing-1)
-
-    &:hover:not(:disabled)
-      color: var(--secundary-yellow-alt)
-      transform: scale(1.02)
+      
+      ::ng-deep .btn
+        padding: var(--spacing-1)
+  
+  // Ajustar tamaño específico del carrito
+  &__cart
+    ::ng-deep .btn
+      font-size: var(--text-base)
+      font-weight: var(--font-semibold)
+      font-family: var(--font-secondary)
+      padding: var(--spacing-3) var(--spacing-6)
 
   // Carrito con badge de contador
   &__cart
@@ -169,3 +224,23 @@
     height: var(--spacing-5)
     +flex-center
     +font-style(var(--text-xs), var(--font-bold))
+
+  // Icono del carrito con SVG
+  &__cart-icon
+    display: flex
+    align-items: center
+    gap: var(--spacing-2)
+    
+    svg
+      display: inline-block
+      vertical-align: middle
+      flex-shrink: 0
+
+  // Icono del tema con SVG
+  &__theme-icon
+    display: flex
+    align-items: center
+    justify-content: center
+    
+    svg
+      display: block

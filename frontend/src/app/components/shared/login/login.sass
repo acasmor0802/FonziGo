@@ -32,19 +32,22 @@
     margin-bottom: var(--spacing-2)
 
   &__submit
-    @include button-base
-    background-color: var(--primary-blue)
-    color: var(--background)
-    width: 100%
-    padding: var(--spacing-3) var(--spacing-4)
-    +smooth-transition(background-color, transform)
+    ::ng-deep .btn
+      width: 100%
+      background-color: var(--secundary-yellow-alt)
+      color: var(--primary-blue)
+      border: none
+      padding: var(--spacing-3) var(--spacing-4)
+      font-weight: var(--font-semibold)
+      +smooth-transition(background-color, transform)
 
-    &:hover
-      background-color: var(--primary-blue-alt)
-      transform: translateY(-2px)
+      &:hover:not(:disabled):not(.btn--loading)
+        background-color: var(--secundary-yellow-dark)
+        transform: translateY(var(--button-hover-lift))
+        box-shadow: var(--button-shadow-yellow)
 
-    &:active
-      transform: translateY(0)
+      &:active
+        transform: translateY(0)
 
   &__divider
     display: flex
@@ -68,42 +71,41 @@
   &__social
     display: flex
     gap: var(--spacing-3)
+    width: 100%
 
   &__social-btn
     flex: 1
-    @include button-base
-    background-color: var(--background)
-    color: var(--primary-blue)
-    border: var(--border-medium) solid var(--primary-blue-light)
-    display: flex
-    align-items: center
-    justify-content: center
-    gap: var(--spacing-3)
-    font-weight: var(--font-semibold)
-    font-size: var(--text-sm)
-    padding: var(--spacing-3) var(--spacing-4)
-    +smooth-transition(all)
-    box-shadow: var(--shadow-sm)
-
-    &:hover
-      background-color: var(--primary-blue)
-      color: var(--background)
-      border-color: var(--primary-blue)
-      transform: translateY(-2px)
-      box-shadow: var(--shadow-md)
-
-    &:active
-      transform: translateY(0)
-
-    &--google
-      &:hover
-        background-color: #4285f4
-        border-color: #4285f4
-
-    &--apple
-      &:hover
-        background-color: #000000
-        border-color: #000000
+    min-width: 0
+    
+    ::ng-deep .btn
+      width: 100%
+      justify-content: center
+      background-color: var(--background)
+      color: var(--primary-blue)
+      border: var(--border-medium) solid var(--primary-blue-light)
+      display: flex
+      align-items: center
+      gap: var(--spacing-2)
+      font-weight: var(--font-semibold)
+      font-size: var(--text-sm)
+      padding: var(--spacing-3) var(--spacing-4)
+      box-shadow: var(--shadow-sm)
+      +smooth-transition(all)
+      
+      &:hover:not(:disabled):not(.btn--loading)
+        background-color: var(--primary-blue)
+        color: var(--background)
+        border-color: var(--primary-blue)
+        transform: translateY(var(--button-hover-lift))
+        box-shadow: var(--shadow-md)
+    
+    &--google ::ng-deep .btn:hover:not(:disabled):not(.btn--loading)
+      background-color: var(--google-blue)
+      border-color: var(--google-blue)
+      
+    &--apple ::ng-deep .btn:hover:not(:disabled):not(.btn--loading)
+      background-color: var(--apple-black)
+      border-color: var(--apple-black)
 
   &__social-icon
     font-size: var(--text-2xl)

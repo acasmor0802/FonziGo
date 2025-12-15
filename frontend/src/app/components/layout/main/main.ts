@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
+import { Login } from '../../shared/login/login';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  template: `
-    <main class="main-content">
-      <ng-content></ng-content>
-    </main>
-  `,
+  imports: [Login],
+  templateUrl: './main.html',
   styleUrls: ['./main.sass']
 })
 export class Main {}

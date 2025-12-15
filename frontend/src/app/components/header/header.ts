@@ -1,18 +1,19 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ButtonComponent } from '../shared/button/button';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './header.html',
   styleUrls: ['./header.sass']
 })
 export class Header implements OnInit {
   isDarkMode = signal(false);
   isMobileMenuOpen = signal(false);
-  themeIcon = computed(() => this.isDarkMode() ? '☀️' : '🌙');
+  
   themeLabel = computed(() => 
     this.isDarkMode() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'
   );

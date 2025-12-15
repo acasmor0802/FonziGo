@@ -1,12 +1,13 @@
 import { Component, Input, signal, computed } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
+import { ButtonComponent } from '../button/button';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info';
 
 @Component({
   selector: 'app-alert',
   standalone: true,
-  imports: [NgClass, NgIf],
+  imports: [NgClass, NgIf, ButtonComponent],
   templateUrl: './alert.html',
   styleUrls: ['./alert.sass']
 })

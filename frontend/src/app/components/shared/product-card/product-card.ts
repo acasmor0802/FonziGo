@@ -1,5 +1,6 @@
 import { Component, Input, computed, signal } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
+import { ButtonComponent } from '../button/button';
 
 export interface PriceComparison {
   store: string;
@@ -24,7 +25,7 @@ export interface Product {
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, ButtonComponent],
   templateUrl: './product-card.html',
   styleUrls: ['./product-card.sass']
 })
