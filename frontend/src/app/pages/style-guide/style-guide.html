@@ -1,0 +1,378 @@
+<div class="style-guide">
+  <header class="style-guide__header">
+    <div class="style-guide__container">
+      <h1 class="style-guide__title">Style Guide</h1>
+      <p class="style-guide__subtitle">Sistema de componentes UI - FonziGo</p>
+    </div>
+  </header>
+
+  <main class="style-guide__main">
+    <div class="style-guide__container">
+
+      <!-- ===================================== -->
+      <!-- SECTION: Buttons -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="buttons">
+        <h2 class="style-guide__section-title">Botones</h2>
+        <p class="style-guide__section-description">
+          Componente de botón reutilizable con múltiples variantes, tamaños y estados.
+        </p>
+
+        <!-- Button Variants -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Variantes</h3>
+          <div class="style-guide__demo style-guide__demo--row">
+            <app-button variant="primary">Primary</app-button>
+            <app-button variant="secondary">Secondary</app-button>
+            <app-button variant="outline">Outline</app-button>
+            <app-button variant="ghost">Ghost</app-button>
+            <app-button variant="danger">Danger</app-button>
+          </div>
+        </div>
+
+        <!-- Button Sizes -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Tamaños</h3>
+          <div class="style-guide__demo style-guide__demo--row style-guide__demo--align-center">
+            <app-button variant="primary" size="sm">Small</app-button>
+            <app-button variant="primary" size="md">Medium</app-button>
+            <app-button variant="primary" size="lg">Large</app-button>
+          </div>
+        </div>
+
+        <!-- Button States -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Estados</h3>
+          <div class="style-guide__demo style-guide__demo--row">
+            <app-button variant="primary">Normal</app-button>
+            <app-button variant="primary" [disabled]="true">Disabled</app-button>
+            <app-button variant="primary" [loading]="true">Loading</app-button>
+          </div>
+        </div>
+
+        <!-- Full Width Button -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Ancho Completo</h3>
+          <div class="style-guide__demo" style="max-width: 400px;">
+            <app-button variant="primary" [fullWidth]="true">Full Width Button</app-button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- SECTION: Alerts -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="alerts">
+        <h2 class="style-guide__section-title">Alertas</h2>
+        <p class="style-guide__section-description">
+          Componente de alerta para mostrar mensajes de feedback al usuario.
+        </p>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Tipos</h3>
+          <div class="style-guide__demo style-guide__demo--column">
+            <app-alert type="success">
+              <strong>¡Éxito!</strong> La operación se ha completado correctamente.
+            </app-alert>
+            <app-alert type="error">
+              <strong>Error:</strong> Ha ocurrido un problema. Por favor, inténtalo de nuevo.
+            </app-alert>
+            <app-alert type="warning">
+              <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+            </app-alert>
+            <app-alert type="info">
+              <strong>Información:</strong> Tu sesión expirará en 5 minutos.
+            </app-alert>
+          </div>
+        </div>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Con botón de cerrar</h3>
+          <div class="style-guide__demo style-guide__demo--column">
+            <app-alert type="info" [closeable]="true">
+              Esta alerta se puede cerrar haciendo clic en la X.
+            </app-alert>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- SECTION: Form Elements -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="forms">
+        <h2 class="style-guide__section-title">Elementos de Formulario</h2>
+        <p class="style-guide__section-description">
+          Componentes de formulario accesibles y reutilizables.
+        </p>
+
+        <!-- Form Input -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Input de Texto</h3>
+          <div class="style-guide__demo style-guide__demo--column" style="max-width: 400px;">
+            <app-form-input
+              id="demo-name"
+              label="Nombre"
+              placeholder="Escribe tu nombre"
+              helpText="Tu nombre completo como aparece en tu DNI"
+            ></app-form-input>
+
+            <app-form-input
+              id="demo-email"
+              label="Email"
+              type="email"
+              placeholder="ejemplo@email.com"
+              [required]="true"
+            ></app-form-input>
+
+            <app-form-input
+              id="demo-error"
+              label="Campo con error"
+              placeholder="Este campo tiene un error"
+              errorText="Este campo es obligatorio"
+              [required]="true"
+            ></app-form-input>
+
+            <app-form-input
+              id="demo-disabled"
+              label="Campo deshabilitado"
+              placeholder="No puedes editar esto"
+              [disabled]="true"
+            ></app-form-input>
+          </div>
+        </div>
+
+        <!-- Form Select -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Select</h3>
+          <div class="style-guide__demo style-guide__demo--column" style="max-width: 400px;">
+            <app-form-select
+              id="demo-select"
+              label="Selecciona una opción"
+              placeholder="Elige una opción"
+              [options]="selectOptions"
+              helpText="Selecciona la opción que mejor se ajuste"
+            ></app-form-select>
+
+            <app-form-select
+              id="demo-select-required"
+              label="Campo requerido"
+              placeholder="Selección obligatoria"
+              [options]="selectOptions"
+              [required]="true"
+            ></app-form-select>
+
+            <app-form-select
+              id="demo-select-error"
+              label="Select con error"
+              placeholder="Error de validación"
+              [options]="selectOptions"
+              errorText="Debes seleccionar una opción"
+            ></app-form-select>
+          </div>
+        </div>
+
+        <!-- Form Textarea (usando Input) -->
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Campos de Texto Adicionales</h3>
+          <div class="style-guide__demo style-guide__demo--column" style="max-width: 400px;">
+            <app-form-input
+              id="demo-description"
+              label="Descripción"
+              placeholder="Escribe una descripción..."
+              helpText="Campo de texto para descripciones"
+            ></app-form-input>
+
+            <app-form-input
+              id="demo-message"
+              label="Mensaje"
+              placeholder="Escribe tu mensaje..."
+            ></app-form-input>
+
+            <app-form-input
+              id="demo-notes"
+              label="Notas"
+              placeholder="Añade notas adicionales"
+              errorText="Este campo es obligatorio"
+              [required]="true"
+            ></app-form-input>
+
+            <app-form-input
+              id="demo-comments"
+              label="Comentarios"
+              placeholder="No puedes editar esto"
+              [disabled]="true"
+            ></app-form-input>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- SECTION: Cards -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="cards">
+        <h2 class="style-guide__section-title">Product Card</h2>
+        <p class="style-guide__section-description">
+          Tarjeta de producto para mostrar información en listados.
+        </p>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Ejemplo</h3>
+          <div class="style-guide__demo" style="max-width: 300px;">
+            <app-product-card [product]="sampleProduct"></app-product-card>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- SECTION: Colors -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="colors">
+        <h2 class="style-guide__section-title">Colores</h2>
+        <p class="style-guide__section-description">
+          Paleta de colores del sistema de diseño.
+        </p>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Colores Primarios</h3>
+          <div class="style-guide__color-grid">
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--primary-blue);"></div>
+              <span class="style-guide__color-name">Primary Blue</span>
+              <span class="style-guide__color-value">#333F51</span>
+            </div>
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--primary-blue-alt);"></div>
+              <span class="style-guide__color-name">Primary Blue Alt</span>
+              <span class="style-guide__color-value">#576C8A</span>
+            </div>
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--background);"></div>
+              <span class="style-guide__color-name">Background</span>
+              <span class="style-guide__color-value">#FFF1D5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Colores Secundarios</h3>
+          <div class="style-guide__color-grid">
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--secundary-yellow);"></div>
+              <span class="style-guide__color-name">Secondary Yellow</span>
+              <span class="style-guide__color-value">#FFF1D5</span>
+            </div>
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--secundary-yellow-alt);"></div>
+              <span class="style-guide__color-name">Secondary Yellow Alt</span>
+              <span class="style-guide__color-value">#FFD379</span>
+            </div>
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--secundary-yellow-dark);"></div>
+              <span class="style-guide__color-name">Secondary Yellow Dark</span>
+              <span class="style-guide__color-value">#FFC850</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Colores Semánticos</h3>
+          <div class="style-guide__color-grid">
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--success);"></div>
+              <span class="style-guide__color-name">Success</span>
+              <span class="style-guide__color-value">#A7FFB7</span>
+            </div>
+            <div class="style-guide__color-card">
+              <div class="style-guide__color-swatch" style="background-color: var(--error);"></div>
+              <span class="style-guide__color-name">Error</span>
+              <span class="style-guide__color-value">#CE8282</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- SECTION: Typography -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="typography">
+        <h2 class="style-guide__section-title">Tipografía</h2>
+        <p class="style-guide__section-description">
+          Sistema tipográfico con escala modular.
+        </p>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Escala de Tamaños</h3>
+          <div class="style-guide__demo style-guide__demo--column">
+            <p style="font-size: var(--text-xs);">Text XS (0.8rem) - Lorem ipsum dolor sit amet</p>
+            <p style="font-size: var(--text-sm);">Text SM (0.9rem) - Lorem ipsum dolor sit amet</p>
+            <p style="font-size: var(--text-base);">Text Base (1rem) - Lorem ipsum dolor sit amet</p>
+            <p style="font-size: var(--text-lg);">Text LG (1.125rem) - Lorem ipsum dolor sit amet</p>
+            <p style="font-size: var(--text-xl);">Text XL (1.25rem) - Lorem ipsum dolor sit amet</p>
+            <p style="font-size: var(--text-2xl);">Text 2XL (1.563rem) - Lorem ipsum</p>
+            <p style="font-size: var(--text-3xl);">Text 3XL (1.953rem) - Lorem ipsum</p>
+            <p style="font-size: var(--text-4xl);">Text 4XL (2.441rem)</p>
+            <p style="font-size: var(--text-5xl);">Text 5XL (3.052rem)</p>
+          </div>
+        </div>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Pesos de Fuente</h3>
+          <div class="style-guide__demo style-guide__demo--column">
+            <p style="font-weight: var(--font-light);">Light (300) - The quick brown fox</p>
+            <p style="font-weight: var(--font-regular);">Regular (400) - The quick brown fox</p>
+            <p style="font-weight: var(--font-medium);">Medium (500) - The quick brown fox</p>
+            <p style="font-weight: var(--font-semibold);">Semibold (600) - The quick brown fox</p>
+            <p style="font-weight: var(--font-bold);">Bold (700) - The quick brown fox</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- SECTION: Spacing -->
+      <!-- ===================================== -->
+      <section class="style-guide__section" id="spacing">
+        <h2 class="style-guide__section-title">Espaciado</h2>
+        <p class="style-guide__section-description">
+          Sistema de espaciado basado en 0.25rem (4px).
+        </p>
+
+        <div class="style-guide__subsection">
+          <h3 class="style-guide__subsection-title">Escala de Espaciado</h3>
+          <div class="style-guide__spacing-grid">
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-1); height: var(--spacing-1);"></div>
+              <span>--spacing-1 (0.25rem)</span>
+            </div>
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-2); height: var(--spacing-2);"></div>
+              <span>--spacing-2 (0.5rem)</span>
+            </div>
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-3); height: var(--spacing-3);"></div>
+              <span>--spacing-3 (0.75rem)</span>
+            </div>
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-4); height: var(--spacing-4);"></div>
+              <span>--spacing-4 (1rem)</span>
+            </div>
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-6); height: var(--spacing-6);"></div>
+              <span>--spacing-6 (1.5rem)</span>
+            </div>
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-8); height: var(--spacing-8);"></div>
+              <span>--spacing-8 (2rem)</span>
+            </div>
+            <div class="style-guide__spacing-item">
+              <div class="style-guide__spacing-box" style="width: var(--spacing-12); height: var(--spacing-12);"></div>
+              <span>--spacing-12 (3rem)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

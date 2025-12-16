@@ -31,8 +31,29 @@
     <!-- Buttons -->
     <section>
       <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">Buttons</h2>
+      
+      <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.1rem;">Button Variants</h3>
       <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <app-button variant="primary">Primary</app-button>
+        <app-button variant="secondary">Secondary</app-button>
+        <app-button variant="outline">Outline</app-button>
+        <app-button variant="ghost">Ghost</app-button>
+        <app-button variant="danger">Danger</app-button>
+      </div>
+
+      <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.1rem;">Button Sizes</h3>
+      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <app-button variant="primary" size="sm">Small</app-button>
+        <app-button variant="primary" size="md">Medium</app-button>
+        <app-button variant="primary" size="lg">Large</app-button>
+      </div>
+
+      <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.1rem;">Button States</h3>
+      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <app-button variant="primary">Normal</app-button>
+        <app-button variant="primary" [disabled]="true">Disabled</app-button>
+        <app-button variant="primary" [loading]="true">Loading</app-button>
+        <app-button variant="primary" [fullWidth]="true">Full Width</app-button>
       </div>
     </section>
 
@@ -57,6 +78,17 @@
           name="options"
           [options]="selectOptions">
         </app-form-select>
+      </div>
+      <div style="max-width: 400px; margin-top: 1rem;">
+        <app-form-textarea
+          id="description"
+          label="Description"
+          name="description"
+          placeholder="Enter a detailed description..."
+          helpText="Provide as much detail as possible"
+          [rows]="4"
+          [maxLength]="500">
+        </app-form-textarea>
       </div>
     </section>
 

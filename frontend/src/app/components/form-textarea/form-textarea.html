@@ -1,0 +1,40 @@
+<div class="form-textarea" [class.form-textarea--error]="errorText" [class.form-textarea--disabled]="disabled">
+  <label class="form-textarea__label" [for]="id">
+    {{ label }}
+    <span *ngIf="required" class="form-textarea__required" aria-label="requerido">*</span>
+  </label>
+
+  <textarea
+    class="form-textarea__control"
+    [class.form-textarea__control--resize-none]="resize === 'none'"
+    [class.form-textarea__control--resize-vertical]="resize === 'vertical'"
+    [class.form-textarea__control--resize-horizontal]="resize === 'horizontal'"
+    [class.form-textarea__control--resize-both]="resize === 'both'"
+    [id]="id"
+    [name]="name || id"
+    [placeholder]="placeholder"
+    [required]="required"
+    [disabled]="disabled"
+    [rows]="rows"
+    [attr.maxlength]="maxLength"
+    [attr.aria-required]="required ? 'true' : null"
+    [attr.aria-invalid]="errorText ? 'true' : null"
+    [attr.aria-describedby]="(helpText || errorText) ? id + '-description' : null"
+    (input)="onInputChange($event)"
+    (blur)="onBlur()"
+  >{{ value }}</textarea>
+
+  <div class="form-textarea__footer">
+    <p *ngIf="helpText && !errorText" [id]="id + '-description'" class="form-textarea__help">
+      {{ helpText }}
+    </p>
+
+    <p *ngIf="errorText" [id]="id + '-description'" class="form-textarea__error" role="alert">
+      {{ errorText }}
+    </p>
+
+    <span *ngIf="maxLength" class="form-textarea__counter">
+      {{ characterCount }}/{{ maxLength }}
+    </span>
+  </div>
+</div>

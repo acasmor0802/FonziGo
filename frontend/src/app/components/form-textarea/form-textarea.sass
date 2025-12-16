@@ -1,0 +1,77 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// -----------------------------------------------
+// Form Textarea Component - Reutilizable
+// -----------------------------------------------
+
+.form-textarea
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-2)
+
+  &__label
+    +font-style(var(--text-sm), var(--font-semibold))
+    color: var(--primary-blue)
+
+  &__required
+    color: var(--error)
+    margin-left: var(--spacing-1)
+
+  &__control
+    +input-base
+    width: 100%
+    min-height: 100px
+    padding: var(--spacing-3)
+    line-height: var(--line-height-normal)
+    font-family: inherit
+
+    &--resize-none
+      resize: none
+
+    &--resize-vertical
+      resize: vertical
+
+    &--resize-horizontal
+      resize: horizontal
+
+    &--resize-both
+      resize: both
+
+  &__footer
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    gap: var(--spacing-2)
+
+  &__help
+    font-size: var(--text-xs)
+    color: var(--primary-blue-light)
+    flex: 1
+
+  &__error
+    font-size: var(--text-xs)
+    color: var(--error)
+    flex: 1
+
+  &__counter
+    font-size: var(--text-xs)
+    color: var(--primary-blue-light)
+    flex-shrink: 0
+
+  // Estado de error
+  &--error
+    .form-textarea__control
+      border-color: var(--error)
+
+      &:focus
+        border-color: var(--error)
+        box-shadow: 0 0 0 3px rgba(206, 130, 130, 0.2)
+
+  // Estado deshabilitado
+  &--disabled
+    opacity: 0.6
+
+    .form-textarea__control
+      cursor: not-allowed
+      background-color: rgba(0, 0, 0, 0.05)

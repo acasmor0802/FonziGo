@@ -9,6 +9,7 @@ import { Alert } from '../../components/alert/alert';
 import { ButtonComponent } from '../../components/button/button';
 import { FormInput } from '../../components/form-input/form-input';
 import { FormSelect, SelectOption } from '../../components/form-select/form-select';
+import { FormTextarea } from '../../components/form-textarea/form-textarea';
 import { Login } from '../../components/login/login';
 import { ProductCard, Product } from '../../components/product-card/product-card';
 import { Register } from '../../components/register/register';
@@ -25,6 +26,7 @@ import { Register } from '../../components/register/register';
     ButtonComponent,
     FormInput,
     FormSelect,
+    FormTextarea,
     Login,
     ProductCard,
     Register

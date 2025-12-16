@@ -1,0 +1,164 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// ===============================================
+// Style Guide Page
+// ===============================================
+// Página de documentación visual de todos los componentes UI
+
+.style-guide
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  background-color: var(--background)
+
+  // Header de la página
+  &__header
+    background-color: var(--primary-blue)
+    color: var(--background)
+    padding: var(--spacing-12) var(--spacing-4)
+    text-align: center
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-4xl)
+    font-weight: var(--font-bold)
+    margin-bottom: var(--spacing-2)
+
+  &__subtitle
+    font-size: var(--text-lg)
+    opacity: 0.9
+
+  // Main content
+  &__main
+    flex: 1
+    padding: var(--spacing-8) var(--spacing-4)
+
+  &__container
+    max-width: 1200px
+    margin: 0 auto
+
+  // Sections
+  &__section
+    margin-bottom: var(--spacing-16)
+    padding-bottom: var(--spacing-8)
+    border-bottom: 1px solid rgba(51, 63, 81, 0.1)
+
+    &:last-child
+      border-bottom: none
+
+  &__section-title
+    font-family: var(--font-secondary)
+    font-size: var(--text-3xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-2)
+
+  &__section-description
+    font-size: var(--text-base)
+    color: var(--primary-blue-alt)
+    margin-bottom: var(--spacing-6)
+    max-width: 600px
+
+  // Subsections
+  &__subsection
+    margin-bottom: var(--spacing-8)
+
+  &__subsection-title
+    font-family: var(--font-secondary)
+    font-size: var(--text-lg)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-4)
+    padding-bottom: var(--spacing-2)
+    border-bottom: 2px solid var(--secundary-yellow-alt)
+    display: inline-block
+
+  // Demo containers
+  &__demo
+    background-color: white
+    border: 1px solid rgba(51, 63, 81, 0.1)
+    border-radius: var(--radius-lg)
+    padding: var(--spacing-6)
+
+    &--row
+      display: flex
+      flex-wrap: wrap
+      gap: var(--spacing-4)
+
+    &--column
+      display: flex
+      flex-direction: column
+      gap: var(--spacing-4)
+
+    &--align-center
+      align-items: center
+
+  // Color Grid
+  &__color-grid
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))
+    gap: var(--spacing-4)
+
+  &__color-card
+    display: flex
+    flex-direction: column
+    background: white
+    border-radius: var(--radius-lg)
+    overflow: hidden
+    box-shadow: var(--shadow-sm)
+
+  &__color-swatch
+    height: 80px
+    width: 100%
+
+  &__color-name
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    padding: var(--spacing-2) var(--spacing-3) 0
+
+  &__color-value
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+    padding: var(--spacing-1) var(--spacing-3) var(--spacing-3)
+    font-family: monospace
+
+  // Spacing Grid
+  &__spacing-grid
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-3)
+
+  &__spacing-item
+    display: flex
+    align-items: center
+    gap: var(--spacing-4)
+
+    span
+      font-size: var(--text-sm)
+      color: var(--primary-blue-alt)
+      font-family: monospace
+
+  &__spacing-box
+    background-color: var(--secundary-yellow-alt)
+    border-radius: var(--radius-sm)
+    flex-shrink: 0
+
+// Responsive adjustments
+@media (max-width: 768px)
+  .style-guide
+    &__header
+      padding: var(--spacing-8) var(--spacing-4)
+
+    &__title
+      font-size: var(--text-3xl)
+
+    &__section-title
+      font-size: var(--text-2xl)
+
+    &__demo--row
+      flex-direction: column
+
+    &__color-grid
+      grid-template-columns: repeat(2, 1fr)
