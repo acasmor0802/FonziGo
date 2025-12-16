@@ -1,41 +1,49 @@
 @use '../../../styles/00-settings/variables' as *
 @use '../../../styles/01-tools/mixins' as *
 
-.form-group
+.form-select
   display: flex
   flex-direction: column
   gap: var(--spacing-2)
 
-.form-label
-  font-size: var(--text-sm)
-  font-weight: var(--font-semibold)
-  color: var(--primary-blue)
-  font-family: var(--font-secondary)
-  text-transform: uppercase
-  letter-spacing: 0.05em
+  &__label
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    font-family: var(--font-secondary)
 
   &__required
     color: var(--error)
     margin-left: var(--spacing-1)
 
-.form-select
-  @include input-base
-  appearance: none
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333F51' d='M6 9L1 4h10z'/%3E%3C/svg%3E")
-  background-repeat: no-repeat
-  background-position: right var(--spacing-3) center
-  background-size: 12px
-  padding-right: var(--spacing-8)
-  cursor: pointer
+  &__control
+    +input-base
+    appearance: none
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333F51' d='M6 9L1 4h10z'/%3E%3C/svg%3E")
+    background-repeat: no-repeat
+    background-position: right var(--spacing-3) center
+    background-size: 12px
+    padding-right: var(--spacing-8)
+    cursor: pointer
 
-  &:focus
-    outline: var(--border-medium) solid var(--primary-blue)
-    outline-offset: 2px
+    &:focus
+      outline: var(--border-medium) solid var(--primary-blue)
+      outline-offset: 2px
 
-.form-help-text
-  font-size: var(--text-xs)
-  color: var(--primary-blue-light)
+    &:disabled
+      cursor: not-allowed
+      opacity: 0.6
 
-.form-error-text
-  font-size: var(--text-xs)
-  color: var(--error)
+  &__help
+    font-size: var(--text-xs)
+    color: var(--primary-blue-light)
+
+  &__error
+    font-size: var(--text-xs)
+    color: var(--error)
+
+  &--error &__control
+    border-color: var(--error)
+
+  &--disabled
+    opacity: 0.6

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../components/button/button';
@@ -8,7 +8,8 @@ import { ButtonComponent } from '../../components/button/button';
   standalone: true,
   imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './header.html',
-  styleUrls: ['./header.sass']
+  styleUrls: ['./header.sass'],
+  encapsulation: ViewEncapsulation.None // Estilos globales desde 05-components/_header.sass
 })
 export class Header implements OnInit {
   isDarkMode = signal(false);

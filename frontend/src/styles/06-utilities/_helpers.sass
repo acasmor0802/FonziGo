@@ -1,0 +1,456 @@
+// 06-utilities/_helpers.sass
+// ===============================================
+// Utility Classes - Clases de Ayuda
+// ===============================================
+// Clases de utilidad de alta especificidad para sobrescribir estilos
+// Se deben usar con moderación y solo cuando sea necesario
+
+@use '../01-tools/mixins' as *
+@use '../00-settings/variables' as *
+
+// ===============================================
+// DISPLAY
+// ===============================================
+
+.u-hidden
+  display: none !important
+
+.u-block
+  display: block !important
+
+.u-inline
+  display: inline !important
+
+.u-inline-block
+  display: inline-block !important
+
+.u-flex
+  display: flex !important
+
+.u-inline-flex
+  display: inline-flex !important
+
+.u-grid
+  display: grid !important
+
+// -----------------------------------------------
+// Responsive Display
+// -----------------------------------------------
+
++media-breakpoint-down(md)
+  .u-hidden-mobile
+    display: none !important
+
++media-breakpoint-up(md)
+  .u-hidden-tablet
+    display: none !important
+
++media-breakpoint-up(lg)
+  .u-hidden-desktop
+    display: none !important
+
++media-breakpoint-down(md)
+  .u-visible-mobile
+    display: block !important
+
++media-breakpoint-up(md)
+  .u-visible-tablet
+    display: block !important
+
++media-breakpoint-up(lg)
+  .u-visible-desktop
+    display: block !important
+
+// ===============================================
+// VISIBILITY
+// ===============================================
+
+.u-invisible
+  visibility: hidden !important
+
+.u-visible
+  visibility: visible !important
+
+.u-visually-hidden
+  +visually-hidden
+
+// ===============================================
+// SPACING
+// ===============================================
+
+// Margin utilities
+.u-m-0
+  margin: 0 !important
+
+.u-mt-0
+  margin-top: 0 !important
+
+.u-mr-0
+  margin-right: 0 !important
+
+.u-mb-0
+  margin-bottom: 0 !important
+
+.u-ml-0
+  margin-left: 0 !important
+
+.u-mx-0
+  margin-left: 0 !important
+  margin-right: 0 !important
+
+.u-my-0
+  margin-top: 0 !important
+  margin-bottom: 0 !important
+
+// Margin con espaciado del sistema
+@each $name, $value in (1: var(--spacing-1), 2: var(--spacing-2), 3: var(--spacing-3), 4: var(--spacing-4), 5: var(--spacing-5), 6: var(--spacing-6), 8: var(--spacing-8), 10: var(--spacing-10), 12: var(--spacing-12))
+  .u-m-#{$name}
+    margin: $value !important
+
+  .u-mt-#{$name}
+    margin-top: $value !important
+
+  .u-mr-#{$name}
+    margin-right: $value !important
+
+  .u-mb-#{$name}
+    margin-bottom: $value !important
+
+  .u-ml-#{$name}
+    margin-left: $value !important
+
+  .u-mx-#{$name}
+    margin-left: $value !important
+    margin-right: $value !important
+
+  .u-my-#{$name}
+    margin-top: $value !important
+    margin-bottom: $value !important
+
+// Margin auto
+.u-mx-auto
+  margin-left: auto !important
+  margin-right: auto !important
+
+// Padding utilities
+.u-p-0
+  padding: 0 !important
+
+@each $name, $value in (1: var(--spacing-1), 2: var(--spacing-2), 3: var(--spacing-3), 4: var(--spacing-4), 5: var(--spacing-5), 6: var(--spacing-6), 8: var(--spacing-8), 10: var(--spacing-10), 12: var(--spacing-12))
+  .u-p-#{$name}
+    padding: $value !important
+
+  .u-pt-#{$name}
+    padding-top: $value !important
+
+  .u-pr-#{$name}
+    padding-right: $value !important
+
+  .u-pb-#{$name}
+    padding-bottom: $value !important
+
+  .u-pl-#{$name}
+    padding-left: $value !important
+
+  .u-px-#{$name}
+    padding-left: $value !important
+    padding-right: $value !important
+
+  .u-py-#{$name}
+    padding-top: $value !important
+    padding-bottom: $value !important
+
+// ===============================================
+// TEXT ALIGNMENT
+// ===============================================
+
+.u-text-left
+  text-align: left !important
+
+.u-text-center
+  text-align: center !important
+
+.u-text-right
+  text-align: right !important
+
+.u-text-justify
+  text-align: justify !important
+
+// ===============================================
+// TEXT TRANSFORM
+// ===============================================
+
+.u-text-uppercase
+  text-transform: uppercase !important
+
+.u-text-lowercase
+  text-transform: lowercase !important
+
+.u-text-capitalize
+  text-transform: capitalize !important
+
+.u-text-truncate
+  +text-truncate
+
+// ===============================================
+// FONT WEIGHT
+// ===============================================
+
+.u-font-light
+  font-weight: var(--font-light) !important
+
+.u-font-regular
+  font-weight: var(--font-regular) !important
+
+.u-font-medium
+  font-weight: var(--font-medium) !important
+
+.u-font-semibold
+  font-weight: var(--font-semibold) !important
+
+.u-font-bold
+  font-weight: var(--font-bold) !important
+
+// ===============================================
+// FONT SIZE
+// ===============================================
+
+.u-text-xs
+  font-size: var(--text-xs) !important
+
+.u-text-sm
+  font-size: var(--text-sm) !important
+
+.u-text-base
+  font-size: var(--text-base) !important
+
+.u-text-lg
+  font-size: var(--text-lg) !important
+
+.u-text-xl
+  font-size: var(--text-xl) !important
+
+.u-text-2xl
+  font-size: var(--text-2xl) !important
+
+.u-text-3xl
+  font-size: var(--text-3xl) !important
+
+// ===============================================
+// COLORS
+// ===============================================
+
+.u-text-primary
+  color: var(--primary-blue) !important
+
+.u-text-secondary
+  color: var(--secundary-yellow-dark) !important
+
+.u-text-success
+  color: var(--success) !important
+
+.u-text-error
+  color: var(--error) !important
+
+.u-text-warning
+  color: #f59e0b !important
+
+.u-text-info
+  color: #3b82f6 !important
+
+.u-bg-primary
+  background-color: var(--primary-blue) !important
+
+.u-bg-secondary
+  background-color: var(--secundary-yellow-alt) !important
+
+.u-bg-light
+  background-color: var(--background) !important
+
+// ===============================================
+// WIDTH & HEIGHT
+// ===============================================
+
+.u-w-full
+  width: 100% !important
+
+.u-h-full
+  height: 100% !important
+
+.u-w-auto
+  width: auto !important
+
+.u-h-auto
+  height: auto !important
+
+// ===============================================
+// FLEX UTILITIES
+// ===============================================
+
+.u-flex-row
+  flex-direction: row !important
+
+.u-flex-column
+  flex-direction: column !important
+
+.u-flex-wrap
+  flex-wrap: wrap !important
+
+.u-flex-nowrap
+  flex-wrap: nowrap !important
+
+.u-justify-start
+  justify-content: flex-start !important
+
+.u-justify-end
+  justify-content: flex-end !important
+
+.u-justify-center
+  justify-content: center !important
+
+.u-justify-between
+  justify-content: space-between !important
+
+.u-justify-around
+  justify-content: space-around !important
+
+.u-align-start
+  align-items: flex-start !important
+
+.u-align-end
+  align-items: flex-end !important
+
+.u-align-center
+  align-items: center !important
+
+.u-align-stretch
+  align-items: stretch !important
+
+.u-flex-1
+  flex: 1 !important
+
+.u-flex-shrink-0
+  flex-shrink: 0 !important
+
+.u-flex-grow-0
+  flex-grow: 0 !important
+
+.u-flex-grow-1
+  flex-grow: 1 !important
+
+// ===============================================
+// GAP UTILITIES
+// ===============================================
+
+@each $name, $value in (1: var(--spacing-1), 2: var(--spacing-2), 3: var(--spacing-3), 4: var(--spacing-4), 5: var(--spacing-5), 6: var(--spacing-6), 8: var(--spacing-8))
+  .u-gap-#{$name}
+    gap: $value !important
+
+// ===============================================
+// BORDER RADIUS
+// ===============================================
+
+.u-rounded-none
+  border-radius: 0 !important
+
+.u-rounded-sm
+  border-radius: var(--radius-sm) !important
+
+.u-rounded-md
+  border-radius: var(--radius-md) !important
+
+.u-rounded-lg
+  border-radius: var(--radius-lg) !important
+
+.u-rounded-full
+  border-radius: var(--radius-full) !important
+
+// ===============================================
+// SHADOWS
+// ===============================================
+
+.u-shadow-none
+  box-shadow: none !important
+
+.u-shadow-sm
+  box-shadow: var(--shadow-sm) !important
+
+.u-shadow-md
+  box-shadow: var(--shadow-md) !important
+
+.u-shadow-lg
+  box-shadow: var(--shadow-lg) !important
+
+.u-shadow-xl
+  box-shadow: var(--shadow-xl) !important
+
+// ===============================================
+// OVERFLOW
+// ===============================================
+
+.u-overflow-hidden
+  overflow: hidden !important
+
+.u-overflow-auto
+  overflow: auto !important
+
+.u-overflow-scroll
+  overflow: scroll !important
+
+.u-overflow-x-auto
+  overflow-x: auto !important
+
+.u-overflow-y-auto
+  overflow-y: auto !important
+
+// ===============================================
+// POSITION
+// ===============================================
+
+.u-relative
+  position: relative !important
+
+.u-absolute
+  position: absolute !important
+
+.u-fixed
+  position: fixed !important
+
+.u-sticky
+  position: sticky !important
+
+// ===============================================
+// CURSOR
+// ===============================================
+
+.u-cursor-pointer
+  cursor: pointer !important
+
+.u-cursor-default
+  cursor: default !important
+
+.u-cursor-not-allowed
+  cursor: not-allowed !important
+
+// ===============================================
+// POINTER EVENTS
+// ===============================================
+
+.u-pointer-events-none
+  pointer-events: none !important
+
+.u-pointer-events-auto
+  pointer-events: auto !important
+
+// ===============================================
+// USER SELECT
+// ===============================================
+
+.u-select-none
+  user-select: none !important
+
+.u-select-all
+  user-select: all !important
+
+.u-select-text
+  user-select: text !important

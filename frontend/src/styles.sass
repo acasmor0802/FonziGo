@@ -1,31 +1,80 @@
-// -----------------------------------------------
+// ===============================================
 // Hoja de Estilos Principal (Estructura ITCSS)
+// ===============================================
+// ITCSS: Inverted Triangle CSS
+// Organización de menor a mayor especificidad y alcance
+
 // -----------------------------------------------
+// 00 - Settings: Variables globales, custom properties
+// Contiene: colores, tipografía, espaciado, breakpoints, etc.
+// -----------------------------------------------
+@use 'styles/00-settings/variables'
 
-// 00 - Settings: Variables globales, configuración, funciones
-@import "styles/00-settings/variables"
+// -----------------------------------------------
+// 01 - Tools: Mixins y funciones reutilizables
+// Contiene: mixins de responsive, layout, componentes, etc.
+// -----------------------------------------------
+@use 'styles/01-tools/mixins'
 
-// 01 - Tools: Mixins, funciones
-@import "styles/01-tools/mixins"
+// -----------------------------------------------
+// 02 - Generic: Reset y normalize
+// Contiene: reset CSS, box-sizing, estilos de normalización
+// -----------------------------------------------
+@use 'styles/02-generic/reset'
 
-// 02 - Generic: Reset, normalize, box-sizing
-@import "styles/02-generic/reset"
+// -----------------------------------------------
+// 03 - Elements: Estilos base de elementos HTML sin clases
+// Contiene: body, headings, links, lists, etc.
+// -----------------------------------------------
+@use 'styles/03-elements/base'
 
-// 03 - Elements: Estilos base de elementos HTML (ej. body, a, h1)
-@import "styles/03-elements/base"
+// -----------------------------------------------
+// 04 - Objects: Patrones de layout reutilizables
+// Contiene: container, grid, flex layouts
+// -----------------------------------------------
+@use 'styles/04-layout/layout'
 
-// 04 - Layout: Secciones principales de la página, sistemas de rejilla
-@import "styles/04-layout/layout"
+// -----------------------------------------------
+// 05 - Components: Componentes de UI específicos
+// Contiene: header, footer, buttons, cards, forms, etc.
+// Estos son estilos globales para componentes de layout principales
+// -----------------------------------------------
+@use 'styles/05-components/header'
+@use 'styles/05-components/footer'
+@use 'styles/05-components/buttons'
 
-// 05 - Components: Componentes de UI (ej. botones, tarjetas, formularios)
-// @import "styles/05-components/button"
-// @import "styles/05-components/card"
+// -----------------------------------------------
+// 06 - Utilities: Clases de utilidad de alta especificidad
+// Contiene: clases helper, overrides, utilities
+// -----------------------------------------------
+@use 'styles/06-utilities/helpers'
 
-// 06 - Utilities: Clases de ayuda, overrides (ej. .u-hidden, .u-margin-top-sm)
-// @import "styles/06-utilities/helpers"
-
-// 07 - Pages: Estilos específicos de páginas
-// @import "styles/07-pages/home"
-
-// 08 - Vendors: Estilos de terceros (ej. librerías, frameworks)
-// @import "styles/08-vendors/vendor-styles"
+// ===============================================
+// NOTAS IMPORTANTES
+// ===============================================
+// 
+// ¿Por qué este orden?
+// -------------------
+// 1. Settings primero porque definen las variables que todos usarán
+// 2. Tools después porque los mixins necesitan las variables
+// 3. Generic normaliza el navegador antes de aplicar estilos
+// 4. Elements aplica estilos base a HTML puro (sin clases)
+// 5. Objects define patrones de layout reutilizables
+// 6. Components son bloques de UI específicos (mayor especificidad)
+// 7. Utilities al final para sobrescribir cualquier cosa (!important)
+//
+// Este orden asegura que:
+// - No hay conflictos de especificidad
+// - Los estilos se pueden sobrescribir de forma predecible
+// - El CSS es fácil de mantener y escalar
+// - Seguimos las mejores prácticas de la industria
+//
+// Componentes Angular:
+// --------------------
+// Los componentes individuales (button, card, alert, etc.) tienen sus
+// propios archivos .sass en sus carpetas con ViewEncapsulation.Emulated
+// No se importan aquí porque están encapsulados por Angular
+//
+// Solo importamos estilos globales que necesitan ViewEncapsulation.None
+// como header y footer que aparecen en toda la aplicación
+// ===============================================

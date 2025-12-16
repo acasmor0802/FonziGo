@@ -1,26 +1,90 @@
 // 01-tools/_mixins.sass
+// ===============================================
+// Mixins y Funciones Reutilizables
+// ===============================================
+// Este archivo contiene mixins y funciones que se utilizan en toda la aplicación
+// para mantener consistencia y reducir duplicación de código
+
+@use 'sass:math'
+@use '../00-settings/variables' as *
 
 // ===============================================
-// Mixins
+// RESPONSIVE DESIGN
 // ===============================================
 
 // -----------------------------------------------
+// Mixin de Media Query para Breakpoints
+// Simplifica el uso de media queries con nuestros breakpoints
+// Ejemplo:
+// .mi-elemento
+//   +media-breakpoint-up(md)
+//     font-size: 1.5rem
+// -----------------------------------------------
+=media-breakpoint-up($breakpoint)
+  @if $breakpoint == sm
+    @media (min-width: $breakpoint-sm)
+      @content
+  @else if $breakpoint == md
+    @media (min-width: $breakpoint-md)
+      @content
+  @else if $breakpoint == lg
+    @media (min-width: $breakpoint-lg)
+      @content
+  @else if $breakpoint == xl
+    @media (min-width: $breakpoint-xl)
+      @content
+  @else if $breakpoint == 2xl
+    @media (min-width: $breakpoint-2xl)
+      @content
+
+=media-breakpoint-down($breakpoint)
+  @if $breakpoint == sm
+    @media (max-width: #{$breakpoint-sm - 1})
+      @content
+  @else if $breakpoint == md
+    @media (max-width: #{$breakpoint-md - 1})
+      @content
+  @else if $breakpoint == lg
+    @media (max-width: #{$breakpoint-lg - 1})
+      @content
+  @else if $breakpoint == xl
+    @media (max-width: #{$breakpoint-xl - 1})
+      @content
+
+=media-breakpoint-between($lower, $upper)
+  @if $lower == sm and $upper == md
+    @media (min-width: $breakpoint-sm) and (max-width: #{$breakpoint-md - 1})
+      @content
+  @else if $lower == md and $upper == lg
+    @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1})
+      @content
+  @else if $lower == lg and $upper == xl
+    @media (min-width: $breakpoint-lg) and (max-width: #{$breakpoint-xl - 1})
+      @content
+
+// -----------------------------------------------
 // Mixin de Propiedad Responsiva
-// Aplica diferentes valores a una propiedad según los breakpoints.
+// Aplica diferentes valores a una propiedad según los breakpoints
 // Ejemplo:
 // .mi-elemento
 //   +responsive-prop(padding, $spacing-2, $spacing-4, $spacing-6)
 // -----------------------------------------------
-=responsive-prop($property, $small, $medium, $large)
+=responsive-prop($property, $small, $medium: null, $large: null)
   #{$property}: $small
-  @media (min-width: $breakpoint-md)
-    #{$property}: $medium
-  @media (min-width: $breakpoint-lg)
-    #{$property}: $large
+  @if $medium
+    +media-breakpoint-up(md)
+      #{$property}: $medium
+  @if $large
+    +media-breakpoint-up(lg)
+      #{$property}: $large
+
+// ===============================================
+// LAYOUT & POSITIONING
+// ===============================================
 
 // -----------------------------------------------
 // Mixin para Centrar con Flexbox
-// Centra el contenido usando flexbox.
+// Centra el contenido usando flexbox
 // Ejemplo:
 // .mi-contenedor
 //   +flex-center
@@ -30,12 +94,60 @@
   justify-content: center
   align-items: center
 
+=flex-center-column
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+=flex-between
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+// -----------------------------------------------
+// Mixin para Centrado Absoluto
+// Centra un elemento con posicionamiento absoluto
+// -----------------------------------------------
+=absolute-center
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+
+// -----------------------------------------------
+// Mixin para Cover Absoluto
+// Hace que un elemento cubra todo su contenedor
+// -----------------------------------------------
+=absolute-cover
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+// -----------------------------------------------
+// Mixin para Container Responsive
+// Crea un contenedor con max-width y padding lateral
+// -----------------------------------------------
+=container($max-width: $container-max-width)
+  width: 100%
+  max-width: $max-width
+  margin-left: auto
+  margin-right: auto
+  padding-left: $container-padding
+  padding-right: $container-padding
+
+// ===============================================
+// TYPOGRAPHY
+// ===============================================
+
 // -----------------------------------------------
 // Mixin de Estilo de Fuente
-// Aplica estilos de fuente consistentes usando CSS variables.
+// Aplica estilos de fuente consistentes
 // Ejemplo:
 // .mi-texto
-//   +font-style(--text-lg, --font-bold)
+//   +font-style(var(--text-lg), var(--font-bold))
 // -----------------------------------------------
 =font-style($size: var(--text-base), $weight: var(--font-regular), $line-height: var(--line-height-normal))
   font-size: $size
@@ -43,8 +155,27 @@
   line-height: $line-height
 
 // -----------------------------------------------
+// Mixin para Truncar Texto
+// Trunca texto con ellipsis
+// -----------------------------------------------
+=text-truncate
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+=text-truncate-lines($lines: 2)
+  display: -webkit-box
+  -webkit-line-clamp: $lines
+  -webkit-box-orient: vertical
+  overflow: hidden
+
+// ===============================================
+// VISUAL EFFECTS
+// ===============================================
+
+// -----------------------------------------------
 // Mixin para Transición Suave
-// Aplica transiciones consistentes a propiedades.
+// Aplica transiciones consistentes a propiedades
 // Ejemplo:
 // .mi-elemento
 //   +smooth-transition(color, background-color)
@@ -55,82 +186,241 @@
   transition-timing-function: ease-in-out
 
 // -----------------------------------------------
+// Mixin para Estado Hover con Elevación
+// Aplica efecto de elevación en hover
+// Ejemplo:
+// .mi-card
+//   +hover-lift
+// -----------------------------------------------
+=hover-lift($distance: -2px, $shadow: var(--shadow-md))
+  transition: transform var(--transition-base), box-shadow var(--transition-base)
+  &:hover:not(:disabled)
+    transform: translateY($distance)
+    box-shadow: $shadow
+
+// -----------------------------------------------
+// Mixin para Focus Visible Accesible
+// Aplica outline visible para navegación con teclado
+// -----------------------------------------------
+=focus-visible($color: var(--primary-blue), $width: 2px, $offset: 2px)
+  &:focus-visible
+    outline: $width solid $color
+    outline-offset: $offset
+
+// ===============================================
+// COMPONENTS
+// ===============================================
+
+// -----------------------------------------------
 // Mixin para Borde Consistente
-// Aplica bordes con el estilo del sistema de diseño.
+// Aplica bordes con el estilo del sistema de diseño
 // Ejemplo:
 // .mi-card
 //   +border-style(var(--primary-blue-light))
 // -----------------------------------------------
-=border-style($color, $width: var(--border-medium))
+=border-style($color, $width: var(--border-medium), $radius: var(--radius-md))
   border: $width solid $color
-  border-radius: var(--radius-sm)
-
-// -----------------------------------------------
-// Mixin para Estado Hover
-// Aplica estilos de hover comunes.
-// Ejemplo:
-// .mi-boton
-//   +hover-lift
-// -----------------------------------------------
-=hover-lift
-  transition: all var(--transition-base)
-  &:hover
-    transform: translateY(-2px)
-    box-shadow: var(--shadow-md)
+  border-radius: $radius
 
 // -----------------------------------------------
 // Mixin para Botón Base
-// Aplica los estilos base compartidos por todos los botones.
+// Aplica los estilos base compartidos por todos los botones
 // -----------------------------------------------
 =button-base
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  gap: var(--spacing-2)
   padding: var(--spacing-3) var(--spacing-5)
   border: none
-  border-radius: var(--radius-sm)
+  border-radius: var(--radius-md)
   font-size: var(--text-base)
-  cursor: pointer
   font-weight: var(--font-semibold)
   font-family: var(--font-secondary)
-  text-transform: uppercase
-  letter-spacing: 0.05em
+  line-height: 1
+  cursor: pointer
+  text-decoration: none
+  white-space: nowrap
+  user-select: none
   transition: all var(--transition-base)
   
-  &:hover
-    opacity: 0.85
+  &:hover:not(:disabled)
+    opacity: 0.9
+    transform: translateY(-1px)
   
-  &:active
-    transform: translateY(1px)
+  &:active:not(:disabled)
+    transform: translateY(0)
+  
+  &:disabled
+    opacity: 0.6
+    cursor: not-allowed
 
 // -----------------------------------------------
 // Mixin para Input Base
-// Aplica los estilos base compartidos por inputs.
+// Aplica los estilos base compartidos por inputs
 // -----------------------------------------------
 =input-base
+  width: 100%
+  padding: var(--spacing-3) var(--spacing-4)
   background-color: var(--background)
   border: var(--border-medium) solid var(--primary-blue-light)
+  border-radius: var(--radius-md)
   color: var(--primary-blue)
-  padding: var(--spacing-3) var(--spacing-4)
-  border-radius: var(--radius-sm)
   font-size: var(--text-base)
   font-family: var(--font-primary)
-  transition: border-color var(--transition-base)
+  line-height: var(--line-height-normal)
+  transition: border-color var(--transition-base), box-shadow var(--transition-base)
   
   &:focus
     outline: none
     border-color: var(--primary-blue)
+    box-shadow: 0 0 0 3px rgba(25, 145, 185, 0.1)
   
   &::placeholder
     color: var(--primary-blue-light)
+    opacity: 0.6
+  
+  &:disabled
+    opacity: 0.6
+    cursor: not-allowed
+    background-color: var(--secundary-yellow)
 
 // -----------------------------------------------
 // Mixin para Card Base
-// Aplica los estilos base compartidos por cards.
+// Aplica los estilos base compartidos por cards
 // -----------------------------------------------
 =card-base
   background-color: var(--background)
-  border-radius: var(--radius-sm)
   border: var(--border-medium) solid var(--primary-blue-light)
-  transition: border-color var(--transition-base), box-shadow var(--transition-base)
+  border-radius: var(--radius-lg)
+  padding: var(--spacing-6)
+  transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base)
   
   &:hover
     border-color: var(--primary-blue)
-    box-shadow: var(--shadow-md)
+    box-shadow: var(--shadow-lg)
+    transform: translateY(-2px)
+
+// ===============================================
+// ACCESSIBILITY
+// ===============================================
+
+// -----------------------------------------------
+// Mixin para Ocultar Visualmente (pero accesible para screen readers)
+// -----------------------------------------------
+=visually-hidden
+  position: absolute
+  width: 1px
+  height: 1px
+  padding: 0
+  margin: -1px
+  overflow: hidden
+  clip: rect(0, 0, 0, 0)
+  white-space: nowrap
+  border-width: 0
+
+// -----------------------------------------------
+// Mixin para Skip Link (accesibilidad)
+// -----------------------------------------------
+=skip-link
+  +visually-hidden
+  
+  &:focus
+    position: static
+    width: auto
+    height: auto
+    overflow: visible
+    clip: auto
+    white-space: normal
+
+// ===============================================
+// UTILITIES
+// ===============================================
+
+// -----------------------------------------------
+// Mixin para Aspect Ratio
+// Mantiene proporción de aspecto
+// -----------------------------------------------
+=aspect-ratio($width, $height)
+  aspect-ratio: #{$width} / #{$height}
+  
+  @supports not (aspect-ratio: 1 / 1)
+    position: relative
+    &::before
+      content: ''
+      display: block
+      padding-bottom: percentage(math.div($height, $width))
+    
+    & > *
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+
+// -----------------------------------------------
+// Mixin para Clearfix
+// Limpia floats (por si se necesita soporte legacy)
+// -----------------------------------------------
+=clearfix
+  &::after
+    content: ''
+    display: table
+    clear: both
+
+// -----------------------------------------------
+// Mixin para Scroll Suave
+// -----------------------------------------------
+=smooth-scroll
+  scroll-behavior: smooth
+  -webkit-overflow-scrolling: touch
+
+// -----------------------------------------------
+// Mixin para Custom Scrollbar
+// -----------------------------------------------
+=custom-scrollbar($thumb-color: var(--primary-blue-light), $track-color: var(--background))
+  &::-webkit-scrollbar
+    width: 8px
+    height: 8px
+  
+  &::-webkit-scrollbar-track
+    background: $track-color
+  
+  &::-webkit-scrollbar-thumb
+    background: $thumb-color
+    border-radius: var(--radius-full)
+    
+    &:hover
+      background: var(--primary-blue)
+    &:hover
+      background: var(--primary-blue)
+
+// ===============================================
+// ANIMATIONS
+// ===============================================
+
+// -----------------------------------------------
+// Mixin para Animación de Fade In
+// -----------------------------------------------
+=fade-in($duration: $duration-base)
+  animation: fade-in $duration ease-in-out
+
+@keyframes fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+// -----------------------------------------------
+// Mixin para Animación de Slide In
+// -----------------------------------------------
+=slide-in-up($duration: $duration-base)
+  animation: slide-in-up $duration ease-out
+
+@keyframes slide-in-up
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)

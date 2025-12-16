@@ -1,7 +1,7 @@
-<div class="form-input">
+<div class="form-input" [class.form-input--error]="errorText" [class.form-input--disabled]="disabled">
   <label class="form-input__label" [for]="id">
     {{ label }}
-    <span *ngIf="required" class="form-input__required" aria-hidden="true">*</span>
+    <span *ngIf="required" class="form-input__required" aria-label="requerido">*</span>
   </label>
 
   <input
@@ -11,14 +11,21 @@
     [name]="name || id"
     [placeholder]="placeholder"
     [required]="required"
+    [disabled]="disabled"
+    [value]="value"
     [attr.aria-required]="required ? 'true' : null"
+    [attr.aria-invalid]="errorText ? 'true' : null"
+    [attr.aria-describedby]="(helpText || errorText) ? id + '-description' : null"
+    [attr.autocomplete]="autocomplete"
+    (input)="onInputChange($event)"
+    (blur)="onBlur()"
   />
 
-  <p *ngIf="helpText" class="form-input__help">
+  <p *ngIf="helpText && !errorText" [id]="id + '-description'" class="form-input__help">
     {{ helpText }}
   </p>
 
-  <p *ngIf="errorText" class="form-input__error" role="alert">
+  <p *ngIf="errorText" [id]="id + '-description'" class="form-input__error" role="alert">
     {{ errorText }}
   </p>
 </div>

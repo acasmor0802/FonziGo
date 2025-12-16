@@ -1,21 +1,37 @@
-<div class="form-group">
-  <label [for]="id" class="form-label">
+<div class="form-select" [class.form-select--error]="errorText" [class.form-select--disabled]="disabled">
+  <label class="form-select__label" [for]="id">
     {{ label }}
-    <span *ngIf="required" class="form-label__required" aria-label="obligatorio">*</span>
+    <span *ngIf="required" class="form-select__required" aria-label="requerido">*</span>
   </label>
   
   <select 
+    class="form-select__control"
     [id]="id"
-    [name]="name"
+    [name]="name || id"
     [required]="required"
-    class="form-select"
+    [disabled]="disabled"
+    [value]="value"
+    [attr.aria-required]="required ? 'true' : null"
+    [attr.aria-invalid]="errorText ? 'true' : null"
+    [attr.aria-describedby]="(helpText || errorText) ? id + '-description' : null"
+    (change)="onSelectChange($event)"
+    (blur)="onBlur()"
   >
-    <option value="" disabled selected>{{ placeholder }}</option>
-    <option *ngFor="let option of options" [value]="option.value">
+    <option value="" disabled [selected]="!value">{{ placeholder }}</option>
+    <option 
+      *ngFor="let option of options" 
+      [value]="option.value"
+      [disabled]="option.disabled"
+    >
       {{ option.label }}
     </option>
   </select>
 
-  <small *ngIf="helpText" class="form-help-text">{{ helpText }}</small>
-  <small *ngIf="errorText" class="form-error-text">{{ errorText }}</small>
+  <p *ngIf="helpText && !errorText" [id]="id + '-description'" class="form-select__help">
+    {{ helpText }}
+  </p>
+
+  <p *ngIf="errorText" [id]="id + '-description'" class="form-select__error" role="alert">
+    {{ errorText }}
+  </p>
 </div>
