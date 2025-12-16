@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './components/header/header';
-import { Footer } from './components/footer/footer';
-import { Alert } from './components/shared/alert/alert';
-import { FormInput } from './components/shared/form-input/form-input';
-import { ProductCard, Product } from './components/shared/product-card/product-card';
-import { Login } from './components/shared/login/login';
-import { Register } from './components/shared/register/register';
+import { Header } from './layout/header/header';
+import { Footer } from './layout/footer/footer';
+import { Alert } from './components/alert/alert';
+import { FormInput } from './components/form-input/form-input';
+import { ProductCard, Product } from './components/product-card/product-card';
+import { Login } from './components/login/login';
+import { Register } from './components/register/register';
 
 @Component({
   selector: 'app-root',

@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 // Import Components
-import { Header } from '../../header/header';
-import { Footer } from '../../footer/footer';
-import { Alert } from '../../shared/alert/alert';
-import { ButtonComponent } from '../../shared/button/button';
-import { FormInput } from '../../shared/form-input/form-input';
-import { FormSelect, SelectOption } from '../../shared/form-select/form-select';
-import { Login } from '../../shared/login/login';
-import { ProductCard, Product } from '../../shared/product-card/product-card';
-import { Register } from '../../shared/register/register';
+import { Header } from '../../layout/header/header';
+import { Footer } from '../../layout/footer/footer';
+import { Alert } from '../../components/alert/alert';
+import { ButtonComponent } from '../../components/button/button';
+import { FormInput } from '../../components/form-input/form-input';
+import { FormSelect, SelectOption } from '../../components/form-select/form-select';
+import { Login } from '../../components/login/login';
+import { ProductCard, Product } from '../../components/product-card/product-card';
+import { Register } from '../../components/register/register';
 
 @Component({
   selector: 'app-main',

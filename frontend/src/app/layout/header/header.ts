@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ButtonComponent } from '../shared/button/button';
+import { ButtonComponent } from '../../components/button/button';
 
 @Component({
   selector: 'app-header',
