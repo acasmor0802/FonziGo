@@ -1,0 +1,136 @@
+.toast-container
+  position: fixed
+  top: 1rem
+  right: 1rem
+  z-index: 9999
+  display: flex
+  flex-direction: column
+  gap: 0.75rem
+  max-width: 400px
+  pointer-events: none
+
+.toast
+  background: white
+  border-radius: 8px
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+  padding: 1rem
+  display: flex
+  align-items: flex-start
+  gap: 0.75rem
+  min-width: 300px
+  pointer-events: all
+  animation: slideInRight 0.3s ease-out
+  position: relative
+  overflow: hidden
+  border-left: 4px solid
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 3px
+    background: currentColor
+    animation: progress var(--toast-duration, 3000ms) linear
+
+  &--success
+    border-left-color: #22c55e
+    color: #22c55e
+
+  &--error
+    border-left-color: #ef4444
+    color: #ef4444
+
+  &--info
+    border-left-color: #3b82f6
+    color: #3b82f6
+
+  &--warning
+    border-left-color: #f59e0b
+    color: #f59e0b
+
+  &__icon
+    font-size: 1.5rem
+    flex-shrink: 0
+
+  &__content
+    flex: 1
+    min-width: 0
+
+  &__title
+    font-weight: 600
+    font-size: 0.95rem
+    color: var(--color-text-primary, #2d3436)
+    margin-bottom: 0.25rem
+
+  &__message
+    font-size: 0.875rem
+    color: var(--color-text-secondary, #636e72)
+    line-height: 1.4
+
+  &__close
+    background: transparent
+    border: none
+    font-size: 1.25rem
+    color: var(--color-text-secondary, #636e72)
+    cursor: pointer
+    padding: 0
+    width: 24px
+    height: 24px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 4px
+    transition: all 0.2s ease
+    flex-shrink: 0
+
+    &:hover
+      background: rgba(0, 0, 0, 0.05)
+      color: var(--color-text-primary, #2d3436)
+
+// Animations
+@keyframes slideInRight
+  from
+    opacity: 0
+    transform: translateX(100%)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+@keyframes progress
+  from
+    transform: scaleX(1)
+  to
+    transform: scaleX(0)
+
+// Dark mode
+.dark-mode
+  .toast
+    background: var(--color-background-primary-dark, #2d3436)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4)
+
+    &__title
+      color: var(--color-text-primary-dark, #dfe6e9)
+
+    &__message
+      color: var(--color-text-secondary-dark, #b2bec3)
+
+    &__close
+      color: #b2bec3
+
+      &:hover
+        background: rgba(255, 255, 255, 0.1)
+        color: #dfe6e9
+
+// Responsive
+@media (max-width: 768px)
+  .toast-container
+    left: 1rem
+    right: 1rem
+    top: auto
+    bottom: 1rem
+
+  .toast
+    min-width: auto
+    width: 100%

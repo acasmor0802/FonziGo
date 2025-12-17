@@ -1,0 +1,221 @@
+<div class="contact-form">
+  <h2 class="contact-form__title">📧 Formulario de Contacto</h2>
+  <p class="contact-form__subtitle">Complete el formulario y nos pondremos en contacto contigo pronto.</p>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form__form">
+    
+    <!-- Sección: Datos Personales -->
+    <fieldset class="contact-form__fieldset">
+      <legend>👤 Datos Personales</legend>
+      
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label for="nombre" class="contact-form__label">
+            Nombre completo <span class="required">*</span>
+          </label>
+          <input
+            id="nombre"
+            type="text"
+            formControlName="nombre"
+            class="contact-form__input"
+            [class.invalid]="hasError('nombre')"
+            placeholder="Ej: Juan García López"
+          />
+          @if (hasError('nombre')) {
+            <span class="contact-form__error">{{ getErrorMessage('nombre') }}</span>
+          }
+        </div>
+
+        <div class="contact-form__field">
+          <label for="email" class="contact-form__label">
+            Email <span class="required">*</span>
+          </label>
+          <div class="contact-form__input-wrapper">
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="contact-form__input"
+              [class.invalid]="hasError('email')"
+              [class.pending]="isPending('email')"
+              placeholder="ejemplo@correo.com"
+            />
+            @if (isPending('email')) {
+              <span class="contact-form__pending">⏳</span>
+            }
+          </div>
+          @if (hasError('email')) {
+            <span class="contact-form__error">{{ getErrorMessage('email') }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label for="telefono" class="contact-form__label">
+            Teléfono <span class="required">*</span>
+          </label>
+          <input
+            id="telefono"
+            type="tel"
+            formControlName="telefono"
+            class="contact-form__input"
+            [class.invalid]="hasError('telefono')"
+            placeholder="612345678"
+          />
+          @if (hasError('telefono')) {
+            <span class="contact-form__error">{{ getErrorMessage('telefono') }}</span>
+          }
+        </div>
+
+        <div class="contact-form__field">
+          <label for="nif" class="contact-form__label">
+            NIF/DNI <span class="optional">(opcional)</span>
+          </label>
+          <input
+            id="nif"
+            type="text"
+            formControlName="nif"
+            class="contact-form__input"
+            [class.invalid]="hasError('nif')"
+            placeholder="12345678A"
+          />
+          @if (hasError('nif')) {
+            <span class="contact-form__error">{{ getErrorMessage('nif') }}</span>
+          }
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Sección: Datos del Mensaje -->
+    <fieldset class="contact-form__fieldset">
+      <legend>✉️ Tu Mensaje</legend>
+
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label for="asunto" class="contact-form__label">
+            Asunto <span class="required">*</span>
+          </label>
+          <select
+            id="asunto"
+            formControlName="asunto"
+            class="contact-form__select"
+            [class.invalid]="hasError('asunto')"
+          >
+            <option value="">Selecciona un asunto...</option>
+            @for (option of subjectOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (hasError('asunto')) {
+            <span class="contact-form__error">{{ getErrorMessage('asunto') }}</span>
+          }
+        </div>
+
+        <div class="contact-form__field">
+          <label for="prioridad" class="contact-form__label">
+            Prioridad <span class="required">*</span>
+          </label>
+          <select
+            id="prioridad"
+            formControlName="prioridad"
+            class="contact-form__select"
+          >
+            @for (option of priorityOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="contact-form__field contact-form__field--full">
+        <label for="mensaje" class="contact-form__label">
+          Mensaje <span class="required">*</span>
+        </label>
+        <textarea
+          id="mensaje"
+          formControlName="mensaje"
+          class="contact-form__textarea"
+          [class.invalid]="hasError('mensaje')"
+          placeholder="Escribe tu mensaje aquí..."
+          rows="5"
+        ></textarea>
+        <div class="contact-form__textarea-info">
+          <span>{{ mensaje?.value?.length || 0 }}/1000 caracteres</span>
+          @if (hasError('mensaje')) {
+            <span class="contact-form__error">{{ getErrorMessage('mensaje') }}</span>
+          }
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Sección: Consentimientos -->
+    <fieldset class="contact-form__fieldset contact-form__fieldset--checkboxes">
+      <legend>📋 Consentimientos</legend>
+
+      <div class="contact-form__checkbox-group">
+        <label class="contact-form__checkbox-label">
+          <input
+            type="checkbox"
+            formControlName="aceptaTerminos"
+            class="contact-form__checkbox"
+          />
+          <span>
+            Acepto los <a href="#" target="_blank">Términos y Condiciones</a> y la 
+            <a href="#" target="_blank">Política de Privacidad</a> <span class="required">*</span>
+          </span>
+        </label>
+        @if (hasError('aceptaTerminos') && formStatus().submitted) {
+          <span class="contact-form__error">Debes aceptar los términos y condiciones</span>
+        }
+      </div>
+
+      <div class="contact-form__checkbox-group">
+        <label class="contact-form__checkbox-label">
+          <input
+            type="checkbox"
+            formControlName="aceptaNewsletter"
+            class="contact-form__checkbox"
+          />
+          <span>Deseo recibir comunicaciones comerciales y novedades</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Botones de acción -->
+    <div class="contact-form__actions">
+      <button
+        type="button"
+        class="contact-form__btn contact-form__btn--secondary"
+        (click)="resetForm()"
+        [disabled]="formStatus().loading"
+      >
+        🔄 Limpiar
+      </button>
+      
+      <button
+        type="submit"
+        class="contact-form__btn contact-form__btn--primary"
+        [disabled]="formStatus().loading || contactForm.pending"
+      >
+        @if (formStatus().loading) {
+          <span class="contact-form__spinner"></span>
+          Enviando...
+        } @else {
+          📤 Enviar Mensaje
+        }
+      </button>
+    </div>
+
+    <!-- Estado del formulario (debug) -->
+    <div class="contact-form__debug">
+      <details>
+        <summary>🔍 Estado del formulario (desarrollo)</summary>
+        <pre>{{ contactForm.value | json }}</pre>
+        <p><strong>Valid:</strong> {{ contactForm.valid }}</p>
+        <p><strong>Pending:</strong> {{ contactForm.pending }}</p>
+        <p><strong>Touched:</strong> {{ contactForm.touched }}</p>
+      </details>
+    </div>
+  </form>
+</div>

@@ -7,6 +7,7 @@
 
     <!-- Botón Hamburguesa (solo móvil) -->
     <app-button
+      #hamburgerButton
       variant="ghost"
       size="md"
       (clicked)="toggleMobileMenu()"
@@ -20,7 +21,7 @@
     </app-button>
 
     <!-- Action Items -->
-    <section class="header__actions" [class.header__actions--open]="isMobileMenuOpen()">
+    <section #mobileMenu class="header__actions" [class.header__actions--open]="isMobileMenuOpen()">
       <!-- Theme Toggle -->
       <app-button
         variant="ghost"

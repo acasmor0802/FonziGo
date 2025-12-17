@@ -77,6 +77,18 @@
   --spacing-24: 6rem
 
   // -----------------------------------------------
+  // Colores de Tema - Modo Claro (default)
+  // -----------------------------------------------
+
+  --color-background-primary: #ffffff
+  --color-background-secondary: #f8f9fa
+  --color-text-primary: #2d3436
+  --color-text-secondary: #636e72
+  --color-border: #dfe6e9
+  --color-primary: #0066cc
+  --color-primary-hover: #0052a3
+
+  // -----------------------------------------------
   // Elevaciones (Sombras)
   // -----------------------------------------------
 
@@ -162,3 +174,46 @@ $duration-slow: 500ms
 // Contenedores
 $container-max-width: 1280px
 $container-padding: 1rem
+
+// ===============================================
+// Modo Oscuro - Dark Mode
+// ===============================================
+
+.dark-mode
+  // Backgrounds
+  --color-background-primary: #2d3436
+  --color-background-secondary: #1e272e
+  --color-background-primary-dark: #2d3436
+  --color-background-secondary-dark: #1e272e
+
+  // Text colors
+  --color-text-primary: #dfe6e9
+  --color-text-secondary: #b2bec3
+  --color-text-primary-dark: #dfe6e9
+  --color-text-secondary-dark: #b2bec3
+
+  // Border
+  --color-border: #636e72
+
+  // Primary colors
+  --color-primary: #74b9ff
+  --color-primary-hover: #0984e3
+  --color-primary-dark: #74b9ff
+
+  // Shadows (más pronunciadas para dark mode)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3)
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3)
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3)
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4)
+
+// Media query para detectar preferencia del sistema
+@media (prefers-color-scheme: dark)
+  :root:not(.dark-mode)
+    // Solo aplicar si no hay clase dark-mode explícita
+    --color-background-primary: #2d3436
+    --color-background-secondary: #1e272e
+    --color-text-primary: #dfe6e9
+    --color-text-secondary: #b2bec3
+    --color-border: #636e72
+    --color-primary: #74b9ff
+    --color-primary-hover: #0984e3

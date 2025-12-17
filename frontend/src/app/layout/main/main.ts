@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 // Import Components
 import { Header } from '../../layout/header/header';
@@ -13,6 +14,27 @@ import { FormTextarea } from '../../components/form-textarea/form-textarea';
 import { Login } from '../../components/login/login';
 import { ProductCard, Product } from '../../components/product-card/product-card';
 import { Register } from '../../components/register/register';
+
+// Import interactive demo components
+import { DynamicDemoComponent } from '../../components/dynamic-demo/dynamic-demo';
+import { EventDemoComponent } from '../../components/event-demo/event-demo';
+import { ModalComponent } from '../../components/modal/modal';
+import { TabsComponent } from '../../components/tabs/tabs';
+import { TooltipComponent } from '../../components/tooltip/tooltip';
+import { AccordionComponent } from '../../components/accordion/accordion';
+
+// Import form components
+import { InvoiceFormComponent } from '../../components/invoice-form/invoice-form';
+import { ContactFormComponent } from '../../components/contact-form/contact-form';
+
+// Import global UI components
+import { ToastComponent } from '../../components/toast/toast';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
+
+// Import services
+import { ToastService } from '../../shared/services/toast.service';
+import { LoadingService } from '../../shared/services/loading.service';
+import { CommunicationService } from '../../shared/services/communication.service';
 
 @Component({
   selector: 'app-main',
@@ -29,12 +51,32 @@ import { Register } from '../../components/register/register';
     FormTextarea,
     Login,
     ProductCard,
-    Register
+    Register,
+    DynamicDemoComponent,
+    EventDemoComponent,
+    ModalComponent,
+    TabsComponent,
+    TooltipComponent,
+    AccordionComponent,
+    InvoiceFormComponent,
+    ContactFormComponent,
+    ToastComponent,
+    LoadingSpinnerComponent
   ],
   templateUrl: './main.html',
   styleUrls: ['./main.sass']
 })
-export class Main {
+export class Main implements OnInit, OnDestroy {
+  @ViewChild('demoModal') demoModal!: ModalComponent;
+
+  // Inyección moderna de servicios
+  private toastService = inject(ToastService);
+  private loadingService = inject(LoadingService);
+  private communicationService = inject(CommunicationService);
+
+  // Subject para gestionar suscripciones
+  private destroy$ = new Subject<void>();
+
   // --- Data for Components ---
 
   // For app-form-select
@@ -119,4 +161,49 @@ export class Main {
       reviews: 190
     }
   ];
+
+  ngOnInit(): void {
+    // Escuchar notificaciones globales
+    this.communicationService.notifications$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(notification => {
+        if (notification) {
+          console.log('📬 Notificación recibida:', notification);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  openModal(): void {
+    this.demoModal.open();
+  }
+
+  // Métodos para demostrar servicios
+  showSuccessToast(): void {
+    this.toastService.success('¡Operación realizada correctamente!');
+  }
+
+  showErrorToast(): void {
+    this.toastService.error('Ha ocurrido un error inesperado');
+  }
+
+  showInfoToast(): void {
+    this.toastService.info('Información importante para el usuario');
+  }
+
+  showWarningToast(): void {
+    this.toastService.warning('Atención: Esta acción no se puede deshacer');
+  }
+
+  simulateLoading(): void {
+    this.loadingService.show();
+    setTimeout(() => {
+      this.loadingService.hide();
+      this.toastService.success('Carga completada');
+    }, 2000);
+  }
 }

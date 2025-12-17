@@ -1,0 +1,54 @@
+<div class="dynamic-demo">
+  <h2 class="dynamic-demo__title">🎨 Demo de Manipulación del DOM con Renderer2</h2>
+  
+  <div class="dynamic-demo__description">
+    <p>Este componente demuestra la creación y eliminación de elementos del DOM usando <code>Renderer2</code>.</p>
+    <p>Los elementos creados tienen estilos aplicados dinámicamente y responden a eventos de mouse.</p>
+  </div>
+
+  <div class="dynamic-demo__controls">
+    <app-button
+      variant="primary"
+      size="md"
+      (clicked)="crearElemento()"
+      ariaLabel="Crear un nuevo elemento"
+    >
+      ➕ Crear Elemento
+    </app-button>
+
+    <app-button
+      variant="secondary"
+      size="md"
+      (clicked)="eliminarElemento()"
+      ariaLabel="Eliminar el último elemento"
+    >
+      ➖ Eliminar Elemento
+    </app-button>
+
+    <app-button
+      variant="ghost"
+      size="md"
+      (clicked)="limpiarTodo()"
+      ariaLabel="Limpiar todos los elementos"
+    >
+      🧹 Limpiar Todo
+    </app-button>
+  </div>
+
+  <div #contenedor class="dynamic-demo__contenedor">
+    <!-- Los elementos se insertarán aquí dinámicamente -->
+  </div>
+
+  <div class="dynamic-demo__info">
+    <p><strong>Métodos usados:</strong></p>
+    <ul>
+      <li><code>renderer.createElement()</code> - Crear elementos</li>
+      <li><code>renderer.appendChild()</code> - Insertar en el DOM</li>
+      <li><code>renderer.removeChild()</code> - Eliminar del DOM</li>
+      <li><code>renderer.setStyle()</code> - Aplicar estilos</li>
+      <li><code>renderer.addClass()</code> - Añadir clases CSS</li>
+      <li><code>renderer.setAttribute()</code> - Establecer atributos</li>
+      <li><code>renderer.listen()</code> - Añadir event listeners</li>
+    </ul>
+  </div>
+</div>

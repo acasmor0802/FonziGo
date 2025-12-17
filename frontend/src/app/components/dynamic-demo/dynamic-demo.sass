@@ -1,0 +1,143 @@
+.dynamic-demo
+  max-width: 900px
+  margin: 2rem auto
+  padding: 2rem
+  background: var(--color-background-secondary, #f8f9fa)
+  border-radius: 12px
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+
+  &__title
+    font-size: 1.75rem
+    margin-bottom: 1rem
+    color: var(--color-text-primary, #2d3436)
+    text-align: center
+
+  &__description
+    margin-bottom: 1.5rem
+    padding: 1rem
+    background: var(--color-background-primary, white)
+    border-radius: 8px
+    border-left: 4px solid var(--color-primary, #0066cc)
+
+    p
+      margin: 0.5rem 0
+      color: var(--color-text-secondary, #636e72)
+      line-height: 1.6
+
+    code
+      background: #f1f3f4
+      padding: 0.2rem 0.4rem
+      border-radius: 4px
+      font-family: 'Courier New', monospace
+      font-size: 0.9rem
+      color: #d63031
+
+  &__controls
+    display: flex
+    gap: 1rem
+    margin-bottom: 2rem
+    flex-wrap: wrap
+    justify-content: center
+
+  &__contenedor
+    min-height: 200px
+    padding: 1rem
+    background: var(--color-background-primary, white)
+    border: 2px dashed #dfe6e9
+    border-radius: 8px
+    margin-bottom: 1.5rem
+    transition: all 0.3s ease
+
+    &:empty::before
+      content: '⬆️ Haz click en "Crear Elemento" para empezar'
+      display: block
+      text-align: center
+      color: #b2bec3
+      padding: 3rem 0
+      font-style: italic
+
+  &__info
+    padding: 1rem
+    background: var(--color-background-primary, white)
+    border-radius: 8px
+    border: 1px solid #dfe6e9
+
+    p
+      margin: 0 0 0.5rem 0
+      font-weight: 600
+      color: var(--color-text-primary, #2d3436)
+
+    ul
+      margin: 0
+      padding-left: 1.5rem
+      list-style: none
+
+      li
+        margin: 0.3rem 0
+        color: var(--color-text-secondary, #636e72)
+        position: relative
+        padding-left: 0.5rem
+
+        &::before
+          content: '▸'
+          position: absolute
+          left: -1rem
+          color: var(--color-primary, #0066cc)
+
+        code
+          background: #f1f3f4
+          padding: 0.2rem 0.4rem
+          border-radius: 4px
+          font-family: 'Courier New', monospace
+          font-size: 0.85rem
+          color: #0984e3
+
+// Elementos creados dinámicamente
+.elemento-dinamico
+  transition: all 0.3s ease
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+  &:hover
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+
+// Animaciones
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateY(-10px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes fadeOut
+  from
+    opacity: 1
+    transform: scale(1)
+  to
+    opacity: 0
+    transform: scale(0.8)
+
+.fade-in
+  animation: fadeIn 0.3s ease-out
+
+.fade-out
+  animation: fadeOut 0.3s ease-out
+
+// Dark mode support
+.dark-mode
+  .dynamic-demo
+    background: var(--color-background-secondary-dark, #2d3436)
+
+    &__title
+      color: var(--color-text-primary-dark, #dfe6e9)
+
+    &__description, &__contenedor, &__info
+      background: var(--color-background-primary-dark, #2d3436)
+      border-color: #636e72
+
+      p, li
+        color: var(--color-text-secondary-dark, #b2bec3)
+
+      code
+        background: #636e72
+        color: #74b9ff

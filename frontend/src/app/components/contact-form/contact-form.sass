@@ -1,0 +1,287 @@
+.contact-form
+  max-width: 800px
+  margin: 2rem auto
+  padding: 2rem
+  background: var(--color-background-secondary, #f8f9fa)
+  border-radius: 12px
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+
+  &__title
+    font-size: 1.75rem
+    margin: 0 0 0.5rem 0
+    color: var(--color-text-primary, #2d3436)
+    text-align: center
+
+  &__subtitle
+    color: var(--color-text-secondary, #636e72)
+    text-align: center
+    margin-bottom: 2rem
+
+  &__form
+    display: flex
+    flex-direction: column
+    gap: 1.5rem
+
+  &__fieldset
+    border: 1px solid var(--color-border, #dfe6e9)
+    border-radius: 8px
+    padding: 1.5rem
+    background: var(--color-background-primary, white)
+
+    legend
+      font-weight: 600
+      color: var(--color-primary, #0066cc)
+      padding: 0 0.5rem
+      font-size: 1.1rem
+
+    &--checkboxes
+      background: transparent
+      border-color: transparent
+      padding: 1rem 0
+
+  &__row
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+    gap: 1rem
+    margin-bottom: 1rem
+
+  &__field
+    display: flex
+    flex-direction: column
+    gap: 0.5rem
+
+    &--full
+      grid-column: 1 / -1
+
+  &__label
+    font-weight: 600
+    color: var(--color-text-primary, #2d3436)
+    font-size: 0.95rem
+
+    .required
+      color: #e74c3c
+
+    .optional
+      color: var(--color-text-secondary, #636e72)
+      font-weight: 400
+      font-size: 0.85rem
+
+  &__input,
+  &__select,
+  &__textarea
+    padding: 0.75rem 1rem
+    border: 2px solid var(--color-border, #dfe6e9)
+    border-radius: 6px
+    font-size: 1rem
+    transition: all 0.3s ease
+    background: var(--color-background-primary, white)
+    color: var(--color-text-primary, #2d3436)
+
+    &:focus
+      outline: none
+      border-color: var(--color-primary, #0066cc)
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1)
+
+    &.invalid
+      border-color: #e74c3c
+      background: rgba(231, 76, 60, 0.05)
+
+    &.pending
+      border-color: #f39c12
+      background: rgba(243, 156, 18, 0.05)
+
+    &::placeholder
+      color: var(--color-text-secondary, #b2bec3)
+
+  &__input-wrapper
+    position: relative
+
+  &__pending
+    position: absolute
+    right: 12px
+    top: 50%
+    transform: translateY(-50%)
+    animation: pulse 1s infinite
+
+  &__textarea
+    resize: vertical
+    min-height: 120px
+    font-family: inherit
+
+  &__textarea-info
+    display: flex
+    justify-content: space-between
+    font-size: 0.85rem
+    color: var(--color-text-secondary, #636e72)
+
+  &__error
+    color: #e74c3c
+    font-size: 0.85rem
+    display: flex
+    align-items: center
+    gap: 0.25rem
+
+    &::before
+      content: '⚠️'
+
+  &__checkbox-group
+    margin-bottom: 0.75rem
+
+  &__checkbox-label
+    display: flex
+    align-items: flex-start
+    gap: 0.75rem
+    cursor: pointer
+    line-height: 1.5
+
+    a
+      color: var(--color-primary, #0066cc)
+      text-decoration: underline
+
+      &:hover
+        text-decoration: none
+
+  &__checkbox
+    width: 20px
+    height: 20px
+    margin-top: 2px
+    cursor: pointer
+    accent-color: var(--color-primary, #0066cc)
+
+  &__actions
+    display: flex
+    justify-content: flex-end
+    gap: 1rem
+    margin-top: 1rem
+
+  &__btn
+    padding: 0.875rem 1.5rem
+    border: none
+    border-radius: 8px
+    font-size: 1rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.3s ease
+    display: inline-flex
+    align-items: center
+    gap: 0.5rem
+
+    &:disabled
+      opacity: 0.6
+      cursor: not-allowed
+
+    &--primary
+      background: linear-gradient(135deg, #0066cc 0%, #004499 100%)
+      color: white
+
+      &:hover:not(:disabled)
+        background: linear-gradient(135deg, #004499 0%, #003366 100%)
+        transform: translateY(-2px)
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3)
+
+    &--secondary
+      background: transparent
+      color: var(--color-text-primary, #2d3436)
+      border: 2px solid var(--color-border, #dfe6e9)
+
+      &:hover:not(:disabled)
+        background: var(--color-background-secondary, #f8f9fa)
+        border-color: var(--color-text-secondary, #636e72)
+
+  &__spinner
+    width: 20px
+    height: 20px
+    border: 3px solid rgba(255, 255, 255, 0.3)
+    border-top-color: white
+    border-radius: 50%
+    animation: spin 1s linear infinite
+
+  &__debug
+    margin-top: 2rem
+    padding: 1rem
+    background: #2d3436
+    border-radius: 6px
+    font-size: 0.85rem
+
+    summary
+      color: #dfe6e9
+      cursor: pointer
+      padding: 0.5rem
+
+      &:hover
+        color: #74b9ff
+
+    pre
+      background: #1e272e
+      padding: 1rem
+      border-radius: 4px
+      overflow-x: auto
+      color: #a8e6cf
+      margin: 0.5rem 0
+
+    p
+      color: #dfe6e9
+      margin: 0.25rem 0
+
+// Animaciones
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+@keyframes pulse
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.5
+
+// Dark mode
+.dark-mode
+  .contact-form
+    background: var(--color-background-secondary, #1e272e)
+
+    &__title
+      color: var(--color-text-primary, #dfe6e9)
+
+    &__fieldset
+      background: var(--color-background-primary, #2d3436)
+      border-color: #636e72
+
+      legend
+        color: #74b9ff
+
+    &__label
+      color: var(--color-text-primary, #dfe6e9)
+
+    &__input,
+    &__select,
+    &__textarea
+      background: #2d3436
+      border-color: #636e72
+      color: #dfe6e9
+
+      &:focus
+        border-color: #74b9ff
+        box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.1)
+
+    &__btn--secondary
+      color: #dfe6e9
+      border-color: #636e72
+
+      &:hover:not(:disabled)
+        background: #2d3436
+
+// Responsive
+@media (max-width: 768px)
+  .contact-form
+    padding: 1rem
+    margin: 1rem
+
+    &__actions
+      flex-direction: column
+
+    &__btn
+      width: 100%
+      justify-content: center
+
+    &__row
+      grid-template-columns: 1fr

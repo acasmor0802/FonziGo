@@ -1,0 +1,182 @@
+<div class="event-demo">
+  <h2 class="event-demo__title">⚡ Demo de Sistema de Eventos en Angular</h2>
+
+  <div class="event-demo__ultimo-evento">
+    <strong>Último evento:</strong> {{ ultimoEvento() }}
+  </div>
+
+  <!-- ========== EVENTOS DE CLICK ========== -->
+  <section class="event-demo__section">
+    <h3>🖱️ Eventos de Click</h3>
+    <button 
+      class="demo-button"
+      (click)="onClick($event)"
+      aria-label="Probar evento click"
+    >
+      Click Me!
+    </button>
+  </section>
+
+  <!-- ========== EVENTOS DE TECLADO ========== -->
+  <section class="event-demo__section">
+    <h3>⌨️ Eventos de Teclado</h3>
+    
+    <div class="event-demo__input-group">
+      <label for="keyupInput">KeyUp Event:</label>
+      <input
+        id="keyupInput"
+        type="text"
+        placeholder="Escribe algo..."
+        (keyup)="onKeyUp($event)"
+        class="event-demo__input"
+      />
+      <p class="event-demo__value">Valor actual: <strong>{{ inputValue() }}</strong></p>
+    </div>
+
+    <div class="event-demo__input-group">
+      <label for="keydownInput">KeyDown Event:</label>
+      <input
+        id="keydownInput"
+        type="text"
+        placeholder="Presiona teclas..."
+        (keydown)="onKeyDown($event)"
+        class="event-demo__input"
+      />
+    </div>
+
+    <div class="event-demo__input-group">
+      <label for="enterInput">Enter Key Event:</label>
+      <input
+        id="enterInput"
+        type="text"
+        placeholder="Presiona Enter..."
+        (keyup.enter)="onEnter()"
+        class="event-demo__input"
+      />
+      <p class="event-demo__hint">💡 Presiona Enter para activar</p>
+    </div>
+  </section>
+
+  <!-- ========== EVENTOS DE MOUSE ========== -->
+  <section class="event-demo__section">
+    <h3>🖱️ Eventos de Mouse (hover)</h3>
+    
+    <div 
+      class="event-demo__hover-area"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()"
+    >
+      <p>Pasa el mouse sobre esta área</p>
+      <p class="event-demo__counter">Entradas: {{ mouseEnterCount() }}</p>
+    </div>
+  </section>
+
+  <!-- ========== EVENTOS DE FOCUS/BLUR ========== -->
+  <section class="event-demo__section">
+    <h3>🎯 Eventos de Focus y Blur</h3>
+    
+    <div class="event-demo__input-group">
+      <label for="focusInput">Focus/Blur Input:</label>
+      <input
+        id="focusInput"
+        type="text"
+        placeholder="Haz click aquí y luego fuera..."
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        class="event-demo__input"
+      />
+      <p class="event-demo__counter">Veces enfocado: {{ focusCount() }}</p>
+    </div>
+  </section>
+
+  <!-- ========== PREVENIR COMPORTAMIENTO POR DEFECTO ========== -->
+  <section class="event-demo__section">
+    <h3>⛔ preventDefault()</h3>
+    
+    <form (submit)="onSubmit($event)" class="event-demo__form">
+      <input 
+        type="text" 
+        placeholder="Escribe y presiona Enter..."
+        class="event-demo__input"
+      />
+      <app-button
+        variant="primary"
+        size="md"
+        type="submit"
+        ariaLabel="Enviar formulario"
+      >
+        Enviar (bloqueado)
+      </app-button>
+    </form>
+
+    <a 
+      href="https://angular.dev" 
+      (click)="onLinkClick($event)"
+      class="event-demo__link"
+    >
+      Click este enlace (navegación bloqueada)
+    </a>
+  </section>
+
+  <!-- ========== PROPAGACIÓN DE EVENTOS ========== -->
+  <section class="event-demo__section">
+    <h3>🔄 stopPropagation()</h3>
+    
+    <div class="event-demo__toggle">
+      <label>
+        <input 
+          type="checkbox" 
+          [checked]="propagationEnabled()"
+          (change)="togglePropagation()"
+        />
+        Permitir propagación
+      </label>
+    </div>
+
+    <div 
+      class="event-demo__parent"
+      (click)="onParentClick()"
+    >
+      <p><strong>Contenedor Padre</strong></p>
+      <p class="event-demo__hint">Click aquí para ver propagación</p>
+      
+      <div 
+        class="event-demo__child"
+        (click)="onChildClick($event)"
+      >
+        <strong>Elemento Hijo</strong>
+        <p class="event-demo__hint">
+          {{ propagationEnabled() ? '✅ Click se propagará' : '🛑 Click no se propagará' }}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOG DE EVENTOS ========== -->
+  <section class="event-demo__section">
+    <div class="event-demo__log-header">
+      <h3>📋 Log de Eventos</h3>
+      <button
+        class="demo-button ghost-button"
+        (click)="limpiarLogs()"
+        aria-label="Limpiar logs"
+      >
+        🧹 Limpiar
+      </button>
+    </div>
+
+    <div class="event-demo__logs">
+      @if (eventLogs().length === 0) {
+        <p class="event-demo__empty">No hay eventos registrados aún</p>
+      } @else {
+        @for (log of eventLogs(); track log.timestamp) {
+          <div class="event-demo__log-item">
+            <span class="event-demo__log-time">{{ log.timestamp }}</span>
+            <span class="event-demo__log-tipo">{{ log.tipo }}</span>
+            <span class="event-demo__log-detalles">{{ log.detalles }}</span>
+          </div>
+        }
+      }
+    </div>
+  </section>
+</div>

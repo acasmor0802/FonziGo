@@ -1,0 +1,132 @@
+.accordion
+  max-width: 900px
+  margin: 2rem auto
+  border-radius: 8px
+  overflow: hidden
+
+  &__item
+    background: var(--color-background-primary, white)
+    border: 1px solid var(--color-border, #dfe6e9)
+    margin-bottom: 0.5rem
+    border-radius: 8px
+    overflow: hidden
+    transition: all 0.3s ease
+
+    &:last-child
+      margin-bottom: 0
+
+    &--open
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+
+      .accordion__header
+        background: var(--color-primary, #0066cc)
+        color: white
+
+        .accordion__arrow
+          color: white
+
+  &__header
+    width: 100%
+    padding: 1.25rem 1.5rem
+    background: var(--color-background-secondary, #f8f9fa)
+    border: none
+    cursor: pointer
+    display: flex
+    align-items: center
+    gap: 1rem
+    font-size: 1.1rem
+    font-weight: 600
+    color: var(--color-text-primary, #2d3436)
+    transition: all 0.3s ease
+    text-align: left
+
+    &:hover
+      background: var(--color-primary, #0066cc)
+      color: white
+
+      .accordion__arrow
+        color: white
+
+    &:focus
+      outline: 2px solid var(--color-primary, #0066cc)
+      outline-offset: -2px
+
+  &__icon
+    font-size: 1.5rem
+    flex-shrink: 0
+
+  &__title
+    flex: 1
+
+  &__arrow
+    font-size: 0.875rem
+    transition: transform 0.3s ease, color 0.3s ease
+    color: var(--color-text-secondary, #636e72)
+    flex-shrink: 0
+
+    &--rotate
+      transform: rotate(180deg)
+
+  &__content
+    padding: 1.5rem
+    background: var(--color-background-primary, white)
+    animation: slideDown 0.3s ease-out
+
+    p
+      margin: 0
+      line-height: 1.6
+      color: var(--color-text-secondary, #636e72)
+
+// Animations
+@keyframes slideDown
+  from
+    opacity: 0
+    max-height: 0
+    padding-top: 0
+    padding-bottom: 0
+  to
+    opacity: 1
+    max-height: 500px
+    padding-top: 1.5rem
+    padding-bottom: 1.5rem
+
+// Dark mode
+.dark-mode
+  .accordion
+    &__item
+      background: var(--color-background-primary-dark, #2d3436)
+      border-color: #636e72
+
+      &--open
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+
+    &__header
+      background: var(--color-background-secondary-dark, #1e272e)
+      color: #dfe6e9
+
+      &:hover
+        background: var(--color-primary-dark, #74b9ff)
+        color: #2d3436
+
+    &__item--open .accordion__header
+      background: var(--color-primary-dark, #74b9ff)
+      color: #2d3436
+
+    &__content
+      background: var(--color-background-primary-dark, #2d3436)
+
+      p
+        color: #b2bec3
+
+// Responsive
+@media (max-width: 768px)
+  .accordion
+    &__header
+      padding: 1rem
+      font-size: 1rem
+
+    &__icon
+      font-size: 1.25rem
+
+    &__content
+      padding: 1rem

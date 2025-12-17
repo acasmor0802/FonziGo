@@ -1,0 +1,86 @@
+<div class="tabs">
+  <div class="tabs__header">
+    @for (tab of tabs; track tab.id) {
+      <button
+        class="tabs__button"
+        [class.tabs__button--active]="isActive(tab.id)"
+        (click)="selectTab(tab.id)"
+        [attr.aria-selected]="isActive(tab.id)"
+        role="tab"
+      >
+        <span class="tabs__icon">{{ tab.icon }}</span>
+        <span class="tabs__label">{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="tabs__content">
+    @if (activeTab() === 'tab1') {
+      <div class="tabs__panel" role="tabpanel">
+        <h3>Descripción del Proyecto</h3>
+        <p>
+          Este es un ejemplo de componente de pestañas (tabs) implementado con Angular signals.
+          Permite navegar entre diferentes secciones de contenido de forma fluida.
+        </p>
+        <p>
+          <strong>Características:</strong>
+        </p>
+        <ul>
+          <li>✅ Navegación rápida entre secciones</li>
+          <li>✅ Transiciones suaves</li>
+          <li>✅ Responsive design</li>
+          <li>✅ Accesibilidad con ARIA</li>
+        </ul>
+      </div>
+    }
+
+    @if (activeTab() === 'tab2') {
+      <div class="tabs__panel" role="tabpanel">
+        <h3>Configuración</h3>
+        <p>
+          Aquí puedes configurar las opciones del componente tabs.
+        </p>
+        <div class="config-grid">
+          <div class="config-item">
+            <label>
+              <input type="checkbox" checked />
+              Animaciones habilitadas
+            </label>
+          </div>
+          <div class="config-item">
+            <label>
+              <input type="checkbox" checked />
+              Auto-guardar cambios
+            </label>
+          </div>
+          <div class="config-item">
+            <label>
+              <input type="checkbox" />
+              Modo compacto
+            </label>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (activeTab() === 'tab3') {
+      <div class="tabs__panel" role="tabpanel">
+        <h3>Estadísticas</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">1,234</div>
+            <div class="stat-label">Usuarios activos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">567</div>
+            <div class="stat-label">Proyectos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">89%</div>
+            <div class="stat-label">Satisfacción</div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

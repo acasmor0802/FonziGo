@@ -1,3 +1,7 @@
+<!-- Global UI Components -->
+<app-toast></app-toast>
+<app-loading-spinner></app-loading-spinner>
+
 <app-header></app-header>
 
 <main class="main-content">
@@ -102,6 +106,153 @@
           <app-product-card [product]="product"></app-product-card>
         }
       </div>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- ========== FASE 1: COMPONENTES INTERACTIVOS ========== -->
+
+    <!-- Dynamic Demo - Renderer2 -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📌 Dynamic DOM Manipulation</h2>
+      <app-dynamic-demo></app-dynamic-demo>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Event Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📌 Event System Demo</h2>
+      <app-event-demo></app-event-demo>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Modal Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📌 Modal Component</h2>
+      <div style="text-align: center; padding: 2rem;">
+        <app-button variant="primary" size="lg" (clicked)="openModal()">
+          🔓 Abrir Modal
+        </app-button>
+      </div>
+
+      <app-modal #demoModal>
+        <div modal-header>
+          <h2>🎉 Modal de Demostración</h2>
+        </div>
+        <div modal-body>
+          <p>Este es un modal completamente funcional con las siguientes características:</p>
+          <ul>
+            <li>✅ Cierre con botón X</li>
+            <li>✅ Cierre con tecla ESC</li>
+            <li>✅ Cierre al hacer click en el overlay</li>
+            <li>✅ stopPropagation en el contenido</li>
+            <li>✅ Animaciones suaves</li>
+            <li>✅ Bloqueo del scroll del body</li>
+          </ul>
+        </div>
+        <div modal-footer>
+          <app-button variant="secondary" size="md" (clicked)="demoModal.close()">
+            Cancelar
+          </app-button>
+          <app-button variant="primary" size="md" (clicked)="demoModal.close()">
+            Aceptar
+          </app-button>
+        </div>
+      </app-modal>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Tabs Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📌 Tabs Component</h2>
+      <app-tabs></app-tabs>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Tooltip Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📌 Tooltip Component</h2>
+      <div style="display: flex; gap: 3rem; justify-content: center; align-items: center; padding: 3rem; flex-wrap: wrap;">
+        <app-tooltip text="Tooltip arriba (default)" position="top">
+          <app-button variant="primary" size="md">
+            Hover me (Top)
+          </app-button>
+        </app-tooltip>
+
+        <app-tooltip text="Tooltip abajo" position="bottom">
+          <app-button variant="secondary" size="md">
+            Hover me (Bottom)
+          </app-button>
+        </app-tooltip>
+
+        <app-tooltip text="Tooltip izquierda" position="left">
+          <app-button variant="outline" size="md">
+            Hover me (Left)
+          </app-button>
+        </app-tooltip>
+
+        <app-tooltip text="Tooltip derecha" position="right">
+          <app-button variant="ghost" size="md">
+            Hover me (Right)
+          </app-button>
+        </app-tooltip>
+      </div>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Accordion Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📌 Accordion Component</h2>
+      <app-accordion></app-accordion>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- ========== SERVICIOS GLOBALES ========== -->
+
+    <!-- Toast & Loading Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">🔔 Toast & Loading Services</h2>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; padding: 2rem;">
+        <app-button variant="primary" (clicked)="showSuccessToast()">
+          ✅ Toast Success
+        </app-button>
+        <app-button variant="danger" (clicked)="showErrorToast()">
+          ❌ Toast Error
+        </app-button>
+        <app-button variant="secondary" (clicked)="showInfoToast()">
+          ℹ️ Toast Info
+        </app-button>
+        <app-button variant="outline" (clicked)="showWarningToast()">
+          ⚠️ Toast Warning
+        </app-button>
+        <app-button variant="primary" (clicked)="simulateLoading()">
+          ⏳ Simulate Loading (2s)
+        </app-button>
+      </div>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- ========== FORMULARIOS REACTIVOS ========== -->
+
+    <!-- Contact Form -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📧 Contact Form (Reactive + Validators)</h2>
+      <app-contact-form></app-contact-form>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Invoice Form with FormArray -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">📋 Invoice Form (FormArray Demo)</h2>
+      <app-invoice-form></app-invoice-form>
     </section>
 
   </div>

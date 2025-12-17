@@ -1,0 +1,104 @@
+.tooltip-container
+  position: relative
+  display: inline-block
+
+.tooltip
+  position: absolute
+  background: rgba(0, 0, 0, 0.9)
+  color: white
+  padding: 0.5rem 0.75rem
+  border-radius: 6px
+  font-size: 0.875rem
+  white-space: nowrap
+  z-index: 1000
+  pointer-events: none
+  animation: fadeIn 0.2s ease-out
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+
+  // Flecha del tooltip
+  &::before
+    content: ''
+    position: absolute
+    width: 0
+    height: 0
+    border-style: solid
+
+  // Top position (default)
+  &--top
+    bottom: calc(100% + 8px)
+    left: 50%
+    transform: translateX(-50%)
+
+    &::before
+      top: 100%
+      left: 50%
+      transform: translateX(-50%)
+      border-width: 6px 6px 0 6px
+      border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent
+
+  // Bottom position
+  &--bottom
+    top: calc(100% + 8px)
+    left: 50%
+    transform: translateX(-50%)
+
+    &::before
+      bottom: 100%
+      left: 50%
+      transform: translateX(-50%)
+      border-width: 0 6px 6px 6px
+      border-color: transparent transparent rgba(0, 0, 0, 0.9) transparent
+
+  // Left position
+  &--left
+    right: calc(100% + 8px)
+    top: 50%
+    transform: translateY(-50%)
+
+    &::before
+      left: 100%
+      top: 50%
+      transform: translateY(-50%)
+      border-width: 6px 0 6px 6px
+      border-color: transparent transparent transparent rgba(0, 0, 0, 0.9)
+
+  // Right position
+  &--right
+    left: calc(100% + 8px)
+    top: 50%
+    transform: translateY(-50%)
+
+    &::before
+      right: 100%
+      top: 50%
+      transform: translateY(-50%)
+      border-width: 6px 6px 6px 0
+      border-color: transparent rgba(0, 0, 0, 0.9) transparent transparent
+
+// Animation
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateX(-50%) translateY(-4px)
+  to
+    opacity: 1
+    transform: translateX(-50%) translateY(0)
+
+// Dark mode
+.dark-mode
+  .tooltip
+    background: rgba(255, 255, 255, 0.95)
+    color: #2d3436
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4)
+
+    &--top::before
+      border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent
+
+    &--bottom::before
+      border-color: transparent transparent rgba(255, 255, 255, 0.95) transparent
+
+    &--left::before
+      border-color: transparent transparent transparent rgba(255, 255, 255, 0.95)
+
+    &--right::before
+      border-color: transparent rgba(255, 255, 255, 0.95) transparent transparent

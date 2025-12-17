@@ -1,0 +1,120 @@
+.modal-overlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.6)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1000
+  padding: 1rem
+  animation: fadeIn 0.3s ease-out
+  backdrop-filter: blur(4px)
+
+.modal-content
+  background: var(--color-background-primary, white)
+  border-radius: 12px
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3)
+  max-width: 600px
+  width: 100%
+  max-height: 90vh
+  overflow-y: auto
+  position: relative
+  animation: slideUp 0.3s ease-out
+
+.modal-close
+  position: absolute
+  top: 1rem
+  right: 1rem
+  background: transparent
+  border: none
+  font-size: 1.5rem
+  cursor: pointer
+  color: var(--color-text-secondary, #636e72)
+  width: 32px
+  height: 32px
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 50%
+  transition: all 0.2s ease
+  z-index: 1
+
+  &:hover
+    background: rgba(0, 0, 0, 0.1)
+    color: var(--color-text-primary, #2d3436)
+    transform: rotate(90deg)
+
+  &:focus
+    outline: 2px solid var(--color-primary, #0066cc)
+    outline-offset: 2px
+
+.modal-header
+  padding: 2rem 2rem 1rem 2rem
+  border-bottom: 1px solid var(--color-border, #dfe6e9)
+
+  h2, h3
+    margin: 0
+    color: var(--color-text-primary, #2d3436)
+
+.modal-body
+  padding: 1.5rem 2rem
+
+.modal-footer
+  padding: 1rem 2rem 2rem 2rem
+  display: flex
+  gap: 1rem
+  justify-content: flex-end
+  border-top: 1px solid var(--color-border, #dfe6e9)
+
+// Animations
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes slideUp
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+// Dark mode
+.dark-mode
+  .modal-overlay
+    background: rgba(0, 0, 0, 0.8)
+
+  .modal-content
+    background: var(--color-background-primary-dark, #2d3436)
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6)
+
+  .modal-header, .modal-footer
+    border-color: #636e72
+
+  .modal-close
+    color: #b2bec3
+
+    &:hover
+      background: rgba(255, 255, 255, 0.1)
+      color: #dfe6e9
+
+// Responsive
+@media (max-width: 768px)
+  .modal-content
+    max-width: 100%
+    margin: 1rem
+
+  .modal-header, .modal-body, .modal-footer
+    padding-left: 1rem
+    padding-right: 1rem
+
+  .modal-footer
+    flex-direction: column
+
+    button
+      width: 100%

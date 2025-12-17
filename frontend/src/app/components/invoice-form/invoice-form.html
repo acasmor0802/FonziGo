@@ -1,0 +1,227 @@
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" class="invoice-form">
+  <h2 class="invoice-form__title">📄 Formulario de Factura con FormArray</h2>
+
+  <!-- Datos Cliente -->
+  <section class="invoice-form__section">
+    <h3>Cliente</h3>
+    <div class="form-field">
+      <label for="cliente">Nombre del Cliente *</label>
+      <input 
+        id="cliente" 
+        type="text" 
+        formControlName="cliente"
+        class="form-input"
+        [class.invalid]="submitted() && invoiceForm.get('cliente')?.invalid"
+      />
+      @if (submitted() && invoiceForm.get('cliente')?.hasError('required')) {
+        <span class="error">El nombre es requerido</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="fecha">Fecha *</label>
+      <input 
+        id="fecha" 
+        type="date" 
+        formControlName="fecha"
+        class="form-input"
+        [class.invalid]="submitted() && invoiceForm.get('fecha')?.invalid"
+      />
+    </div>
+  </section>
+
+  <!-- Teléfonos Array -->
+  <section class="invoice-form__section">
+    <div class="section-header">
+      <h3>📱 Teléfonos</h3>
+      <app-button variant="secondary" size="sm" type="button" (clicked)="addTelefono()">
+        + Añadir Teléfono
+      </app-button>
+    </div>
+
+    <div formArrayName="telefonos" class="array-container">
+      @for (telefono of telefonos.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="array-item">
+          <div class="form-field">
+            <label [for]="'numero-' + i">Número</label>
+            <input 
+              [id]="'numero-' + i"
+              type="text" 
+              formControlName="numero"
+              class="form-input"
+              placeholder="612345678"
+              [class.invalid]="submitted() && telefonos.at(i).get('numero')?.invalid"
+            />
+          </div>
+
+          <div class="form-field">
+            <label [for]="'tipo-' + i">Tipo</label>
+            <select 
+              [id]="'tipo-' + i"
+              formControlName="tipo"
+              class="form-input"
+            >
+              <option value="movil">Móvil</option>
+              <option value="fijo">Fijo</option>
+              <option value="trabajo">Trabajo</option>
+            </select>
+          </div>
+
+          <button 
+            type="button" 
+            class="btn-remove"
+            (click)="removeTelefono(i)"
+            [disabled]="telefonos.length === 1"
+          >
+            🗑️
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Direcciones Array -->
+  <section class="invoice-form__section">
+    <div class="section-header">
+      <h3>📍 Direcciones</h3>
+      <app-button variant="secondary" size="sm" type="button" (clicked)="addDireccion()">
+        + Añadir Dirección
+      </app-button>
+    </div>
+
+    <div formArrayName="direcciones" class="array-container">
+      @for (direccion of direcciones.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="array-item direccion-item">
+          <div class="form-field">
+            <label [for]="'calle-' + i">Calle</label>
+            <input 
+              [id]="'calle-' + i"
+              type="text" 
+              formControlName="calle"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-field">
+            <label [for]="'ciudad-' + i">Ciudad</label>
+            <input 
+              [id]="'ciudad-' + i"
+              type="text" 
+              formControlName="ciudad"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-field">
+            <label [for]="'cp-' + i">C.P.</label>
+            <input 
+              [id]="'cp-' + i"
+              type="text" 
+              formControlName="codigoPostal"
+              class="form-input"
+              placeholder="28001"
+            />
+          </div>
+
+          <button 
+            type="button" 
+            class="btn-remove"
+            (click)="removeDireccion(i)"
+            [disabled]="direcciones.length === 1"
+          >
+            🗑️
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Items de Factura Array -->
+  <section class="invoice-form__section">
+    <div class="section-header">
+      <h3>🛒 Items de Factura</h3>
+      <app-button variant="secondary" size="sm" type="button" (clicked)="addItem()">
+        + Añadir Item
+      </app-button>
+    </div>
+
+    <div formArrayName="items" class="array-container">
+      @for (item of items.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="array-item item-row">
+          <div class="form-field">
+            <label [for]="'desc-' + i">Descripción</label>
+            <input 
+              [id]="'desc-' + i"
+              type="text" 
+              formControlName="descripcion"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-field">
+            <label [for]="'cant-' + i">Cantidad</label>
+            <input 
+              [id]="'cant-' + i"
+              type="number" 
+              formControlName="cantidad"
+              class="form-input"
+              min="1"
+            />
+          </div>
+
+          <div class="form-field">
+            <label [for]="'precio-' + i">Precio €</label>
+            <input 
+              [id]="'precio-' + i"
+              type="number" 
+              formControlName="precio"
+              class="form-input"
+              step="0.01"
+              min="0"
+            />
+          </div>
+
+          <div class="form-field">
+            <label>Subtotal</label>
+            <div class="subtotal">€{{ getItemSubtotal(i).toFixed(2) }}</div>
+          </div>
+
+          <button 
+            type="button" 
+            class="btn-remove"
+            (click)="removeItem(i)"
+            [disabled]="items.length === 1"
+          >
+            🗑️
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Total -->
+  <div class="invoice-form__total">
+    <h3>Total: €{{ total().toFixed(2) }}</h3>
+  </div>
+
+  <!-- Buttons -->
+  <div class="invoice-form__actions">
+    <app-button 
+      variant="ghost" 
+      size="md" 
+      type="button" 
+      (clicked)="reset()"
+    >
+      Limpiar
+    </app-button>
+
+    <app-button 
+      variant="primary" 
+      size="md" 
+      type="submit"
+      [disabled]="submitted() && invoiceForm.invalid"
+    >
+      💾 Guardar Factura
+    </app-button>
+  </div>
+</form>
