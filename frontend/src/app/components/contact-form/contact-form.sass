@@ -1,104 +1,123 @@
 .contact-form
-  max-width: 800px
+  max-width: 700px
   margin: 2rem auto
-  padding: 2rem
-  background: var(--color-background-secondary, #f8f9fa)
-  border-radius: 12px
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+  padding: var(--spacing-8)
+  background-color: var(--bg-card)
+  border-radius: var(--radius-lg)
+  box-shadow: var(--shadow-lg)
+  border: 1px solid var(--border-light)
+  transition: background-color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base)
 
   &__title
-    font-size: 1.75rem
-    margin: 0 0 0.5rem 0
-    color: var(--color-text-primary, #2d3436)
+    font-size: var(--text-2xl)
+    margin: 0 0 var(--spacing-2) 0
+    color: var(--text-primary)
     text-align: center
 
   &__subtitle
-    color: var(--color-text-secondary, #636e72)
+    color: var(--text-muted)
     text-align: center
-    margin-bottom: 2rem
+    margin: 0 0 var(--spacing-6) 0
+    font-size: var(--text-sm)
 
   &__form
     display: flex
     flex-direction: column
-    gap: 1.5rem
+    gap: var(--spacing-6)
 
   &__fieldset
-    border: 1px solid var(--color-border, #dfe6e9)
-    border-radius: 8px
-    padding: 1.5rem
-    background: var(--color-background-primary, white)
+    border: 2px solid var(--border-color)
+    border-radius: var(--radius-md)
+    padding: var(--spacing-6)
+    background: var(--bg-secondary)
+    margin: 0
+    transition: background-color var(--transition-base), border-color var(--transition-base)
 
     legend
-      font-weight: 600
-      color: var(--color-primary, #0066cc)
-      padding: 0 0.5rem
-      font-size: 1.1rem
+      font-weight: var(--font-semibold)
+      color: var(--primary)
+      padding: 0 var(--spacing-2)
+      font-size: var(--text-base)
 
     &--checkboxes
       background: transparent
       border-color: transparent
-      padding: 1rem 0
+      padding: var(--spacing-4) 0
 
   &__row
     display: grid
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
-    gap: 1rem
-    margin-bottom: 1rem
+    gap: var(--spacing-4)
+    margin-bottom: var(--spacing-4)
+
+    &:last-child
+      margin-bottom: 0
 
   &__field
     display: flex
     flex-direction: column
-    gap: 0.5rem
+    gap: var(--spacing-2)
 
     &--full
       grid-column: 1 / -1
 
   &__label
-    font-weight: 600
-    color: var(--color-text-primary, #2d3436)
-    font-size: 0.95rem
+    font-weight: var(--font-semibold)
+    color: var(--text-primary)
+    font-size: var(--text-sm)
 
     .required
-      color: #e74c3c
+      color: var(--error)
+      margin-left: var(--spacing-1)
 
     .optional
-      color: var(--color-text-secondary, #636e72)
-      font-weight: 400
-      font-size: 0.85rem
+      color: var(--text-muted)
+      font-weight: var(--font-regular)
+      font-size: var(--text-xs)
 
   &__input,
   &__select,
   &__textarea
-    padding: 0.75rem 1rem
-    border: 2px solid var(--color-border, #dfe6e9)
-    border-radius: 6px
-    font-size: 1rem
-    transition: all 0.3s ease
-    background: var(--color-background-primary, white)
-    color: var(--color-text-primary, #2d3436)
+    padding: var(--spacing-3) var(--spacing-4)
+    border: 2px solid var(--border-color)
+    border-radius: var(--radius-md)
+    font-size: var(--text-base)
+    transition: all var(--transition-base)
+    background: var(--bg-input)
+    color: var(--text-primary)
 
     &:focus
       outline: none
-      border-color: var(--color-primary, #0066cc)
-      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1)
+      border-color: var(--primary)
+      box-shadow: 0 0 0 3px var(--primary-light)
 
     &.invalid
-      border-color: #e74c3c
-      background: rgba(231, 76, 60, 0.05)
+      border-color: var(--error)
 
     &.pending
-      border-color: #f39c12
-      background: rgba(243, 156, 18, 0.05)
+      border-color: var(--warning)
 
     &::placeholder
-      color: var(--color-text-secondary, #b2bec3)
+      color: var(--text-muted)
+
+  &__select
+    appearance: none
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E")
+    background-repeat: no-repeat
+    background-position: right var(--spacing-3) center
+    padding-right: var(--spacing-8)
+    cursor: pointer
+
+    option
+      background-color: var(--bg-input)
+      color: var(--text-primary)
 
   &__input-wrapper
     position: relative
 
   &__pending
     position: absolute
-    right: 12px
+    right: var(--spacing-3)
     top: 50%
     transform: translateY(-50%)
     animation: pulse 1s infinite
@@ -111,117 +130,122 @@
   &__textarea-info
     display: flex
     justify-content: space-between
-    font-size: 0.85rem
-    color: var(--color-text-secondary, #636e72)
+    font-size: var(--text-xs)
+    color: var(--text-muted)
 
   &__error
-    color: #e74c3c
-    font-size: 0.85rem
+    color: var(--error)
+    font-size: var(--text-xs)
     display: flex
     align-items: center
-    gap: 0.25rem
+    gap: var(--spacing-1)
 
     &::before
       content: '⚠️'
+      font-size: 0.75em
 
   &__checkbox-group
-    margin-bottom: 0.75rem
+    margin-bottom: var(--spacing-3)
 
   &__checkbox-label
     display: flex
     align-items: flex-start
-    gap: 0.75rem
+    gap: var(--spacing-3)
     cursor: pointer
     line-height: 1.5
+    font-size: var(--text-sm)
+    color: var(--text-primary)
 
     a
-      color: var(--color-primary, #0066cc)
+      color: var(--primary)
       text-decoration: underline
 
       &:hover
         text-decoration: none
 
   &__checkbox
-    width: 20px
-    height: 20px
+    width: 18px
+    height: 18px
     margin-top: 2px
     cursor: pointer
-    accent-color: var(--color-primary, #0066cc)
+    accent-color: var(--primary)
+    flex-shrink: 0
 
   &__actions
     display: flex
     justify-content: flex-end
-    gap: 1rem
-    margin-top: 1rem
+    gap: var(--spacing-3)
+    margin-top: var(--spacing-2)
 
   &__btn
-    padding: 0.875rem 1.5rem
+    padding: var(--spacing-4) var(--spacing-6)
     border: none
-    border-radius: 8px
-    font-size: 1rem
-    font-weight: 600
+    border-radius: var(--radius-md)
+    font-size: var(--text-base)
+    font-weight: var(--font-semibold)
     cursor: pointer
-    transition: all 0.3s ease
+    transition: all var(--transition-base)
     display: inline-flex
     align-items: center
-    gap: 0.5rem
+    gap: var(--spacing-2)
 
     &:disabled
       opacity: 0.6
       cursor: not-allowed
 
     &--primary
-      background: linear-gradient(135deg, #0066cc 0%, #004499 100%)
-      color: white
+      background: var(--header-accent)
+      color: var(--header-bg)
 
       &:hover:not(:disabled)
-        background: linear-gradient(135deg, #004499 0%, #003366 100%)
+        background: var(--header-accent-hover)
         transform: translateY(-2px)
-        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3)
+        box-shadow: 0 4px 12px rgba(255, 211, 121, 0.4)
 
     &--secondary
       background: transparent
-      color: var(--color-text-primary, #2d3436)
-      border: 2px solid var(--color-border, #dfe6e9)
+      color: var(--text-primary)
+      border: 2px solid var(--border-color)
 
       &:hover:not(:disabled)
-        background: var(--color-background-secondary, #f8f9fa)
-        border-color: var(--color-text-secondary, #636e72)
+        background: var(--bg-hover)
+        border-color: var(--text-muted)
 
   &__spinner
     width: 20px
     height: 20px
-    border: 3px solid rgba(255, 255, 255, 0.3)
-    border-top-color: white
+    border: 3px solid rgba(51, 63, 81, 0.3)
+    border-top-color: var(--header-bg)
     border-radius: 50%
     animation: spin 1s linear infinite
 
   &__debug
-    margin-top: 2rem
-    padding: 1rem
-    background: #2d3436
-    border-radius: 6px
-    font-size: 0.85rem
+    margin-top: var(--spacing-6)
+    padding: var(--spacing-4)
+    background: var(--bg-tertiary)
+    border-radius: var(--radius-md)
+    font-size: var(--text-xs)
 
     summary
-      color: #dfe6e9
+      color: var(--text-primary)
       cursor: pointer
-      padding: 0.5rem
+      padding: var(--spacing-2)
+      font-weight: var(--font-semibold)
 
       &:hover
-        color: #74b9ff
+        color: var(--primary)
 
     pre
-      background: #1e272e
-      padding: 1rem
-      border-radius: 4px
+      background: var(--bg-secondary)
+      padding: var(--spacing-3)
+      border-radius: var(--radius-sm)
       overflow-x: auto
-      color: #a8e6cf
-      margin: 0.5rem 0
+      color: var(--success)
+      margin: var(--spacing-2) 0
 
     p
-      color: #dfe6e9
-      margin: 0.25rem 0
+      color: var(--text-secondary)
+      margin: var(--spacing-1) 0
 
 // Animaciones
 @keyframes spin
@@ -234,47 +258,11 @@
   50%
     opacity: 0.5
 
-// Dark mode
-.dark-mode
-  .contact-form
-    background: var(--color-background-secondary, #1e272e)
-
-    &__title
-      color: var(--color-text-primary, #dfe6e9)
-
-    &__fieldset
-      background: var(--color-background-primary, #2d3436)
-      border-color: #636e72
-
-      legend
-        color: #74b9ff
-
-    &__label
-      color: var(--color-text-primary, #dfe6e9)
-
-    &__input,
-    &__select,
-    &__textarea
-      background: #2d3436
-      border-color: #636e72
-      color: #dfe6e9
-
-      &:focus
-        border-color: #74b9ff
-        box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.1)
-
-    &__btn--secondary
-      color: #dfe6e9
-      border-color: #636e72
-
-      &:hover:not(:disabled)
-        background: #2d3436
-
 // Responsive
 @media (max-width: 768px)
   .contact-form
-    padding: 1rem
-    margin: 1rem
+    padding: var(--spacing-4)
+    margin: var(--spacing-4)
 
     &__actions
       flex-direction: column
