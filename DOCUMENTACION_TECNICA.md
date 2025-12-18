@@ -398,7 +398,7 @@ isOpen(itemId: string): boolean {
 
 ## Sistema de Temas (Dark/Light Mode)
 
-Implementar un sistema de temas que respete las preferencias del usuario ha sido uno de los aspectos que más he disfrutado desarrollar.
+Implementar un sistema de temas que respete las preferencias del usuario.
 
 ### Funcionamiento
 
@@ -1016,18 +1016,3 @@ Como mejoras futuras me planteo:
 - Mejorar la accesibilidad con auditorías automáticas
 
 ---
-
-## Referencias Bibliográficas
-
-- Angular Official Documentation. (2024). *Angular Developer Guide*. https://angular.dev
-- RxJS Official Documentation. (2024). *RxJS Guide*. https://rxjs.dev
-- Mozilla Developer Network. (2024). *Web APIs Reference*. https://developer.mozilla.org
-- W3C. (2024). *WAI-ARIA Authoring Practices*. https://www.w3.org/WAI/ARIA/
-
----
-
-**Proyecto:** FonziGo  
-**Versión:** 1.0.0  
-**Fecha:** Diciembre 2024  
-**Framework:** Angular 21.0.0  
-**Autor:** Trabajo de Fin de Curso - 2º DAW
