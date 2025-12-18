@@ -14,9 +14,11 @@
       class="header__hamburger"
       [class.header__hamburger--active]="isMobileMenuOpen()"
     >
-      <span class="header__hamburger-line"></span>
-      <span class="header__hamburger-line"></span>
-      <span class="header__hamburger-line"></span>
+      @if (isMobileMenuOpen()) {
+        <img src="cancelar.svg" alt="Cerrar menú" class="header__hamburger-icon">
+      } @else {
+        <img src="menu_1.svg" alt="Abrir menú" class="header__hamburger-icon">
+      }
     </app-button>
 
     <!-- Action Items -->

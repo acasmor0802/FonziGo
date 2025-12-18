@@ -100,23 +100,10 @@
         transform: none
         box-shadow: none
 
-  &__hamburger-line
-    width: calc(var(--spacing-6) + var(--spacing-1))
-    height: var(--spacing-1)
-    background-color: var(--background)
-    border-radius: var(--radius-sm)
-    +smooth-transition(transform, opacity)
-
-  &__hamburger--active
-    .header__hamburger-line
-      &:nth-child(1)
-        transform: rotate(45deg) translateY(var(--spacing-2))
-      
-      &:nth-child(2)
-        opacity: 0
-      
-      &:nth-child(3)
-        transform: rotate(-45deg) translateY(calc(var(--spacing-2) * -1))
+  &__hamburger-icon
+    width: 28px
+    height: 28px
+    display: block
 
   // Overlay oscuro (solo móvil y tablet)
   &__overlay
