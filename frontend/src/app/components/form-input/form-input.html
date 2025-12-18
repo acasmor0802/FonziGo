@@ -1,7 +1,9 @@
 <div class="form-input" [class.form-input--error]="errorText" [class.form-input--disabled]="disabled">
   <label class="form-input__label" [for]="id">
     {{ label }}
-    <span *ngIf="required" class="form-input__required" aria-label="requerido">*</span>
+    @if (required) {
+      <span class="form-input__required" aria-label="requerido">*</span>
+    }
   </label>
 
   <input
@@ -21,11 +23,15 @@
     (blur)="onBlur()"
   />
 
-  <p *ngIf="helpText && !errorText" [id]="id + '-description'" class="form-input__help">
-    {{ helpText }}
-  </p>
+  @if (helpText && !errorText) {
+    <p [id]="id + '-description'" class="form-input__help">
+      {{ helpText }}
+    </p>
+  }
 
-  <p *ngIf="errorText" [id]="id + '-description'" class="form-input__error" role="alert">
-    {{ errorText }}
-  </p>
+  @if (errorText) {
+    <p [id]="id + '-description'" class="form-input__error" role="alert">
+      {{ errorText }}
+    </p>
+  }
 </div>

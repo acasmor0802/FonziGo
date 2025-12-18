@@ -1,363 +1,492 @@
-# 📚 Documentación Técnica - FonziGo Frontend
+# Documentación Técnica - FonziGo
 
 ## Índice
-1. [Arquitectura de Eventos](#arquitectura-de-eventos)
-2. [Diagrama de Flujo de Eventos](#diagrama-de-flujo-de-eventos)
-3. [Componentes Interactivos](#componentes-interactivos)
-4. [Theme Switcher](#theme-switcher)
-5. [Servicios Globales](#servicios-globales)
-6. [Validadores de Formularios](#validadores-de-formularios)
-7. [FormArray y Formularios Dinámicos](#formarray-y-formularios-dinamicos)
-8. [Compatibilidad de Navegadores](#compatibilidad-de-navegadores)
+
+1. [Introducción](#introducción)
+2. [Arquitectura del Proyecto](#arquitectura-del-proyecto)
+3. [Sistema de Eventos en Angular](#sistema-de-eventos-en-angular)
+4. [Componentes Desarrollados](#componentes-desarrollados)
+5. [Sistema de Temas (Dark/Light Mode)](#sistema-de-temas-darklight-mode)
+6. [Servicios de la Aplicación](#servicios-de-la-aplicación)
+7. [Validación de Formularios](#validación-de-formularios)
+8. [Formularios Dinámicos con FormArray](#formularios-dinámicos-con-formarray)
+9. [Compatibilidad y Requisitos](#compatibilidad-y-requisitos)
+10. [Conclusiones](#conclusiones)
 
 ---
 
-## 🏗️ Arquitectura de Eventos
+## Introducción
 
-Angular implementa un sistema de **arquitectura unidireccional** para la gestión de eventos y detección de cambios, basado en tres pilares fundamentales:
+Este documento recoge toda la documentación técnica del proyecto FonziGo, una aplicación web desarrollada con Angular 21. A lo largo de este trabajo voy a explicar las decisiones técnicas que he tomado, los patrones de diseño implementados y cómo funciona cada parte del sistema.
 
-### 1. Event Binding en Templates
+El objetivo principal ha sido crear una aplicación moderna, accesible y mantenible, siguiendo las mejores prácticas actuales del desarrollo frontend. He puesto especial atención en utilizar las características más recientes de Angular, evitando APIs obsoletas y apostando por las nuevas funcionalidades que ofrece el framework.
+
+### Tecnologías Utilizadas
+
+| Tecnología | Versión | Propósito |
+|------------|---------|-----------|
+| Angular | 21.0.0 | Framework principal |
+| TypeScript | 5.x | Lenguaje de programación |
+| SASS | 1.x | Preprocesador CSS |
+| RxJS | 7.x | Programación reactiva |
+
+---
+
+## Arquitectura del Proyecto
+
+He organizado el proyecto siguiendo una estructura modular que facilita tanto el desarrollo como el mantenimiento a largo plazo. La idea es que cada carpeta tenga una responsabilidad clara.
+
+### Estructura de Carpetas
+
+```
+frontend/src/
+├── app/
+│   ├── components/          # Componentes reutilizables
+│   │   ├── accordion/       # Componente acordeón
+│   │   ├── alert/           # Alertas y notificaciones
+│   │   ├── button/          # Botón personalizado
+│   │   ├── form-input/      # Campo de formulario
+│   │   ├── form-select/     # Selector desplegable
+│   │   ├── form-textarea/   # Área de texto
+│   │   ├── modal/           # Ventanas modales
+│   │   ├── tabs/            # Sistema de pestañas
+│   │   ├── toast/           # Notificaciones toast
+│   │   └── tooltip/         # Tooltips informativos
+│   │
+│   ├── layout/              # Componentes de estructura
+│   │   ├── header/          # Cabecera de la aplicación
+│   │   ├── footer/          # Pie de página
+│   │   └── main/            # Contenedor principal
+│   │
+│   ├── pages/               # Páginas de la aplicación
+│   │   └── style-guide/     # Guía de estilos
+│   │
+│   └── shared/              # Código compartido
+│       ├── services/        # Servicios globales
+│       ├── interceptors/    # Interceptores HTTP
+│       └── validators/      # Validadores personalizados
+│
+└── styles/                  # Sistema de estilos ITCSS
+    ├── 00-settings/         # Variables y configuración
+    ├── 01-tools/            # Mixins y funciones
+    ├── 02-generic/          # Reset y normalización
+    ├── 03-elements/         # Estilos base HTML
+    ├── 04-layout/           # Sistema de layout
+    ├── 05-components/       # Estilos de componentes
+    └── 06-utilities/        # Clases de utilidad
+```
+
+### Decisiones de Arquitectura
+
+Una de las decisiones más importantes que he tomado ha sido utilizar **Standalone Components** en lugar del sistema tradicional de módulos. Esto significa que cada componente declara explícitamente sus dependencias, lo que hace el código más claro y reduce el acoplamiento.
+
+También he implementado el patrón de **componentes presentacionales** (o "dumb components") para la UI, dejando toda la lógica de negocio en los servicios. De esta forma, los componentes son más fáciles de testear y reutilizar.
+
+---
+
+## Sistema de Eventos en Angular
+
+Angular utiliza un sistema de arquitectura unidireccional para manejar los eventos. Esto puede sonar complejo, pero básicamente significa que los datos fluyen en una sola dirección: del componente a la vista.
+
+### Flujo de un Evento
+
+Cuando un usuario interactúa con la aplicación, por ejemplo haciendo clic en un botón, ocurre lo siguiente:
+
+```
+Usuario → Evento DOM → Template Angular → Método del Componente → Actualización de Estado → Re-renderizado
+```
+
+Para que quede más claro, he preparado este diagrama que muestra el flujo completo:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 FLUJO DE EVENTOS EN ANGULAR                  │
+└─────────────────────────────────────────────────────────────┘
+
+  Usuario              DOM              Template           Componente
+    │                   │                  │                   │
+    ├── Click ─────────>│                  │                   │
+    │                   │                  │                   │
+    │                   ├── Captura ──────>│                   │
+    │                   │   evento         │                   │
+    │                   │                  │                   │
+    │                   │                  ├── (click)="..." ─>│
+    │                   │                  │                   │
+    │                   │                  │                   ├─ Ejecuta
+    │                   │                  │                   │  método
+    │                   │                  │                   │
+    │                   │                  │                   ├─ Actualiza
+    │                   │                  │                   │  signals
+    │                   │                  │                   │
+    │                   │                  │<── Detecta ───────┤
+    │                   │                  │    cambio         │
+    │                   │                  │                   │
+    │                   │<── Re-renderiza ─┤                   │
+    │                   │                  │                   │
+    │<── Feedback ──────┤                  │                   │
+    │    visual         │                  │                   │
+```
+
+### Sintaxis de Event Binding
+
+La sintaxis para vincular eventos en Angular es bastante intuitiva. Se utilizan paréntesis para indicar que estamos escuchando un evento:
+
 ```typescript
 // Sintaxis básica
-(eventName)="handler($event)"
+(nombreEvento)="metodo($event)"
 
-// Ejemplos
+// Ejemplos prácticos
 (click)="onClick($event)"
 (keyup.enter)="onEnter()"
 (mouseenter)="onMouseEnter()"
 ```
 
-### 2. Zone.js para Detección de Cambios
-Zone.js intercepta operaciones asíncronas automáticamente y dispara la detección de cambios:
-- Eventos del DOM (click, keyup, etc.)
-- Timers (setTimeout, setInterval)
-- Promesas y Observables
-- XHR/Fetch requests
+### Control de Eventos
 
-### 3. Signals para Estado Reactivo
+A veces necesitamos controlar el comportamiento por defecto de un evento o evitar que se propague a elementos padre. Angular nos proporciona acceso al objeto `$event` para esto:
+
 ```typescript
-// Creación de signals
+// Prevenir comportamiento por defecto (ej: evitar que un formulario se envíe)
+onSubmit(event: Event): void {
+  event.preventDefault();
+  // Lógica personalizada
+}
+
+// Detener propagación (ej: evitar que un click llegue al padre)
+onChildClick(event: MouseEvent): void {
+  event.stopPropagation();
+}
+```
+
+### Signals: El Nuevo Sistema de Reactividad
+
+Una de las características más interesantes de las versiones recientes de Angular son los **Signals**. Los he utilizado extensamente en este proyecto porque ofrecen una forma más eficiente de manejar el estado.
+
+```typescript
+// Crear un signal
 isDarkMode = signal(false);
 
-// Lectura
+// Leer el valor (hay que usar paréntesis)
 console.log(this.isDarkMode()); // false
 
-// Actualización
+// Actualizar el valor
 this.isDarkMode.set(true);
+
+// Actualizar basándose en el valor anterior
 this.isDarkMode.update(value => !value);
 ```
 
-### Modificadores de Eventos
-Angular proporciona modificadores para eventos comunes:
-
-```typescript
-// Teclas específicas
-(keyup.enter)="onEnter()"
-(keydown.escape)="onEscape()"
-(keydown.shift)="onShift()"
-
-// Modificadores de mouse
-(click.alt)="onAltClick()"
-(click.ctrl)="onCtrlClick()"
-(click.shift)="onShiftClick()"
-```
-
-### Prevención y Propagación
-```typescript
-// Prevenir comportamiento por defecto
-onSubmit(event: Event): void {
-  event.preventDefault();
-  // Código personalizado
-}
-
-// Detener propagación
-onChildClick(event: MouseEvent): void {
-  event.stopPropagation();
-  // El evento no llegará al padre
-}
-```
+La ventaja de los signals frente al sistema tradicional es que Angular solo actualiza las partes de la vista que realmente han cambiado, en lugar de revisar todo el árbol de componentes.
 
 ---
 
-## 📊 Diagrama de Flujo de Eventos
+## Componentes Desarrollados
 
+He creado varios componentes reutilizables que forman la base de la interfaz de usuario. Voy a explicar los más importantes.
+
+### Componente Button
+
+El componente de botón es uno de los más utilizados. Soporta diferentes variantes, tamaños, estados de carga y posiciones de icono.
+
+**Ubicación:** `components/button/`
+
+**Propiedades de entrada:**
+- `variant`: Estilo visual ('primary', 'secondary', 'ghost')
+- `size`: Tamaño ('sm', 'md', 'lg')
+- `loading`: Estado de carga
+- `disabled`: Estado deshabilitado
+- `icon`: Icono opcional
+- `iconPosition`: Posición del icono ('left', 'right')
+
+**Ejemplo del template (usando la nueva sintaxis @if):**
+
+```html
+<button
+  [type]="type"
+  [ngClass]="buttonClasses"
+  [disabled]="isDisabled"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-busy]="loading ? 'true' : null"
+  (click)="onClick($event)"
+>
+  @if (loading) {
+    <span class="btn__spinner" aria-hidden="true">
+      <!-- SVG del spinner -->
+    </span>
+  }
+
+  @if (icon && iconPosition === 'left' && !loading) {
+    <span class="btn__icon btn__icon--left" aria-hidden="true">
+      {{ icon }}
+    </span>
+  }
+
+  <span class="btn__content" [class.btn__content--hidden]="loading">
+    <ng-content></ng-content>
+  </span>
+
+  @if (icon && iconPosition === 'right' && !loading) {
+    <span class="btn__icon btn__icon--right" aria-hidden="true">
+      {{ icon }}
+    </span>
+  }
+</button>
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    FLUJO DE EVENTOS EN ANGULAR               │
-└─────────────────────────────────────────────────────────────┘
 
-  Usuario                DOM                Template             Handler
-    │                    │                    │                    │
-    ├──── Interacción ──>│                    │                    │
-    │    (click, etc.)   │                    │                    │
-    │                    │                    │                    │
-    │                    ├─── Captura ───────>│                    │
-    │                    │    evento          │                    │
-    │                    │                    │                    │
-    │                    │                    ├── (event)="..." ──>│
-    │                    │                    │                    │
-    │                    │                    │                    ├─ Ejecuta
-    │                    │                    │                    │  método
-    │                    │                    │                    │
-    │                    │                    │                    ├─ Actualiza
-    │                    │                    │                    │  signals/
-    │                    │                    │                    │  estado
-    │                    │                    │                    │
-    │                    │                    │<── Zone.js ────────┤
-    │                    │                    │   detecta cambio   │
-    │                    │                    │                    │
-    │                    │<─── Re-renderiza ──┤                    │
-    │                    │     vista          │                    │
-    │                    │                    │                    │
-    │<─── Feedback ──────┤                    │                    │
-    │    visual          │                    │                    │
+Es importante destacar que he utilizado la nueva sintaxis `@if` en lugar de `*ngIf`. Esta es la forma recomendada en Angular 17+ y tiene varias ventajas:
+- Mejor rendimiento en tiempo de compilación
+- Sintaxis más limpia y legible
+- Soporte nativo para `@else`
 
+### Componente Alert
+
+Las alertas permiten mostrar mensajes importantes al usuario con diferentes niveles de severidad.
+
+**Ubicación:** `components/alert/`
+
+**Template con la nueva sintaxis:**
+
+```html
+@if (isVisible()) {
+  <div [ngClass]="alertClasses()" role="alert">
+    <div class="alert__content">
+      <ng-content></ng-content>
+    </div>
+    @if (closeable) {
+      <app-button
+        variant="ghost"
+        size="sm"
+        (clicked)="close()"
+        ariaLabel="Cerrar alerta"
+        class="alert__close"
+      >
+        ×
+      </app-button>
+    }
+  </div>
+}
 ```
 
-### Ejemplo Completo: Click en Menú Hamburguesa
+### Componentes de Formulario
 
+He desarrollado tres componentes principales para formularios: `FormInput`, `FormSelect` y `FormTextarea`. Todos siguen el mismo patrón de diseño y comparten características como:
+
+- Soporte para etiquetas y textos de ayuda
+- Mensajes de error integrados
+- Estados de validación visual
+- Accesibilidad completa con ARIA
+
+**Ejemplo de FormSelect con @for (antes *ngFor):**
+
+```html
+<div class="form-select" [class.form-select--error]="errorText">
+  <label class="form-select__label" [for]="id">
+    {{ label }}
+    @if (required) {
+      <span class="form-select__required" aria-label="requerido">*</span>
+    }
+  </label>
+  
+  <select class="form-select__control" [id]="id">
+    <option value="" disabled>{{ placeholder }}</option>
+    @for (option of options; track option.value) {
+      <option [value]="option.value" [disabled]="option.disabled">
+        {{ option.label }}
+      </option>
+    }
+  </select>
+
+  @if (helpText && !errorText) {
+    <p class="form-select__help">{{ helpText }}</p>
+  }
+
+  @if (errorText) {
+    <p class="form-select__error" role="alert">{{ errorText }}</p>
+  }
+</div>
 ```
-1. Usuario hace click en botón hamburguesa
-2. DOM captura el evento MouseEvent
-3. Template detecta (clicked)="toggleMobileMenu()"
-4. Se ejecuta toggleMobileMenu() en el componente
-5. Signal isMobileMenuOpen se actualiza
-6. Zone.js detecta el cambio
-7. Angular re-renderiza la vista
-8. El menú se abre con animación CSS
-```
 
----
+La directiva `@for` requiere obligatoriamente una expresión `track` para optimizar el renderizado. Esto es importante porque Angular necesita saber cómo identificar cada elemento de la lista para poder actualizarla eficientemente.
 
-## 🎨 Componentes Interactivos Implementados
+### Header con Menú Responsive
 
-### 1. Menú Hamburguesa
+El componente Header incluye un menú hamburguesa para dispositivos móviles que se implementa con signals y eventos.
 
-**Ubicación:** `layout/header/header.ts`
+**Ubicación:** `layout/header/`
 
-**Descripción:**  
-Menú móvil colapsable con animación suave y cierre automático al hacer click fuera.
+**Características implementadas:**
+- Menú colapsable con animación
+- Cierre automático al hacer clic fuera
+- Cierre con tecla ESC
+- Toggle de tema claro/oscuro
 
-**Eventos Manejados:**
-- `(click)` en botón hamburguesa
-- `@HostListener('document:click')` para detectar clicks fuera
-- `(click)` en overlay para cerrar
-
-**Estado Interno:**
 ```typescript
+// Estado del menú
 isMobileMenuOpen = signal(false);
+
+// Métodos de control
+toggleMobileMenu(): void {
+  this.isMobileMenuOpen.update(value => !value);
+}
+
+closeMobileMenu(): void {
+  this.isMobileMenuOpen.set(false);
+}
+
+// Detección de clicks fuera del menú
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+  if (this.isMobileMenuOpen() && !this.isClickInside(event)) {
+    this.closeMobileMenu();
+  }
+}
 ```
 
-**Métodos Públicos:**
-- `toggleMobileMenu()` - Abre/cierra el menú
-- `closeMobileMenu()` - Cierra el menú
+### Modal
+
+El componente modal permite mostrar contenido en una ventana superpuesta con múltiples formas de cierre.
 
 **Características:**
-- ✅ Usa `Renderer2` para manipulación del DOM
-- ✅ Usa `ElementRef` para detectar clicks dentro/fuera
-- ✅ Animaciones CSS con transiciones suaves
-- ✅ Accesible con `aria-label`
+- Cierre con botón X, overlay o tecla ESC
+- Bloqueo del scroll del body mientras está abierto
+- Proyección de contenido con `ng-content`
+- Animaciones de entrada y salida
 
----
-
-### 2. Modal
-
-**Ubicación:** `components/modal/modal.ts`
-
-**Descripción:**  
-Modal reutilizable con soporte para múltiples formas de cierre y proyección de contenido.
-
-**Eventos Manejados:**
-- `(click)` en botón X
-- `(click)` en overlay
-- `@HostListener('document:keydown.escape')` para tecla ESC
-- `(click)` con `stopPropagation()` en contenido
-
-**Estado Interno:**
 ```typescript
 isOpen = signal(false);
+
+open(): void {
+  this.isOpen.set(true);
+  document.body.style.overflow = 'hidden';
+}
+
+close(): void {
+  this.isOpen.set(false);
+  document.body.style.overflow = '';
+}
+
+@HostListener('document:keydown.escape')
+onEscapePress(): void {
+  if (this.isOpen()) {
+    this.close();
+  }
+}
 ```
 
-**Métodos Públicos:**
-- `open()` - Abre el modal y bloquea scroll
-- `close()` - Cierra el modal y restaura scroll
+### Accordion
 
-**Características:**
-- ✅ Cierre con ESC, overlay o botón X
-- ✅ Bloquea scroll del body cuando está abierto
-- ✅ `stopPropagation` para evitar cierre al hacer click en contenido
-- ✅ Animaciones de entrada/salida
-- ✅ Proyección de contenido con `ng-content`
+Sistema de acordeón que permite tener múltiples items abiertos simultáneamente.
 
----
-
-### 3. Tabs
-
-**Ubicación:** `components/tabs/tabs.ts`
-
-**Descripción:**  
-Sistema de pestañas con navegación fluida y contenido dinámico.
-
-**Eventos Manejados:**
-- `(click)` en botones de pestaña
-
-**Estado Interno:**
-```typescript
-activeTab = signal('tab1');
-tabs = [
-  { id: 'tab1', label: '📝 Descripción', icon: '📝' },
-  { id: 'tab2', label: '⚙️ Configuración', icon: '⚙️' },
-  { id: 'tab3', label: '📊 Estadísticas', icon: '📊' }
-];
-```
-
-**Métodos Públicos:**
-- `selectTab(tabId: string)` - Cambia la pestaña activa
-- `isActive(tabId: string)` - Verifica si una pestaña está activa
-
-**Características:**
-- ✅ Clase condicional para pestaña activa
-- ✅ Transiciones suaves entre contenidos
-- ✅ Accesible con `role="tab"` y `aria-selected`
-- ✅ Responsive con iconos en mobile
-
----
-
-### 4. Tooltip
-
-**Ubicación:** `components/tooltip/tooltip.ts`
-
-**Descripción:**  
-Tooltips posicionables con animación fade-in en hover.
-
-**Eventos Manejados:**
-- `(mouseenter)` - Muestra tooltip
-- `(mouseleave)` - Oculta tooltip
-
-**Estado Interno:**
-```typescript
-showTooltip = signal(false);
-@Input() text = '';
-@Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';
-```
-
-**Métodos Públicos:**
-- `show()` - Muestra el tooltip
-- `hide()` - Oculta el tooltip
-
-**Características:**
-- ✅ 4 posiciones: top, bottom, left, right
-- ✅ Animación fade-in
-- ✅ Flecha indicadora con CSS
-- ✅ No interfiere con interacción (pointer-events: none)
-
----
-
-### 5. Accordion
-
-**Ubicación:** `components/accordion/accordion.ts`
-
-**Descripción:**  
-Acordeón con múltiples items expandibles/colapsables simultáneamente.
-
-**Eventos Manejados:**
-- `(click)` en headers de items
-
-**Estado Interno:**
 ```typescript
 openItems = signal<string[]>([]);
-items: AccordionItem[] = [
-  { id: 'item1', title: '...', content: '...', icon: '...' },
-  // ...
-];
+
+toggle(itemId: string): void {
+  this.openItems.update(items => {
+    if (items.includes(itemId)) {
+      return items.filter(id => id !== itemId);
+    }
+    return [...items, itemId];
+  });
+}
+
+isOpen(itemId: string): boolean {
+  return this.openItems().includes(itemId);
+}
 ```
-
-**Métodos Públicos:**
-- `toggle(itemId: string)` - Abre/cierra un item
-- `isOpen(itemId: string)` - Verifica si un item está abierto
-
-**Características:**
-- ✅ Múltiples items abiertos simultáneamente
-- ✅ Animación de expansión/colapso
-- ✅ Icono rotativo (▼/▲)
-- ✅ Accesible con `aria-expanded` y `aria-controls`
 
 ---
 
-## 🌓 Theme Switcher
+## Sistema de Temas (Dark/Light Mode)
 
-### Detección de `prefers-color-scheme`
+Implementar un sistema de temas que respete las preferencias del usuario ha sido uno de los aspectos que más he disfrutado desarrollar.
+
+### Funcionamiento
+
+El sistema funciona en tres capas:
+
+1. **Detección de preferencia del sistema:** Uso `matchMedia` para detectar si el usuario tiene configurado el modo oscuro en su sistema operativo.
+
+2. **Persistencia en localStorage:** Guardo la preferencia del usuario para que se mantenga entre sesiones.
+
+3. **Aplicación mediante clase CSS:** Añado o quito la clase `.dark-mode` del elemento `html`.
+
+### Orden de Prioridad
+
+Cuando la aplicación se carga, sigue este orden para determinar el tema:
+
+```
+1. ¿Hay preferencia guardada en localStorage? → Usarla
+2. ¿No? → Detectar preferencia del sistema
+3. ¿Tampoco? → Usar modo claro por defecto
+```
+
+### Implementación
 
 ```typescript
-private getSystemPreference(): boolean {
-  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  console.log('🌓 Sistema detectado:', isDark ? 'dark' : 'light');
-  return isDark;
+private initializeTheme(): void {
+  const savedTheme = localStorage.getItem('theme');
+  
+  if (savedTheme) {
+    this.isDarkMode.set(savedTheme === 'dark');
+  } else {
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.isDarkMode.set(systemPrefersDark);
+  }
+  
+  this.applyTheme();
+}
+
+toggleTheme(): void {
+  this.isDarkMode.update(value => !value);
+  this.applyTheme();
+  this.persistTheme();
+}
+
+private applyTheme(): void {
+  const html = document.documentElement;
+  if (this.isDarkMode()) {
+    html.classList.add('dark-mode');
+  } else {
+    html.classList.remove('dark-mode');
+  }
+}
+
+private persistTheme(): void {
+  localStorage.setItem('theme', this.isDarkMode() ? 'dark' : 'light');
 }
 ```
 
 ### Variables CSS por Tema
 
-#### Modo Claro (`:root`)
+Utilizo CSS Custom Properties (variables) para definir los colores de cada tema. Esto hace que cambiar de tema sea instantáneo y sin recargas.
+
 ```sass
+// Modo claro (por defecto)
 :root
-  --color-background-primary: #ffffff
-  --color-background-secondary: #f8f9fa
-  --color-text-primary: #2d3436
-  --color-text-secondary: #636e72
-  --color-border: #dfe6e9
-  --color-primary: #0066cc
-  --color-primary-hover: #0052a3
-```
+  --bg-primary: #FEFEFE
+  --bg-secondary: #f5f7fa
+  --text-primary: #1a1a2e
+  --text-secondary: #4a4a68
+  --border-color: #d1d5db
 
-#### Modo Oscuro (`.dark-mode`)
-```sass
+// Modo oscuro
 .dark-mode
-  --color-background-primary: #2d3436
-  --color-background-secondary: #1e272e
-  --color-text-primary: #dfe6e9
-  --color-text-secondary: #b2bec3
-  --color-border: #636e72
-  --color-primary: #74b9ff
-  --color-primary-hover: #0984e3
-```
-
-### Persistencia en localStorage
-
-```typescript
-private persistTheme(): void {
-  const themeValue = this.isDarkMode() ? 'dark' : 'light';
-  localStorage.setItem('theme', themeValue);
-}
-```
-
-### Orden de Prioridad al Cargar
-
-1. **localStorage** (preferencia guardada del usuario)
-2. **Preferencia del sistema** (`prefers-color-scheme`)
-3. **Modo claro por defecto**
-
-```typescript
-private initializeTheme(): void {
-  const savedTheme = localStorage.getItem('theme');
-  const initialValue = savedTheme 
-    ? savedTheme === 'dark' 
-    : this.getSystemPreference();
-  
-  this.isDarkMode.set(initialValue);
-  this.applyTheme();
-}
+  --bg-primary: #1a1a2e
+  --bg-secondary: #252540
+  --text-primary: #f5f5f5
+  --text-secondary: #b0b0c0
+  --border-color: #3a3a50
 ```
 
 ---
 
-## 🛠️ Servicios Globales
+## Servicios de la Aplicación
 
-### 1. CommunicationService
+Los servicios son la columna vertebral de la lógica de negocio en Angular. He implementado varios que cubren necesidades comunes.
 
-**Propósito:** Comunicación entre componentes hermanos mediante BehaviorSubject.
+### CommunicationService
 
-**Ubicación:** `shared/services/communication.service.ts`
+Este servicio permite la comunicación entre componentes que no tienen relación directa padre-hijo. Utiliza `BehaviorSubject` de RxJS para mantener el estado.
 
 ```typescript
 export interface NotificationPayload {
@@ -368,115 +497,97 @@ export interface NotificationPayload {
   data?: any;
 }
 
-export interface SharedState {
-  cartItemCount: number;
-  userLoggedIn: boolean;
-  currentTheme: 'light' | 'dark';
-  lastActivity: Date;
+@Injectable({ providedIn: 'root' })
+export class CommunicationService {
+  private notifications$ = new BehaviorSubject<NotificationPayload | null>(null);
+  
+  sendSuccessNotification(message: string, data?: any): void {
+    this.notifications$.next({
+      id: crypto.randomUUID(),
+      type: 'success',
+      message,
+      timestamp: new Date(),
+      data
+    });
+  }
+  
+  getNotifications$(): Observable<NotificationPayload | null> {
+    return this.notifications$.asObservable();
+  }
 }
 ```
 
-**Métodos Principales:**
-- `sendNotification(notification)` - Envía notificación
-- `sendSuccessNotification(message, data?)` - Helper para éxito
-- `sendErrorNotification(message, data?)` - Helper para error
-- `updateSharedState(partialState)` - Actualiza estado compartido
-- `getNotifications$()` - Observable de notificaciones
-- `getSharedState$()` - Observable de estado compartido
+### ToastService
 
-**Uso:**
+Servicio para mostrar notificaciones tipo toast que se auto-cierran después de un tiempo.
+
 ```typescript
-// En componente emisor
-constructor(private commService: CommunicationService) {}
-
-enviarNotificacion() {
-  this.commService.sendSuccessNotification('Operación exitosa!');
+@Injectable({ providedIn: 'root' })
+export class ToastService {
+  private toasts = signal<ToastMessage[]>([]);
+  
+  // Duraciones por tipo
+  private readonly durations = {
+    success: 3000,
+    error: 5000,
+    info: 4000,
+    warning: 4500
+  };
+  
+  success(title: string, message: string, duration?: number): void {
+    this.addToast('success', title, message, duration);
+  }
+  
+  error(title: string, message: string, duration?: number): void {
+    this.addToast('error', title, message, duration);
+  }
+  
+  private addToast(type: ToastType, title: string, message: string, duration?: number): void {
+    const toast: ToastMessage = {
+      id: crypto.randomUUID(),
+      type,
+      title,
+      message,
+      duration: duration || this.durations[type],
+      timestamp: new Date()
+    };
+    
+    this.toasts.update(list => [...list, toast]);
+    
+    setTimeout(() => this.dismiss(toast.id), toast.duration);
+  }
+  
+  dismiss(id: string): void {
+    this.toasts.update(list => list.filter(t => t.id !== id));
+  }
 }
+```
 
-// En componente receptor
-this.commService.getNotifications$()
-  .pipe(takeUntilDestroyed())
-  .subscribe(notification => {
-    if (notification) {
-      console.log(notification.message);
+### LoadingService e Interceptor
+
+Para gestionar el estado de carga de forma centralizada, he creado un servicio que trabaja junto con un interceptor HTTP.
+
+```typescript
+// loading.service.ts
+@Injectable({ providedIn: 'root' })
+export class LoadingService {
+  private loadingCount = 0;
+  isLoading = signal(false);
+  
+  show(): void {
+    this.loadingCount++;
+    this.isLoading.set(true);
+  }
+  
+  hide(): void {
+    this.loadingCount = Math.max(0, this.loadingCount - 1);
+    if (this.loadingCount === 0) {
+      this.isLoading.set(false);
     }
-  });
-```
-
----
-
-### 2. ToastService
-
-**Propósito:** Notificaciones toast con auto-dismiss y stack vertical.
-
-**Ubicación:** `shared/services/toast.service.ts`
-
-```typescript
-export interface ToastMessage {
-  id: string;
-  type: 'success' | 'error' | 'info' | 'warning';
-  title: string;
-  message: string;
-  duration: number;
-  timestamp: Date;
-}
-```
-
-**Duraciones por Defecto:**
-- Success: 3000ms
-- Error: 5000ms
-- Info: 4000ms
-- Warning: 4500ms
-
-**Métodos:**
-- `success(title, message, duration?)` - Toast de éxito
-- `error(title, message, duration?)` - Toast de error
-- `info(title, message, duration?)` - Toast informativo
-- `warning(title, message, duration?)` - Toast de advertencia
-- `dismiss(id)` - Cierra un toast específico
-- `dismissAll()` - Cierra todos los toasts
-
-**Uso:**
-```typescript
-constructor(private toastService: ToastService) {}
-
-mostrarExito() {
-  this.toastService.success(
-    '¡Éxito!', 
-    'Los datos se guardaron correctamente'
-  );
+  }
 }
 
-mostrarError() {
-  this.toastService.error(
-    'Error', 
-    'No se pudo conectar con el servidor',
-    7000 // duración personalizada
-  );
-}
-```
-
-**Componente ToastComponent:**
-Añadir `<app-toast>` en el componente raíz (AppComponent o Main) para que esté disponible globalmente.
-
----
-
-### 3. LoadingService
-
-**Propósito:** Gestión centralizada de estados de carga con contador de peticiones.
-
-**Ubicación:** `shared/services/loading.service.ts`
-
-**Métodos:**
-- `show()` - Incrementa contador y muestra loading
-- `hide()` - Decrementa contador y oculta si llega a 0
-- `setLoading(loading: boolean)` - Setter directo
-- `getLoadingState()` - Getter del estado actual
-- `reset()` - Resetea contador y estado
-
-**LoadingInterceptor:**
-```typescript
-// shared/interceptors/loading.interceptor.ts
+// loading.interceptor.ts
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loadingService = inject(LoadingService);
   loadingService.show();
@@ -487,8 +598,10 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
 };
 ```
 
-**Configuración en app.config.ts:**
+Para registrar el interceptor, hay que añadirlo en la configuración de la aplicación:
+
 ```typescript
+// app.config.ts
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
@@ -498,160 +611,169 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-**Componente LoadingSpinnerComponent:**
-Añadir `<app-loading-spinner>` en el componente raíz para overlay global.
-
 ---
 
-## ✅ Validadores de Formularios
+## Validación de Formularios
+
+La validación es fundamental para garantizar la integridad de los datos. He creado una colección de validadores personalizados que cubren las necesidades más comunes.
 
 ### Validadores Síncronos
 
 **Ubicación:** `shared/validators/custom-validators.ts`
 
-#### 1. passwordStrength()
-Valida fortaleza de contraseña (mayúscula, minúscula, número, símbolo, 8+ caracteres).
+#### Validador de Fortaleza de Contraseña
+
+Este validador comprueba que la contraseña cumpla con requisitos de seguridad:
 
 ```typescript
-import { passwordStrength } from './shared/validators/custom-validators';
-
-this.form = this.fb.group({
-  password: ['', [Validators.required, passwordStrength()]]
-});
-
-// Errores posibles
-if (control.hasError('passwordStrength')) {
-  const errors = control.errors['passwordStrength'];
-  // errors.noUpperCase
-  // errors.noLowerCase
-  // errors.noNumber
-  // errors.noSymbol
-  // errors.tooShort
+export function passwordStrength(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    
+    const errors: any = {};
+    
+    if (!/[A-Z]/.test(value)) errors.noUpperCase = true;
+    if (!/[a-z]/.test(value)) errors.noLowerCase = true;
+    if (!/[0-9]/.test(value)) errors.noNumber = true;
+    if (!/[!@#$%^&*]/.test(value)) errors.noSymbol = true;
+    if (value.length < 8) errors.tooShort = true;
+    
+    return Object.keys(errors).length ? { passwordStrength: errors } : null;
+  };
 }
 ```
 
-#### 2. passwordMatch(field1, field2)
-Valida que dos campos coincidan (nivel FormGroup).
+#### Validador de Coincidencia de Contraseñas
+
+Se aplica a nivel de FormGroup para comparar dos campos:
 
 ```typescript
-this.form = this.fb.group({
-  password: ['', Validators.required],
-  confirmPassword: ['', Validators.required]
-}, { 
-  validators: [passwordMatch('password', 'confirmPassword')] 
-});
+export function passwordMatch(field1: string, field2: string): ValidatorFn {
+  return (group: AbstractControl): ValidationErrors | null => {
+    const control1 = group.get(field1);
+    const control2 = group.get(field2);
+    
+    if (control1?.value !== control2?.value) {
+      return { passwordMatch: true };
+    }
+    return null;
+  };
+}
 ```
 
-#### 3. nifValidator()
-Valida formato y letra de NIF español.
+#### Validador de NIF Español
+
+Valida el formato y la letra de control del NIF:
 
 ```typescript
-nif: ['', [Validators.required, nifValidator()]]
+export function nifValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    
+    const nifRegex = /^[0-9]{8}[A-Z]$/i;
+    if (!nifRegex.test(value)) {
+      return { nif: { message: 'Formato inválido' } };
+    }
+    
+    const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+    const number = parseInt(value.substring(0, 8), 10);
+    const expectedLetter = letters[number % 23];
+    const actualLetter = value.charAt(8).toUpperCase();
+    
+    if (expectedLetter !== actualLetter) {
+      return { nif: { message: 'Letra incorrecta' } };
+    }
+    
+    return null;
+  };
+}
 ```
 
-#### 4. telefonoValidator()
-Valida teléfono español (9 dígitos, empieza con 6-9).
+#### Otros Validadores Disponibles
 
-```typescript
-telefono: ['', [Validators.required, telefonoValidator()]]
-```
-
-#### 5. codigoPostalValidator()
-Valida código postal español (5 dígitos, 01000-52999).
-
-```typescript
-codigoPostal: ['', [Validators.required, codigoPostalValidator()]]
-```
-
-#### 6. totalMinimo(min, ...fields)
-Valida que la suma de campos numéricos supere un mínimo (nivel FormGroup).
-
-```typescript
-this.form = this.fb.group({
-  cantidad1: [0],
-  cantidad2: [0],
-  cantidad3: [0]
-}, { 
-  validators: [totalMinimo(100, 'cantidad1', 'cantidad2', 'cantidad3')] 
-});
-```
-
-#### 7. edadMayor(fechaField, edadMin)
-Valida edad mínima a partir de fecha de nacimiento (nivel FormGroup).
-
-```typescript
-this.form = this.fb.group({
-  fechaNacimiento: ['', Validators.required]
-}, { 
-  validators: [edadMayor('fechaNacimiento', 18)] 
-});
-```
-
-#### 8. atLeastOneRequired(...fields)
-Valida que al menos uno de los campos tenga valor (nivel FormGroup).
-
-```typescript
-this.form = this.fb.group({
-  email: [''],
-  telefono: ['']
-}, { 
-  validators: [atLeastOneRequired('email', 'telefono')] 
-});
-```
-
----
+- `telefonoValidator()`: Teléfono español (9 dígitos, empieza por 6-9)
+- `codigoPostalValidator()`: Código postal español (5 dígitos, 01000-52999)
+- `totalMinimo(min, ...fields)`: Suma de campos debe superar un mínimo
+- `edadMayor(fechaField, edad)`: Validar edad mínima desde fecha de nacimiento
+- `atLeastOneRequired(...fields)`: Al menos un campo debe tener valor
 
 ### Validadores Asíncronos
 
-**Ubicación:** `shared/validators/async-validators.service.ts`
-
-#### 1. emailUnique()
-Valida que un email no esté registrado (simula API con debounce 500ms).
+Para validaciones que requieren consultar el servidor (como comprobar si un email ya está registrado), he creado validadores asíncronos.
 
 ```typescript
-constructor(private asyncValidators: AsyncValidatorsService) {}
+@Injectable({ providedIn: 'root' })
+export class AsyncValidatorsService {
+  
+  emailUnique(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value) {
+        return of(null);
+      }
+      
+      return timer(500).pipe( // Debounce de 500ms
+        switchMap(() => this.checkEmailAvailability(control.value)),
+        map(isAvailable => isAvailable ? null : { emailUnique: true }),
+        catchError(() => of(null))
+      );
+    };
+  }
+  
+  private checkEmailAvailability(email: string): Observable<boolean> {
+    // En producción, esto sería una llamada HTTP real
+    const registeredEmails = ['admin@test.com', 'user@test.com'];
+    return of(!registeredEmails.includes(email.toLowerCase()));
+  }
+}
+```
+
+**Uso en un formulario:**
+
+```typescript
+constructor(
+  private fb: FormBuilder,
+  private asyncValidators: AsyncValidatorsService
+) {}
 
 this.form = this.fb.group({
   email: ['', 
-    [Validators.required, Validators.email],
-    [this.asyncValidators.emailUnique()],
-    { updateOn: 'blur' } // Solo validar al perder foco
+    [Validators.required, Validators.email],           // Síncronos
+    [this.asyncValidators.emailUnique()],              // Asíncronos
+    { updateOn: 'blur' }                               // Validar al perder foco
   ]
 });
 ```
 
-#### 2. usernameAvailable()
-Valida que un username esté disponible (simula API con debounce 500ms).
+**Mostrar estado de validación en el template:**
 
-```typescript
-username: ['',
-  [Validators.required, Validators.minLength(3)],
-  [this.asyncValidators.usernameAvailable()],
-  { updateOn: 'blur' }
-]
-```
-
-**Mostrar estado pending:**
 ```html
-<input formControlName="email" />
+<app-form-input
+  label="Email"
+  [formControl]="form.get('email')"
+/>
+
 @if (form.get('email')?.pending) {
-  <span>🔄 Comprobando disponibilidad...</span>
+  <span class="validation-pending">Comprobando disponibilidad...</span>
 }
+
 @if (form.get('email')?.hasError('emailUnique')) {
-  <span>❌ Este email ya está registrado</span>
+  <span class="validation-error">Este email ya está registrado</span>
 }
 ```
 
 ---
 
-## 📋 FormArray y Formularios Dinámicos
+## Formularios Dinámicos con FormArray
 
-### Componente: InvoiceFormComponent
+Una de las partes más complejas del proyecto ha sido implementar formularios dinámicos donde el usuario puede añadir o eliminar elementos. He utilizado `FormArray` de Angular Reactive Forms.
 
-**Ubicación:** `components/invoice-form/invoice-form.ts`
+### Caso de Uso: Formulario de Factura
 
-**Descripción:**  
-Formulario de factura con arrays dinámicos de teléfonos, direcciones e items.
+El componente `InvoiceForm` permite crear facturas con múltiples teléfonos, direcciones e items.
+
+**Ubicación:** `components/invoice-form/`
 
 ### Estructura del Formulario
 
@@ -659,13 +781,15 @@ Formulario de factura con arrays dinámicos de teléfonos, direcciones e items.
 this.invoiceForm = this.fb.group({
   cliente: ['', [Validators.required, Validators.minLength(3)]],
   fecha: ['', Validators.required],
-  telefonos: this.fb.array([/* FormGroups */]),
-  direcciones: this.fb.array([/* FormGroups */]),
-  items: this.fb.array([/* FormGroups */])
+  telefonos: this.fb.array([]),
+  direcciones: this.fb.array([]),
+  items: this.fb.array([])
 });
 ```
 
-### Creación de FormGroups
+### Creación de Grupos Dinámicos
+
+Para cada tipo de elemento del array, defino una función que crea el FormGroup correspondiente:
 
 ```typescript
 private createTelefonoFormGroup(): FormGroup {
@@ -684,7 +808,7 @@ private createItemFormGroup(): FormGroup {
 }
 ```
 
-### Getters para FormArrays
+### Getters para Acceder a los Arrays
 
 ```typescript
 get telefonos(): FormArray {
@@ -696,7 +820,7 @@ get items(): FormArray {
 }
 ```
 
-### Métodos Add/Remove
+### Métodos para Añadir y Eliminar
 
 ```typescript
 addTelefono(): void {
@@ -708,11 +832,25 @@ removeTelefono(index: number): void {
     this.telefonos.removeAt(index);
   }
 }
+
+addItem(): void {
+  this.items.push(this.createItemFormGroup());
+  this.calculateTotal();
+}
+
+removeItem(index: number): void {
+  if (this.items.length > 1) {
+    this.items.removeAt(index);
+    this.calculateTotal();
+  }
+}
 ```
 
-### Cálculo de Total
+### Cálculo del Total
 
 ```typescript
+total = signal(0);
+
 getItemSubtotal(index: number): number {
   const item = this.items.at(index).value;
   return (item.cantidad || 0) * (item.precio || 0);
@@ -730,241 +868,166 @@ calculateTotal(): void {
 ### Template con FormArray
 
 ```html
-<div formArrayName="items">
-  @for (item of items.controls; track $index; let i = $index) {
-    <div [formGroupName]="i">
-      <input formControlName="descripcion" />
-      <input formControlName="cantidad" type="number" />
-      <input formControlName="precio" type="number" step="0.01" />
-      
-      <div class="subtotal">
-        €{{ getItemSubtotal(i).toFixed(2) }}
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+  <!-- Datos básicos -->
+  <app-form-input
+    label="Cliente"
+    formControlName="cliente"
+    [errorText]="getError('cliente')"
+  />
+  
+  <!-- Array de items -->
+  <section formArrayName="items">
+    <h3>Items de la factura</h3>
+    
+    @for (item of items.controls; track $index; let i = $index) {
+      <div class="invoice-item" [formGroupName]="i">
+        <app-form-input
+          label="Descripción"
+          formControlName="descripcion"
+        />
+        
+        <app-form-input
+          label="Cantidad"
+          type="number"
+          formControlName="cantidad"
+          (input)="calculateTotal()"
+        />
+        
+        <app-form-input
+          label="Precio"
+          type="number"
+          formControlName="precio"
+          (input)="calculateTotal()"
+        />
+        
+        <div class="item-subtotal">
+          {{ getItemSubtotal(i) | currency:'EUR' }}
+        </div>
+        
+        <app-button
+          variant="ghost"
+          (clicked)="removeItem(i)"
+          [disabled]="items.length === 1"
+        >
+          Eliminar
+        </app-button>
       </div>
-      
-      <button type="button" (click)="removeItem(i)">
-        🗑️
-      </button>
-    </div>
-  }
-</div>
-
-<button type="button" (click)="addItem()">
-  + Añadir Item
-</button>
-```
-
-### Guía Rápida FormArray
-
-#### 1. Acceso a elementos
-```typescript
-// Por índice
-const firstItem = this.items.at(0);
-
-// Iterar
-this.items.controls.forEach((control, index) => {
-  console.log(control.value);
-});
-```
-
-#### 2. Validación
-```typescript
-// Validar todo el array
-if (this.items.invalid) {
-  console.log('Array tiene errores');
-}
-
-// Validar elemento específico
-if (this.items.at(0).invalid) {
-  console.log('Primer elemento inválido');
-}
-```
-
-#### 3. Borrado Masivo
-```typescript
-// Limpiar todo
-while (this.items.length > 0) {
-  this.items.removeAt(0);
-}
-
-// Reiniciar con un elemento vacío
-this.items.clear();
-this.items.push(this.createItemFormGroup());
+    }
+    
+    <app-button variant="secondary" (clicked)="addItem()">
+      + Añadir Item
+    </app-button>
+  </section>
+  
+  <!-- Total -->
+  <div class="invoice-total">
+    <strong>Total: {{ total() | currency:'EUR' }}</strong>
+  </div>
+  
+  <app-button type="submit" [disabled]="invoiceForm.invalid">
+    Guardar Factura
+  </app-button>
+</form>
 ```
 
 ---
 
-## 🌍 Compatibilidad de Navegadores
+## Compatibilidad y Requisitos
 
-| Evento/API | Chrome | Firefox | Safari | Edge | Notas |
-|------------|--------|---------|--------|------|-------|
-| **Eventos del DOM** | | | | | |
-| click | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| keydown | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| keyup | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| mouseenter | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| mouseleave | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| focus | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| blur | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| submit | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| **Métodos de Eventos** | | | | | |
-| preventDefault() | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| stopPropagation() | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Estándar W3C |
-| **APIs Modernas** | | | | | |
-| matchMedia() | ✅ 9+ | ✅ 6+ | ✅ 5.1+ | ✅ 12+ | Para prefers-color-scheme |
-| localStorage | ✅ 4+ | ✅ 3.5+ | ✅ 4+ | ✅ 12+ | Estándar |
-| classList | ✅ 8+ | ✅ 3.6+ | ✅ 5.1+ | ✅ 10+ | add, remove, toggle |
-| **Observables (RxJS)** | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Polyfill incluido |
-| **Signals (Angular)** | ✅ Todas | ✅ Todas | ✅ Todas | ✅ Todas | Requiere Angular 16+ |
+### Navegadores Soportados
 
-### Notas Importantes
+He diseñado la aplicación para funcionar en navegadores modernos. No se soporta Internet Explorer.
 
-✅ **Compatibilidad Total:** Todos los eventos y APIs utilizados son estándar W3C con soporte universal.
+| Navegador | Versión Mínima | Estado |
+|-----------|----------------|--------|
+| Chrome | 90+ | ✅ Completo |
+| Firefox | 88+ | ✅ Completo |
+| Safari | 14+ | ✅ Completo |
+| Edge | 90+ | ✅ Completo |
+| IE 11 | - | ❌ No soportado |
 
-⚠️ **Internet Explorer:** NO soportado. Este proyecto requiere navegadores modernos con soporte ES2020+.
+### APIs Utilizadas y su Compatibilidad
 
-🎯 **Versiones Mínimas Recomendadas:**
-- Chrome: 90+
-- Firefox: 88+
-- Safari: 14+
-- Edge: 90+
+| API | Propósito | Soporte |
+|-----|-----------|---------|
+| CSS Custom Properties | Sistema de temas | Universal |
+| matchMedia | Detección de preferencias | Chrome 9+, Firefox 6+ |
+| localStorage | Persistencia local | Universal |
+| Fetch API | Peticiones HTTP | Universal (polyfill incluido) |
+| ResizeObserver | Detección de redimensionado | Chrome 64+, Firefox 69+ |
 
----
+### Requisitos de Desarrollo
 
-## 📦 Estructura del Proyecto
+Para trabajar en este proyecto necesitas:
 
-```
-frontend/src/
-├── app/
-│   ├── components/
-│   │   ├── accordion/
-│   │   ├── dynamic-demo/
-│   │   ├── event-demo/
-│   │   ├── invoice-form/
-│   │   ├── loading-spinner/
-│   │   ├── modal/
-│   │   ├── tabs/
-│   │   ├── toast/
-│   │   └── tooltip/
-│   ├── layout/
-│   │   ├── header/
-│   │   ├── footer/
-│   │   └── main/
-│   └── shared/
-│       ├── services/
-│       │   ├── communication.service.ts
-│       │   ├── toast.service.ts
-│       │   └── loading.service.ts
-│       ├── interceptors/
-│       │   └── loading.interceptor.ts
-│       └── validators/
-│           ├── custom-validators.ts
-│           └── async-validators.service.ts
-└── styles/
-    ├── 00-settings/
-    │   └── _variables.sass
-    ├── 01-tools/
-    ├── 02-generic/
-    ├── 03-elements/
-    ├── 04-layout/
-    ├── 05-components/
-    └── 06-utilities/
-```
+- **Node.js:** 18.x o superior
+- **npm:** 9.x o superior
+- **Angular CLI:** 21.x
 
----
-
-## 🚀 Inicio Rápido
+### Comandos Principales
 
 ```bash
 # Instalar dependencias
 npm install
 
-# Desarrollo
+# Servidor de desarrollo
 ng serve
-# Abrir http://localhost:4200
+# La aplicación estará en http://localhost:4200
 
 # Build de producción
 ng build --configuration production
 
-# Tests
+# Ejecutar tests
 ng test
 
-# Linting
+# Verificar código
 ng lint
 ```
 
 ---
 
-## 📝 Patrones de Comunicación Implementados
+## Conclusiones
 
-### 1. Parent → Child
-```typescript
-// Input properties
-@Input() data: string;
-```
+Este proyecto me ha permitido profundizar en muchos aspectos del desarrollo frontend moderno con Angular. Algunas de las lecciones más valiosas que me llevo son:
 
-### 2. Child → Parent
-```typescript
-// Output events
-@Output() clicked = new EventEmitter<void>();
-```
+### Sobre la Nueva Sintaxis de Control de Flujo
 
-### 3. Siblings
-```typescript
-// Via servicio compartido
-constructor(private commService: CommunicationService) {}
-```
+La migración de `*ngIf` y `*ngFor` a `@if` y `@for` no es solo un cambio cosmético. La nueva sintaxis:
+- Es más legible y se parece más a otros lenguajes
+- Tiene mejor rendimiento en tiempo de compilación
+- Ofrece un soporte más natural para `@else` y `@empty`
+- Requiere `track` en los bucles, lo que fuerza buenas prácticas
 
-### 4. Global State
-```typescript
-// Via signals en servicio
-sharedState = signal<State>({ ... });
-```
+### Sobre los Signals
 
----
+Los signals han cambiado completamente mi forma de pensar sobre el estado en Angular. Son más simples que los Observables para casos donde no necesitas operadores complejos, y el rendimiento es notablemente mejor en aplicaciones grandes.
 
-## ✨ Mejores Prácticas Implementadas
+### Sobre la Arquitectura
 
-✅ **Componentes "Dumb" y Servicios "Smart"**
-- Componentes se enfocan en UI
-- Servicios manejan lógica de negocio y estado
+Mantener una estructura clara de carpetas y responsabilidades bien definidas hace que el código sea mucho más fácil de mantener. Los componentes pequeños y focalizados son más fáciles de testear y reutilizar.
 
-✅ **Standalone Components**
-- Todos los componentes son standalone
-- Imports explícitos y modulares
+### Próximos Pasos
 
-✅ **Signals para Estado Local**
-- Reactividad granular
-- Mejor rendimiento que Zone.js tradicional
-
-✅ **BehaviorSubject para Estado Global**
-- Estado sincrónico
-- Replay del último valor
-
-✅ **Validadores Reutilizables**
-- Funciones puras y testables
-- Separados en archivo dedicado
-
-✅ **Interceptores HTTP**
-- Centralización de lógica transversal
-- Loading automático
-
-✅ **Accesibilidad (a11y)**
-- ARIA labels
-- Roles semánticos
-- Navegación por teclado
+Como mejoras futuras me planteo:
+- Implementar Server-Side Rendering (SSR) con Angular Universal
+- Añadir más tests unitarios y de integración
+- Explorar el uso de signals para gestión de estado global
+- Mejorar la accesibilidad con auditorías automáticas
 
 ---
 
-## 📚 Referencias
+## Referencias Bibliográficas
 
-- [Angular Documentation](https://angular.dev)
-- [RxJS Documentation](https://rxjs.dev)
-- [Angular Signals Guide](https://angular.dev/guide/signals)
-- [Angular Forms](https://angular.dev/guide/forms)
-- [MDN Web Docs - Events](https://developer.mozilla.org/es/docs/Web/Events)
+- Angular Official Documentation. (2024). *Angular Developer Guide*. https://angular.dev
+- RxJS Official Documentation. (2024). *RxJS Guide*. https://rxjs.dev
+- Mozilla Developer Network. (2024). *Web APIs Reference*. https://developer.mozilla.org
+- W3C. (2024). *WAI-ARIA Authoring Practices*. https://www.w3.org/WAI/ARIA/
 
 ---
 
-**Última actualización:** Diciembre 2025  
-**Versión Angular:** 21.0.0  
-**Autor:** FonziGo Team
+**Proyecto:** FonziGo  
+**Versión:** 1.0.0  
+**Fecha:** Diciembre 2024  
+**Framework:** Angular 21.0.0  
+**Autor:** Trabajo de Fin de Curso - 2º DAW

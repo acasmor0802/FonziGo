@@ -1,7 +1,9 @@
 <div class="form-select" [class.form-select--error]="errorText" [class.form-select--disabled]="disabled">
   <label class="form-select__label" [for]="id">
     {{ label }}
-    <span *ngIf="required" class="form-select__required" aria-label="requerido">*</span>
+    @if (required) {
+      <span class="form-select__required" aria-label="requerido">*</span>
+    }
   </label>
   
   <select 
@@ -18,20 +20,25 @@
     (blur)="onBlur()"
   >
     <option value="" disabled [selected]="!value">{{ placeholder }}</option>
-    <option 
-      *ngFor="let option of options" 
-      [value]="option.value"
-      [disabled]="option.disabled"
-    >
-      {{ option.label }}
-    </option>
+    @for (option of options; track option.value) {
+      <option 
+        [value]="option.value"
+        [disabled]="option.disabled"
+      >
+        {{ option.label }}
+      </option>
+    }
   </select>
 
-  <p *ngIf="helpText && !errorText" [id]="id + '-description'" class="form-select__help">
-    {{ helpText }}
-  </p>
+  @if (helpText && !errorText) {
+    <p [id]="id + '-description'" class="form-select__help">
+      {{ helpText }}
+    </p>
+  }
 
-  <p *ngIf="errorText" [id]="id + '-description'" class="form-select__error" role="alert">
-    {{ errorText }}
-  </p>
+  @if (errorText) {
+    <p [id]="id + '-description'" class="form-select__error" role="alert">
+      {{ errorText }}
+    </p>
+  }
 </div>
