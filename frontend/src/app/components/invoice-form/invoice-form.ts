@@ -148,12 +148,12 @@ export class InvoiceFormComponent implements OnInit {
 
     if (this.invoiceForm.invalid) {
       this.toastService.error('Por favor, corrige los errores del formulario');
-      console.error('❌ Formulario inválido');
+      console.error('Formulario inválido');
       return;
     }
 
     this.toastService.success(`¡Factura creada! Total: €${this.total().toFixed(2)}`);
-    console.log('✅ Factura guardada:', this.invoiceForm.value);
+    console.log('Factura guardada:', this.invoiceForm.value);
   }
 
   reset(): void {

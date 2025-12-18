@@ -56,10 +56,10 @@ export class Header implements OnInit, AfterViewInit {
       if (this.isMobileMenuOpen()) {
         this.renderer.setStyle(this.mobileMenuRef.nativeElement, 'display', 'flex');
         this.renderer.addClass(this.mobileMenuRef.nativeElement, 'header__actions--open');
-        console.log('🎨 Renderer2: Menú abierto con setStyle y addClass');
+        console.log('Renderer2: Menú abierto con setStyle y addClass');
       } else {
         this.renderer.removeClass(this.mobileMenuRef.nativeElement, 'header__actions--open');
-        console.log('🎨 Renderer2: Menú cerrado con removeClass');
+        console.log('Renderer2: Menú cerrado con removeClass');
       }
     }
   }
@@ -75,7 +75,7 @@ export class Header implements OnInit, AfterViewInit {
   changeMenuColor(color: string): void {
     if (this.mobileMenuRef) {
       this.renderer.setStyle(this.mobileMenuRef.nativeElement, 'backgroundColor', color);
-      console.log(`🎨 Renderer2.setStyle(): Color del menú cambiado a ${color}`);
+      console.log(`Renderer2.setStyle(): Color del menú cambiado a ${color}`);
     }
   }
 
@@ -83,7 +83,7 @@ export class Header implements OnInit, AfterViewInit {
   changeMenuText(text: string): void {
     if (this.mobileMenuRef) {
       this.renderer.setProperty(this.mobileMenuRef.nativeElement, 'title', text);
-      console.log(`🎨 Renderer2.setProperty(): Título del menú cambiado a "${text}"`);
+      console.log(`Renderer2.setProperty(): Título del menú cambiado a "${text}"`);
     }
   }
 
@@ -93,10 +93,10 @@ export class Header implements OnInit, AfterViewInit {
       const hasClass = this.mobileMenuRef.nativeElement.classList.contains(className);
       if (hasClass) {
         this.renderer.removeClass(this.mobileMenuRef.nativeElement, className);
-        console.log(`🎨 Renderer2.removeClass(): Clase "${className}" removida`);
+        console.log(`Renderer2.removeClass(): Clase "${className}" removida`);
       } else {
         this.renderer.addClass(this.mobileMenuRef.nativeElement, className);
-        console.log(`🎨 Renderer2.addClass(): Clase "${className}" añadida`);
+        console.log(`Renderer2.addClass(): Clase "${className}" añadida`);
       }
     }
   }
@@ -112,7 +112,7 @@ export class Header implements OnInit, AfterViewInit {
 
     if (!clickedInsideMenu && !clickedOnHamburger) {
       this.closeMobileMenu();
-      console.log('🔔 @HostListener: Menú cerrado por click fuera');
+      console.log('@HostListener: Menú cerrado por click fuera');
     }
   }
 
@@ -125,7 +125,7 @@ export class Header implements OnInit, AfterViewInit {
 
   private getSystemPreference(): boolean {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    console.log('🌓 Sistema detectado - prefers-color-scheme:', isDark ? 'dark' : 'light');
+    console.log('Sistema detectado - prefers-color-scheme:', isDark ? 'dark' : 'light');
     return isDark;
   }
 

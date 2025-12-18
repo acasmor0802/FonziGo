@@ -21,7 +21,7 @@ export class AsyncValidatorsService {
   ];
 
   constructor() {
-    console.log('🔍 AsyncValidatorsService inicializado');
+    console.log('AsyncValidatorsService inicializado');
   }
 
   /**
@@ -121,21 +121,21 @@ export class AsyncValidatorsService {
   // ===== MÉTODOS PRIVADOS (Simulan llamadas HTTP) =====
 
   private checkEmailExists(email: string): Observable<boolean> {
-    console.log('🔍 Verificando email:', email);
+    console.log('Verificando email:', email);
     // Simular respuesta de API
     const exists = this.existingEmails.includes(email.toLowerCase());
     return of(exists);
   }
 
   private checkUsernameExists(username: string): Observable<boolean> {
-    console.log('🔍 Verificando username:', username);
+    console.log('Verificando username:', username);
     // Simular respuesta de API
     const exists = this.existingUsernames.includes(username.toLowerCase());
     return of(exists);
   }
 
   private checkNifInDatabase(nif: string): Observable<boolean> {
-    console.log('🔍 Verificando NIF en base de datos:', nif);
+    console.log('Verificando NIF en base de datos:', nif);
     // Simular que algunos NIFs existen
     const validNifs = ['12345678A', '87654321B', '11111111H'];
     const exists = validNifs.includes(nif);

@@ -43,11 +43,11 @@ export class AccordionComponent {
     this.openItems.update(items => {
       if (items.includes(itemId)) {
         // Cerrar item
-        console.log(`📂 Accordion item cerrado: ${itemId}`);
+        console.log(`Accordion item cerrado: ${itemId}`);
         return items.filter(id => id !== itemId);
       } else {
         // Abrir item
-        console.log(`📂 Accordion item abierto: ${itemId}`);
+        console.log(`Accordion item abierto: ${itemId}`);
         return [...items, itemId];
       }
     });

@@ -130,7 +130,7 @@ export class Register implements OnInit {
     try {
       await this.simulateRegister();
       this.toastService.success('¡Cuenta creada exitosamente!');
-      console.log('✅ Register:', this.registerForm.value);
+      console.log('Register:', this.registerForm.value);
     } catch (error) {
       this.toastService.error('Error al crear la cuenta');
     } finally {

@@ -47,7 +47,7 @@ import { Register } from '../../components/register/register';
 
     .auth-container
       width: 100%
-      max-width: 480px
+      max-width: 600px
   `]
 })
 export class RegisterPage {}

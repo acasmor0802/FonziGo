@@ -18,11 +18,11 @@ export class TooltipComponent {
 
   show(): void {
     this.showTooltip.set(true);
-    console.log(`💡 Tooltip mostrado: "${this.text}"`);
+    console.log(`Tooltip mostrado: "${this.text}"`);
   }
 
   hide(): void {
     this.showTooltip.set(false);
-    console.log(`💡 Tooltip ocultado`);
+    console.log(`Tooltip ocultado`);
   }
 }

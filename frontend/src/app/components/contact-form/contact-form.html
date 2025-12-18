@@ -1,12 +1,12 @@
 <div class="contact-form">
-  <h2 class="contact-form__title">📧 Formulario de Contacto</h2>
+  <h2 class="contact-form__title">Formulario de Contacto</h2>
   <p class="contact-form__subtitle">Complete el formulario y nos pondremos en contacto contigo pronto.</p>
 
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form__form">
     
     <!-- Sección: Datos Personales -->
     <fieldset class="contact-form__fieldset">
-      <legend>👤 Datos Personales</legend>
+      <legend>Datos Personales</legend>
       
       <div class="contact-form__row">
         <div class="contact-form__field">
@@ -89,7 +89,7 @@
 
     <!-- Sección: Datos del Mensaje -->
     <fieldset class="contact-form__fieldset">
-      <legend>✉️ Tu Mensaje</legend>
+      <legend>Tu Mensaje</legend>
 
       <div class="contact-form__row">
         <div class="contact-form__field">
@@ -151,7 +151,7 @@
 
     <!-- Sección: Consentimientos -->
     <fieldset class="contact-form__fieldset contact-form__fieldset--checkboxes">
-      <legend>📋 Consentimientos</legend>
+      <legend>Consentimientos</legend>
 
       <div class="contact-form__checkbox-group">
         <label class="contact-form__checkbox-label">
@@ -190,7 +190,7 @@
         (click)="resetForm()"
         [disabled]="formStatus().loading"
       >
-        🔄 Limpiar
+        Limpiar
       </button>
       
       <button
@@ -202,7 +202,7 @@
           <span class="contact-form__spinner"></span>
           Enviando...
         } @else {
-          📤 Enviar Mensaje
+          Enviar Mensaje
         }
       </button>
     </div>
@@ -210,7 +210,7 @@
     <!-- Estado del formulario (debug) -->
     <div class="contact-form__debug">
       <details>
-        <summary>🔍 Estado del formulario (desarrollo)</summary>
+        <summary>Estado del formulario (desarrollo)</summary>
         <pre>{{ contactForm.value | json }}</pre>
         <p><strong>Valid:</strong> {{ contactForm.valid }}</p>
         <p><strong>Pending:</strong> {{ contactForm.pending }}</p>

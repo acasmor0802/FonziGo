@@ -72,7 +72,7 @@ export class Login implements OnInit {
       // Simular login
       await this.simulateLogin();
       this.toastService.success('¡Inicio de sesión exitoso!');
-      console.log('✅ Login:', this.loginForm.value);
+      console.log('Login:', this.loginForm.value);
     } catch (error) {
       this.toastService.error('Error al iniciar sesión');
     } finally {
@@ -86,11 +86,11 @@ export class Login implements OnInit {
 
   loginWithGoogle(): void {
     this.toastService.info('Redirigiendo a Google...');
-    console.log('🔗 Login con Google');
+    console.log('Login con Google');
   }
 
   loginWithApple(): void {
     this.toastService.info('Redirigiendo a Apple...');
-    console.log('🔗 Login con Apple');
+    console.log('Login con Apple');
   }
 }

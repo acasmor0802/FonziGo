@@ -11,14 +11,14 @@ export class LoadingService {
   isLoading$: Observable<boolean> = this.loadingSubject.asObservable();
 
   constructor() {
-    console.log('⏳ LoadingService inicializado');
+    console.log('LoadingService inicializado');
   }
 
   show(): void {
     this.requestCount++;
     if (this.requestCount === 1) {
       this.loadingSubject.next(true);
-      console.log('⏳ Loading activado (peticiones activas:', this.requestCount, ')');
+      console.log('Loading activado (peticiones activas:', this.requestCount, ')');
     }
   }
 
@@ -29,7 +29,7 @@ export class LoadingService {
 
     if (this.requestCount === 0) {
       this.loadingSubject.next(false);
-      console.log('✅ Loading desactivado (peticiones activas:', this.requestCount, ')');
+      console.log('Loading desactivado (peticiones activas:', this.requestCount, ')');
     }
   }
 
@@ -50,6 +50,6 @@ export class LoadingService {
   reset(): void {
     this.requestCount = 0;
     this.loadingSubject.next(false);
-    console.log('🔄 LoadingService reset');
+    console.log('LoadingService reset');
   }
 }

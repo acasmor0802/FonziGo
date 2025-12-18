@@ -122,7 +122,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
     this.contactForm.statusChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(status => {
-        console.log('📋 Form status:', status);
+        console.log('Form status:', status);
       });
 
     // Escuchar cuando el email termina de validarse
@@ -130,7 +130,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(status => {
         if (status === 'PENDING') {
-          console.log('⏳ Validando email...');
+          console.log('Validando email...');
         }
       });
   }
@@ -208,7 +208,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
     if (this.contactForm.invalid) {
       this.toastService.error('Por favor, corrige los errores del formulario');
-      console.error('❌ Formulario inválido:', this.contactForm.errors);
+      console.error('Formulario inválido:', this.contactForm.errors);
       return;
     }
 
@@ -226,7 +226,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
       this.formStatus.update(s => ({ ...s, success: true, loading: false }));
       this.toastService.success('¡Mensaje enviado correctamente!');
-      console.log('✅ Formulario enviado:', this.contactForm.value);
+      console.log('Formulario enviado:', this.contactForm.value);
 
       // Resetear formulario después de éxito
       this.contactForm.reset({
@@ -239,7 +239,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
     } catch (error) {
       this.formStatus.update(s => ({ ...s, loading: false }));
       this.toastService.error('Error al enviar el mensaje. Inténtalo de nuevo.');
-      console.error('❌ Error al enviar:', error);
+      console.error('Error al enviar:', error);
     }
   }
 

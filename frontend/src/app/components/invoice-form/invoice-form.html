@@ -1,5 +1,5 @@
 <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" class="invoice-form">
-  <h2 class="invoice-form__title">📄 Formulario de Factura con FormArray</h2>
+  <h2 class="invoice-form__title">Formulario de Factura con FormArray</h2>
 
   <!-- Datos Cliente -->
   <section class="invoice-form__section">
@@ -33,7 +33,7 @@
   <!-- Teléfonos Array -->
   <section class="invoice-form__section">
     <div class="section-header">
-      <h3>📱 Teléfonos</h3>
+      <h3>Teléfonos</h3>
       <app-button variant="secondary" size="sm" type="button" (clicked)="addTelefono()">
         + Añadir Teléfono
       </app-button>
@@ -73,7 +73,7 @@
             (click)="removeTelefono(i)"
             [disabled]="telefonos.length === 1"
           >
-            🗑️
+            X
           </button>
         </div>
       }
@@ -83,7 +83,7 @@
   <!-- Direcciones Array -->
   <section class="invoice-form__section">
     <div class="section-header">
-      <h3>📍 Direcciones</h3>
+      <h3>Direcciones</h3>
       <app-button variant="secondary" size="sm" type="button" (clicked)="addDireccion()">
         + Añadir Dirección
       </app-button>
@@ -129,7 +129,7 @@
             (click)="removeDireccion(i)"
             [disabled]="direcciones.length === 1"
           >
-            🗑️
+            X
           </button>
         </div>
       }
@@ -139,7 +139,7 @@
   <!-- Items de Factura Array -->
   <section class="invoice-form__section">
     <div class="section-header">
-      <h3>🛒 Items de Factura</h3>
+      <h3>Items de Factura</h3>
       <app-button variant="secondary" size="sm" type="button" (clicked)="addItem()">
         + Añadir Item
       </app-button>
@@ -192,7 +192,7 @@
             (click)="removeItem(i)"
             [disabled]="items.length === 1"
           >
-            🗑️
+            X
           </button>
         </div>
       }
@@ -221,7 +221,7 @@
       type="submit"
       [disabled]="submitted() && invoiceForm.invalid"
     >
-      💾 Guardar Factura
+      Guardar Factura
     </app-button>
   </div>
 </form>

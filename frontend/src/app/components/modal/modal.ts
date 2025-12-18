@@ -15,27 +15,27 @@ export class ModalComponent {
   open(): void {
     this.isOpen.set(true);
     document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-    console.log('🔓 Modal abierto');
+    console.log('Modal abierto');
   }
 
   close(): void {
     this.isOpen.set(false);
     document.body.style.overflow = ''; // Restaurar scroll
     this.closed.emit();
-    console.log('🔒 Modal cerrado');
+    console.log('Modal cerrado');
   }
 
   @HostListener('document:keydown.escape', ['$event'])
   onEscapeKey(event: Event): void {
     if (this.isOpen()) {
       this.close();
-      console.log('⌨️ Modal cerrado con tecla ESC');
+      console.log('Modal cerrado con tecla ESC');
     }
   }
 
   onOverlayClick(): void {
     this.close();
-    console.log('🖱️ Modal cerrado por click en overlay');
+    console.log('Modal cerrado por click en overlay');
   }
 
   onContentClick(event: MouseEvent): void {

@@ -66,12 +66,12 @@ export class DynamicDemoComponent implements AfterViewInit {
     // Guardar referencia
     this.elementosCreados.push(nuevoDiv);
     
-    console.log(`✅ Renderer2.createElement(): Elemento #${this.contadorElementos} creado e insertado`);
+    console.log(`Renderer2.createElement(): Elemento #${this.contadorElementos} creado e insertado`);
   }
 
   eliminarElemento(): void {
     if (this.elementosCreados.length === 0) {
-      console.warn('⚠️ No hay elementos para eliminar');
+      console.warn('No hay elementos para eliminar');
       return;
     }
     
@@ -85,7 +85,7 @@ export class DynamicDemoComponent implements AfterViewInit {
       // Eliminar después de la animación
       setTimeout(() => {
         this.renderer.removeChild(this.contenedorRef.nativeElement, ultimoElemento);
-        console.log(`🗑️ Renderer2.removeChild(): Elemento eliminado`);
+        console.log(`Renderer2.removeChild(): Elemento eliminado`);
       }, 300);
     }
   }
@@ -103,7 +103,7 @@ export class DynamicDemoComponent implements AfterViewInit {
     this.elementosCreados = [];
     this.contadorElementos = 0;
     
-    console.log('🧹 Todos los elementos eliminados');
+    console.log('Todos los elementos eliminados');
   }
 
   private getRandomColor(): string {

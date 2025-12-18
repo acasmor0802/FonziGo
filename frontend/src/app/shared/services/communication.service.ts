@@ -38,7 +38,7 @@ export class CommunicationService {
   sharedState$: Observable<SharedState> = this.sharedStateSubject.asObservable();
 
   constructor() {
-    console.log('📡 CommunicationService inicializado');
+    console.log('CommunicationService inicializado');
   }
 
   // ===== MÉTODOS DE NOTIFICACIONES =====
@@ -51,7 +51,7 @@ export class CommunicationService {
     };
     
     this.notificationsSubject.next(fullNotification);
-    console.log('📤 Notificación enviada:', fullNotification);
+    console.log('Notificación enviada:', fullNotification);
   }
 
   sendInfoNotification(message: string, data?: any): void {
@@ -89,7 +89,7 @@ export class CommunicationService {
     };
     
     this.sharedStateSubject.next(newState);
-    console.log('🔄 Estado compartido actualizado:', newState);
+    console.log('Estado compartido actualizado:', newState);
   }
 
   getSharedState$(): Observable<SharedState> {

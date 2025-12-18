@@ -1,5 +1,5 @@
 <div class="event-demo">
-  <h2 class="event-demo__title">⚡ Demo de Sistema de Eventos en Angular</h2>
+  <h2 class="event-demo__title">Demo de Sistema de Eventos en Angular</h2>
 
   <div class="event-demo__ultimo-evento">
     <strong>Último evento:</strong> {{ ultimoEvento() }}
@@ -7,7 +7,7 @@
 
   <!-- ========== EVENTOS DE CLICK ========== -->
   <section class="event-demo__section">
-    <h3>🖱️ Eventos de Click</h3>
+    <h3>Eventos de Click</h3>
     <button 
       class="demo-button"
       (click)="onClick($event)"
@@ -19,7 +19,7 @@
 
   <!-- ========== EVENTOS DE TECLADO ========== -->
   <section class="event-demo__section">
-    <h3>⌨️ Eventos de Teclado</h3>
+    <h3>Eventos de Teclado</h3>
     
     <div class="event-demo__input-group">
       <label for="keyupInput">KeyUp Event:</label>
@@ -53,13 +53,13 @@
         (keyup.enter)="onEnter()"
         class="event-demo__input"
       />
-      <p class="event-demo__hint">💡 Presiona Enter para activar</p>
+      <p class="event-demo__hint">Presiona Enter para activar</p>
     </div>
   </section>
 
   <!-- ========== EVENTOS DE MOUSE ========== -->
   <section class="event-demo__section">
-    <h3>🖱️ Eventos de Mouse (hover)</h3>
+    <h3>Eventos de Mouse (hover)</h3>
     
     <div 
       class="event-demo__hover-area"
@@ -91,7 +91,7 @@
 
   <!-- ========== PREVENIR COMPORTAMIENTO POR DEFECTO ========== -->
   <section class="event-demo__section">
-    <h3>⛔ preventDefault()</h3>
+    <h3>preventDefault()</h3>
     
     <form (submit)="onSubmit($event)" class="event-demo__form">
       <input 
@@ -120,7 +120,7 @@
 
   <!-- ========== PROPAGACIÓN DE EVENTOS ========== -->
   <section class="event-demo__section">
-    <h3>🔄 stopPropagation()</h3>
+    <h3>stopPropagation()</h3>
     
     <div class="event-demo__toggle">
       <label>
@@ -146,7 +146,7 @@
       >
         <strong>Elemento Hijo</strong>
         <p class="event-demo__hint">
-          {{ propagationEnabled() ? '✅ Click se propagará' : '🛑 Click no se propagará' }}
+          {{ propagationEnabled() ? 'Click se propagará' : 'Click no se propagará' }}
         </p>
       </div>
     </div>
@@ -155,13 +155,13 @@
   <!-- ========== LOG DE EVENTOS ========== -->
   <section class="event-demo__section">
     <div class="event-demo__log-header">
-      <h3>📋 Log de Eventos</h3>
+      <h3>Log de Eventos</h3>
       <button
         class="demo-button ghost-button"
         (click)="limpiarLogs()"
         aria-label="Limpiar logs"
       >
-        🧹 Limpiar
+        Limpiar
       </button>
     </div>
 

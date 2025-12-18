@@ -63,11 +63,21 @@
   padding: 1.5rem 2rem
 
 .modal-footer
-  padding: 1rem 2rem 2rem 2rem
+  padding: 1.5rem 2rem 2rem 2rem
   display: flex
   gap: 1rem
   justify-content: flex-end
   border-top: 1px solid var(--color-border, #dfe6e9)
+
+  // Asegurar que los botones secundarios se vean bien
+  .btn--secondary,
+  [class*="secondary"]
+    background-color: var(--bg-secondary, #f5f7fa)
+    color: var(--text-primary, #333)
+    border: 1px solid var(--border-color, #ddd)
+
+    &:hover
+      background-color: var(--bg-tertiary, #e8ecf1)
 
 // Animations
 @keyframes fadeIn

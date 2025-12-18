@@ -30,11 +30,11 @@ export class ToastComponent implements OnInit {
 
   getIcon(type: string): string {
     const icons: Record<string, string> = {
-      success: '✅',
-      error: '❌',
-      info: 'ℹ️',
-      warning: '⚠️'
+      success: '[OK]',
+      error: '[X]',
+      info: '[i]',
+      warning: '[!]'
     };
-    return icons[type] || 'ℹ️';
+    return icons[type] || '[i]';
   }
 }

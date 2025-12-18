@@ -42,34 +42,44 @@ He organizado el proyecto siguiendo una estructura modular que facilita tanto el
 frontend/src/
 ├── app/
 │   ├── components/          # Componentes reutilizables
-│   │   ├── accordion/       # Componente acordeón
+│   │   ├── accordion/       # Componente acordeon
 │   │   ├── alert/           # Alertas y notificaciones
-│   │   ├── button/          # Botón personalizado
+│   │   ├── button/          # Boton personalizado
+│   │   ├── contact-form/    # Formulario de contacto
+│   │   ├── dynamic-demo/    # Demo de DOM dinamico
+│   │   ├── event-demo/      # Demo de eventos
 │   │   ├── form-input/      # Campo de formulario
 │   │   ├── form-select/     # Selector desplegable
-│   │   ├── form-textarea/   # Área de texto
+│   │   ├── form-textarea/   # Area de texto
+│   │   ├── invoice-form/    # Formulario de factura (FormArray)
+│   │   ├── loading-spinner/ # Indicador de carga
+│   │   ├── login/           # Formulario de login
 │   │   ├── modal/           # Ventanas modales
-│   │   ├── tabs/            # Sistema de pestañas
+│   │   ├── product-card/    # Tarjeta de producto
+│   │   ├── register/        # Formulario de registro
+│   │   ├── tabs/            # Sistema de pestanas
 │   │   ├── toast/           # Notificaciones toast
 │   │   └── tooltip/         # Tooltips informativos
 │   │
 │   ├── layout/              # Componentes de estructura
-│   │   ├── header/          # Cabecera de la aplicación
-│   │   ├── footer/          # Pie de página
+│   │   ├── header/          # Cabecera de la aplicacion
+│   │   ├── footer/          # Pie de pagina
 │   │   └── main/            # Contenedor principal
 │   │
-│   ├── pages/               # Páginas de la aplicación
-│   │   └── style-guide/     # Guía de estilos
+│   ├── pages/               # Paginas de la aplicacion
+│   │   ├── login/           # Pagina de login
+│   │   ├── register/        # Pagina de registro
+│   │   └── style-guide/     # Guia de estilos
 │   │
-│   └── shared/              # Código compartido
+│   └── shared/              # Codigo compartido
 │       ├── services/        # Servicios globales
 │       ├── interceptors/    # Interceptores HTTP
 │       └── validators/      # Validadores personalizados
 │
 └── styles/                  # Sistema de estilos ITCSS
-    ├── 00-settings/         # Variables y configuración
+    ├── 00-settings/         # Variables y configuracion
     ├── 01-tools/            # Mixins y funciones
-    ├── 02-generic/          # Reset y normalización
+    ├── 02-generic/          # Reset y normalizacion
     ├── 03-elements/         # Estilos base HTML
     ├── 04-layout/           # Sistema de layout
     ├── 05-components/       # Estilos de componentes
@@ -461,21 +471,27 @@ private persistTheme(): void {
 Utilizo CSS Custom Properties (variables) para definir los colores de cada tema. Esto hace que cambiar de tema sea instantáneo y sin recargas.
 
 ```sass
-// Modo claro (por defecto)
+// Modo claro (por defecto) - Paleta FonziGo
 :root
-  --bg-primary: #FEFEFE
-  --bg-secondary: #f5f7fa
-  --text-primary: #1a1a2e
-  --text-secondary: #4a4a68
-  --border-color: #d1d5db
+  --bg-primary: #FFF1D5
+  --bg-secondary: #FFFBF2
+  --bg-card: #FFFFFF
+  --text-primary: #333F51
+  --text-secondary: #576C8A
+  --primary: #333F51
+  --secondary: #FFD379
+  --border-color: #D4C5A9
 
-// Modo oscuro
+// Modo oscuro - Paleta FonziGo Dark
 .dark-mode
-  --bg-primary: #1a1a2e
-  --bg-secondary: #252540
-  --text-primary: #f5f5f5
-  --text-secondary: #b0b0c0
-  --border-color: #3a3a50
+  --bg-primary: #1E2A3A
+  --bg-secondary: #2A3A4D
+  --bg-card: #2A3A4D
+  --text-primary: #FFF1D5
+  --text-secondary: #D4C5A9
+  --primary: #FFD379
+  --secondary: #7A92B5
+  --border-color: #576C8A
 ```
 
 ---

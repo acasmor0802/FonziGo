@@ -47,7 +47,7 @@ import { Login } from '../../components/login/login';
 
     .auth-container
       width: 100%
-      max-width: 420px
+      max-width: 600px
   `]
 })
 export class LoginPage {}

@@ -27,7 +27,7 @@ export class ToastService {
   };
 
   constructor() {
-    console.log('🍞 ToastService inicializado');
+    console.log('ToastService inicializado');
   }
 
   private show(type: ToastType, title: string, message?: string, customDuration?: number): void {
@@ -43,7 +43,7 @@ export class ToastService {
     const currentToasts = this.toastsSubject.value;
     this.toastsSubject.next([...currentToasts, toast]);
 
-    console.log(`🍞 Toast mostrado [${type}]:`, toast);
+    console.log(`Toast mostrado [${type}]:`, toast);
 
     // Auto-dismiss
     setTimeout(() => {
@@ -71,12 +71,12 @@ export class ToastService {
     const currentToasts = this.toastsSubject.value;
     const filteredToasts = currentToasts.filter(toast => toast.id !== id);
     this.toastsSubject.next(filteredToasts);
-    console.log(`🗑️ Toast eliminado: ${id}`);
+    console.log(`Toast eliminado: ${id}`);
   }
 
   dismissAll(): void {
     this.toastsSubject.next([]);
-    console.log('🗑️ Todos los toasts eliminados');
+    console.log('Todos los toasts eliminados');
   }
 
   private generateId(): string {

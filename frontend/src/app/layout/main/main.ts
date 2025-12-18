@@ -168,7 +168,7 @@ export class Main implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(notification => {
         if (notification) {
-          console.log('📬 Notificación recibida:', notification);
+          console.log('Notificación recibida:', notification);
         }
       });
   }
