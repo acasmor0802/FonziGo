@@ -105,103 +105,128 @@
           Componentes de formulario accesibles y reutilizables.
         </p>
 
-        <!-- Form Input -->
+        <!-- Form Login Style -->
         <div class="style-guide__subsection">
-          <h3 class="style-guide__subsection-title">Input de Texto</h3>
-          <div class="style-guide__demo style-guide__demo--column" style="max-width: 400px;">
-            <app-form-input
-              id="demo-name"
-              label="Nombre"
-              placeholder="Escribe tu nombre"
-              helpText="Tu nombre completo como aparece en tu DNI"
-            ></app-form-input>
+          <h3 class="style-guide__subsection-title">Formulario de Login</h3>
+          <div class="style-guide__demo">
+            <form class="style-guide__form-card" novalidate>
+              <fieldset class="style-guide__form-fieldset">
+                <legend class="style-guide__form-legend">Inicia sesión</legend>
 
-            <app-form-input
-              id="demo-email"
-              label="Email"
-              type="email"
-              placeholder="ejemplo@email.com"
-              [required]="true"
-            ></app-form-input>
+                <app-form-input
+                  id="demo-login-email"
+                  label="Correo electrónico"
+                  type="email"
+                  placeholder="tu@email.com"
+                  [required]="true"
+                  helpText="Usa el correo con el que te registraste"
+                ></app-form-input>
 
-            <app-form-input
-              id="demo-error"
-              label="Campo con error"
-              placeholder="Este campo tiene un error"
-              errorText="Este campo es obligatorio"
-              [required]="true"
-            ></app-form-input>
+                <app-form-input
+                  id="demo-login-password"
+                  label="Contraseña"
+                  type="password"
+                  placeholder="••••••••"
+                  [required]="true"
+                ></app-form-input>
+              </fieldset>
 
-            <app-form-input
-              id="demo-disabled"
-              label="Campo deshabilitado"
-              placeholder="No puedes editar esto"
-              [disabled]="true"
-            ></app-form-input>
+              <app-button variant="primary" size="md" [fullWidth]="true">
+                Acceder
+              </app-button>
+            </form>
           </div>
         </div>
 
-        <!-- Form Select -->
+        <!-- Form Register Style -->
         <div class="style-guide__subsection">
-          <h3 class="style-guide__subsection-title">Select</h3>
-          <div class="style-guide__demo style-guide__demo--column" style="max-width: 400px;">
-            <app-form-select
-              id="demo-select"
-              label="Selecciona una opción"
-              placeholder="Elige una opción"
-              [options]="selectOptions"
-              helpText="Selecciona la opción que mejor se ajuste"
-            ></app-form-select>
+          <h3 class="style-guide__subsection-title">Formulario de Registro</h3>
+          <div class="style-guide__demo">
+            <form class="style-guide__form-card" novalidate>
+              <fieldset class="style-guide__form-fieldset">
+                <legend class="style-guide__form-legend">Crea tu cuenta</legend>
 
-            <app-form-select
-              id="demo-select-required"
-              label="Campo requerido"
-              placeholder="Selección obligatoria"
-              [options]="selectOptions"
-              [required]="true"
-            ></app-form-select>
+                <app-form-input
+                  id="demo-register-email"
+                  label="Correo electrónico"
+                  type="email"
+                  placeholder="tu@email.com"
+                  [required]="true"
+                  helpText="Usarás este correo para iniciar sesión"
+                ></app-form-input>
 
-            <app-form-select
-              id="demo-select-error"
-              label="Select con error"
-              placeholder="Error de validación"
-              [options]="selectOptions"
-              errorText="Debes seleccionar una opción"
-            ></app-form-select>
+                <app-form-input
+                  id="demo-register-phone"
+                  label="Número de teléfono"
+                  type="tel"
+                  placeholder="+34 600 123 456"
+                  [required]="true"
+                ></app-form-input>
+
+                <app-form-select
+                  id="demo-register-provincia"
+                  label="Provincia"
+                  [required]="true"
+                  [options]="selectOptions"
+                  placeholder="Selecciona tu provincia"
+                ></app-form-select>
+
+                <app-form-input
+                  id="demo-register-password"
+                  label="Contraseña"
+                  type="password"
+                  placeholder="••••••••"
+                  [required]="true"
+                  helpText="Mínimo 8 caracteres"
+                ></app-form-input>
+              </fieldset>
+
+              <app-button variant="primary" size="md" [fullWidth]="true">
+                Crear cuenta
+              </app-button>
+            </form>
           </div>
         </div>
 
-        <!-- Form Textarea (usando Input) -->
+        <!-- Form States -->
         <div class="style-guide__subsection">
-          <h3 class="style-guide__subsection-title">Campos de Texto Adicionales</h3>
-          <div class="style-guide__demo style-guide__demo--column" style="max-width: 400px;">
-            <app-form-input
-              id="demo-description"
-              label="Descripción"
-              placeholder="Escribe una descripción..."
-              helpText="Campo de texto para descripciones"
-            ></app-form-input>
+          <h3 class="style-guide__subsection-title">Estados de Validación</h3>
+          <div class="style-guide__demo">
+            <form class="style-guide__form-card" novalidate>
+              <fieldset class="style-guide__form-fieldset">
+                <legend class="style-guide__form-legend">Estados de campos</legend>
 
-            <app-form-input
-              id="demo-message"
-              label="Mensaje"
-              placeholder="Escribe tu mensaje..."
-            ></app-form-input>
+                <app-form-input
+                  id="demo-state-normal"
+                  label="Campo normal"
+                  placeholder="Escribe aquí..."
+                  helpText="Este es un campo sin errores"
+                ></app-form-input>
 
-            <app-form-input
-              id="demo-notes"
-              label="Notas"
-              placeholder="Añade notas adicionales"
-              errorText="Este campo es obligatorio"
-              [required]="true"
-            ></app-form-input>
+                <app-form-input
+                  id="demo-state-error"
+                  label="Campo con error"
+                  placeholder="Este campo tiene un error"
+                  errorText="Este campo es obligatorio"
+                  [required]="true"
+                ></app-form-input>
 
-            <app-form-input
-              id="demo-comments"
-              label="Comentarios"
-              placeholder="No puedes editar esto"
-              [disabled]="true"
-            ></app-form-input>
+                <app-form-input
+                  id="demo-state-disabled"
+                  label="Campo deshabilitado"
+                  placeholder="No puedes editar esto"
+                  [disabled]="true"
+                ></app-form-input>
+
+                <app-form-select
+                  id="demo-state-select-error"
+                  label="Select con error"
+                  placeholder="Selecciona una opción"
+                  [options]="selectOptions"
+                  errorText="Debes seleccionar una opción"
+                ></app-form-select>
+              </fieldset>
+            </form>
           </div>
         </div>
       </section>

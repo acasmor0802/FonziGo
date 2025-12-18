@@ -81,9 +81,10 @@
   </div>
 
   <!-- Overlay para cerrar el menú -->
-  <div 
-    *ngIf="isMobileMenuOpen()" 
-    class="header__overlay"
-    (click)="closeMobileMenu()"
-  ></div>
+  @if (isMobileMenuOpen()) {
+    <div 
+      class="header__overlay"
+      (click)="closeMobileMenu()"
+    ></div>
+  }
 </header>

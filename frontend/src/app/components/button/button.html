@@ -6,21 +6,27 @@
   [attr.aria-busy]="loading ? 'true' : null"
   (click)="onClick($event)"
 >
-  <span *ngIf="loading" class="btn__spinner" aria-hidden="true">
-    <svg class="btn__spinner-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <circle class="btn__spinner-circle" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" />
-    </svg>
-  </span>
+  @if (loading) {
+    <span class="btn__spinner" aria-hidden="true">
+      <svg class="btn__spinner-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle class="btn__spinner-circle" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" />
+      </svg>
+    </span>
+  }
 
-  <span *ngIf="icon && iconPosition === 'left' && !loading" class="btn__icon btn__icon--left" aria-hidden="true">
-    {{ icon }}
-  </span>
+  @if (icon && iconPosition === 'left' && !loading) {
+    <span class="btn__icon btn__icon--left" aria-hidden="true">
+      {{ icon }}
+    </span>
+  }
 
   <span class="btn__content" [class.btn__content--hidden]="loading">
     <ng-content></ng-content>
   </span>
 
-  <span *ngIf="icon && iconPosition === 'right' && !loading" class="btn__icon btn__icon--right" aria-hidden="true">
-    {{ icon }}
-  </span>
+  @if (icon && iconPosition === 'right' && !loading) {
+    <span class="btn__icon btn__icon--right" aria-hidden="true">
+      {{ icon }}
+    </span>
+  }
 </button>
