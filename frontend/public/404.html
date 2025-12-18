@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>FonziGo - Cargando...</title>
+  <script>
+    // Solución para rutas de Angular en GitHub Pages
+    // Redirige de /FonziGo/ruta a /FonziGo/?p=/ruta
+    (function() {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- GitHub Pages redirigirá automáticamente a index.html -->
+</body>
+</html>

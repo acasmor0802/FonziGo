@@ -81,18 +81,20 @@ Mantuve los mismos colores pero los organicé en design tokens:
 
 ```sass
 // Colores implementados en _variables.sass
+--background: #FFF1D5          // Fondo principal
 --primary-blue: #333F51        // Header, textos
 --primary-blue-alt: #576C8A    // Textos secundarios
+--primary-blue-light: #7A92B5  // Textos terciarios
 --secundary-yellow: #FFF1D5    // Fondo claro
 --secundary-yellow-alt: #FFD379 // Botones, precios
---background: #FEFEFE          // Fondo de cards
+--secundary-yellow-dark: #FFC850 // Botones hover
 ```
 
 **Cambios y justificación:**
 
 | Figma | Angular | Justificación |
 |-------|---------|---------------|
-| Fondo cards #FFFFFF | Fondo cards #FEFEFE | El blanco puro (#FFF) resulta demasiado brillante y cansa la vista. El #FEFEFE es casi blanco pero más suave |
+| Fondo cards #FFFFFF | Fondo general #FFF1D5 | Se usa un amarillo crema suave que aporta calidez y reduce la fatiga visual respecto al blanco puro |
 | Colores hardcodeados | CSS Custom Properties | Permite cambiar toda la paleta desde un solo archivo, facilita mantenimiento y futura implementación de dark mode |
 | Sin estados hover | Estados hover con cambio de color | Mejora la experiencia de usuario indicando elementos interactivos |
 
@@ -308,15 +310,15 @@ frontend/src/styles/
 
 ```sass
 // styles.sass - El orden es CRÍTICO
-@use '00-settings/variables'
-@use '01-tools/mixins'
-@use '02-generic/reset'
-@use '03-elements/base'
-@use '04-layout/layout'
-@use '05-components/buttons'
-@use '05-components/header'
-@use '05-components/footer'
-@use '06-utilities/helpers'
+@use 'styles/00-settings/variables'
+@use 'styles/01-tools/mixins'
+@use 'styles/02-generic/reset'
+@use 'styles/03-elements/base'
+@use 'styles/04-layout/layout'
+@use 'styles/05-components/header'
+@use 'styles/05-components/footer'
+@use 'styles/05-components/buttons'
+@use 'styles/06-utilities/helpers'
 ```
 
 ### Por qué este orden
@@ -339,34 +341,30 @@ Los design tokens son la única fuente de verdad para valores visuales.
 
 ```sass
 // Colores Primarios - Azul corporativo
---primary: #3b82f6
---primary-hover: #2563eb
---primary-light: #dbeafe
---primary-dark: #1d4ed8
+--primary-blue: #333F51        // Header, textos principales
+--primary-blue-alt: #576C8A    // Textos secundarios
+--primary-blue-light: #7A92B5  // Textos terciarios, estados hover
 
-// Colores Secundarios - Amarillo/Naranja
---secondary: #f59e0b
---secondary-hover: #d97706
---secondary-light: #fef3c7
+// Colores Secundarios - Amarillo/Crema
+--background: #FFF1D5          // Fondo principal de la aplicación
+--secundary-yellow: #FFF1D5    // Fondo claro (mismo que background)
+--secundary-yellow-alt: #FFD379 // Botones, precios destacados
+--secundary-yellow-dark: #FFC850 // Estados hover de botones
 
 // Colores Semánticos
---success: #10b981      // Verde - confirmaciones
---error: #ef4444        // Rojo - errores
---warning: #f59e0b      // Naranja - advertencias
---info: #3b82f6         // Azul - información
+--success: #A7FFB7             // Verde claro - confirmaciones
+--error: #CE8282               // Rojo suave - errores
 
-// Colores de Interfaz
---bg-primary: #ffffff   // Fondo principal
---bg-secondary: #f5f7fa // Fondo secundario
---text-primary: #1a1a2e // Texto principal
---text-secondary: #4a4a68 // Texto secundario
---border-color: #d1d5db // Bordes
+// Colores de Redes Sociales
+--google-blue: #4285f4         // Botón Google
+--apple-black: #140707ff       // Botón Apple
 ```
 
 **Decisiones:**
-- Azul primario transmite confianza y profesionalidad
-- Amarillo secundario aporta calidez y atención
-- Colores semánticos siguen convenciones universales
+- Azul oscuro (#333F51) transmite confianza y profesionalidad para header y textos
+- Amarillo crema (#FFF1D5) como fondo aporta calidez y diferencia la app de fondos blancos genéricos
+- Amarillo dorado (#FFD379) para CTAs y elementos destacados
+- Colores semánticos suaves que no saturan la vista
 
 ### Tipografía
 
@@ -474,6 +472,15 @@ $breakpoint-2xl: 1536px // Pantallas extra grandes
 --transition-slow: 500ms ease-in-out   // Animaciones complejas
 ```
 
+### Z-Index (Capas)
+
+```sass
+--z-header: 100       // Header fijo
+--z-overlay: 199      // Overlays y fondos oscuros
+--z-mobile-menu: 200  // Menú móvil
+--z-hamburger: 201    // Botón hamburguesa (siempre visible)
+```
+
 ---
 
 ## 1.5 Mixins y Funciones
@@ -509,13 +516,9 @@ $breakpoint-2xl: 1536px // Pantallas extra grandes
 ```sass
 // Definición
 =smooth-transition($properties...)
-  @if length($properties) == 0
-    transition: all var(--transition-base)
-  @else
-    $transitions: ()
-    @each $prop in $properties
-      $transitions: append($transitions, $prop var(--transition-base), comma)
-    transition: $transitions
+  transition-property: $properties
+  transition-duration: var(--transition-base)
+  transition-timing-function: ease-in-out
 
 // Uso
 .btn
@@ -526,12 +529,11 @@ $breakpoint-2xl: 1536px // Pantallas extra grandes
 
 ```sass
 // Definición
-=hover-lift($distance: -2px, $shadow: true)
-  +smooth-transition(transform, box-shadow)
-  &:hover
+=hover-lift($distance: -2px, $shadow: var(--shadow-md))
+  transition: transform var(--transition-base), box-shadow var(--transition-base)
+  &:hover:not(:disabled)
     transform: translateY($distance)
-    @if $shadow
-      box-shadow: var(--shadow-lg)
+    box-shadow: $shadow
 
 // Uso
 .card
@@ -542,13 +544,13 @@ $breakpoint-2xl: 1536px // Pantallas extra grandes
 
 ```sass
 // Definición
-=container($max-width: $breakpoint-lg)
+=container($max-width: $container-max-width)
   width: 100%
   max-width: $max-width
   margin-left: auto
   margin-right: auto
-  padding-left: var(--spacing-4)
-  padding-right: var(--spacing-4)
+  padding-left: $container-padding
+  padding-right: $container-padding
 
 // Uso
 .header__container
@@ -564,11 +566,25 @@ $breakpoint-2xl: 1536px // Pantallas extra grandes
   align-items: center
   justify-content: center
   gap: var(--spacing-2)
-  font-family: var(--font-secondary)
-  font-weight: var(--font-semibold)
+  padding: var(--spacing-3) var(--spacing-5)
+  border: none
   border-radius: var(--radius-md)
+  font-size: var(--text-base)
+  font-weight: var(--font-semibold)
+  font-family: var(--font-secondary)
+  line-height: 1
   cursor: pointer
-  +smooth-transition(background-color, color, transform, box-shadow)
+  text-decoration: none
+  white-space: nowrap
+  user-select: none
+  transition: all var(--transition-base)
+  
+  &:hover:not(:disabled)
+    opacity: 0.9
+    transform: translateY(-1px)
+  
+  &:active:not(:disabled)
+    transform: translateY(0)
   
   &:disabled
     opacity: 0.6
@@ -577,6 +593,82 @@ $breakpoint-2xl: 1536px // Pantallas extra grandes
 // Uso
 .btn
   +button-base
+```
+
+### Mixin: Input Base
+
+```sass
+// Definición
+=input-base
+  width: 100%
+  padding: var(--spacing-3) var(--spacing-4)
+  background-color: var(--background)
+  border: var(--border-medium) solid var(--primary-blue-light)
+  border-radius: var(--radius-md)
+  color: var(--primary-blue)
+  font-size: var(--text-base)
+  font-family: var(--font-primary)
+  line-height: var(--line-height-normal)
+  transition: border-color var(--transition-base), box-shadow var(--transition-base)
+  
+  &:focus
+    outline: none
+    border-color: var(--primary-blue)
+    box-shadow: 0 0 0 3px rgba(25, 145, 185, 0.1)
+  
+  &::placeholder
+    color: var(--primary-blue-light)
+    opacity: 0.6
+  
+  &:disabled
+    opacity: 0.6
+    cursor: not-allowed
+    background-color: var(--secundary-yellow)
+
+// Uso
+.form-input__control
+  +input-base
+```
+
+### Mixin: Card Base
+
+```sass
+// Definición
+=card-base
+  background-color: var(--background)
+  border: var(--border-medium) solid var(--primary-blue-light)
+  border-radius: var(--radius-lg)
+  padding: var(--spacing-6)
+  transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base)
+  
+  &:hover
+    border-color: var(--primary-blue)
+    box-shadow: var(--shadow-lg)
+    transform: translateY(-2px)
+
+// Uso
+.product-card
+  +card-base
+```
+
+### Mixin: Visually Hidden (Accesibilidad)
+
+```sass
+// Definición - Oculta visualmente pero accesible para screen readers
+=visually-hidden
+  position: absolute
+  width: 1px
+  height: 1px
+  padding: 0
+  margin: -1px
+  overflow: hidden
+  clip: rect(0, 0, 0, 0)
+  white-space: nowrap
+  border-width: 0
+
+// Uso
+.sr-only
+  +visually-hidden
 ```
 
 ---
@@ -590,9 +682,9 @@ He utilizado una estrategia mixta de encapsulación:
 **ViewEncapsulation.None** para:
 - Header
 - Footer
-- Main
 
 **ViewEncapsulation.Emulated** (default) para:
+- Main
 - Todos los demás componentes
 
 ### Justificación
@@ -647,11 +739,13 @@ He utilizado una estrategia mixta de encapsulación:
 
 ```html
 <footer class="footer">
-  <p>&copy; 2024 FonziGo. Todos los derechos reservados.</p>
+  <p>&copy; {{ currentYear }} FonziGo. Todos los derechos reservados.</p>
 </footer>
 ```
 
 **Cuándo usarlo:** Pie de página o sección.
+
+**Nota:** El año se calcula dinámicamente con `readonly currentYear = new Date().getFullYear();`
 
 ### `<nav>`
 
@@ -785,9 +879,13 @@ Todo input debe tener un label asociado mediante `for` e `id`:
     [placeholder]="placeholder"
     [required]="required"
     [disabled]="disabled"
+    [value]="value"
     [attr.aria-required]="required ? 'true' : null"
     [attr.aria-invalid]="errorText ? 'true' : null"
     [attr.aria-describedby]="(helpText || errorText) ? id + '-description' : null"
+    [attr.autocomplete]="autocomplete"
+    (input)="onInputChange($event)"
+    (blur)="onBlur()"
   />
 
   @if (helpText && !errorText) {
@@ -804,6 +902,8 @@ Todo input debe tener un label asociado mediante `for` e `id`:
 </div>
 ```
 
+**Nota:** El componente implementa `ControlValueAccessor` para integrarse con Reactive Forms de Angular.
+
 ---
 
 # 3. Sistema de Componentes UI
@@ -815,16 +915,27 @@ Todo input debe tener un label asociado mediante `for` e `id`:
 **Propósito:** Botón reutilizable con múltiples variantes y estados.
 
 **Variantes:**
-- `primary` - Acción principal
-- `secondary` - Acción secundaria
+- `primary` - Acción principal (amarillo)
+- `secondary` - Acción secundaria (azul)
 - `outline` - Borde sin fondo
 - `ghost` - Sin fondo ni borde
 - `danger` - Acciones destructivas
 
 **Tamaños:**
-- `sm` - 32px altura
-- `md` - 40px altura (default)
-- `lg` - 48px altura
+- `sm` - Pequeño
+- `md` - Mediano (default)
+- `lg` - Grande
+
+**Propiedades:**
+- `variant` - Variante visual
+- `size` - Tamaño del botón
+- `type` - Tipo de botón (button, submit, reset)
+- `disabled` - Estado deshabilitado
+- `loading` - Muestra spinner de carga
+- `fullWidth` - Ocupa todo el ancho disponible
+- `ariaLabel` - Etiqueta para accesibilidad
+- `icon` - Nombre del icono a mostrar
+- `iconPosition` - Posición del icono (left, right)
 
 **Estados:**
 - Normal
@@ -847,10 +958,10 @@ Todo input debe tener un label asociado mediante `for` e `id`:
 **Propósito:** Mensajes de feedback para el usuario.
 
 **Tipos:**
-- `success` - Verde, confirmaciones
-- `error` - Rojo, errores
-- `warning` - Naranja, advertencias
-- `info` - Azul, información
+- `success` - Verde (#A7FFB7), confirmaciones
+- `error` - Rojo suave (#CE8282), errores
+- `warning` - Amarillo (#FFD379), advertencias
+- `info` - Azul claro (#7A92B5), información
 
 **Propiedades:**
 - `type` - Tipo de alerta
@@ -866,17 +977,19 @@ Todo input debe tener un label asociado mediante `for` e `id`:
 
 ### Form Input (`app-form-input`)
 
-**Propósito:** Campo de entrada de texto accesible.
+**Propósito:** Campo de entrada de texto accesible con soporte para Reactive Forms.
 
 **Propiedades:**
 - `id` - Identificador único
 - `label` - Etiqueta del campo
 - `type` - Tipo de input (text, email, password...)
+- `name` - Nombre del campo
 - `placeholder` - Texto de ayuda
 - `required` - Campo obligatorio
 - `disabled` - Campo deshabilitado
 - `helpText` - Texto de ayuda
 - `errorText` - Mensaje de error
+- `autocomplete` - Valor de autocompletado del navegador
 
 **Ejemplo de uso:**
 
@@ -937,11 +1050,24 @@ Todo input debe tener un label asociado mediante `for` e `id`:
 
 ### Product Card (`app-product-card`)
 
-**Propósito:** Tarjeta de producto para catálogos.
+**Propósito:** Tarjeta de producto para comparación de precios entre supermercados.
 
 **Propiedades:**
-- `product` - Objeto con datos del producto
-- Imagen, título, descripción, precio
+- `product` - Objeto Product con:
+  - `id` - Identificador único
+  - `name` - Nombre del producto
+  - `category` - Categoría
+  - `image` - URL de la imagen
+  - `prices` - Array de PriceComparison (tienda, precio, descuento, disponibilidad)
+  - `rating` - Valoración (opcional)
+  - `reviews` - Número de reseñas (opcional)
+  - `unit` - Unidad de medida (opcional)
+  - `promotion` - Texto promocional (opcional)
+- `variant` - Modo de visualización ('grid' | 'comparison')
+
+**Características:**
+- Calcula automáticamente el mejor precio disponible
+- Muestra el ahorro respecto al precio original
 - Hover con elevación
 
 ---
@@ -968,11 +1094,12 @@ Todo input debe tener un label asociado mediante `for` e `id`:
       margin-left: var(--spacing-2)
       
   &--primary                  // Modifier: variante
-    background-color: var(--primary)
-    color: white
+    background-color: var(--secundary-yellow-alt)
+    color: var(--primary-blue)
     
   &--secondary
-    background-color: var(--secondary)
+    background-color: var(--primary-blue)
+    color: var(--background)
     
   &--sm                       // Modifier: tamaño
     height: 32px
