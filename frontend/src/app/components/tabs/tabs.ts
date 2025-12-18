@@ -12,14 +12,14 @@ export class TabsComponent {
   activeTab = signal<string>('tab1');
 
   tabs = [
-    { id: 'tab1', label: '📝 Descripción', icon: '📝' },
-    { id: 'tab2', label: '⚙️ Configuración', icon: '⚙️' },
-    { id: 'tab3', label: '📊 Estadísticas', icon: '📊' }
+    { id: 'tab1', label: 'Descripcion', icon: '' },
+    { id: 'tab2', label: 'Configuracion', icon: '' },
+    { id: 'tab3', label: 'Estadisticas', icon: '' }
   ];
 
   selectTab(tabId: string): void {
     this.activeTab.set(tabId);
-    console.log(`🗂️ Tab seleccionado: ${tabId}`);
+    console.log(`Tab seleccionado: ${tabId}`);
   }
 
   isActive(tabId: string): boolean {

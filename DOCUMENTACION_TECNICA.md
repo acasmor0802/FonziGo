@@ -937,25 +937,25 @@ calculateTotal(): void {
 
 ### Navegadores Soportados
 
-He diseñado la aplicación para funcionar en navegadores modernos. No se soporta Internet Explorer.
+He disenado la aplicacion para funcionar en navegadores modernos. No se soporta Internet Explorer.
 
-| Navegador | Versión Mínima | Estado |
+| Navegador | Version Minima | Estado |
 |-----------|----------------|--------|
-| Chrome | 90+ | ✅ Completo |
-| Firefox | 88+ | ✅ Completo |
-| Safari | 14+ | ✅ Completo |
-| Edge | 90+ | ✅ Completo |
-| IE 11 | - | ❌ No soportado |
+| Chrome | 90+ | Completo |
+| Firefox | 88+ | Completo |
+| Safari | 14+ | Completo |
+| Edge | 90+ | Completo |
+| IE 11 | - | No soportado |
 
 ### APIs Utilizadas y su Compatibilidad
 
-| API | Propósito | Soporte |
+| API | Proposito | Soporte |
 |-----|-----------|---------|
 | CSS Custom Properties | Sistema de temas | Universal |
-| matchMedia | Detección de preferencias | Chrome 9+, Firefox 6+ |
+| matchMedia | Deteccion de preferencias | Chrome 9+, Firefox 6+ |
 | localStorage | Persistencia local | Universal |
 | Fetch API | Peticiones HTTP | Universal (polyfill incluido) |
-| ResizeObserver | Detección de redimensionado | Chrome 64+, Firefox 69+ |
+| ResizeObserver | Deteccion de redimensionado | Chrome 64+, Firefox 69+ |
 
 ### Requisitos de Desarrollo
 

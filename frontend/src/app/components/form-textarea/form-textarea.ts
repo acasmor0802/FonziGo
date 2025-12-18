@@ -1,11 +1,10 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-form-textarea',
   standalone: true,
-  imports: [NgIf],
+  imports: [],
   templateUrl: './form-textarea.html',
   styleUrls: ['./form-textarea.sass'],
   providers: [

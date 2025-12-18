@@ -1,21 +1,21 @@
-# FonziGo - Plataforma de Comparación de Precios de Supermercados
+# FonziGo - Plataforma de Comparacion de Precios de Supermercados
 
 FonziGo es una plataforma backend REST API que permite a los usuarios comparar precios de productos entre diferentes supermercados, gestionar carritos de compra y realizar pedidos.
 
-##  Características
+## Caracteristicas
 
-✅ Autenticación JWT - Sistema seguro de autenticación y autorización
-✅ Gestión de Usuarios - Registro y login de usuarios con roles (USER/ADMIN)
-✅ Catálogo de Productos - CRUD completo de productos con validaciones
-✅ Categorías - Organización de productos por categorías
-✅ Comparación de Precios - Ver precios en diferentes supermercados
-✅ Carrito de Compras - Gestión de carrito persistente
-✅ Sistema de Pedidos - Crear y gestionar pedidos
-✅ Upload de Archivos - Carga de imágenes de productos
-✅ Documentación Swagger - API documentada con OpenAPI 3.0
-✅ Validaciones - Validaciones en todos los DTOs
+- Autenticacion JWT - Sistema seguro de autenticacion y autorizacion
+- Gestion de Usuarios - Registro y login de usuarios con roles (USER/ADMIN)
+- Catalogo de Productos - CRUD completo de productos con validaciones
+- Categorias - Organizacion de productos por categorias
+- Comparacion de Precios - Ver precios en diferentes supermercados
+- Carrito de Compras - Gestion de carrito persistente
+- Sistema de Pedidos - Crear y gestionar pedidos
+- Upload de Archivos - Carga de imagenes de productos
+- Documentacion Swagger - API documentada con OpenAPI 3.0
+- Validaciones - Validaciones en todos los DTOs
 
-##  Requisitos Previos
+## Requisitos Previos
 
 - Java 17+
 - Spring Boot 3.0+

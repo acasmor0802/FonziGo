@@ -6,61 +6,64 @@
 
 :root
   // -----------------------------------------------
-  // Sistema de Tema Unificado - MODO CLARO
+  // Sistema de Tema - MODO CLARO (Paleta FonziGo Original)
   // -----------------------------------------------
 
-  // Backgrounds
-  --bg-primary: #FEFEFE
-  --bg-secondary: #f5f7fa
-  --bg-tertiary: #e8ecf1
-  --bg-card: #FEFEFE
-  --bg-input: #FEFEFE
-  --bg-hover: rgba(0, 0, 0, 0.04)
+  // Backgrounds (Paleta FonziGo)
+  --bg-primary: #FFF1D5
+  --bg-secondary: #FFFBF2
+  --bg-tertiary: #FFE8B8
+  --bg-card: #FFFFFF
+  --bg-input: #FFFFFF
+  --bg-hover: rgba(51, 63, 81, 0.08)
 
-  // Text colors
-  --text-primary: #1a1a2e
-  --text-secondary: #4a4a68
-  --text-muted: #8b8ba7
-  --text-inverse: #FEFEFE
+  // Text colors (Basados en primary-blue)
+  --text-primary: #333F51
+  --text-secondary: #576C8A
+  --text-muted: #7A92B5
+  --text-inverse: #FFF1D5
 
   // Border colors
-  --border-color: #d1d5db
-  --border-light: #e5e7eb
-  --border-focus: #3b82f6
+  --border-color: #D4C5A9
+  --border-light: #E8DFC8
+  --border-focus: #333F51
 
-  // Primary brand colors
-  --primary: #3b82f6
-  --primary-hover: #2563eb
-  --primary-light: #dbeafe
-  --primary-dark: #1d4ed8
+  // Primary brand colors (Azul oscuro FonziGo)
+  --primary: #333F51
+  --primary-hover: #576C8A
+  --primary-light: #7A92B5
+  --primary-dark: #1E2A3A
 
-  // Secondary brand colors
-  --secondary: #f59e0b
-  --secondary-hover: #d97706
-  --secondary-light: #fef3c7
+  // Secondary brand colors (Amarillo FonziGo)
+  --secondary: #FFD379
+  --secondary-hover: #FFC850
+  --secondary-light: #FFF1D5
+  --secondary-dark: #E6B84D
 
   // Semantic colors
-  --success: #10b981
-  --success-light: #d1fae5
-  --success-dark: #059669
-  --error: #ef4444
-  --error-light: #fee2e2
-  --error-dark: #dc2626
-  --warning: #f59e0b
-  --warning-light: #fef3c7
-  --warning-dark: #d97706
-  --info: #3b82f6
-  --info-light: #dbeafe
-  --info-dark: #2563eb
+  --success: #A7FFB7
+  --success-light: #D4FFDD
+  --success-dark: #4CAF50
+  --error: #CE8282
+  --error-light: #FFE8E8
+  --error-dark: #B71C1C
+  --warning: #FFD379
+  --warning-light: #FFF3CD
+  --warning-dark: #E6A817
+  --info: #576C8A
+  --info-light: #E3EBF6
+  --info-dark: #333F51
 
-  // Legacy colors (para compatibilidad)
-  --background: var(--bg-primary)
-  --primary-blue: var(--text-primary)
-  --primary-blue-alt: var(--text-secondary)
-  --primary-blue-light: var(--text-muted)
-  --secundary-yellow: var(--secondary-light)
-  --secundary-yellow-alt: var(--secondary)
-  --secundary-yellow-dark: var(--secondary-hover)
+  // Colores Originales de FonziGo (mantener compatibilidad)
+  --background: #FFF1D5
+  --primary-blue: #333F51
+  --primary-blue-alt: #576C8A
+  --primary-blue-light: #7A92B5
+  --secundary-yellow: #FFF1D5
+  --secundary-yellow-alt: #FFD379
+  --secundary-yellow-dark: #FFC850
+
+  // Legacy aliases (para compatibilidad)
   --color-background-primary: var(--bg-primary)
   --color-background-secondary: var(--bg-secondary)
   --color-text-primary: var(--text-primary)
@@ -78,6 +81,10 @@
   // Social colors
   --google-blue: #4285f4
   --apple-black: #000000
+
+  // Button hover effect
+  --button-hover-lift: -2px
+  --button-shadow-yellow: 0 4px 12px rgba(255, 215, 0, 0.3)
 
   // -----------------------------------------------
   // Tipografía
@@ -227,55 +234,55 @@ $container-max-width: 1280px
 $container-padding: 1rem
 
 // ===============================================
-// Modo Oscuro - Dark Mode
+// Modo Oscuro - Dark Mode (Basado en paleta FonziGo)
 // ===============================================
 
 .dark-mode
-  // Backgrounds
-  --bg-primary: #1a1a2e
-  --bg-secondary: #16213e
-  --bg-tertiary: #0f3460
-  --bg-card: #1f2937
-  --bg-input: #2d3748
-  --bg-hover: rgba(255, 255, 255, 0.08)
+  // Backgrounds (versiones oscuras de FonziGo)
+  --bg-primary: #1E2A3A
+  --bg-secondary: #2A3A4D
+  --bg-tertiary: #333F51
+  --bg-card: #2A3A4D
+  --bg-input: #1E2A3A
+  --bg-hover: rgba(255, 241, 213, 0.08)
 
-  // Text colors
-  --text-primary: #f1f5f9
-  --text-secondary: #cbd5e1
-  --text-muted: #94a3b8
-  --text-inverse: #1a1a2e
+  // Text colors (invertidos)
+  --text-primary: #FFF1D5
+  --text-secondary: #D4C5A9
+  --text-muted: #A9B5C6
+  --text-inverse: #1E2A3A
 
   // Border colors
-  --border-color: #4b5563
-  --border-light: #374151
-  --border-focus: #60a5fa
+  --border-color: #576C8A
+  --border-light: #4A5D73
+  --border-focus: #FFD379
 
-  // Primary brand colors (más brillantes en dark)
-  --primary: #60a5fa
-  --primary-hover: #3b82f6
-  --primary-light: rgba(59, 130, 246, 0.2)
-  --primary-dark: #2563eb
+  // Primary brand colors (amarillo como primario en dark para contraste)
+  --primary: #FFD379
+  --primary-hover: #FFC850
+  --primary-light: rgba(255, 211, 121, 0.2)
+  --primary-dark: #E6B84D
 
-  // Secondary brand colors
-  --secondary: #fbbf24
-  --secondary-hover: #f59e0b
-  --secondary-light: rgba(245, 158, 11, 0.2)
+  // Secondary brand colors (azul claro en dark)
+  --secondary: #7A92B5
+  --secondary-hover: #576C8A
+  --secondary-light: rgba(122, 146, 181, 0.2)
 
   // Semantic colors (más brillantes en dark)
-  --success: #34d399
-  --success-light: rgba(16, 185, 129, 0.2)
-  --success-dark: #10b981
-  --error: #f87171
-  --error-light: rgba(239, 68, 68, 0.2)
-  --error-dark: #ef4444
-  --warning: #fbbf24
-  --warning-light: rgba(245, 158, 11, 0.2)
-  --warning-dark: #f59e0b
-  --info: #60a5fa
-  --info-light: rgba(59, 130, 246, 0.2)
-  --info-dark: #3b82f6
+  --success: #A7FFB7
+  --success-light: rgba(167, 255, 183, 0.2)
+  --success-dark: #4CAF50
+  --error: #FF9B9B
+  --error-light: rgba(206, 130, 130, 0.2)
+  --error-dark: #CE8282
+  --warning: #FFD379
+  --warning-light: rgba(255, 211, 121, 0.2)
+  --warning-dark: #E6A817
+  --info: #7A92B5
+  --info-light: rgba(122, 146, 181, 0.2)
+  --info-dark: #576C8A
 
-  // Legacy colors (actualizados para dark mode)
+  // Colores FonziGo actualizados para dark
   --background: var(--bg-primary)
   --primary-blue: var(--text-primary)
   --primary-blue-alt: var(--text-secondary)
