@@ -23,7 +23,7 @@ El proyecto está configurado para desplegarse automáticamente en GitHub Pages 
 3. **Verifica el despliegue:**
    - Ve a la pestaña **Actions** en tu repositorio
    - Espera a que el workflow termine (ícono verde ✅)
-   - Tu sitio estará disponible en: `https://[tu-usuario].github.io/FonziGo/`
+   - Tu sitio estará disponible en: `https://acasmor0802.github.io/FonziGo/`
 
 ### Opción 2: Despliegue Manual
 
@@ -42,7 +42,7 @@ npm run deploy
 
 ## 📋 URLs del Proyecto
 
-- **Producción:** https://[tu-usuario].github.io/FonziGo/
+- **Producción:** https://acasmor0802.github.io/FonziGo/
 - **Desarrollo local:** http://localhost:4200
 
 ## ⚙️ Configuración del Backend
@@ -118,7 +118,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("https://[tu-usuario].github.io")
+                    .allowedOrigins("https://acasmor0802.github.io")
                     .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
@@ -128,7 +128,7 @@ public class CorsConfig {
 
 ## 📊 Monitoreo
 
-- **Estado del despliegue:** https://github.com/[tu-usuario]/FonziGo/actions
+- **Estado del despliegue:** https://github.com/acasmor0802/FonziGo/actions
 - **Logs del backend:** Panel de tu servicio (Railway/Render)
 
 ## 🔄 Actualizar el Sitio

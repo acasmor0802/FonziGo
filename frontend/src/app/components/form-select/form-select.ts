@@ -1,5 +1,4 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface SelectOption {
@@ -11,7 +10,7 @@ export interface SelectOption {
 @Component({
   selector: 'app-form-select',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [],
   templateUrl: './form-select.html',
   styleUrls: ['./form-select.sass'],
   providers: [

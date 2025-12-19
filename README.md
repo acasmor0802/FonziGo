@@ -2,11 +2,11 @@
 
 Aplicación web para comparar precios de productos entre diferentes supermercados.
 
-[![Deploy to GitHub Pages](https://github.com/[tu-usuario]/FonziGo/actions/workflows/deploy.yml/badge.svg)](https://github.com/[tu-usuario]/FonziGo/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/acasmor0802/FonziGo/actions/workflows/deploy.yml/badge.svg)](https://github.com/acasmor0802/FonziGo/actions/workflows/deploy.yml)
 
 ## 🚀 Demo en Vivo
 
-**Frontend:** https://[tu-usuario].github.io/FonziGo/
+**Frontend:** https://acasmor0802.github.io/FonziGo/
 
 ## 📋 Características
 
@@ -160,7 +160,7 @@ Este proyecto es de código abierto y está disponible bajo la [Licencia MIT](LI
 
 ## 👤 Autor
 
-Tu Nombre - [@tu-usuario](https://github.com/tu-usuario)
+acasmor0802 - [@acasmor0802](https://github.com/acasmor0802)
 
 ## 🙏 Agradecimientos
 
