@@ -5,7 +5,7 @@
 // -----------------------------------------------
 // Register Form Component
 // Formulario estructurado con <form>, <fieldset>, <legend>
-// HTML5 semántico completo
+// HTML5 semántico completo con formularios reactivos
 // -----------------------------------------------
 
 .register
@@ -31,6 +31,93 @@
     color: var(--primary-blue)
     margin-bottom: var(--spacing-2)
 
+  // Campos de formulario
+  &__field
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+
+  &__label
+    font-family: var(--font-secondary)
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+  &__required
+    color: var(--error)
+
+  &__input, &__select
+    font-family: var(--font-primary)
+    font-size: var(--text-base)
+    padding: var(--spacing-3) var(--spacing-4)
+    border: var(--border-medium) solid var(--primary-blue-light)
+    border-radius: var(--radius-md)
+    background-color: var(--background)
+    color: var(--primary-blue)
+    +smooth-transition(border-color, box-shadow)
+
+    &::placeholder
+      color: var(--primary-blue-light)
+
+    &:focus
+      outline: none
+      border-color: var(--primary-blue)
+      box-shadow: 0 0 0 3px rgba(51, 63, 81, 0.1)
+
+    &--error
+      border-color: var(--error)
+
+      &:focus
+        box-shadow: 0 0 0 3px rgba(206, 130, 130, 0.2)
+
+    &--pending
+      border-color: var(--secundary-yellow-alt)
+
+  &__select
+    cursor: pointer
+    appearance: none
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333F51' d='M6 8L1 3h10z'/%3E%3C/svg%3E")
+    background-repeat: no-repeat
+    background-position: right var(--spacing-4) center
+    padding-right: var(--spacing-10)
+
+  &__error
+    font-size: var(--text-xs)
+    color: var(--error)
+    font-weight: var(--font-medium)
+
+  &__pending
+    font-size: var(--text-xs)
+    color: var(--secundary-yellow-dark)
+    font-weight: var(--font-medium)
+
+  &__help
+    font-size: var(--text-xs)
+    color: var(--primary-blue-light)
+
+  // Terms checkbox
+  &__terms
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+
+  &__checkbox-label
+    display: flex
+    align-items: flex-start
+    gap: var(--spacing-2)
+    font-size: var(--text-sm)
+    color: var(--primary-blue)
+    cursor: pointer
+    line-height: var(--line-height-normal)
+
+  &__checkbox
+    width: 18px
+    height: 18px
+    margin-top: 2px
+    accent-color: var(--primary-blue)
+    cursor: pointer
+    flex-shrink: 0
+
   &__submit
     ::ng-deep .btn
       width: 100%
@@ -48,6 +135,10 @@
 
       &:active
         transform: translateY(0)
+
+      &:disabled
+        opacity: 0.7
+        cursor: not-allowed
 
   &__divider
     display: flex
@@ -128,3 +219,12 @@
     &:hover
       color: var(--primary-blue-alt)
       text-decoration: underline
+
+// Responsive
+@media (max-width: 576px)
+  .register
+    padding: var(--spacing-6)
+    margin: var(--spacing-4)
+
+    &__social
+      flex-direction: column

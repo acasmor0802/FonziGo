@@ -1,3 +1,7 @@
+<!-- Global UI Components -->
+<app-toast></app-toast>
+<app-loading-spinner></app-loading-spinner>
+
 <app-header></app-header>
 
 <main class="main-content">
@@ -11,6 +15,51 @@
         <app-login style="width: 100%; max-width: 550px;"></app-login>
         <app-register style="width: 100%; max-width: 550px;"></app-register>
       </div>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Toast Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">Toast Notifications</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+        <app-button variant="primary" (clicked)="showToast('success')">Success Toast</app-button>
+        <app-button variant="danger" (clicked)="showToast('error')">Error Toast</app-button>
+        <app-button variant="secondary" (clicked)="showToast('info')">Info Toast</app-button>
+        <app-button variant="outline" (clicked)="showToast('warning')">Warning Toast</app-button>
+      </div>
+    </section>
+
+    <hr style="margin: 2rem 0;">
+
+    <!-- Modal Demo -->
+    <section>
+      <h2 style="border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem;">Modal Component</h2>
+      <div style="text-align: center; padding: 2rem;">
+        <app-button variant="primary" size="lg" (clicked)="openModal()">
+          Abrir Modal
+        </app-button>
+      </div>
+
+      <app-modal #demoModal>
+        <div modal-header>
+          <h2 style="margin: 0; color: var(--primary-blue);">Modal de Demostración</h2>
+        </div>
+        <div modal-body>
+          <p>Este es un modal completamente funcional con las siguientes características:</p>
+          <ul>
+            <li>Cierre con botón X</li>
+            <li>Cierre con tecla ESC</li>
+            <li>Cierre al hacer click en el overlay</li>
+            <li>Animaciones suaves</li>
+            <li>Responsive en dispositivos móviles</li>
+          </ul>
+        </div>
+        <div modal-footer>
+          <app-button variant="secondary" (clicked)="demoModal.close()">Cancelar</app-button>
+          <app-button variant="primary" (clicked)="demoModal.close()">Aceptar</app-button>
+        </div>
+      </app-modal>
     </section>
 
     <hr style="margin: 2rem 0;">

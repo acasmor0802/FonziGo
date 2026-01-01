@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -13,6 +13,10 @@ import { FormTextarea } from '../../components/form-textarea/form-textarea';
 import { Login } from '../../components/login/login';
 import { ProductCard, Product } from '../../components/product-card/product-card';
 import { Register } from '../../components/register/register';
+import { ToastComponent } from '../../components/toast/toast';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
+import { ModalComponent } from '../../components/modal/modal';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-main',
@@ -29,12 +33,34 @@ import { Register } from '../../components/register/register';
     FormTextarea,
     Login,
     ProductCard,
-    Register
+    Register,
+    ToastComponent,
+    LoadingSpinnerComponent,
+    ModalComponent
   ],
   templateUrl: './main.html',
   styleUrls: ['./main.sass']
 })
 export class Main {
+  @ViewChild('demoModal') demoModal!: ModalComponent;
+
+  constructor(private toastService: ToastService) {}
+
+  openModal(): void {
+    this.demoModal.open();
+  }
+
+  showToast(type: 'success' | 'error' | 'info' | 'warning'): void {
+    const messages = {
+      success: { title: '¡Éxito!', message: 'La operación se completó correctamente.' },
+      error: { title: 'Error', message: 'Ha ocurrido un error inesperado.' },
+      info: { title: 'Información', message: 'Este es un mensaje informativo.' },
+      warning: { title: 'Advertencia', message: 'Ten cuidado con esta acción.' }
+    };
+    const { title, message } = messages[type];
+    this.toastService[type](title, message);
+  }
+
   // --- Data for Components ---
 
   // For app-form-select

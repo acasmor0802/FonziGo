@@ -5,7 +5,7 @@
 // -----------------------------------------------
 // Login Form Component
 // Formulario estructurado con <form>, <fieldset>, <legend>
-// HTML5 semántico completo
+// HTML5 semántico completo con formularios reactivos
 // -----------------------------------------------
 
 .login
@@ -31,6 +31,82 @@
     color: var(--primary-blue)
     margin-bottom: var(--spacing-2)
 
+  // Campos de formulario
+  &__field
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+
+  &__label
+    font-family: var(--font-secondary)
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+  &__required
+    color: var(--error)
+
+  &__input
+    font-family: var(--font-primary)
+    font-size: var(--text-base)
+    padding: var(--spacing-3) var(--spacing-4)
+    border: var(--border-medium) solid var(--primary-blue-light)
+    border-radius: var(--radius-md)
+    background-color: var(--background)
+    color: var(--primary-blue)
+    +smooth-transition(border-color, box-shadow)
+
+    &::placeholder
+      color: var(--primary-blue-light)
+
+    &:focus
+      outline: none
+      border-color: var(--primary-blue)
+      box-shadow: 0 0 0 3px rgba(51, 63, 81, 0.1)
+
+    &--error
+      border-color: var(--error)
+
+      &:focus
+        box-shadow: 0 0 0 3px rgba(206, 130, 130, 0.2)
+
+  &__error
+    font-size: var(--text-xs)
+    color: var(--error)
+    font-weight: var(--font-medium)
+
+  // Remember me y forgot password
+  &__remember
+    display: flex
+    justify-content: space-between
+    align-items: center
+    flex-wrap: wrap
+    gap: var(--spacing-2)
+
+  &__checkbox-label
+    display: flex
+    align-items: center
+    gap: var(--spacing-2)
+    font-size: var(--text-sm)
+    color: var(--primary-blue)
+    cursor: pointer
+
+  &__checkbox
+    width: 18px
+    height: 18px
+    accent-color: var(--primary-blue)
+    cursor: pointer
+
+  &__forgot
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    text-decoration: none
+    +smooth-transition(color)
+
+    &:hover
+      color: var(--primary-blue)
+      text-decoration: underline
+
   &__submit
     ::ng-deep .btn
       width: 100%
@@ -48,6 +124,10 @@
 
       &:active
         transform: translateY(0)
+
+      &:disabled
+        opacity: 0.7
+        cursor: not-allowed
 
   &__divider
     display: flex
@@ -128,3 +208,17 @@
     &:hover
       color: var(--primary-blue-alt)
       text-decoration: underline
+
+// Responsive
+@media (max-width: 576px)
+  .login
+    padding: var(--spacing-6)
+    margin: var(--spacing-4)
+
+    &__social
+      flex-direction: column
+
+    &__remember
+      flex-direction: column
+      align-items: flex-start
+      gap: var(--spacing-3)

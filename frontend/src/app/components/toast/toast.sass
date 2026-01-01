@@ -1,0 +1,134 @@
+// Toast Component Styles
+// Utilizando las variables de diseño de FonziGo
+
+.toast-container
+  position: fixed
+  top: var(--spacing-4)
+  right: var(--spacing-4)
+  z-index: 9999
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-3)
+  max-width: 400px
+  pointer-events: none
+
+.toast
+  background: var(--background)
+  border-radius: var(--radius-lg)
+  box-shadow: var(--shadow-lg)
+  padding: var(--spacing-4)
+  display: flex
+  align-items: flex-start
+  gap: var(--spacing-3)
+  min-width: 300px
+  pointer-events: all
+  animation: slideInRight 0.3s ease-out
+  position: relative
+  overflow: hidden
+  border-left: 4px solid
+
+  &--success
+    border-left-color: var(--success)
+    
+    .toast__icon
+      color: var(--success)
+
+  &--error
+    border-left-color: var(--error)
+    
+    .toast__icon
+      color: var(--error)
+
+  &--info
+    border-left-color: var(--primary-blue-alt)
+    
+    .toast__icon
+      color: var(--primary-blue-alt)
+
+  &--warning
+    border-left-color: var(--secundary-yellow-alt)
+    
+    .toast__icon
+      color: var(--secundary-yellow-dark)
+
+  &__icon
+    font-size: var(--text-xl)
+    flex-shrink: 0
+    font-weight: var(--font-bold)
+
+  &__content
+    flex: 1
+    min-width: 0
+
+  &__title
+    font-family: var(--font-secondary)
+    font-weight: var(--font-semibold)
+    font-size: var(--text-base)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-1)
+
+  &__message
+    font-family: var(--font-primary)
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    line-height: var(--line-height-normal)
+
+  &__close
+    background: transparent
+    border: none
+    font-size: var(--text-lg)
+    color: var(--primary-blue-alt)
+    cursor: pointer
+    padding: 0
+    width: 24px
+    height: 24px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: var(--radius-md)
+    transition: all var(--transition-fast)
+    flex-shrink: 0
+
+    &:hover
+      background: rgba(51, 63, 81, 0.1)
+      color: var(--primary-blue)
+
+// Animations
+@keyframes slideInRight
+  from
+    opacity: 0
+    transform: translateX(100%)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+// Dark mode
+.dark-mode
+  .toast
+    background: var(--primary-blue)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4)
+
+    &__title
+      color: var(--background)
+
+    &__message
+      color: var(--primary-blue-light)
+
+    &__close
+      color: var(--primary-blue-light)
+
+      &:hover
+        background: rgba(255, 241, 213, 0.1)
+        color: var(--background)
+
+// Responsive
+@media (max-width: 768px)
+  .toast-container
+    left: var(--spacing-4)
+    right: var(--spacing-4)
+    top: auto
+    bottom: var(--spacing-4)
+
+  .toast
+    min-width: auto
+    width: 100%

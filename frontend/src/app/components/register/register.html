@@ -1,44 +1,116 @@
-<form class="register" method="post" novalidate>
+<form class="register" [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
   <fieldset class="register__fieldset">
     <legend class="register__legend">Crea tu cuenta</legend>
 
-    <app-form-input
-      id="register-email"
-      label="Correo electrónico"
-      type="email"
-      name="email"
-      placeholder="tu@email.com"
-      [required]="true"
-      helpText="Usarás este correo para iniciar sesión"
-    />
+    <div class="register__field">
+      <label for="register-email" class="register__label">
+        Correo electrónico <span class="register__required">*</span>
+      </label>
+      <input
+        id="register-email"
+        type="email"
+        formControlName="email"
+        class="register__input"
+        [class.register__input--error]="hasError('email')"
+        [class.register__input--pending]="isPending('email')"
+        placeholder="tu@email.com"
+        autocomplete="email"
+      />
+      @if (isPending('email')) {
+        <span class="register__pending">Verificando...</span>
+      }
+      @if (hasError('email')) {
+        <span class="register__error">{{ getErrorMessage('email') }}</span>
+      }
+    </div>
 
-    <app-form-input
-      id="phone"
-      label="Número de teléfono"
-      type="tel"
-      name="phone"
-      placeholder="+34 600 123 456"
-      [required]="true"
-    />
+    <div class="register__field">
+      <label for="register-phone" class="register__label">
+        Número de teléfono <span class="register__required">*</span>
+      </label>
+      <input
+        id="register-phone"
+        type="tel"
+        formControlName="phone"
+        class="register__input"
+        [class.register__input--error]="hasError('phone')"
+        placeholder="+34 600 123 456"
+        autocomplete="tel"
+      />
+      @if (hasError('phone')) {
+        <span class="register__error">{{ getErrorMessage('phone') }}</span>
+      }
+    </div>
 
-    <app-form-select
-      id="provincia"
-      label="Provincia"
-      name="provincia"
-      [required]="true"
-      [options]="countryOptions"
-      placeholder="Selecciona tu provincia"
-    />
+    <div class="register__field">
+      <label for="register-provincia" class="register__label">
+        Provincia <span class="register__required">*</span>
+      </label>
+      <select
+        id="register-provincia"
+        formControlName="provincia"
+        class="register__select"
+        [class.register__select--error]="hasError('provincia')"
+      >
+        <option value="">Selecciona tu provincia</option>
+        @for (option of countryOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+      @if (hasError('provincia')) {
+        <span class="register__error">{{ getErrorMessage('provincia') }}</span>
+      }
+    </div>
 
-    <app-form-input
-      id="register-password"
-      label="Contraseña"
-      type="password"
-      name="password"
-      placeholder="••••••••"
-      [required]="true"
-      helpText="Mínimo 8 caracteres"
-    />
+    <div class="register__field">
+      <label for="register-password" class="register__label">
+        Contraseña <span class="register__required">*</span>
+      </label>
+      <input
+        id="register-password"
+        type="password"
+        formControlName="password"
+        class="register__input"
+        [class.register__input--error]="hasError('password')"
+        placeholder="••••••••"
+        autocomplete="new-password"
+      />
+      <span class="register__help">Mínimo 8 caracteres, mayúsculas, minúsculas, números y símbolos</span>
+      @if (hasError('password')) {
+        <span class="register__error">{{ getErrorMessage('password') }}</span>
+      }
+    </div>
+
+    <div class="register__field">
+      <label for="register-confirm-password" class="register__label">
+        Confirmar contraseña <span class="register__required">*</span>
+      </label>
+      <input
+        id="register-confirm-password"
+        type="password"
+        formControlName="confirmPassword"
+        class="register__input"
+        [class.register__input--error]="hasError('confirmPassword') || hasFormError('passwordMatch')"
+        placeholder="••••••••"
+        autocomplete="new-password"
+      />
+      @if (hasError('confirmPassword')) {
+        <span class="register__error">{{ getErrorMessage('confirmPassword') }}</span>
+      }
+      @if (hasFormError('passwordMatch')) {
+        <span class="register__error">Las contraseñas no coinciden</span>
+      }
+    </div>
+
+    <div class="register__terms">
+      <label class="register__checkbox-label">
+        <input type="checkbox" formControlName="acceptTerms" class="register__checkbox" />
+        <span>Acepto los <a href="#" class="register__link">términos y condiciones</a> y la <a href="#" class="register__link">política de privacidad</a></span>
+      </label>
+      @if (hasError('acceptTerms')) {
+        <span class="register__error">Debes aceptar los términos y condiciones</span>
+      }
+    </div>
   </fieldset>
 
   <app-button 
@@ -46,9 +118,15 @@
     variant="primary" 
     size="md" 
     [fullWidth]="true"
+    [loading]="loading()"
+    [disabled]="loading()"
     class="register__submit"
   >
-    Crear cuenta
+    @if (loading()) {
+      Creando cuenta...
+    } @else {
+      Crear cuenta
+    }
   </app-button>
 
   <div class="register__divider">
@@ -62,6 +140,7 @@
       size="md"
       ariaLabel="Registrarse con Google"
       class="register__social-btn register__social-btn--google"
+      (clicked)="registerWithGoogle()"
     >
       <svg class="register__social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -77,6 +156,7 @@
       size="md"
       ariaLabel="Registrarse con Apple"
       class="register__social-btn register__social-btn--apple"
+      (clicked)="registerWithApple()"
     >
       <svg class="register__social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09l-.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
