@@ -9,6 +9,7 @@ public interface UsuarioService {
     List<UsuarioDTO> getAllUsers();
     UsuarioDTO getUserById(Long id);
     UsuarioDTO getUserByEmail(String email);
+    Long getUserIdByEmail(String email);
     UsuarioDTO registerUser(UsuarioRegistroDTO usuarioRegistroDTO);
     UsuarioDTO updateUser(Long id, UsuarioDTO usuarioDTO);
     void deleteUser(Long id);

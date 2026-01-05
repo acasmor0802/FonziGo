@@ -1,18 +1,24 @@
 {
-  "name": "frontend",
-  "version": "0.0.0",
+  "name": "fonzigo-frontend",
+  "version": "1.0.0",
+  "description": "FonziGo - Comparador de precios de supermercados",
+  "author": "acasmor0802",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:prod": "ng serve --configuration production",
     "build": "ng build",
     "build:prod": "ng build --configuration production --base-href /FonziGo/",
     "deploy": "npm run build:prod && npx angular-cli-ghpages --dir=dist/frontend/browser",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint"
   },
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
+    "trailingComma": "none",
     "overrides": [
       {
         "files": "*.html",
@@ -42,5 +48,9 @@
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }

@@ -161,49 +161,37 @@
 
   &__social
     display: flex
+    flex-direction: column
+    align-items: center
     gap: var(--spacing-3)
     width: 100%
 
-  &__social-btn
-    flex: 1
-    min-width: 0
-    
-    ::ng-deep .btn
-      width: 100%
-      justify-content: center
-      background-color: var(--background)
-      color: var(--primary-blue)
-      border: var(--border-medium) solid var(--primary-blue-light)
-      display: flex
-      align-items: center
-      gap: var(--spacing-2)
-      font-weight: var(--font-semibold)
-      font-size: var(--text-sm)
-      padding: var(--spacing-3) var(--spacing-4)
-      box-shadow: var(--shadow-sm)
-      +smooth-transition(all)
-      
-      &:hover:not(:disabled):not(.btn--loading)
-        background-color: var(--primary-blue)
-        color: var(--background)
-        border-color: var(--primary-blue)
-        transform: translateY(var(--button-hover-lift))
-        box-shadow: var(--shadow-md)
-    
-    &--google ::ng-deep .btn:hover:not(:disabled):not(.btn--loading)
-      background-color: var(--google-blue)
-      border-color: var(--google-blue)
-      
-    &--apple ::ng-deep .btn:hover:not(:disabled):not(.btn--loading)
-      background-color: var(--apple-black)
-      border-color: var(--apple-black)
+  &__google-btn-container
+    display: flex
+    justify-content: center
+    width: 100%
+    min-height: 44px
 
-  &__social-icon
-    font-size: var(--text-2xl)
-    line-height: 1
+  &__google-loading
     display: flex
     align-items: center
     justify-content: center
+    padding: var(--spacing-3)
+    background-color: var(--google-blue)
+    color: white
+    border-radius: var(--radius-md)
+    font-size: var(--text-sm)
+    width: 100%
+    max-width: 300px
+
+  &__google-error
+    padding: var(--spacing-2) var(--spacing-3)
+    background-color: var(--error-bg)
+    color: var(--error-text)
+    border-radius: var(--radius-md)
+    font-size: var(--text-sm)
+    width: 100%
+    text-align: center
 
   &__footer
     font-size: var(--text-sm)

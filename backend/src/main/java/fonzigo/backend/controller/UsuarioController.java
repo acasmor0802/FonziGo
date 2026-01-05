@@ -5,6 +5,7 @@ import fonzigo.backend.dto.UsuarioDTO;
 import fonzigo.backend.dto.UsuarioRegistroDTO;
 import fonzigo.backend.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,5 +47,13 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         usuarioService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UsuarioDTO> updateCurrentUser(@RequestBody UsuarioDTO usuarioDTO) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long userId = usuarioService.getUserIdByEmail(email);
+        UsuarioDTO updatedUser = usuarioService.updateUser(userId, usuarioDTO);
+        return ResponseEntity.ok(updatedUser);
     }
 }

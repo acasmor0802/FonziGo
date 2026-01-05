@@ -1,0 +1,133 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// ===============================================
+// SUPERMARKET PAGE STYLES
+// ===============================================
+
+.supermarket-page
+  min-height: 100vh
+  background: var(--background)
+
+// ===============================================
+// SUPERMARKET HERO
+// ===============================================
+.supermarket-hero
+  background: linear-gradient(135deg, var(--store-color, var(--primary-blue)) 0%, color-mix(in srgb, var(--store-color, var(--primary-blue)) 70%, black) 100%)
+  padding: var(--spacing-10) var(--spacing-4)
+  text-align: center
+  color: var(--background)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-12) var(--spacing-10)
+
+  +media-breakpoint-up(lg)
+    padding: var(--spacing-16) var(--spacing-16)
+
+  &__content
+    max-width: 600px
+    margin: 0 auto
+
+  &__icon
+    font-size: 4rem
+    display: block
+    margin-bottom: var(--spacing-4)
+
+    +media-breakpoint-up(md)
+      font-size: 5rem
+
+  &__name
+    font-family: var(--font-secondary)
+    font-size: var(--text-3xl)
+    font-weight: var(--font-bold)
+    margin-bottom: var(--spacing-2)
+
+    +media-breakpoint-up(md)
+      font-size: 3rem
+
+  &__slogan
+    font-size: var(--text-base)
+    opacity: 0.9
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-lg)
+
+// ===============================================
+// PRODUCTS SECTION
+// ===============================================
+.products-section
+  padding: var(--spacing-6) var(--spacing-4)
+  background: var(--background)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-8) var(--spacing-10)
+
+  +media-breakpoint-up(lg)
+    padding: var(--spacing-10) var(--spacing-16)
+
+  &--alt
+    background: var(--background-alt)
+
+  &__container
+    max-width: 1400px
+    margin: 0 auto
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    text-align: center
+    margin-bottom: var(--spacing-6)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-2xl)
+      margin-bottom: var(--spacing-8)
+
+// ===============================================
+// PRODUCTS GRID
+// ===============================================
+.products-grid
+  display: grid
+  gap: var(--spacing-4)
+  justify-content: center
+
+  +media-breakpoint-up(md)
+    gap: var(--spacing-6)
+
+  &--offers
+    grid-template-columns: repeat(auto-fit, minmax(150px, 200px))
+
+    +media-breakpoint-up(lg)
+      grid-template-columns: repeat(6, minmax(140px, 1fr))
+
+  &--all
+    grid-template-columns: repeat(auto-fit, minmax(150px, 200px))
+
+    +media-breakpoint-up(lg)
+      grid-template-columns: repeat(6, minmax(140px, 1fr))
+
+// ===============================================
+// BACK SECTION
+// ===============================================
+.back-section
+  padding: var(--spacing-6) var(--spacing-4)
+  text-align: center
+  background: var(--background)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-8) var(--spacing-10)
+
+  &__link
+    display: inline-block
+    padding: var(--spacing-3) var(--spacing-6)
+    color: var(--primary-blue)
+    text-decoration: none
+    font-weight: var(--font-semibold)
+    border: 2px solid var(--primary-blue)
+    border-radius: var(--radius-lg)
+    transition: all var(--transition-fast)
+
+    &:hover
+      background: var(--primary-blue)
+      color: var(--background)

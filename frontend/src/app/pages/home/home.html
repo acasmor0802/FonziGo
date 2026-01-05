@@ -1,0 +1,83 @@
+<app-header></app-header>
+
+<main class="landing">
+  <!-- Hero Banner Profesional -->
+  <section class="hero">
+    <div class="hero__container">
+      <div class="hero__badge">Ahorra hasta un 30% en tu compra</div>
+      <h1 class="hero__title">Compara precios de supermercados en segundos</h1>
+      <p class="hero__subtitle">Encuentra las mejores ofertas de Mercadona, Carrefour, Lidl y Día en un solo lugar.</p>
+      <div class="hero__actions">
+        <a routerLink="/productos" class="hero__btn hero__btn--primary">Empezar a comparar</a>
+        <a routerLink="/contacto" class="hero__btn hero__btn--secondary">Saber más</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supermercados -->
+  <section class="stores">
+    <div class="stores__container">
+      <div class="stores__header">
+        <h2>Supermercados disponibles</h2>
+        <p>Selecciona un supermercado para ver sus productos y ofertas actuales</p>
+      </div>
+      <div class="stores__grid">
+        <a routerLink="/supermercado/mercadona" class="store-card">
+          <img src="mercadona.png" alt="Mercadona" class="store-card__img">
+          <span class="store-card__name">Mercadona</span>
+        </a>
+        <a routerLink="/supermercado/carrefour" class="store-card">
+          <img src="carrefour.jpg" alt="Carrefour" class="store-card__img">
+          <span class="store-card__name">Carrefour</span>
+        </a>
+        <a routerLink="/supermercado/lidl" class="store-card">
+          <img src="Lidl.png" alt="Lidl" class="store-card__img">
+          <span class="store-card__name">Lidl</span>
+        </a>
+        <a routerLink="/supermercado/dia" class="store-card">
+          <img src="dia.png" alt="Día" class="store-card__img">
+          <span class="store-card__name">Día</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section class="steps">
+    <div class="steps__container">
+      <h2>¿Cómo funciona?</h2>
+      <p class="steps__subtitle">Tres simples pasos para empezar a ahorrar</p>
+      <div class="steps__list">
+        <div class="steps__item">
+          <span class="steps__num">1</span>
+          <h3>Elige tu supermercado</h3>
+          <p>Selecciona entre Mercadona, Carrefour, Lidl o Día</p>
+        </div>
+        <div class="steps__item">
+          <span class="steps__num">2</span>
+          <h3>Compara precios</h3>
+          <p>Revisa los precios actualizados de cada producto</p>
+        </div>
+        <div class="steps__item">
+          <span class="steps__num">3</span>
+          <h3>Ahorra dinero</h3>
+          <p>Compra donde mejor te convenga y ahorra</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta__container">
+      <h2>¿Listo para empezar a ahorrar?</h2>
+      <p>Crea tu cuenta gratuita y accede a funciones exclusivas como listas de compra personalizadas</p>
+      <div class="cta__buttons">
+        <a routerLink="/register" class="cta__btn cta__btn--primary">Crear cuenta gratis</a>
+        <a routerLink="/login" class="cta__btn cta__btn--secondary">Ya tengo cuenta</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>

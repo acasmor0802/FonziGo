@@ -12,24 +12,28 @@ Aplicación web para comparar precios de productos entre diferentes supermercado
 
 - ✅ Comparación de precios entre supermercados
 - ✅ Sistema de diseño completo con ITCSS + BEM
-- ✅ Componentes Angular reutilizables
+- ✅ Componentes Angular standalone reutilizables
 - ✅ Responsive design (Mobile-first)
 - ✅ Accesibilidad WCAG AA
-- ✅ Sintaxis moderna de Angular 17+
+- ✅ Autenticación JWT + Google OAuth2
+- ✅ Carrito de compras persistente
+- ✅ API REST documentada con Swagger
 
 ## 🛠️ Stack Tecnológico
 
 ### Frontend
-- **Framework:** Angular 21
+- **Framework:** Angular 21 (standalone components, signals)
 - **Estilos:** SASS con arquitectura ITCSS
 - **Metodología CSS:** BEM
 - **Tipografía:** Open Sans + Montserrat
 - **Testing:** Vitest
 
 ### Backend
-- **Framework:** Spring Boot 3.x
-- **Base de datos:** PostgreSQL
-- **Build:** Gradle
+- **Framework:** Spring Boot 4.0.0
+- **Base de datos:** PostgreSQL 17
+- **Seguridad:** Spring Security + JWT + Google OAuth2
+- **Documentación API:** OpenAPI 3 (Swagger)
+- **Build:** Gradle 8.x
 
 ## 📦 Estructura del Proyecto
 

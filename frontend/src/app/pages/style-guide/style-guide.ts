@@ -6,8 +6,39 @@ import { ButtonComponent } from '../../components/button/button';
 import { Alert } from '../../components/alert/alert';
 import { FormInput } from '../../components/form-input/form-input';
 import { FormSelect, SelectOption } from '../../components/form-select/form-select';
-import { ProductCard, Product } from '../../components/product-card/product-card';
+import { ProductCard } from '../../components/product-card/product-card';
 import { Footer } from '../../layout/footer/footer';
+
+/** Tipo simplificado para datos de ejemplo en la guía de estilos */
+interface DemoProduct {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  categoryId: number;
+  categoryName: string;
+  unit: string;
+  image: string;
+  imageUrl: string;
+  onSale: boolean;
+  lowestPrice: number;
+  highestPrice: number;
+  rating: number;
+  ratingCount: number;
+  reviews?: number;
+  prices: DemoPrice[];
+}
+
+interface DemoPrice {
+  supermarketId: number;
+  supermarketName: string;
+  store: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  onSale: boolean;
+  available: boolean;
+}
 
 @Component({
   selector: 'app-style-guide',
@@ -33,14 +64,25 @@ export class StyleGuide {
     { value: '4', label: 'Opción 4' }
   ];
 
-  sampleProduct: Product = {
-    id: '1',
+  sampleProduct: DemoProduct = {
+    id: 1,
     name: 'Producto de Ejemplo',
+    description: 'Descripción del producto de ejemplo',
     category: 'Categoría',
+    categoryId: 1,
+    categoryName: 'Categoría',
+    unit: 'unidad',
     image: 'https://placehold.co/300x200/333F51/FFF1D5?text=Producto',
+    imageUrl: 'https://placehold.co/300x200/333F51/FFF1D5?text=Producto',
+    onSale: true,
+    lowestPrice: 29.99,
+    highestPrice: 32.50,
+    rating: 4.5,
+    ratingCount: 120,
+    reviews: 120,
     prices: [
-      { store: 'Tienda A', price: 29.99, available: true },
-      { store: 'Tienda B', price: 32.50, available: true }
+      { supermarketId: 1, supermarketName: 'Tienda A', store: 'Tienda A', price: 29.99, available: true, onSale: false },
+      { supermarketId: 2, supermarketName: 'Tienda B', store: 'Tienda B', price: 32.50, available: true, onSale: false }
     ]
   };
 

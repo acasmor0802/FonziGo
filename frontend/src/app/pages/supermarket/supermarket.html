@@ -1,0 +1,47 @@
+<app-header></app-header>
+
+<main class="supermarket-page">
+  <!-- Hero del supermercado -->
+  <section class="supermarket-hero" [style.--store-color]="currentSupermarket().color">
+    <div class="supermarket-hero__content">
+      <span class="supermarket-hero__icon">{{ currentSupermarket().icon }}</span>
+      <h1 class="supermarket-hero__name">{{ currentSupermarket().name }}</h1>
+      <p class="supermarket-hero__slogan">{{ currentSupermarket().slogan }}</p>
+    </div>
+  </section>
+
+  <!-- Ofertas -->
+  @if (featuredProducts().length > 0) {
+    <section class="products-section">
+      <div class="products-section__container">
+        <h2 class="products-section__title">🔥 Ofertas de {{ currentSupermarket().name }}</h2>
+        <div class="products-grid products-grid--offers">
+          @for (product of featuredProducts(); track product.id) {
+            <app-product-card [product]="product"></app-product-card>
+          }
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- Todos los productos -->
+  <section class="products-section products-section--alt">
+    <div class="products-section__container">
+      <h2 class="products-section__title">Todos los productos</h2>
+      <div class="products-grid products-grid--all">
+        @for (product of regularProducts(); track product.id) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA volver -->
+  <section class="back-section">
+    <a routerLink="/" class="back-section__link">
+      ← Volver a todos los supermercados
+    </a>
+  </section>
+</main>
+
+<app-footer></app-footer>

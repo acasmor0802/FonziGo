@@ -2,15 +2,16 @@
 @use '../../../styles/01-tools/mixins' as *
 
 // -----------------------------------------------
-// Product Card Component - Horizontal Layout
-// Best Practices: BEM, Semantic HTML, Consistent Heights
+// Product Card Component - Container Query Responsive
+// Best Practices: BEM, Semantic HTML, Container Queries
 // -----------------------------------------------
 
-$card-height: 160px
-$image-size: 120px
 $savings-height: 22px
 
 .product-card
+  // Container Query setup - adapts to parent container size
+  container-type: inline-size
+  container-name: product-card
   display: flex
   flex-direction: column
   background: var(--background)
@@ -20,23 +21,30 @@ $savings-height: 22px
   box-shadow: var(--shadow-sm)
   width: 100%
   min-width: 0
+  height: 100%
+  min-height: 380px
+  cursor: pointer
   +smooth-transition(all)
 
   &:hover
     box-shadow: var(--shadow-lg)
     transform: translateY(-2px)
+    border-color: var(--secundary-yellow-alt)
 
   // --- Image Section ---
   &__image
     position: relative
     width: 100%
-    height: 140px
-    background: var(--background)
+    aspect-ratio: 1 / 1
+    background: var(--background-alt)
     display: flex
     align-items: center
     justify-content: center
     padding: var(--spacing-3)
     border-bottom: var(--border-thin) solid var(--primary-blue-light)
+    flex-shrink: 0
+    font-size: var(--text-xs)
+    color: var(--primary-blue-light)
 
     img
       max-width: 100%
@@ -59,29 +67,38 @@ $savings-height: 22px
   &__info
     flex: 1
     min-width: 0
-    padding: var(--spacing-3)
+    padding: var(--spacing-2)
     display: flex
     flex-direction: column
+    gap: var(--spacing-1)
     justify-content: space-between
-    gap: var(--spacing-2)
+
+    // Container Query: More padding in larger cards
+    @container product-card (min-width: 400px)
+      padding: var(--spacing-3)
 
   // --- Header (Name + Category) ---
   &__header
     margin-bottom: var(--spacing-1)
 
   &__name
-    font-size: var(--text-base)
+    font-size: var(--text-sm)
     font-weight: var(--font-bold)
     color: var(--primary-blue)
-    line-height: var(--line-height-tight)
+    line-height: 1.3
     display: -webkit-box
-    -webkit-line-clamp: 1
+    -webkit-line-clamp: 2
     -webkit-box-orient: vertical
     overflow: hidden
     text-overflow: ellipsis
     word-break: break-word
     margin: 0 0 var(--spacing-1) 0
-    min-height: 1.2em
+    height: 2.6em
+    min-height: 2.6em
+    max-height: 2.6em
+    
+    @container product-card (min-width: 400px)
+      font-size: var(--text-base)
 
   &__category
     font-size: var(--text-xs)
@@ -132,6 +149,10 @@ $savings-height: 22px
     font-weight: var(--font-bold)
     color: var(--primary-blue)
     font-family: var(--font-secondary)
+
+    // Container Query: Larger price in bigger cards
+    @container product-card (min-width: 400px)
+      font-size: var(--text-xl)
 
   .price-original
     font-size: var(--text-sm)

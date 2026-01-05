@@ -1,12 +1,19 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, ChangeDetectionStrategy, booleanAttribute, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+type InputType = 'text' | 'email' | 'password' | 'tel' | 'number' | 'url' | 'search';
+
+/**
+ * Componente de input de formulario con integración de ControlValueAccessor.
+ * Se integra perfectamente con ReactiveFormsModule y template-driven forms.
+ */
 @Component({
   selector: 'app-form-input',
   standalone: true,
   imports: [],
   templateUrl: './form-input.html',
   styleUrls: ['./form-input.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -18,22 +25,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class FormInput implements ControlValueAccessor {
   @Input() id = '';
   @Input() label = '';
-  @Input() type = 'text';
+  @Input() type: InputType = 'text';
   @Input() name = '';
   @Input() placeholder = '';
-  @Input() required = false;
-  @Input() disabled = false;
+  @Input({ transform: booleanAttribute }) required = false;
+  @Input({ transform: booleanAttribute }) disabled = false;
   @Input() helpText?: string;
   @Input() errorText?: string;
   @Input() autocomplete?: string;
 
-  value: string = '';
-  onChange: (value: string) => void = () => {};
-  onTouched: () => void = () => {};
+  protected value = signal('');
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
 
   // ControlValueAccessor implementation
   writeValue(value: string): void {
-    this.value = value || '';
+    this.value.set(value || '');
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -48,13 +55,13 @@ export class FormInput implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  onInputChange(event: Event): void {
+  protected onInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.value = target.value;
-    this.onChange(this.value);
+    this.value.set(target.value);
+    this.onChange(target.value);
   }
 
-  onBlur(): void {
+  protected onBlur(): void {
     this.onTouched();
   }
 }

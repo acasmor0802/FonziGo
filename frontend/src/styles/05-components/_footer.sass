@@ -12,8 +12,8 @@
 // -----------------------------------------------
 
 .footer
-  background-color: var(--primary-blue)
-  color: var(--background)
+  background-color: var(--footer-bg)
+  color: var(--footer-text)
   padding: var(--spacing-8) 0
   margin-top: auto
 
@@ -23,6 +23,53 @@
     flex-direction: column
     align-items: center
     gap: var(--spacing-6)
+
+  // -----------------------------------------------
+  // Contact Section
+  // -----------------------------------------------
+
+  &__contact
+    width: 100%
+    max-width: 500px
+    text-align: center
+
+  &__title
+    font-size: var(--text-lg)
+    font-weight: var(--font-semibold)
+    margin-bottom: var(--spacing-4)
+    color: var(--secundary-yellow-alt)
+
+  &__contact-info
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+    margin-bottom: var(--spacing-4)
+
+  &__address,
+  &__email
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: var(--spacing-2)
+    font-size: var(--text-sm)
+    margin: 0
+
+    a
+      color: var(--secundary-yellow-alt)
+      text-decoration: none
+      +smooth-transition(opacity)
+
+      &:hover
+        opacity: 0.8
+
+  &__icon
+    font-size: var(--text-base)
+
+  &__map
+    width: 100%
+    border-radius: var(--radius-md)
+    overflow: hidden
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
 
   // -----------------------------------------------
   // Navigation
@@ -43,7 +90,7 @@
       gap: var(--spacing-3)
 
   &__nav-link
-    color: var(--background)
+    color: var(--footer-text)
     text-decoration: none
     font-size: var(--text-sm)
     font-weight: var(--font-medium)
@@ -59,7 +106,7 @@
 
   &__copy
     font-size: var(--text-sm)
-    color: var(--background)
+    color: var(--footer-text)
     opacity: 0.8
     margin: 0
     text-align: center

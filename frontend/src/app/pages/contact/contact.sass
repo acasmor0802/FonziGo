@@ -1,0 +1,316 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// ===============================================
+// CONTACT PAGE STYLES
+// Mobile-first responsive design
+// ===============================================
+
+// ===============================================
+// CONTACT HERO
+// ===============================================
+.contact-hero
+  background: linear-gradient(135deg, var(--background) 0%, var(--secundary-yellow-alt) 100%)
+  padding: var(--spacing-8) var(--spacing-4)
+  text-align: center
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-10) var(--spacing-10)
+
+  +media-breakpoint-up(lg)
+    padding: var(--spacing-12) var(--spacing-16)
+
+  &__container
+    +container
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-2xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-2)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-4xl)
+
+  &__subtitle
+    font-size: var(--text-base)
+    color: var(--primary-blue-alt)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-lg)
+
+// ===============================================
+// CONTACT CONTENT
+// ===============================================
+.contact-content
+  padding: var(--spacing-8) var(--spacing-4)
+  background: var(--background-alt)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-10) var(--spacing-10)
+
+  +media-breakpoint-up(lg)
+    padding: var(--spacing-12) var(--spacing-16)
+
+  &__container
+    +container
+
+// ===============================================
+// CONTACT LAYOUT
+// ===============================================
+.contact-layout
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-8)
+
+  +media-breakpoint-up(lg)
+    flex-direction: row
+    gap: var(--spacing-12)
+
+.contact-form-wrapper
+  flex: 1
+
+  +media-breakpoint-up(lg)
+    flex: 1.2
+
+.contact-info-wrapper
+  flex: 1
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-8)
+
+// ===============================================
+// CONTACT FORM CARD
+// ===============================================
+.contact-form-card
+  background: var(--background)
+  padding: var(--spacing-6)
+  border-radius: var(--radius-xl)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-8)
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-2)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-2xl)
+
+  &__subtitle
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    margin-bottom: var(--spacing-6)
+
+// ===============================================
+// FORM STYLES
+// ===============================================
+.contact-form
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-4)
+
+.form-row
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-4)
+
+  +media-breakpoint-up(sm)
+    flex-direction: row
+
+.form-group
+  flex: 1
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-2)
+
+.form-label
+  font-size: var(--text-sm)
+  font-weight: var(--font-semibold)
+  color: var(--primary-blue)
+
+.form-input,
+.form-select,
+.form-textarea
+  padding: var(--spacing-3) var(--spacing-4)
+  border: 2px solid var(--primary-blue-light)
+  border-radius: var(--radius-lg)
+  font-size: var(--text-base)
+  color: var(--primary-blue)
+  background: var(--background-alt)
+  transition: border-color var(--transition-fast)
+
+  &:focus
+    outline: none
+    border-color: var(--primary-blue)
+
+  &::placeholder
+    color: var(--primary-blue-alt)
+
+  &--error
+    border-color: #ef4444
+
+.form-textarea
+  resize: vertical
+  min-height: 120px
+
+.form-select
+  cursor: pointer
+
+.form-error
+  font-size: var(--text-xs)
+  color: #ef4444
+
+.form-hint
+  font-size: var(--text-xs)
+  color: var(--primary-blue-alt)
+  text-align: right
+
+// ===============================================
+// CONTACT INFO
+// ===============================================
+.contact-info
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-4)
+
+  &__grid
+    display: grid
+    grid-template-columns: 1fr
+    gap: var(--spacing-4)
+
+    +media-breakpoint-up(sm)
+      grid-template-columns: repeat(2, 1fr)
+
+// Container Query for info cards
+.info-card
+  container-type: inline-size
+  container-name: info-card
+  display: flex
+  align-items: flex-start
+  gap: var(--spacing-3)
+  padding: var(--spacing-4)
+  background: var(--background)
+  border-radius: var(--radius-lg)
+
+  @container info-card (min-width: 200px)
+    padding: var(--spacing-5)
+
+  &__icon
+    font-size: 1.5rem
+    flex-shrink: 0
+
+  &__content
+    flex: 1
+
+  &__title
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-1)
+
+  &__text,
+  &__link
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+
+  &__link
+    text-decoration: none
+    transition: color var(--transition-fast)
+
+    &:hover
+      color: var(--primary-blue)
+      text-decoration: underline
+
+// ===============================================
+// FAQ SECTION
+// ===============================================
+.faq
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-4)
+
+  &__list
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-3)
+
+.faq-item
+  background: var(--background)
+  border-radius: var(--radius-lg)
+  overflow: hidden
+  transition: box-shadow var(--transition-fast)
+
+  &--open
+    box-shadow: var(--shadow-md)
+
+  &__question
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 100%
+    padding: var(--spacing-4)
+    background: none
+    border: none
+    font-size: var(--text-base)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    text-align: left
+    cursor: pointer
+    transition: background var(--transition-fast)
+
+    &:hover
+      background: var(--secundary-yellow-alt)
+
+  &__icon
+    font-size: var(--text-lg)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue-alt)
+
+  &__answer
+    padding: 0 var(--spacing-4) var(--spacing-4)
+
+    p
+      font-size: var(--text-sm)
+      color: var(--primary-blue-alt)
+      line-height: var(--line-height-relaxed)
+
+// ===============================================
+// MAP SECTION
+// ===============================================
+.map-section
+  background: var(--primary-blue-light)
+  padding: var(--spacing-8) var(--spacing-4)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-10) var(--spacing-8)
+
+.map-container
+  +container
+  max-width: 1200px
+
+  iframe
+    width: 100%
+    height: 300px
+    border-radius: var(--radius-lg)
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15)
+
+    +media-breakpoint-up(md)
+      height: 400px
+
+  &__address
+    text-align: center
+    margin-top: var(--spacing-4)
+    font-size: var(--text-base)
+    color: var(--primary-blue)
+    font-weight: var(--font-medium)

@@ -1,49 +1,52 @@
-import { Component, Input, computed, signal } from '@angular/core';
-import { ButtonComponent } from '../button/button';
+import { Component, Input, Output, EventEmitter, computed, ChangeDetectionStrategy } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { ProductWithPrices, PriceComparison } from '../../shared/types';
 
-export interface PriceComparison {
-  store: string;
-  price: number;
-  originalPrice?: number;
-  discount?: number;
-  available: boolean;
-}
-
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  prices: PriceComparison[];
-  rating?: number;
-  reviews?: number;
-  unit?: string;
-  promotion?: string;
-}
-
+/**
+ * Componente de tarjeta de producto reutilizable.
+ * Soporta dos variantes: grid (para listados) y comparison (para comparativas).
+ */
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [CurrencyPipe],
   templateUrl: './product-card.html',
-  styleUrls: ['./product-card.sass']
+  styleUrls: ['./product-card.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCard {
-  @Input() product!: Product;
+  @Input({ required: true }) product!: ProductWithPrices;
   @Input() variant: 'grid' | 'comparison' = 'grid';
+  @Output() viewProduct = new EventEmitter<ProductWithPrices>();
 
-  bestPrice = computed(() => {
-    const available = this.product?.prices?.filter(p => p.available) ?? [];
-    return available.length > 0 
-      ? available.reduce((min, p) => p.price < min.price ? p : min)
-      : null;
+  /**
+   * Calcula el mejor precio disponible del producto.
+   */
+  bestPrice = computed((): PriceComparison | null => {
+    const prices = this.product?.prices;
+    if (!prices?.length) return null;
+    
+    const available = prices.filter(p => p.available);
+    if (!available.length) return null;
+    
+    return available.reduce((min, p) => p.price < min.price ? p : min);
   });
 
-  savingsAmount = computed(() => {
+  /**
+   * Calcula el ahorro respecto al precio original.
+   */
+  savingsAmount = computed((): number => {
     const best = this.bestPrice();
-    if (!best?.discount || !best.originalPrice) return 0;
+    if (!best?.originalPrice) return 0;
     return best.originalPrice - best.price;
   });
 
-  readonly Math = Math;
+  /**
+   * Referencia a Math para usar en el template.
+   */
+  protected readonly Math = Math;
+
+  onViewProduct(): void {
+    this.viewProduct.emit(this.product);
+  }
 }

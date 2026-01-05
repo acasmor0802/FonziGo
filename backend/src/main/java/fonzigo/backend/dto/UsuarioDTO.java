@@ -11,4 +11,6 @@ public class UsuarioDTO {
     private String email;
     private String phone;
     private String role;
+    private Boolean googleUser;
+    private String avatarUrl;
 }

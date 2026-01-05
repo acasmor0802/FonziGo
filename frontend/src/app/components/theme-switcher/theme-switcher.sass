@@ -1,0 +1,53 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+.theme-switcher
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 70px
+  height: 34px
+  padding: 4px
+  background: var(--background-alt)
+  border: 2px solid var(--primary-blue-light)
+  border-radius: var(--radius-full)
+  cursor: pointer
+  transition: all var(--transition-fast)
+
+  &:hover
+    border-color: var(--secundary-yellow-dark)
+
+  &:focus
+    outline: none
+    box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.3)
+
+  &__icon
+    font-size: 1rem
+    z-index: 1
+    opacity: 0.4
+    transition: opacity var(--transition-fast)
+
+    &.active
+      opacity: 1
+
+  &__toggle
+    position: absolute
+    left: 4px
+    width: 24px
+    height: 24px
+    background: var(--secundary-yellow-dark)
+    border-radius: 50%
+    transition: transform var(--transition-base)
+    box-shadow: var(--shadow-sm)
+
+    &--dark
+      transform: translateX(36px)
+      background: var(--primary-blue)
+
+// Asegurar transición suave en el cambio de tema
+html
+  transition: background-color var(--transition-base), color var(--transition-base)
+
+html.dark-mode
+  background-color: var(--background)

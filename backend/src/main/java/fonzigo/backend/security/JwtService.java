@@ -2,7 +2,6 @@ package fonzigo.backend.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +12,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Servicio para generación y validación de tokens JWT.
+ * Utiliza JJWT 0.12.x con la nueva API fluent.
+ */
 @Service
 public class JwtService {
 
@@ -36,13 +39,12 @@ public class JwtService {
     }
 
     private String buildToken(Map<String, Object> extraClaims, String username, long expirationTime) {
-        return Jwts
-            .builder()
-            .setClaims(extraClaims)
-            .setSubject(username)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+        return Jwts.builder()
+            .claims(extraClaims)
+            .subject(username)
+            .issuedAt(new Date(System.currentTimeMillis()))
+            .expiration(new Date(System.currentTimeMillis() + expirationTime))
+            .signWith(getSigningKey())
             .compact();
     }
 
@@ -69,11 +71,10 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-            .parserBuilder()
-            .setSigningKey(getSigningKey())
+        return Jwts.parser()
+            .verifyWith(getSigningKey())
             .build()
-            .parseClaimsJws(token)
-            .getBody();
+            .parseSignedClaims(token)
+            .getPayload();
     }
 }

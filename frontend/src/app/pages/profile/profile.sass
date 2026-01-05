@@ -1,0 +1,389 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+.profile-page
+  min-height: calc(100vh - 200px)
+  background: var(--background)
+  padding: var(--spacing-6) var(--spacing-4)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-10) var(--spacing-8)
+
+  &__container
+    max-width: 900px
+    margin: 0 auto
+
+  &__loading
+    text-align: center
+    padding: var(--spacing-16)
+    color: var(--primary-blue-alt)
+
+// ===============================================
+// Profile Card
+// ===============================================
+.profile-card
+  background: var(--background-alt)
+  border-radius: var(--radius-xl)
+  padding: var(--spacing-6)
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: var(--spacing-4)
+  margin-bottom: var(--spacing-8)
+  border: 1px solid var(--primary-blue-light)
+  position: relative
+
+  +media-breakpoint-up(md)
+    flex-direction: row
+    align-items: flex-start
+    padding: var(--spacing-8)
+    gap: var(--spacing-6)
+
+  &__photo-section
+    flex-shrink: 0
+
+  &__avatar
+    position: relative
+    width: 120px
+    height: 120px
+
+    +media-breakpoint-up(md)
+      width: 140px
+      height: 140px
+
+  &__img
+    width: 100%
+    height: 100%
+    border-radius: 50%
+    object-fit: cover
+    border: 4px solid var(--secundary-yellow-alt)
+
+  &__upload
+    position: absolute
+    bottom: 0
+    right: 0
+    width: 40px
+    height: 40px
+    background: var(--secundary-yellow-alt)
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    transition: transform var(--transition-fast)
+    border: 3px solid var(--background-alt)
+    padding: 0
+    outline: none
+
+    &:hover
+      transform: scale(1.1)
+
+  &__upload-icon
+    font-size: 1.2rem
+
+  &__info
+    flex: 1
+    text-align: center
+
+    +media-breakpoint-up(md)
+      text-align: left
+
+  &__name
+    font-family: var(--font-secondary)
+    font-size: var(--text-2xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-1)
+
+  &__email
+    color: var(--primary-blue-alt)
+    margin-bottom: var(--spacing-4)
+
+  &__label
+    display: block
+    font-size: var(--text-sm)
+    font-weight: var(--font-medium)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-2)
+
+  &__input
+    width: 100%
+    max-width: 300px
+    padding: var(--spacing-3)
+    border: 2px solid var(--primary-blue-light)
+    border-radius: var(--radius-md)
+    font-size: var(--text-base)
+    background: var(--background)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-4)
+
+    &:focus
+      outline: none
+      border-color: var(--secundary-yellow-alt)
+
+  &__edit-actions
+    display: flex
+    gap: var(--spacing-3)
+
+  &__logout
+    position: absolute
+    top: var(--spacing-4)
+    right: var(--spacing-4)
+    background: transparent
+    border: 1px solid var(--error)
+    color: var(--error)
+    padding: var(--spacing-2) var(--spacing-4)
+    border-radius: var(--radius-md)
+    font-size: var(--text-sm)
+    cursor: pointer
+    transition: all var(--transition-fast)
+
+    &:hover
+      background: var(--error)
+      color: white
+
+// ===============================================
+// Purchases Section
+// ===============================================
+.purchases
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-6)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-2xl)
+
+  &__grid
+    display: grid
+    grid-template-columns: 1fr
+    gap: var(--spacing-4)
+
+    +media-breakpoint-up(sm)
+      grid-template-columns: repeat(2, 1fr)
+
+    +media-breakpoint-up(md)
+      grid-template-columns: repeat(3, 1fr)
+
+  &__empty
+    text-align: center
+    padding: var(--spacing-10)
+    background: var(--background-alt)
+    border-radius: var(--radius-xl)
+    border: 1px dashed var(--primary-blue-light)
+
+    &-icon
+      font-size: 3rem
+      display: block
+      margin-bottom: var(--spacing-4)
+
+    p
+      color: var(--primary-blue-alt)
+
+// ===============================================
+// Purchase Card
+// ===============================================
+.purchase-card
+  background: var(--background-alt)
+  border-radius: var(--radius-lg)
+  padding: var(--spacing-4)
+  cursor: pointer
+  border: 2px solid transparent
+  transition: all var(--transition-fast)
+
+  &:hover
+    border-color: var(--secundary-yellow-alt)
+    transform: translateY(-2px)
+    box-shadow: var(--shadow-md)
+
+  &__header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: var(--spacing-3)
+    padding-bottom: var(--spacing-3)
+    border-bottom: 1px solid var(--primary-blue-light)
+
+  &__store
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+  &__date
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+
+  &__body
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: var(--spacing-3)
+
+  &__items
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+
+  &__total
+    font-size: var(--text-lg)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+
+  &__footer
+    text-align: right
+
+  &__view
+    font-size: var(--text-sm)
+    color: var(--secundary-yellow-dark)
+    font-weight: var(--font-medium)
+
+// ===============================================
+// Purchase Modal
+// ===============================================
+.purchase-modal
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0.6)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1000
+  padding: var(--spacing-4)
+
+  &__content
+    background: var(--background)
+    border-radius: var(--radius-xl)
+    width: 100%
+    max-width: 500px
+    max-height: 80vh
+    overflow-y: auto
+    position: relative
+
+  &__close
+    position: absolute
+    top: var(--spacing-4)
+    right: var(--spacing-4)
+    background: none
+    border: none
+    font-size: 1.5rem
+    color: var(--primary-blue-alt)
+    cursor: pointer
+
+    &:hover
+      color: var(--primary-blue)
+
+  &__header
+    padding: var(--spacing-6)
+    border-bottom: 1px solid var(--primary-blue-light)
+
+    h3
+      font-family: var(--font-secondary)
+      font-size: var(--text-xl)
+      font-weight: var(--font-bold)
+      color: var(--primary-blue)
+      margin-bottom: var(--spacing-1)
+
+  &__date
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+
+  &__items
+    padding: var(--spacing-4) var(--spacing-6)
+
+  &__total
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: var(--spacing-4) var(--spacing-6)
+    background: var(--background-alt)
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+  &__total-amount
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+
+// ===============================================
+// Purchase Item
+// ===============================================
+.purchase-item
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: var(--spacing-3) 0
+  border-bottom: 1px solid var(--primary-blue-light)
+
+  &:last-child
+    border-bottom: none
+
+  &__info
+    display: flex
+    align-items: center
+    gap: var(--spacing-3)
+
+  &__name
+    color: var(--primary-blue)
+    font-weight: var(--font-medium)
+
+  &__qty
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    background: var(--background-alt)
+    padding: var(--spacing-1) var(--spacing-2)
+    border-radius: var(--radius-sm)
+
+  &__price
+    text-align: right
+
+  &__unit
+    display: block
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+
+  &__subtotal
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+// ===============================================
+// Buttons
+// ===============================================
+.btn
+  padding: var(--spacing-2) var(--spacing-4)
+  border-radius: var(--radius-md)
+  font-weight: var(--font-semibold)
+  font-size: var(--text-sm)
+  cursor: pointer
+  transition: all var(--transition-fast)
+  border: none
+
+  &--primary
+    background: var(--btn-primary-bg)
+    color: var(--btn-primary-text)
+
+    &:hover
+      opacity: 0.9
+
+  &--secondary
+    background: var(--background)
+    color: var(--primary-blue)
+    border: 1px solid var(--primary-blue-light)
+
+    &:hover
+      border-color: var(--primary-blue)
+
+  &--outline
+    background: transparent
+    color: var(--primary-blue)
+    border: 2px solid var(--primary-blue-light)
+
+    &:hover
+      border-color: var(--secundary-yellow-alt)
+      color: var(--secundary-yellow-dark)
+    color: var(--primary)
+    margin-bottom: 0.25rem
+  
+  &__label
+    color: var(--text-secondary)
+    font-size: 0.875rem

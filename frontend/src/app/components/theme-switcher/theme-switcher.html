@@ -1,0 +1,14 @@
+<button 
+  class="theme-switcher" 
+  (click)="toggleTheme()"
+  [attr.aria-label]="isDarkMode() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+  [attr.title]="isDarkMode() ? 'Modo claro' : 'Modo oscuro'"
+>
+  <span class="theme-switcher__icon theme-switcher__icon--sun" [class.active]="!isDarkMode()">
+    ☀️
+  </span>
+  <span class="theme-switcher__icon theme-switcher__icon--moon" [class.active]="isDarkMode()">
+    🌙
+  </span>
+  <span class="theme-switcher__toggle" [class.theme-switcher__toggle--dark]="isDarkMode()"></span>
+</button>

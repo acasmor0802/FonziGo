@@ -1,0 +1,219 @@
+<app-toast></app-toast>
+<app-header></app-header>
+
+<main class="cart-page">
+  <div class="cart-page__container">
+    
+    @if (!isLoggedIn()) {
+      <!-- Not Logged In State -->
+      <div class="cart-empty">
+        <span class="cart-empty__icon">🔐</span>
+        <h2 class="cart-empty__title">Inicia sesión para ver tu carrito</h2>
+        <p class="cart-empty__text">Necesitas iniciar sesión para gestionar tu carrito de compras.</p>
+        <a routerLink="/login" class="btn btn--primary btn--large">
+          Iniciar sesión
+        </a>
+      </div>
+    } @else if (loading()) {
+      <!-- Loading State -->
+      <div class="cart-empty">
+        <span class="cart-empty__icon">⏳</span>
+        <h2 class="cart-empty__title">Cargando carrito...</h2>
+      </div>
+    } @else if (cartItems().length === 0) {
+      <!-- Empty Cart State -->
+      <div class="cart-empty">
+        <span class="cart-empty__icon">🛒</span>
+        <h2 class="cart-empty__title">Tu carrito está vacío</h2>
+        <p class="cart-empty__text">Parece que aún no has añadido ningún producto a tu carrito.</p>
+        <button class="btn btn--primary btn--large" (click)="continueShopping()">
+          Empezar a comprar
+        </button>
+      </div>
+    } @else {
+      <!-- Cart Header -->
+      <div class="cart-header">
+        <h1 class="cart-header__title">Tu Carrito</h1>
+        <span class="cart-header__count">{{ itemCount() }} productos</span>
+      </div>
+
+      <div class="cart-layout">
+        <!-- Cart Items -->
+        <div class="cart-items">
+          
+          <!-- Grouped by Store -->
+          @for (storeGroup of itemsByStore(); track storeGroup[0]) {
+            <div class="store-group">
+              <div class="store-group__header">
+                <span class="store-group__icon">🏪</span>
+                <span class="store-group__name">{{ storeGroup[0] }}</span>
+                <span class="store-group__count">{{ storeGroup[1].length }} productos</span>
+              </div>
+              
+              <div class="store-group__items">
+                @for (item of storeGroup[1]; track item.id) {
+                  <div class="cart-item">
+                    <img [src]="getImageUrl(item.productImage)" [alt]="item.productName" class="cart-item__image">
+                    
+                    <div class="cart-item__details">
+                      <h3 class="cart-item__name">{{ item.productName }}</h3>
+                      <span class="cart-item__unit">Por {{ item.unit }}</span>
+                    </div>
+                    
+                    <div class="cart-item__price">
+                      @if (item.originalPrice) {
+                        <span class="cart-item__original">{{ item.originalPrice | number:'1.2-2' }}€</span>
+                      }
+                      <span class="cart-item__current">{{ item.price | number:'1.2-2' }}€</span>
+                      @if (item.originalPrice) {
+                        <span class="cart-item__discount">
+                          -{{ ((1 - item.price / item.originalPrice) * 100) | number:'1.0-0' }}%
+                        </span>
+                      }
+                    </div>
+                    
+                    <div class="cart-item__quantity">
+                      <button 
+                        type="button"
+                        class="cart-item__qty-btn"
+                        (click)="updateQuantity(item.id, item.quantity - 1)"
+                        [disabled]="item.quantity <= 1">
+                        −
+                      </button>
+                      <span class="cart-item__qty-value">{{ item.quantity }}</span>
+                      <button 
+                        type="button"
+                        class="cart-item__qty-btn"
+                        (click)="updateQuantity(item.id, item.quantity + 1)">
+                        +
+                      </button>
+                    </div>
+                    
+                    <div class="cart-item__subtotal">
+                      {{ (item.price * item.quantity) | number:'1.2-2' }}€
+                    </div>
+                    
+                    <button type="button" class="cart-item__remove" (click)="removeItem(item.id)" title="Eliminar">
+                      ✕
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+          
+          <!-- Actions -->
+          <div class="cart-actions">
+            <button class="btn btn--outline" (click)="continueShopping()">
+              ← Seguir comprando
+            </button>
+            <button class="btn btn--danger-outline" (click)="clearCart()">
+              Vaciar carrito
+            </button>
+          </div>
+          
+        </div>
+
+        <!-- Order Summary -->
+        <aside class="order-summary">
+          <h2 class="order-summary__title">Resumen del pedido</h2>
+          
+          <div class="order-summary__row">
+            <span>Subtotal ({{ itemCount() }} productos)</span>
+            <span>{{ subtotal() | number:'1.2-2' }}€</span>
+          </div>
+          
+          @if (savings() > 0) {
+            <div class="order-summary__row order-summary__row--savings">
+              <span>🎉 Ahorro total</span>
+              <span>-{{ savings() | number:'1.2-2' }}€</span>
+            </div>
+          }
+          
+          <div class="order-summary__row">
+            <span>Gastos de envío</span>
+            @if (deliveryFee() === 0) {
+              <span class="order-summary__free">GRATIS</span>
+            } @else {
+              <span>{{ deliveryFee() | number:'1.2-2' }}€</span>
+            }
+          </div>
+          
+          @if (subtotal() < 30 && subtotal() > 0) {
+            <div class="order-summary__shipping-msg">
+              <span>🚚</span>
+              <span>¡Añade {{ (30 - subtotal()) | number:'1.2-2' }}€ más para envío GRATIS!</span>
+            </div>
+            <div class="order-summary__progress">
+              <div class="order-summary__progress-bar" [style.width.%]="(subtotal() / 30) * 100"></div>
+            </div>
+          }
+          
+          <div class="order-summary__divider"></div>
+          
+          <div class="order-summary__row order-summary__row--total">
+            <span>Total</span>
+            <span>{{ total() | number:'1.2-2' }}€</span>
+          </div>
+          
+          <button 
+            class="btn btn--primary btn--large btn--full" 
+            (click)="checkout()"
+            [disabled]="checkoutLoading() || cartItems().length === 0"
+          >
+            @if (checkoutLoading()) {
+              Procesando...
+            } @else {
+              Proceder con la compra
+            }
+          </button>
+          
+          <div class="order-summary__secure">
+            <span>🔒</span>
+            <span>Pago 100% seguro</span>
+          </div>
+          
+          <div class="order-summary__methods">
+            <span>💳</span>
+            <span>💶</span>
+            <span>📱</span>
+          </div>
+        </aside>
+      </div>
+      
+      <!-- Recommendations -->
+      <section class="cart-recommendations">
+        <h2 class="cart-recommendations__title">También te puede interesar</h2>
+        <div class="cart-recommendations__grid">
+          <div class="recommendation-card">
+            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
+            <h4 class="recommendation-card__name">Queso Manchego Curado</h4>
+            <span class="recommendation-card__price">4.99€</span>
+            <button class="recommendation-card__add">+ Añadir</button>
+          </div>
+          <div class="recommendation-card">
+            <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
+            <h4 class="recommendation-card__name">Manzanas Golden 1kg</h4>
+            <span class="recommendation-card__price">1.89€</span>
+            <button class="recommendation-card__add">+ Añadir</button>
+          </div>
+          <div class="recommendation-card">
+            <img src="https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
+            <h4 class="recommendation-card__name">Tomates Rama 500g</h4>
+            <span class="recommendation-card__price">1.29€</span>
+            <button class="recommendation-card__add">+ Añadir</button>
+          </div>
+          <div class="recommendation-card">
+            <img src="https://images.unsplash.com/photo-1598790989221-c0d4e7b0b3a5?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
+            <h4 class="recommendation-card__name">Café Molido Natural</h4>
+            <span class="recommendation-card__price">3.45€</span>
+            <button class="recommendation-card__add">+ Añadir</button>
+          </div>
+        </div>
+      </section>
+    }
+    
+  </div>
+</main>
+
+<app-footer></app-footer>

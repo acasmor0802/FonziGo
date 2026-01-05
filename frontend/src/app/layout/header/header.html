@@ -1,11 +1,20 @@
 <header class="header">
   <div class="header__container">
-    <!-- Logo/Image Section -->
-    <section class="header__logo-section">
-      <a routerLink="/" class="header__logo-link" aria-label="Ir a página principal">
-        <img src="1.svg" alt="FonziGo" class="header__logo">
-      </a>
-    </section>
+    <!-- Logo + Nav Section (agrupados) -->
+    <div class="header__left">
+      <section class="header__logo-section">
+        <a routerLink="/" class="header__logo-link" aria-label="Ir a página principal">
+          <img src="1.svg" alt="FonziGo" class="header__logo">
+        </a>
+      </section>
+
+      <!-- Main Navigation (visible desktop) -->
+      <nav class="header__main-nav" aria-label="Navegación principal">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="header__nav-link">Inicio</a>
+        <a routerLink="/productos" routerLinkActive="active" class="header__nav-link">Productos</a>
+        <a routerLink="/contacto" routerLinkActive="active" class="header__nav-link">Contacto</a>
+      </nav>
+    </div>
 
     <!-- Botón Hamburguesa (solo móvil) -->
     <app-button
@@ -55,31 +64,49 @@
       </app-button>
 
       <!-- Shopping Cart -->
-      <app-button
-        variant="ghost"
-        size="md"
-        ariaLabel="Ver carrito de compras"
-        class="header__cart"
-      >
+      <a routerLink="/carrito" class="header__cart-link" (click)="closeMobileMenu()">
         <span class="header__cart-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"/>
             <circle cx="20" cy="21" r="1"/>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
           </svg>
-          Carrito
         </span>
-      </app-button>
+        @if (cartItemCount() > 0) {
+          <span class="header__cart-badge">{{ cartItemCount() }}</span>
+        }
+      </a>
 
       <!-- Auth Navigation -->
       <nav class="header__nav" aria-label="Navegación de autenticación">
-        <a routerLink="/login" class="btn btn-secondary" (click)="closeMobileMenu()">
-          Iniciar sesión
-        </a>
+        <!-- Mobile Navigation Links -->
+        <div class="header__mobile-nav">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="header__nav-link" (click)="closeMobileMenu()">Inicio</a>
+          <a routerLink="/productos" routerLinkActive="active" class="header__nav-link" (click)="closeMobileMenu()">Productos</a>
+          <a routerLink="/contacto" routerLinkActive="active" class="header__nav-link" (click)="closeMobileMenu()">Contacto</a>
+        </div>
         
-        <a routerLink="/register" class="btn btn-primary" (click)="closeMobileMenu()">
-          Registrarse
-        </a>
+        @if (isLoggedIn()) {
+          <!-- Usuario logueado: mostrar foto de perfil -->
+          <div class="header__user-menu">
+            <a routerLink="/perfil" class="header__profile" (click)="closeMobileMenu()">
+              <img [src]="userPhoto()" [alt]="currentUser()?.name || 'Perfil'" class="header__profile-img">
+              <span class="header__profile-name">{{ currentUser()?.name }}</span>
+            </a>
+            <button class="header__logout-btn" (click)="logout()" title="Cerrar sesión">
+              Salir
+            </button>
+          </div>
+        } @else {
+          <!-- Usuario no logueado: botones de auth -->
+          <a routerLink="/login" class="btn btn-secondary" (click)="closeMobileMenu()">
+            Iniciar sesión
+          </a>
+          
+          <a routerLink="/register" class="btn btn-primary" (click)="closeMobileMenu()">
+            Registrarse
+          </a>
+        }
       </nav>
     </section>
   </div>

@@ -194,6 +194,29 @@
     align-items: center
     justify-content: center
 
+  // Google Sign-In Container
+  &__google-container
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: var(--spacing-3)
+    padding: var(--spacing-2) 0
+
+    #google-signin-button
+      width: 100%
+      display: flex
+      justify-content: center
+
+  &__google-loading
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    text-align: center
+
+  &__google-error
+    font-size: var(--text-sm)
+    color: var(--error)
+    text-align: center
+
   &__footer
     font-size: var(--text-sm)
     color: var(--primary-blue-light)

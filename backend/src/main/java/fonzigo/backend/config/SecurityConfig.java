@@ -57,8 +57,17 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                .requestMatchers("/api/products", "/api/products/**", "/api/categories", "/api/categories/**", "/api/supermarkets", "/api/supermarkets/**").permitAll()
+                // Endpoints públicos - Documentación y Health
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+                // Endpoints públicos - Autenticación
+                .requestMatchers("/api/auth/**").permitAll()
+                // Endpoints públicos - Catálogo (solo lectura)
+                .requestMatchers("/api/products", "/api/products/**").permitAll()
+                .requestMatchers("/api/categories", "/api/categories/**").permitAll()
+                .requestMatchers("/api/supermarkets", "/api/supermarkets/**").permitAll()
+                .requestMatchers("/api/images/**").permitAll()
+                // Todo lo demás requiere autenticación
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -69,7 +78,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:80", "http://localhost:4200", "http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost",
+            "http://localhost:80",
+            "http://localhost:4200"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

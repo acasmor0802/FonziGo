@@ -1,4 +1,4 @@
-<article class="product-card">
+<article class="product-card" (click)="onViewProduct()">
   <!-- IMAGEN -->
   <div class="product-card__image">
     <img [src]="product.image" [alt]="product.name" />
@@ -47,14 +47,5 @@
       }
     </div>
 
-    <!-- BOTÓN -->
-    <app-button 
-      type="button" 
-      variant="primary" 
-      size="sm" 
-      class="product-card__button"
-    >
-      Ver ofertas
-    </app-button>
   </div>
 </article>

@@ -1,0 +1,129 @@
+<app-header></app-header>
+
+<main class="profile-page">
+  <div class="profile-page__container">
+    @if (user(); as userData) {
+      <!-- Sección de perfil -->
+      <section class="profile-card">
+        <div class="profile-card__photo-section">
+          <div class="profile-card__avatar">
+            @if (userData.avatarUrl) {
+              <img [src]="userData.avatarUrl" [alt]="userData.name" class="profile-card__img">
+            } @else {
+              <img src="sinFotojpg.jpg" alt="Sin foto" class="profile-card__img">
+            }
+            <button type="button" class="profile-card__upload" (click)="fileInput.click()">
+              <span class="profile-card__upload-icon">📷</span>
+            </button>
+            <input 
+              #fileInput
+              type="file" 
+              accept="image/*" 
+              (change)="onFileSelected($event)"
+              style="display: none;"
+            >
+          </div>
+        </div>
+        
+        <div class="profile-card__info">
+          @if (isEditing()) {
+            <div class="profile-card__edit-form">
+              <label class="profile-card__label">Nombre</label>
+              <input 
+                type="text" 
+                class="profile-card__input"
+                [ngModel]="editName()"
+                (ngModelChange)="editName.set($event)"
+                placeholder="Tu nombre"
+              >
+              <div class="profile-card__edit-actions">
+                <button class="btn btn--primary" (click)="toggleEdit()">Guardar</button>
+                <button class="btn btn--secondary" (click)="cancelEdit()">Cancelar</button>
+              </div>
+            </div>
+          } @else {
+            <h1 class="profile-card__name">{{ userData.name }}</h1>
+            <p class="profile-card__email">{{ userData.email }}</p>
+            <button class="btn btn--outline" (click)="toggleEdit()">
+              ✏️ Editar perfil
+            </button>
+          }
+        </div>
+        
+        <button class="profile-card__logout" (click)="logout()">
+          Cerrar sesión
+        </button>
+      </section>
+
+      <!-- Historial de compras -->
+      <section class="purchases">
+        <h2 class="purchases__title">Historial de compras</h2>
+        
+        @if (purchases().length > 0) {
+          <div class="purchases__grid">
+            @for (purchase of purchases(); track purchase.id) {
+              <article class="purchase-card" (click)="selectPurchase(purchase)">
+                <div class="purchase-card__header">
+                  <span class="purchase-card__store">{{ purchase.store }}</span>
+                  <span class="purchase-card__date">{{ formatDate(purchase.date) }}</span>
+                </div>
+                <div class="purchase-card__body">
+                  <span class="purchase-card__items">{{ purchase.items.length }} productos</span>
+                  <span class="purchase-card__total">{{ purchase.total.toFixed(2) }}€</span>
+                </div>
+                <div class="purchase-card__footer">
+                  <span class="purchase-card__view">Ver detalles →</span>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="purchases__empty">
+            <span class="purchases__empty-icon">🛒</span>
+            <p>Aún no tienes compras registradas</p>
+          </div>
+        }
+      </section>
+    } @else {
+      <div class="profile-page__loading">
+        <p>Cargando perfil...</p>
+      </div>
+    }
+  </div>
+</main>
+
+<!-- Modal de detalle de compra -->
+@if (selectedPurchase(); as purchase) {
+  <div class="purchase-modal" (click)="closePurchaseDetail()">
+    <div class="purchase-modal__content" (click)="$event.stopPropagation()">
+      <button class="purchase-modal__close" (click)="closePurchaseDetail()">×</button>
+      
+      <div class="purchase-modal__header">
+        <h3>{{ purchase.store }}</h3>
+        <span class="purchase-modal__date">{{ formatDate(purchase.date) }}</span>
+      </div>
+      
+      <div class="purchase-modal__items">
+        @for (item of purchase.items; track item.name) {
+          <div class="purchase-item">
+            <div class="purchase-item__info">
+              <span class="purchase-item__name">{{ item.name }}</span>
+              <span class="purchase-item__qty">x{{ item.quantity }}</span>
+            </div>
+            <div class="purchase-item__price">
+              <span class="purchase-item__unit">{{ item.price.toFixed(2) }}€/ud</span>
+              <span class="purchase-item__subtotal">{{ (item.price * item.quantity).toFixed(2) }}€</span>
+            </div>
+          </div>
+        }
+      </div>
+      
+      <div class="purchase-modal__total">
+        <span>Total</span>
+        <span class="purchase-modal__total-amount">{{ purchase.total.toFixed(2) }}€</span>
+      </div>
+    </div>
+  </div>
+}
+
+<app-footer></app-footer>

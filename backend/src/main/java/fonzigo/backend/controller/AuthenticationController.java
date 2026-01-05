@@ -2,11 +2,13 @@ package fonzigo.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import fonzigo.backend.dto.GoogleAuthRequestDTO;
 import fonzigo.backend.dto.LoginRequestDTO;
 import fonzigo.backend.dto.LoginResponseDTO;
 import fonzigo.backend.dto.UsuarioDTO;
 import fonzigo.backend.dto.UsuarioRegistroDTO;
 import fonzigo.backend.security.JwtService;
+import fonzigo.backend.service.GoogleAuthService;
 import fonzigo.backend.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +27,16 @@ public class AuthenticationController {
     private final UsuarioService usuarioService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final GoogleAuthService googleAuthService;
 
     public AuthenticationController(UsuarioService usuarioService, 
                                   JwtService jwtService,
-                                  AuthenticationManager authenticationManager) {
+                                  AuthenticationManager authenticationManager,
+                                  GoogleAuthService googleAuthService) {
         this.usuarioService = usuarioService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.googleAuthService = googleAuthService;
     }
 
     @PostMapping("/register")
@@ -73,5 +78,16 @@ public class AuthenticationController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UsuarioDTO usuario = usuarioService.getUserByEmail(email);
         return ResponseEntity.ok(usuario);
+    }
+
+    @PostMapping("/google")
+    @Operation(summary = "Iniciar sesión con Google", description = "Autentica un usuario usando su cuenta de Google")
+    public ResponseEntity<LoginResponseDTO> googleLogin(@Valid @RequestBody GoogleAuthRequestDTO request) {
+        try {
+            LoginResponseDTO response = googleAuthService.authenticateWithGoogle(request.getCredential());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build();
+        }
     }
 }

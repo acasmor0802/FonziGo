@@ -1,0 +1,304 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+.product-modal
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0.7)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1100
+  padding: var(--spacing-4)
+  backdrop-filter: blur(4px)
+  animation: fadeIn 0.2s ease-out
+
+  &__content
+    background: var(--background)
+    border-radius: var(--radius-2xl)
+    width: 100%
+    max-width: 420px
+    max-height: 85vh
+    position: relative
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25)
+    animation: slideUp 0.3s ease-out
+    overflow: hidden
+
+  &__scroll
+    overflow-y: auto
+    max-height: 85vh
+    padding: var(--spacing-6)
+    padding-top: var(--spacing-8)
+
+    // Custom scrollbar
+    &::-webkit-scrollbar
+      width: 6px
+
+    &::-webkit-scrollbar-track
+      background: transparent
+
+    &::-webkit-scrollbar-thumb
+      background: var(--primary-blue-light)
+      border-radius: var(--radius-full)
+
+  &__close
+    position: absolute
+    top: var(--spacing-3)
+    right: var(--spacing-3)
+    width: 32px
+    height: 32px
+    display: flex
+    align-items: center
+    justify-content: center
+    background: var(--primary-blue)
+    color: white
+    border: none
+    border-radius: 50%
+    font-size: 1rem
+    cursor: pointer
+    z-index: 10
+    transition: all var(--transition-fast)
+
+    &:hover
+      background: var(--primary-blue-alt)
+      transform: scale(1.1)
+
+  &__badge
+    position: absolute
+    top: var(--spacing-3)
+    left: var(--spacing-3)
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+    background: var(--background-alt)
+    padding: var(--spacing-1) var(--spacing-3)
+    border-radius: var(--radius-full)
+
+  &__header
+    text-align: center
+    margin-bottom: var(--spacing-6)
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-1)
+    line-height: 1.3
+
+  &__store
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+
+  &__main
+    display: flex
+    gap: var(--spacing-5)
+    margin-bottom: var(--spacing-6)
+    align-items: flex-start
+
+  &__image
+    flex-shrink: 0
+    width: 140px
+    height: 160px
+    background: var(--background-alt)
+    border-radius: var(--radius-lg)
+    display: flex
+    align-items: center
+    justify-content: center
+    overflow: hidden
+
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
+
+  &__emoji
+    font-size: 5rem
+
+  &__details
+    flex: 1
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+
+  &__rating-input
+    margin-bottom: var(--spacing-2)
+
+  &__rating-info
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-1)
+    margin-bottom: var(--spacing-3)
+
+    .rating-count
+      font-size: var(--text-xs)
+      color: var(--primary-blue-alt)
+
+    .rating-average
+      font-size: var(--text-sm)
+      color: var(--secundary-yellow-dark)
+      font-weight: var(--font-semibold)
+
+  &__price
+    display: flex
+    align-items: center
+    gap: var(--spacing-2)
+    flex-wrap: wrap
+
+    .price-original
+      font-size: var(--text-sm)
+      color: var(--primary-blue-alt)
+      text-decoration: line-through
+
+    .price-current
+      font-size: var(--text-xl)
+      font-weight: var(--font-bold)
+      color: var(--primary-blue)
+
+    .price-discount
+      font-size: var(--text-xs)
+      background: var(--error)
+      color: white
+      padding: 2px 6px
+      border-radius: var(--radius-sm)
+      font-weight: var(--font-bold)
+
+  &__unit
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+
+  &__actions
+    margin-bottom: var(--spacing-8)
+
+  &__add-btn
+    width: 100%
+    padding: var(--spacing-4)
+    background: var(--secundary-yellow-alt)
+    color: var(--primary-blue)
+    border: none
+    border-radius: var(--radius-lg)
+    font-size: var(--text-base)
+    font-weight: var(--font-bold)
+    cursor: pointer
+    transition: all var(--transition-fast)
+
+    &:hover
+      background: var(--secundary-yellow)
+      transform: translateY(-2px)
+      box-shadow: 0 4px 12px rgba(255, 200, 50, 0.4)
+
+    &:active
+      transform: translateY(0)
+
+  &__similar
+    border-top: 1px solid var(--primary-blue-light)
+    padding-top: var(--spacing-6)
+
+  &__similar-title
+    font-family: var(--font-secondary)
+    font-size: var(--text-lg)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-4)
+
+// Rating Stars Interactive
+.rating-stars-interactive
+  display: flex
+  gap: var(--spacing-1)
+
+.rating-star
+  background: none
+  border: none
+  padding: 0
+  font-size: 1.2rem
+  color: var(--primary-blue-light)
+  cursor: pointer
+  transition: all var(--transition-fast)
+
+  &.active
+    color: var(--secundary-yellow-alt)
+    transform: scale(1.1)
+
+  &.product-rated
+    color: var(--secundary-yellow)
+
+  &:hover
+    transform: scale(1.2)
+
+// Similar Products Grid
+.similar-products-grid
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-3)
+
+.similar-product
+  display: flex
+  gap: var(--spacing-3)
+  padding: var(--spacing-3)
+  background: var(--background-alt)
+  border-radius: var(--radius-lg)
+  cursor: pointer
+  transition: all var(--transition-fast)
+  border: 2px solid transparent
+
+  &:hover
+    border-color: var(--secundary-yellow-alt)
+    transform: translateX(4px)
+
+  &__image
+    width: 60px
+    height: 60px
+    background: var(--background)
+    border-radius: var(--radius-md)
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+    overflow: hidden
+
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
+
+  &__emoji
+    font-size: 2rem
+
+  &__info
+    flex: 1
+    display: flex
+    flex-direction: column
+    justify-content: center
+    gap: 2px
+    min-width: 0
+
+  &__name
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  &__store
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+
+  &__price
+    font-size: var(--text-sm)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+
+// Animations
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes slideUp
+  from
+    opacity: 0
+    transform: translateY(30px) scale(0.95)
+  to
+    opacity: 1
+    transform: translateY(0) scale(1)

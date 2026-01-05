@@ -1,12 +1,19 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, ChangeDetectionStrategy, booleanAttribute, signal, computed } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+type ResizeOption = 'none' | 'vertical' | 'horizontal' | 'both';
+
+/**
+ * Componente de textarea de formulario con integración de ControlValueAccessor.
+ * Incluye contador de caracteres opcional y control de resize.
+ */
 @Component({
   selector: 'app-form-textarea',
   standalone: true,
   imports: [],
   templateUrl: './form-textarea.html',
   styleUrls: ['./form-textarea.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -20,25 +27,23 @@ export class FormTextarea implements ControlValueAccessor {
   @Input() label = '';
   @Input() name = '';
   @Input() placeholder = '';
-  @Input() required = false;
-  @Input() disabled = false;
+  @Input({ transform: booleanAttribute }) required = false;
+  @Input({ transform: booleanAttribute }) disabled = false;
   @Input() helpText?: string;
   @Input() errorText?: string;
   @Input() rows = 4;
   @Input() maxLength?: number;
-  @Input() resize: 'none' | 'vertical' | 'horizontal' | 'both' = 'vertical';
+  @Input() resize: ResizeOption = 'vertical';
 
-  value: string = '';
-  onChange: (value: string) => void = () => {};
-  onTouched: () => void = () => {};
+  protected value = signal('');
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
 
-  get characterCount(): number {
-    return this.value?.length || 0;
-  }
+  protected characterCount = computed(() => this.value()?.length || 0);
 
   // ControlValueAccessor implementation
   writeValue(value: string): void {
-    this.value = value || '';
+    this.value.set(value || '');
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -53,13 +58,13 @@ export class FormTextarea implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  onInputChange(event: Event): void {
+  protected onInputChange(event: Event): void {
     const target = event.target as HTMLTextAreaElement;
-    this.value = target.value;
-    this.onChange(this.value);
+    this.value.set(target.value);
+    this.onChange(target.value);
   }
 
-  onBlur(): void {
+  protected onBlur(): void {
     this.onTouched();
   }
 }

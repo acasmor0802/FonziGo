@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+build/
+bin/
+out/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Local configuration
+application-local.properties

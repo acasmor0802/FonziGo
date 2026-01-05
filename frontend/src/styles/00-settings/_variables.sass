@@ -11,12 +11,27 @@
 
   // Colores Primarios y Secundarios
   --background: #FFF1D5
+  --background-alt: #FFFAF0
+  --background-card: #FFF8E7
   --primary-blue: #333F51
   --primary-blue-alt: #576C8A
   --primary-blue-light: #7A92B5
   --secundary-yellow: #FFF1D5
   --secundary-yellow-alt: #FFD379
   --secundary-yellow-dark: #FFC850
+  
+  // Header/Footer (fijos, no cambian en dark mode)
+  --header-bg: #333F51
+  --header-text: #FFF1D5
+  --footer-bg: #333F51
+  --footer-text: #FFF1D5
+  
+  // Botones primarios (fijos para legibilidad)
+  --btn-primary-bg: #333F51
+  --btn-primary-text: #FFF1D5
+  --btn-secondary-bg: transparent
+  --btn-secondary-text: #333F51
+  --btn-secondary-border: #333F51
 
   // Colores Semánticos
   --success: #A7FFB7
@@ -117,6 +132,61 @@
   --z-overlay: 199
   --z-mobile-menu: 200
   --z-hamburger: 201
+
+// ===============================================
+// Dark Mode - Modo Oscuro
+// ===============================================
+.dark-mode
+  // Fondos oscuros
+  --background: #1E2A3A
+  --background-alt: #2A3A4D
+  --background-card: #333F51
+  
+  // Colores primarios invertidos
+  --primary-blue: #FFF1D5
+  --primary-blue-alt: #D4C5A9
+  --primary-blue-light: #A9B5C6
+  
+  // Amarillos (mayor contraste en dark)
+  --secundary-yellow: #FFD379
+  --secundary-yellow-alt: #FFC850
+  --secundary-yellow-dark: #E6B84D
+  --secundary-yellow-light: #3D4A5C
+  
+  // Header/Footer en dark mode - MANTENER IGUALES QUE LIGHT MODE
+  --header-bg: #333F51
+  --header-text: #FFF1D5
+  --footer-bg: #333F51
+  --footer-text: #FFF1D5
+  
+  // Botones en dark mode - INVERTIR PARA LEGIBILIDAD
+  --btn-primary-bg: #FFF1D5
+  --btn-primary-text: #333F51
+  --btn-secondary-bg: transparent
+  --btn-secondary-text: #FFF1D5
+  --btn-secondary-border: #FFF1D5
+  
+  // Semánticos
+  --success: #22c55e
+  --error: #ef4444
+
+// -----------------------------------------------
+// Transiciones suaves para cambio de tema
+// -----------------------------------------------
+html
+  transition: background-color 200ms ease-in-out
+
+body,
+.header,
+.footer,
+main,
+section,
+.product-card,
+.btn,
+input,
+textarea,
+select
+  transition: background-color 200ms ease-in-out, color 200ms ease-in-out, border-color 200ms ease-in-out
 
 // -----------------------------------------------
 // Breakpoints (Puntos de Quiebre) - Sass variables

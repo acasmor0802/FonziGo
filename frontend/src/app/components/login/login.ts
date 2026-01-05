@@ -1,9 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ButtonComponent } from '../button/button';
 import { ToastService } from '../../shared/services/toast.service';
+import { AuthService } from '../../core/services/auth.service';
+import { GoogleAuthService } from '../../core/services/google-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,16 +14,28 @@ import { ToastService } from '../../shared/services/toast.service';
   templateUrl: './login.html',
   styleUrls: ['./login.sass']
 })
-export class Login implements OnInit {
+export class Login implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+  private googleAuthService = inject(GoogleAuthService);
+  private router = inject(Router);
 
   loginForm!: FormGroup;
   submitted = signal(false);
   loading = signal(false);
+  googleLoading = this.googleAuthService.loading;
+  googleError = this.googleAuthService.error;
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
+    // Inicializar el botón de Google después de que la vista esté lista
+    setTimeout(() => {
+      this.googleAuthService.initializeGoogleButton('google-signin-button');
+    }, 100);
   }
 
   private initForm(): void {
@@ -63,8 +77,15 @@ export class Login implements OnInit {
     this.loading.set(true);
 
     try {
-      await this.simulateLogin();
-      this.toastService.success('¡Inicio de sesión exitoso!');
+      const { email, password } = this.loginForm.value;
+      const success = await this.authService.login(email, password);
+      
+      if (success) {
+        this.toastService.success('¡Inicio de sesión exitoso!');
+        this.router.navigate(['/']);
+      } else {
+        this.toastService.error('Credenciales incorrectas');
+      }
     } catch {
       this.toastService.error('Error al iniciar sesión');
     } finally {
@@ -72,15 +93,12 @@ export class Login implements OnInit {
     }
   }
 
-  private simulateLogin(): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, 1500));
-  }
-
   loginWithGoogle(): void {
-    this.toastService.info('Redirigiendo a Google...');
+    // El botón de Google maneja esto automáticamente
+    this.toastService.info('Usa el botón de Google de arriba');
   }
 
   loginWithApple(): void {
-    this.toastService.info('Redirigiendo a Apple...');
+    this.toastService.info('Login con Apple próximamente');
   }
 }

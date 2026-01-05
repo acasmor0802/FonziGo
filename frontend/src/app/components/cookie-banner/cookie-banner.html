@@ -1,0 +1,66 @@
+@if (showBanner()) {
+  <div class="cookie-banner">
+    <div class="cookie-banner__container">
+      <div class="cookie-banner__content">
+        <div class="cookie-banner__icon">🍪</div>
+        <div class="cookie-banner__text">
+          <h3 class="cookie-banner__title">Utilizamos cookies</h3>
+          <p class="cookie-banner__description">
+            Usamos cookies propias y de terceros para mejorar tu experiencia, analizar el tráfico 
+            y personalizar el contenido. Al hacer clic en "Aceptar todas", consientes el uso de 
+            todas las cookies. Puedes gestionar tus preferencias o consultar más información.
+          </p>
+          
+          @if (showDetails()) {
+            <div class="cookie-banner__details">
+              <h4>Tipos de cookies que utilizamos:</h4>
+              <ul>
+                <li>
+                  <strong>Cookies necesarias:</strong> Imprescindibles para el funcionamiento del sitio. 
+                  Incluyen autenticación, carrito de compra y preferencias de sesión.
+                </li>
+                <li>
+                  <strong>Cookies de preferencias:</strong> Recuerdan tus ajustes como el modo oscuro/claro 
+                  y configuración de idioma.
+                </li>
+                <li>
+                  <strong>Cookies analíticas:</strong> Nos ayudan a entender cómo interactúas con el sitio 
+                  para mejorar la experiencia de usuario.
+                </li>
+                <li>
+                  <strong>Cookies de marketing:</strong> Utilizadas para mostrarte anuncios relevantes 
+                  basados en tus intereses.
+                </li>
+              </ul>
+              <h4>Datos que almacenamos:</h4>
+              <ul>
+                <li>Token de autenticación (JWT)</li>
+                <li>Datos de usuario (nombre, email, foto de perfil)</li>
+                <li>Preferencias de tema (claro/oscuro)</li>
+                <li>Contenido del carrito de compra</li>
+                <li>Historial de búsquedas recientes</li>
+              </ul>
+            </div>
+          }
+          
+          <div class="cookie-banner__links">
+            <button class="cookie-banner__toggle" (click)="toggleDetails()">
+              {{ showDetails() ? 'Ocultar detalles' : 'Ver más detalles' }}
+            </button>
+            <a routerLink="/privacidad" class="cookie-banner__link">Política de Privacidad</a>
+            <a routerLink="/terminos" class="cookie-banner__link">Términos y Condiciones</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cookie-banner__actions">
+        <button class="cookie-banner__btn cookie-banner__btn--secondary" (click)="acceptNecessary()">
+          Solo necesarias
+        </button>
+        <button class="cookie-banner__btn cookie-banner__btn--primary" (click)="acceptAll()">
+          Aceptar todas
+        </button>
+      </div>
+    </div>
+  </div>
+}

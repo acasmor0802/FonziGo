@@ -1,0 +1,288 @@
+<!-- Global UI Components -->
+<app-toast></app-toast>
+<app-loading-spinner></app-loading-spinner>
+
+<!-- Product Modal -->
+<app-product-modal
+  [product]="selectedProduct()"
+  [similarProducts]="similarProducts()"
+  (close)="closeProductModal()"
+  (addToCart)="onAddToCart($event)"
+  (selectProduct)="onSelectSimilarProduct($event)"
+></app-product-modal>
+
+<app-header></app-header>
+
+<main class="products-page">
+  <!-- Categories Scroll Section -->
+  <section class="categories-scroll">
+    <div class="categories-scroll__wrapper">
+      <div class="categories-scroll__list" #categoriesList>
+        @for (category of categories(); track category.id) {
+          <button 
+            class="category-item" 
+            [class.category-item--active]="selectedCategory() === category.id"
+            (click)="selectCategory(category.id)"
+          >
+            <div class="category-item__icon">
+              <span class="category-item__emoji">{{ category.icon }}</span>
+            </div>
+            <span class="category-item__name">{{ category.name }}</span>
+          </button>
+        }
+      </div>
+      <button class="categories-scroll__arrow" (click)="scrollCategories()">
+        →
+      </button>
+    </div>
+  </section>
+
+  <!-- Search Bar -->
+  <section class="search-section">
+    <div class="search-section__container">
+      <div class="search-section__form">
+        <input 
+          type="text" 
+          class="search-section__input" 
+          placeholder="Buscar un producto..."
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          (keyup.enter)="searchProducts($any($event.target).value)"
+        />
+        <button class="search-btn" (click)="searchProducts(searchQuery())">
+          Buscar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content with Filters -->
+  <section class="products-section">
+    <div class="products-section__container">
+      
+      <!-- Mobile filter toggle -->
+      <button class="filter-toggle" (click)="toggleFilters()">
+        <span class="filter-toggle__icon">⚙️</span>
+        <span>Filtros</span>
+        @if (hasActiveFilters()) {
+          <span class="filter-toggle__badge">•</span>
+        }
+      </button>
+
+      <div class="products-layout">
+        <!-- Sidebar Filters -->
+        <aside class="filters" [class.filters--open]="showFilters()">
+          <div class="filters__header">
+            <h2 class="filters__title">Filtros</h2>
+            @if (hasActiveFilters()) {
+              <button class="filters__clear" (click)="clearFilters()">
+                Limpiar todo
+              </button>
+            }
+            <button class="filters__close" (click)="toggleFilters()">✕</button>
+          </div>
+
+          <!-- Categories -->
+          <div class="filter-group">
+            <h3 class="filter-group__title">Categorías</h3>
+            <ul class="filter-group__list">
+              <li>
+                <button
+                  class="filter-option"
+                  [class.filter-option--active]="selectedCategory() === null"
+                  (click)="selectCategory(null)"
+                >
+                  Todas las categorías
+                </button>
+              </li>
+              @for (category of categories(); track category.id) {
+                <li>
+                  <button
+                    class="filter-option"
+                    [class.filter-option--active]="selectedCategory() === category.id"
+                    (click)="selectCategory(category.id)"
+                  >
+                    {{ category.icon }} {{ category.name }}
+                  </button>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Price Range -->
+          <div class="filter-group">
+            <h3 class="filter-group__title">Precio</h3>
+            <ul class="filter-group__list">
+              <li>
+                <button
+                  class="filter-option"
+                  [class.filter-option--active]="selectedPriceRange() === null"
+                  (click)="selectPriceRange(null)"
+                >
+                  Cualquier precio
+                </button>
+              </li>
+              @for (range of priceRanges; track range.label) {
+                <li>
+                  <button
+                    class="filter-option"
+                    [class.filter-option--active]="selectedPriceRange()?.label === range.label"
+                    (click)="selectPriceRange(range)"
+                  >
+                    {{ range.label }}
+                  </button>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Stores -->
+          <div class="filter-group">
+            <h3 class="filter-group__title">Tienda</h3>
+            <ul class="filter-group__list">
+              <li>
+                <button
+                  class="filter-option"
+                  [class.filter-option--active]="selectedStore() === null"
+                  (click)="selectStore(null)"
+                >
+                  Todas las tiendas
+                </button>
+              </li>
+              @for (store of stores; track store) {
+                <li>
+                  <button
+                    class="filter-option"
+                    [class.filter-option--active]="selectedStore() === store"
+                    (click)="selectStore(store)"
+                  >
+                    {{ store }}
+                  </button>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Mobile apply button -->
+          <div class="filters__apply">
+            <button class="btn-apply" (click)="toggleFilters()">
+              Ver {{ sortedProducts().length }} productos
+            </button>
+          </div>
+        </aside>
+
+        <!-- Products Main -->
+        <div class="products-main">
+          <!-- Toolbar -->
+          <div class="products-toolbar">
+            <p class="products-toolbar__count">
+              {{ sortedProducts().length }} productos encontrados
+            </p>
+            <div class="products-toolbar__sort">
+              <label for="sort" class="products-toolbar__sort-label">Ordenar:</label>
+              <select
+                id="sort"
+                class="products-toolbar__sort-select"
+                [value]="sortBy()"
+                (change)="onSortChange($event)"
+              >
+                <option value="popular">Más populares</option>
+                <option value="newest">Más recientes</option>
+                <option value="price-asc">Precio: menor a mayor</option>
+                <option value="price-desc">Precio: mayor a menor</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Ofertas Section - Carrusel -->
+          @if (cardOfferProducts().length > 0) {
+            <div class="products-block">
+              <div class="products-block__header">
+                <h2 class="products-block__title">🔥 Ofertas</h2>
+                @if (hasMoreOffers()) {
+                  <div class="carousel-controls">
+                    <button 
+                      class="carousel-btn" 
+                      [disabled]="!canGoPrev()"
+                      (click)="prevOffers()"
+                    >←</button>
+                    <span class="carousel-indicator">
+                      {{ offerCarouselIndex() + 1 }}-{{ Math.min(offerCarouselIndex() + offersPerView, cardOfferProducts().length) }} de {{ cardOfferProducts().length }}
+                    </span>
+                    <button 
+                      class="carousel-btn" 
+                      [disabled]="!canGoNext()"
+                      (click)="nextOffers()"
+                    >→</button>
+                  </div>
+                }
+              </div>
+              <div class="products-grid products-grid--offers">
+                @for (product of visibleOffers(); track product.id) {
+                  <app-product-card [product]="product" (viewProduct)="openProductModal($event)"></app-product-card>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Todos Los Productos Section -->
+          <div class="products-block">
+            <h2 class="products-block__title">Todos Los Productos</h2>
+            @if (cardProducts().length > 0) {
+              <div class="products-grid products-grid--all">
+                @for (product of cardProducts(); track product.id) {
+                  <app-product-card [product]="product" (viewProduct)="openProductModal($event)"></app-product-card>
+                }
+              </div>
+            } @else {
+              <div class="products-empty">
+                <span class="products-empty__icon">🔍</span>
+                <h3 class="products-empty__title">No se encontraron productos</h3>
+                <p class="products-empty__text">
+                  Prueba a cambiar los filtros o buscar algo diferente
+                </p>
+                <button class="btn-apply" (click)="clearFilters()">
+                  Limpiar filtros
+                </button>
+              </div>
+            }
+          </div>
+
+          <!-- Pagination -->
+          @if (computedTotalPages() > 1) {
+            <nav class="pagination">
+              <button
+                class="pagination__btn"
+                [disabled]="currentPage() === 0"
+                (click)="goToPage(currentPage() - 1)"
+              >
+                ←
+              </button>
+
+              @for (page of pagesArray(); track $index) {
+                <button
+                  class="pagination__btn"
+                  [class.pagination__btn--active]="currentPage() === $index"
+                  (click)="goToPage($index)"
+                >
+                  {{ $index + 1 }}
+                </button>
+              }
+
+              <button
+                class="pagination__btn"
+                [disabled]="currentPage() === computedTotalPages() - 1"
+                (click)="goToPage(currentPage() + 1)"
+              >
+                →
+              </button>
+            </nav>
+          }
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>

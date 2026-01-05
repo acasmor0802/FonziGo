@@ -56,16 +56,19 @@ public class PedidoServiceImpl implements PedidoService {
                 throw new RuntimeException("Not enough stock for product: " + product.getName());
             }
 
-            // For simplicity, we'll take the first price we find for a product.
-            // A real app would need to know the supermarket context.
-            Price price = priceRepository.findByProduct(product).stream().findFirst()
-                    .orElseThrow(() -> new RuntimeException("Price not found for product: " + product.getName()));
+            // Usar el precio del producto directamente, o buscar en la tabla de precios como fallback
+            BigDecimal itemPrice = product.getPrice();
+            if (itemPrice == null) {
+                itemPrice = priceRepository.findByProduct(product).stream().findFirst()
+                        .map(Price::getPrice)
+                        .orElse(BigDecimal.ZERO);
+            }
 
             LineaPedido lineaPedido = new LineaPedido();
             lineaPedido.setOrder(pedido);
             lineaPedido.setProduct(product);
             lineaPedido.setQuantity(cartItem.getQuantity());
-            lineaPedido.setPrice(price.getPrice()); // Price at time of purchase
+            lineaPedido.setPrice(itemPrice); // Price at time of purchase
             orderItems.add(lineaPedido);
 
             // Decrease stock

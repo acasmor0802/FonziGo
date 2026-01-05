@@ -1,0 +1,108 @@
+@if (product) {
+  <div class="product-modal" (click)="onBackdropClick($event)">
+    <div class="product-modal__content">
+      <!-- Close Button -->
+      <button class="product-modal__close" (click)="onClose()">✕</button>
+      
+      <!-- Scrollable Content -->
+      <div class="product-modal__scroll">
+        
+        <!-- Info Badge -->
+        <div class="product-modal__badge">Info</div>
+        
+        <!-- Header -->
+        <header class="product-modal__header">
+          <h2 class="product-modal__title">{{ product.name }}</h2>
+          <p class="product-modal__store">{{ product.store }}</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="product-modal__main">
+          <!-- Product Image -->
+          <div class="product-modal__image">
+            @if (product.image.startsWith('http') || product.image.startsWith('/')) {
+              <img [src]="product.image" [alt]="product.name">
+            } @else {
+              <span class="product-modal__emoji">{{ product.image }}</span>
+            }
+          </div>
+
+          <!-- Product Details -->
+          <div class="product-modal__details">
+            <!-- User Rating -->
+            <div class="product-modal__rating-input">
+              <div class="rating-stars-interactive">
+                @for (i of [1, 2, 3, 4, 5]; track i) {
+                  <button 
+                    class="rating-star"
+                    [class.active]="i <= (hoverRating() || userRating())"
+                    [class.product-rated]="userRating() > 0 && i <= userRating()"
+                    (mouseenter)="setHoverRating(i)"
+                    (mouseleave)="clearHoverRating()"
+                    (click)="setUserRating(i)"
+                  >
+                    ★
+                  </button>
+                }
+              </div>
+            </div>
+            
+            <!-- Rating Info -->
+            <div class="product-modal__rating-info">
+              <span class="rating-count">Nº de valoraciones: {{ product.totalRatings }}</span>
+              <span class="rating-average">{{ product.rating }} de media</span>
+            </div>
+            
+            <!-- Price -->
+            <div class="product-modal__price">
+              @if (product.originalPrice && product.originalPrice > product.price) {
+                <span class="price-original">{{ product.originalPrice | number:'1.2-2' }}€</span>
+              }
+              <span class="price-current">{{ product.price | number:'1.2-2' }}€</span>
+              @if (product.discount) {
+                <span class="price-discount">-{{ product.discount }}%</span>
+              }
+            </div>
+            
+            <!-- Unit -->
+            <p class="product-modal__unit">Por {{ product.unit }}</p>
+          </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <div class="product-modal__actions">
+          <button class="product-modal__add-btn" (click)="onAddToCart()">
+            Añadir
+          </button>
+        </div>
+
+        <!-- Similar Products -->
+        @if (similarProducts.length > 0) {
+          <section class="product-modal__similar">
+            <h3 class="product-modal__similar-title">Productos similares</h3>
+            
+            <div class="similar-products-grid">
+              @for (similar of similarProducts; track similar.id) {
+                <div class="similar-product" (click)="onSelectSimilar(similar)">
+                  <div class="similar-product__image">
+                    @if (similar.image.startsWith('http') || similar.image.startsWith('/')) {
+                      <img [src]="similar.image" [alt]="similar.name">
+                    } @else {
+                      <span class="similar-product__emoji">{{ similar.image }}</span>
+                    }
+                  </div>
+                  <div class="similar-product__info">
+                    <h4 class="similar-product__name">{{ similar.name }}</h4>
+                    <span class="similar-product__store">{{ similar.store }}</span>
+                    <span class="similar-product__price">{{ similar.price | number:'1.2-2' }}€</span>
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+        
+      </div>
+    </div>
+  </div>
+}

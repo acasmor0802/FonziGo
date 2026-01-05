@@ -1,0 +1,33 @@
+.breadcrumb
+  padding: 0.5rem 0
+  font-size: 0.875rem
+  
+  &__list
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 0.25rem
+    list-style: none
+    margin: 0
+    padding: 0
+  
+  &__item
+    display: flex
+    align-items: center
+    gap: 0.25rem
+  
+  &__separator
+    color: var(--text-muted)
+  
+  &__link
+    color: var(--primary)
+    text-decoration: none
+    transition: color 0.2s
+    
+    &:hover
+      color: var(--primary-dark)
+      text-decoration: underline
+  
+  &__current
+    color: var(--text-primary)
+    font-weight: 500

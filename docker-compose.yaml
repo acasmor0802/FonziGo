@@ -1,51 +1,32 @@
+# =============================================================================
+# FonziGo - Docker Compose Configuration
+# Ejecutar con: docker-compose up -d
+# =============================================================================
+
 networks:
   fonzigo-network:
     driver: bridge
+    name: fonzigo-network
 
 volumes:
   db-data:
     driver: local
+    name: fonzigo-db-data
 
+# -----------------------------------------------------------------------------
+# Services
+# -----------------------------------------------------------------------------
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    container_name: fonzigo-frontend
-    ports:
-      - "80:80"
-    networks:
-      - fonzigo-network
-    volumes:
-      - ./frontend:/app
-    depends_on:
-      - backend
-    environment:
-      - BACKEND_URL=http://backend:8080
 
-  backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    container_name: fonzigo-backend
-    ports:
-      - "5001:8080"
-    networks:
-      - fonzigo-network
-    volumes:
-      - ./backend:/app
-    depends_on:
-      - database
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/fonzigo
-      - SPRING_DATASOURCE_USERNAME=fonzi
-      - SPRING_DATASOURCE_PASSWORD=fonzipass
-
+  # ---------------------------------------------------------------------------
+  # Database - PostgreSQL 17
+  # ---------------------------------------------------------------------------
   database:
     build:
       context: .
       dockerfile: database/Dockerfile
     container_name: fonzigo-database
+    restart: unless-stopped
     ports:
       - "5432:5432"
     networks:
@@ -53,6 +34,59 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=fonzigo
-      - POSTGRES_USER=fonzi
-      - POSTGRES_PASSWORD=fonzipass
+      POSTGRES_DB: fonzigo
+      POSTGRES_USER: fonzi
+      POSTGRES_PASSWORD: fonzipass
+      TZ: Europe/Madrid
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fonzi -d fonzigo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # Backend - Spring Boot 4.0 / Java 21
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: fonzigo-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - fonzigo-network
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/fonzigo
+      SPRING_DATASOURCE_USERNAME: fonzi
+      SPRING_DATASOURCE_PASSWORD: fonzipass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      TZ: Europe/Madrid
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # ---------------------------------------------------------------------------
+  # Frontend - Angular 19 / Nginx
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: fonzigo-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - fonzigo-network
+    depends_on:
+      backend:
+        condition: service_started

@@ -1,0 +1,481 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+.cart-page
+  min-height: calc(100vh - 200px)
+  background: var(--background)
+  padding: var(--spacing-6) var(--spacing-4)
+
+  +media-breakpoint-up(md)
+    padding: var(--spacing-10) var(--spacing-6)
+
+  &__container
+    max-width: 1200px
+    margin: 0 auto
+
+// ===============================================
+// Cart Empty State
+// ===============================================
+.cart-empty
+  text-align: center
+  padding: var(--spacing-16) var(--spacing-4)
+  background: var(--background-alt)
+  border-radius: var(--radius-xl)
+
+  &__icon
+    font-size: 5rem
+    display: block
+    margin-bottom: var(--spacing-4)
+    filter: grayscale(0.5)
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-2xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-2)
+
+  &__text
+    color: var(--primary-blue-alt)
+    margin-bottom: var(--spacing-6)
+
+// ===============================================
+// Cart Header
+// ===============================================
+.cart-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: var(--spacing-6)
+  padding-bottom: var(--spacing-4)
+  border-bottom: 2px solid var(--primary-blue-light)
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-2xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-3xl)
+
+  &__count
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    background: var(--background-alt)
+    padding: var(--spacing-2) var(--spacing-4)
+    border-radius: var(--radius-full)
+
+// ===============================================
+// Cart Layout
+// ===============================================
+.cart-layout
+  display: grid
+  gap: var(--spacing-6)
+
+  +media-breakpoint-up(lg)
+    grid-template-columns: 1fr 380px
+
+// ===============================================
+// Cart Items
+// ===============================================
+.cart-items
+  display: flex
+  flex-direction: column
+  gap: var(--spacing-6)
+
+// ===============================================
+// Store Group
+// ===============================================
+.store-group
+  background: var(--background-alt)
+  border-radius: var(--radius-xl)
+  overflow: hidden
+
+  &__header
+    display: flex
+    align-items: center
+    gap: var(--spacing-3)
+    padding: var(--spacing-4) var(--spacing-5)
+    background: var(--primary-blue)
+    color: white
+
+  &__icon
+    font-size: 1.5rem
+
+  &__name
+    font-weight: var(--font-semibold)
+    flex: 1
+
+  &__count
+    font-size: var(--text-sm)
+    opacity: 0.8
+
+  &__items
+    padding: var(--spacing-4)
+
+// ===============================================
+// Cart Item
+// ===============================================
+.cart-item
+  display: grid
+  grid-template-columns: 70px 1fr auto
+  gap: var(--spacing-3)
+  padding: var(--spacing-4)
+  background: var(--background)
+  border-radius: var(--radius-lg)
+  position: relative
+  align-items: center
+
+  +media-breakpoint-up(sm)
+    grid-template-columns: 80px 1fr auto auto auto auto
+    gap: var(--spacing-4)
+
+  & + &
+    margin-top: var(--spacing-3)
+
+  &__image
+    width: 70px
+    height: 70px
+    object-fit: cover
+    border-radius: var(--radius-md)
+
+    +media-breakpoint-up(sm)
+      width: 80px
+      height: 80px
+
+  &__details
+    min-width: 0
+
+  &__name
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    line-height: 1.3
+    display: -webkit-box
+    -webkit-line-clamp: 2
+    -webkit-box-orient: vertical
+    overflow: hidden
+
+    +media-breakpoint-up(sm)
+      font-size: var(--text-base)
+
+  &__unit
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+
+  &__price
+    text-align: right
+    display: none
+
+    +media-breakpoint-up(sm)
+      display: block
+
+  &__original
+    display: block
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+    text-decoration: line-through
+
+  &__current
+    display: block
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+  &__discount
+    display: inline-block
+    font-size: var(--text-xs)
+    background: var(--error)
+    color: white
+    padding: 2px 6px
+    border-radius: var(--radius-sm)
+    font-weight: var(--font-bold)
+
+  &__quantity
+    display: flex
+    align-items: center
+    gap: var(--spacing-2)
+    background: var(--background-alt)
+    border-radius: var(--radius-md)
+    padding: var(--spacing-1)
+
+  &__qty-btn
+    width: 32px
+    height: 32px
+    display: flex
+    align-items: center
+    justify-content: center
+    background: var(--background)
+    border: none
+    border-radius: var(--radius-sm)
+    font-size: 1.2rem
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    cursor: pointer
+    transition: all var(--transition-fast)
+
+    &:hover:not(:disabled)
+      background: var(--secundary-yellow-alt)
+
+    &:disabled
+      opacity: 0.3
+      cursor: not-allowed
+
+  &__qty-value
+    min-width: 30px
+    text-align: center
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+
+  &__subtotal
+    font-weight: var(--font-bold)
+    font-size: var(--text-lg)
+    color: var(--primary-blue)
+    text-align: right
+    min-width: 70px
+    display: none
+
+    +media-breakpoint-up(sm)
+      display: block
+
+  &__remove
+    position: absolute
+    top: var(--spacing-2)
+    right: var(--spacing-2)
+    width: 28px
+    height: 28px
+    display: flex
+    align-items: center
+    justify-content: center
+    background: none
+    border: none
+    color: var(--primary-blue-alt)
+    cursor: pointer
+    font-size: 0.9rem
+    border-radius: 50%
+    transition: all var(--transition-fast)
+
+    +media-breakpoint-up(sm)
+      position: static
+      top: auto
+      right: auto
+
+    &:hover
+      background: var(--error)
+      color: white
+
+// ===============================================
+// Cart Actions
+// ===============================================
+.cart-actions
+  display: flex
+  flex-wrap: wrap
+  gap: var(--spacing-3)
+  justify-content: space-between
+  padding-top: var(--spacing-4)
+
+// ===============================================
+// Order Summary
+// ===============================================
+.order-summary
+  background: var(--background-alt)
+  border-radius: var(--radius-xl)
+  padding: var(--spacing-6)
+  position: sticky
+  top: var(--spacing-6)
+  height: fit-content
+  border: 2px solid var(--primary-blue-light)
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-6)
+    padding-bottom: var(--spacing-4)
+    border-bottom: 1px solid var(--primary-blue-light)
+
+  &__row
+    display: flex
+    justify-content: space-between
+    margin-bottom: var(--spacing-3)
+    color: var(--primary-blue)
+
+    &--savings
+      color: var(--success)
+      font-weight: var(--font-semibold)
+
+    &--total
+      font-size: var(--text-xl)
+      font-weight: var(--font-bold)
+      padding-top: var(--spacing-4)
+      margin-bottom: var(--spacing-6)
+
+  &__free
+    color: var(--success)
+    font-weight: var(--font-bold)
+
+  &__shipping-msg
+    display: flex
+    align-items: center
+    gap: var(--spacing-2)
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    margin-top: var(--spacing-4)
+    margin-bottom: var(--spacing-2)
+
+  &__progress
+    height: 6px
+    background: var(--primary-blue-light)
+    border-radius: var(--radius-full)
+    overflow: hidden
+    margin-bottom: var(--spacing-4)
+
+  &__progress-bar
+    height: 100%
+    background: linear-gradient(90deg, var(--secundary-yellow-alt), var(--success))
+    border-radius: var(--radius-full)
+    transition: width var(--transition-base)
+
+  &__divider
+    height: 1px
+    background: var(--primary-blue-light)
+    margin: var(--spacing-4) 0
+
+  &__secure
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: var(--spacing-2)
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    margin-top: var(--spacing-4)
+
+  &__methods
+    display: flex
+    justify-content: center
+    gap: var(--spacing-3)
+    margin-top: var(--spacing-3)
+    font-size: 1.5rem
+    opacity: 0.6
+
+// ===============================================
+// Cart Recommendations
+// ===============================================
+.cart-recommendations
+  margin-top: var(--spacing-10)
+
+  &__title
+    font-family: var(--font-secondary)
+    font-size: var(--text-xl)
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-6)
+
+  &__grid
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: var(--spacing-4)
+
+    +media-breakpoint-up(sm)
+      grid-template-columns: repeat(4, 1fr)
+
+.recommendation-card
+  background: var(--background-alt)
+  border-radius: var(--radius-lg)
+  padding: var(--spacing-4)
+  text-align: center
+  transition: all var(--transition-fast)
+
+  &:hover
+    transform: translateY(-4px)
+    box-shadow: var(--shadow-md)
+
+  &__image
+    width: 100%
+    max-width: 120px
+    height: 100px
+    object-fit: cover
+    border-radius: var(--radius-md)
+    margin-bottom: var(--spacing-3)
+
+  &__name
+    font-size: var(--text-sm)
+    font-weight: var(--font-medium)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-2)
+    display: -webkit-box
+    -webkit-line-clamp: 2
+    -webkit-box-orient: vertical
+    overflow: hidden
+    min-height: 2.5em
+
+  &__price
+    display: block
+    font-weight: var(--font-bold)
+    color: var(--primary-blue)
+    margin-bottom: var(--spacing-3)
+
+  &__add
+    width: 100%
+    padding: var(--spacing-2)
+    background: var(--secundary-yellow-alt)
+    border: none
+    border-radius: var(--radius-md)
+    font-weight: var(--font-semibold)
+    color: var(--primary-blue)
+    cursor: pointer
+    transition: all var(--transition-fast)
+
+    &:hover
+      background: var(--secundary-yellow)
+
+// ===============================================
+// Buttons
+// ===============================================
+.btn
+  padding: var(--spacing-3) var(--spacing-5)
+  border-radius: var(--radius-md)
+  font-weight: var(--font-semibold)
+  font-size: var(--text-base)
+  cursor: pointer
+  transition: all var(--transition-fast)
+  border: none
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  gap: var(--spacing-2)
+
+  &--primary
+    background: var(--btn-primary-bg)
+    color: var(--btn-primary-text)
+
+    &:hover
+      opacity: 0.9
+      transform: translateY(-1px)
+
+  &--outline
+    background: transparent
+    color: var(--primary-blue)
+    border: 2px solid var(--primary-blue-light)
+
+    &:hover
+      border-color: var(--primary-blue)
+      background: var(--primary-blue)
+      color: white
+
+  &--danger-outline
+    background: transparent
+    color: var(--error)
+    border: 2px solid var(--error)
+
+    &:hover
+      background: var(--error)
+      color: white
+
+  &--large
+    padding: var(--spacing-4) var(--spacing-6)
+    font-size: var(--text-lg)
+
+  &--full
+    width: 100%

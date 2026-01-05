@@ -1,11 +1,13 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ButtonComponent } from '../button/button';
 import { ToastService } from '../../shared/services/toast.service';
 import { AsyncValidatorsService } from '../../shared/validators/async-validators.service';
 import { passwordStrength, passwordMatch, telefonoValidator } from '../../shared/validators/custom-validators';
+import { AuthService } from '../../core/services/auth.service';
+import { GoogleAuthService } from '../../core/services/google-auth.service';
 
 interface SelectOption {
   value: string;
@@ -19,14 +21,19 @@ interface SelectOption {
   templateUrl: './register.html',
   styleUrls: ['./register.sass']
 })
-export class Register implements OnInit {
+export class Register implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private toastService = inject(ToastService);
   private asyncValidators = inject(AsyncValidatorsService);
+  private authService = inject(AuthService);
+  private googleAuthService = inject(GoogleAuthService);
+  private router = inject(Router);
 
   registerForm!: FormGroup;
   submitted = signal(false);
   loading = signal(false);
+  googleLoading = this.googleAuthService.loading;
+  googleError = this.googleAuthService.error;
 
   countryOptions: SelectOption[] = [
     { value: 'ca', label: 'Cádiz' },
@@ -41,6 +48,13 @@ export class Register implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
+    // Inicializar el botón de Google después de que la vista esté lista
+    setTimeout(() => {
+      this.googleAuthService.initializeGoogleButton('google-register-button');
+    }, 100);
   }
 
   private initForm(): void {
@@ -116,8 +130,15 @@ export class Register implements OnInit {
     this.loading.set(true);
 
     try {
-      await this.simulateRegister();
-      this.toastService.success('¡Cuenta creada exitosamente!');
+      const { email, password } = this.registerForm.value;
+      const success = await this.authService.register(email, password);
+      
+      if (success) {
+        this.toastService.success('¡Cuenta creada exitosamente!');
+        this.router.navigate(['/']);
+      } else {
+        this.toastService.error('Error al crear la cuenta');
+      }
     } catch {
       this.toastService.error('Error al crear la cuenta');
     } finally {
@@ -125,15 +146,12 @@ export class Register implements OnInit {
     }
   }
 
-  private simulateRegister(): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, 1500));
-  }
-
   registerWithGoogle(): void {
-    this.toastService.info('Redirigiendo a Google...');
+    // El botón de Google maneja esto automáticamente
+    this.toastService.info('Usa el botón de Google de arriba');
   }
 
   registerWithApple(): void {
-    this.toastService.info('Redirigiendo a Apple...');
+    this.toastService.info('Registro con Apple próximamente');
   }
 }
