@@ -24,7 +24,7 @@
     [attr.aria-describedby]="(helpText || errorText) ? id + '-description' : null"
     (input)="onInputChange($event)"
     (blur)="onBlur()"
-  >{{ value }}</textarea>
+  >{{ value() }}</textarea>
 
   <div class="form-textarea__footer">
     @if (helpText && !errorText) {
@@ -41,7 +41,7 @@
 
     @if (maxLength) {
       <span class="form-textarea__counter">
-        {{ characterCount }}/{{ maxLength }}
+        {{ characterCount() }}/{{ maxLength }}
       </span>
     }
   </div>

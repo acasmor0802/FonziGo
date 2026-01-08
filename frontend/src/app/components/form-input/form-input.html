@@ -14,7 +14,7 @@
     [placeholder]="placeholder"
     [required]="required"
     [disabled]="disabled"
-    [value]="value"
+    [value]="value()"
     [attr.aria-required]="required ? 'true' : null"
     [attr.aria-invalid]="errorText ? 'true' : null"
     [attr.aria-describedby]="(helpText || errorText) ? id + '-description' : null"

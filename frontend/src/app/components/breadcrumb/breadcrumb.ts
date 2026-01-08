@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BreadcrumbService, Breadcrumb } from '../../core/services/breadcrumb.service';
 
 @Component({
@@ -30,10 +31,13 @@ import { BreadcrumbService, Breadcrumb } from '../../core/services/breadcrumb.se
 })
 export class BreadcrumbComponent implements OnInit {
   private breadcrumbService = inject(BreadcrumbService);
+  private destroyRef = inject(DestroyRef);
   breadcrumbs: Breadcrumb[] = [];
 
   ngOnInit(): void {
-    this.breadcrumbService.breadcrumbs$.subscribe(crumbs => {
+    this.breadcrumbService.breadcrumbs$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(crumbs => {
       this.breadcrumbs = crumbs;
     });
   }

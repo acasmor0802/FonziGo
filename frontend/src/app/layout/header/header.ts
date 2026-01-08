@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, computed, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule, Sun, Moon, ShoppingCart } from 'lucide-angular';
 import { ButtonComponent } from '../../components/button/button';
 import { AuthService } from '../../core/services/auth.service';
 import { CartService } from '../../core/services/cart.service';
@@ -8,7 +9,7 @@ import { CartService } from '../../core/services/cart.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonComponent],
+  imports: [CommonModule, RouterModule, LucideAngularModule, ButtonComponent],
   templateUrl: './header.html',
   styleUrls: ['./header.sass'],
   encapsulation: ViewEncapsulation.None // Estilos globales desde 05-components/_header.sass
@@ -16,6 +17,11 @@ import { CartService } from '../../core/services/cart.service';
 export class Header implements OnInit {
   private auth = inject(AuthService);
   private cartService = inject(CartService);
+  
+  // Lucide Icons
+  readonly SunIcon = Sun;
+  readonly MoonIcon = Moon;
+  readonly CartIcon = ShoppingCart;
   
   isDarkMode = signal(false);
   isMobileMenuOpen = signal(false);

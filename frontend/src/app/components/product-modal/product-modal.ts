@@ -70,4 +70,18 @@ export class ProductModalComponent {
       this.onClose();
     }
   }
+
+  /**
+   * Verifica si la cadena es solo un emoji (no una URL de imagen)
+   */
+  isEmojiOnly(str: string): boolean {
+    if (!str) return true;
+    // Si contiene extensiones de imagen comunes, no es solo emoji
+    if (/\.(jpg|jpeg|png|gif|webp|svg)$/i.test(str)) return false;
+    // Si empieza con http, /, o tiene estructura de path, es una URL
+    if (str.startsWith('http') || str.startsWith('/') || str.includes('/')) return false;
+    // Verificar si es solo emojis o caracteres especiales
+    const emojiRegex = /^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\s]+$/u;
+    return emojiRegex.test(str) || str.length <= 4;
+  }
 }

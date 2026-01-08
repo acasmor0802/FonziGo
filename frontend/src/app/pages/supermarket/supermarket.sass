@@ -28,13 +28,20 @@
     max-width: 600px
     margin: 0 auto
 
-  &__icon
-    font-size: 4rem
+  &__logo
     display: block
-    margin-bottom: var(--spacing-4)
+    margin: 0 auto var(--spacing-4)
+    width: 80px
+    height: 80px
+    object-fit: contain
+    background: white
+    border-radius: var(--radius-xl)
+    padding: var(--spacing-2)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
 
     +media-breakpoint-up(md)
-      font-size: 5rem
+      width: 100px
+      height: 100px
 
   &__name
     font-family: var(--font-secondary)

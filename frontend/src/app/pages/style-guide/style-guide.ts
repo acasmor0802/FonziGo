@@ -93,8 +93,8 @@ export class StyleGuide {
   // Alert types
   alertTypes = ['success', 'error', 'warning', 'info'] as const;
 
-  // Console log for button clicks
-  onButtonClick(variant: string, size: string): void {
-    console.log(`Button clicked: ${variant} - ${size}`);
+  // Handler for button click demo (intentionally empty for demo purposes)
+  onButtonClick(_variant: string, _size: string): void {
+    // Demo handler - no action needed
   }
 }

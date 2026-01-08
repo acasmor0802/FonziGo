@@ -20,10 +20,10 @@
         <div class="product-modal__main">
           <!-- Product Image -->
           <div class="product-modal__image">
-            @if (product.image.startsWith('http') || product.image.startsWith('/')) {
+            @if (product.image && !isEmojiOnly(product.image)) {
               <img [src]="product.image" [alt]="product.name">
             } @else {
-              <span class="product-modal__emoji">{{ product.image }}</span>
+              <span class="product-modal__emoji">{{ product.image || '📦' }}</span>
             }
           </div>
 
@@ -85,10 +85,10 @@
               @for (similar of similarProducts; track similar.id) {
                 <div class="similar-product" (click)="onSelectSimilar(similar)">
                   <div class="similar-product__image">
-                    @if (similar.image.startsWith('http') || similar.image.startsWith('/')) {
+                    @if (similar.image && !isEmojiOnly(similar.image)) {
                       <img [src]="similar.image" [alt]="similar.name">
                     } @else {
-                      <span class="similar-product__emoji">{{ similar.image }}</span>
+                      <span class="similar-product__emoji">{{ similar.image || '📦' }}</span>
                     }
                   </div>
                   <div class="similar-product__info">

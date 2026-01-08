@@ -5,15 +5,22 @@
     @if (user(); as userData) {
       <!-- Sección de perfil -->
       <section class="profile-card">
-        <div class="profile-card__photo-section">
-          <div class="profile-card__avatar">
+        <figure class="profile-card__avatar">
             @if (userData.avatarUrl) {
-              <img [src]="userData.avatarUrl" [alt]="userData.name" class="profile-card__img">
+              <img [src]="userData.avatarUrl" [alt]="userData.name" class="profile-card__img" loading="lazy">
             } @else {
-              <img src="sinFotojpg.jpg" alt="Sin foto" class="profile-card__img">
+              <img 
+                src="optimized/sinFotojpg-medium.webp" 
+                srcset="optimized/sinFotojpg-small.webp 400w, optimized/sinFotojpg-medium.webp 800w, optimized/sinFotojpg-large.webp 1200w"
+                sizes="150px"
+                alt="Sin foto" 
+                class="profile-card__img"
+                loading="lazy"
+                decoding="async"
+              >
             }
             <button type="button" class="profile-card__upload" (click)="fileInput.click()">
-              <span class="profile-card__upload-icon">📷</span>
+              <lucide-icon [img]="CameraIcon" [size]="16" [strokeWidth]="2" class="profile-card__upload-icon"></lucide-icon>
             </button>
             <input 
               #fileInput
@@ -22,8 +29,7 @@
               (change)="onFileSelected($event)"
               style="display: none;"
             >
-          </div>
-        </div>
+        </figure>
         
         <div class="profile-card__info">
           @if (isEditing()) {
@@ -44,8 +50,9 @@
           } @else {
             <h1 class="profile-card__name">{{ userData.name }}</h1>
             <p class="profile-card__email">{{ userData.email }}</p>
-            <button class="btn btn--outline" (click)="toggleEdit()">
-              ✏️ Editar perfil
+            <button class="btn btn--outline profile-card__edit-btn" (click)="toggleEdit()">
+              <lucide-icon [img]="PencilIcon" [size]="16" [strokeWidth]="2"></lucide-icon>
+              <span>Editar perfil</span>
             </button>
           }
         </div>
@@ -79,7 +86,7 @@
           </div>
         } @else {
           <div class="purchases__empty">
-            <span class="purchases__empty-icon">🛒</span>
+            <lucide-icon [img]="CartIcon" [size]="48" [strokeWidth]="1.5" class="purchases__empty-lucide"></lucide-icon>
             <p>Aún no tienes compras registradas</p>
           </div>
         }

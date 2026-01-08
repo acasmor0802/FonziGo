@@ -17,27 +17,19 @@
 // Cart Empty State
 // ===============================================
 .cart-empty
-  text-align: center
-  padding: var(--spacing-16) var(--spacing-4)
-  background: var(--background-alt)
-  border-radius: var(--radius-xl)
+  +empty-state-container
 
-  &__icon
-    font-size: 5rem
-    display: block
-    margin-bottom: var(--spacing-4)
-    filter: grayscale(0.5)
+  &__lucide-icon
+    +empty-state-lucide-icon
+
+    &--spin
+      animation: spin 2s linear infinite
 
   &__title
-    font-family: var(--font-secondary)
-    font-size: var(--text-2xl)
-    font-weight: var(--font-bold)
-    color: var(--primary-blue)
-    margin-bottom: var(--spacing-2)
+    +empty-state-title
 
   &__text
-    color: var(--primary-blue-alt)
-    margin-bottom: var(--spacing-6)
+    +empty-state-text
 
 // ===============================================
 // Cart Header
@@ -98,10 +90,23 @@
     gap: var(--spacing-3)
     padding: var(--spacing-4) var(--spacing-5)
     background: var(--primary-blue)
-    color: white
+    color: var(--background)
 
-  &__icon
-    font-size: 1.5rem
+    :host-context(.dark-mode) &
+      background: var(--primary-blue-alt)
+      color: var(--background)
+
+  &__lucide-icon
+    flex-shrink: 0
+
+  &__logo
+    width: 32px
+    height: 32px
+    object-fit: contain
+    border-radius: var(--radius-sm)
+    background: white
+    padding: 2px
+    flex-shrink: 0
 
   &__name
     font-weight: var(--font-semibold)
@@ -324,6 +329,10 @@
     margin-top: var(--spacing-4)
     margin-bottom: var(--spacing-2)
 
+    svg
+      flex-shrink: 0
+      stroke: var(--primary-blue-alt)
+
   &__progress
     height: 6px
     background: var(--primary-blue-light)
@@ -351,13 +360,27 @@
     color: var(--primary-blue-alt)
     margin-top: var(--spacing-4)
 
+    svg
+      flex-shrink: 0
+      stroke: var(--success)
+
+  &__lock-icon
+    color: var(--success)
+
   &__methods
     display: flex
     justify-content: center
     gap: var(--spacing-3)
     margin-top: var(--spacing-3)
-    font-size: 1.5rem
+    font-size: var(--text-sm)
     opacity: 0.6
+
+  &__method
+    padding: var(--spacing-1) var(--spacing-2)
+    background: var(--primary-blue-light)
+    border-radius: var(--radius-sm)
+    color: var(--primary-blue)
+    font-weight: var(--font-medium)
 
 // ===============================================
 // Cart Recommendations
@@ -479,3 +502,12 @@
 
   &--full
     width: 100%
+
+// ===============================================
+// Animations
+// ===============================================
+@keyframes spin
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)

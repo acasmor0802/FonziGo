@@ -5,17 +5,17 @@
 -- CATEGORÍAS
 -- ==============================================
 INSERT INTO category (id, name, icon, slug) VALUES 
-(1, 'Frutas y Verduras', '🍎', 'frutas-verduras'),
-(2, 'Lácteos y Huevos', '🥛', 'lacteos-huevos'),
-(3, 'Carnes y Pescados', '🥩', 'carnes-pescados'),
-(4, 'Panadería', '🥖', 'panaderia'),
-(5, 'Bebidas', '🥤', 'bebidas'),
-(6, 'Despensa', '🥫', 'despensa'),
-(7, 'Congelados', '🧊', 'congelados'),
-(8, 'Limpieza', '🧹', 'limpieza'),
-(9, 'Cuidado Personal', '🧴', 'cuidado-personal'),
-(10, 'Mascotas', '🐕', 'mascotas')
-ON CONFLICT (id) DO NOTHING;
+(1, 'Frutas y Verduras', 'manzana.svg', 'frutas-verduras'),
+(2, 'Lácteos y Huevos', 'queso.svg', 'lacteos-huevos'),
+(3, 'Carnes y Pescados', 'filete.svg', 'carnes-pescados'),
+(4, 'Panadería', 'pan.svg', 'panaderia'),
+(5, 'Bebidas', 'soda.svg', 'bebidas'),
+(6, 'Despensa', 'lata-de-atun.svg', 'despensa'),
+(7, 'Congelados', 'copo-de-nieve.svg', 'congelados'),
+(8, 'Limpieza', 'escoba.svg', 'limpieza'),
+(9, 'Cuidado Personal', 'alcohol-en-gel.svg', 'cuidado-personal'),
+(10, 'Mascotas', 'animales.svg', 'mascotas')
+ON CONFLICT (id) DO UPDATE SET icon = EXCLUDED.icon;
 
 -- ==============================================
 -- SUPERMERCADOS
@@ -24,9 +24,7 @@ INSERT INTO supermarket (id, name, logo) VALUES
 (1, 'Mercadona', '/images/supermarkets/mercadona.png'),
 (2, 'Carrefour', '/images/supermarkets/carrefour.png'),
 (3, 'Lidl', '/images/supermarkets/lidl.png'),
-(4, 'Dia', '/images/supermarkets/dia.png'),
-(5, 'Alcampo', '/images/supermarkets/alcampo.png'),
-(6, 'Eroski', '/images/supermarkets/eroski.png')
+(4, 'Dia', '/images/supermarkets/dia.png')
 ON CONFLICT (id) DO NOTHING;
 
 -- ==============================================

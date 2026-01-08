@@ -2,6 +2,7 @@ import { Component, OnInit, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LucideAngularModule, ShoppingCart, Pencil, Camera } from 'lucide-angular';
 import { AuthService, User } from '../../core/services/auth.service';
 import { OrderService, Order } from '../../core/services/order.service';
 import { Header } from '../../layout/header/header';
@@ -25,7 +26,7 @@ interface PurchaseItem {
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, Header, Footer],
+  imports: [CommonModule, FormsModule, LucideAngularModule, Header, Footer],
   templateUrl: './profile.html',
   styleUrl: './profile.sass'
 })
@@ -33,6 +34,11 @@ export class ProfilePage implements OnInit {
   private auth = inject(AuthService);
   private orderService = inject(OrderService);
   private router = inject(Router);
+  
+  // Lucide Icons
+  readonly CartIcon = ShoppingCart;
+  readonly PencilIcon = Pencil;
+  readonly CameraIcon = Camera;
   
   user = signal<User | null>(null);
   isEditing = signal(false);
@@ -109,20 +115,14 @@ export class ProfilePage implements OnInit {
   }
   
   onFileSelected(event: Event): void {
-    console.log('onFileSelected triggered');
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      console.log('File selected:', file.name, 'Size:', file.size);
       
-      // Comprimir imagen antes de enviar
       this.compressImage(file, 200, 0.8).then(async (compressedBase64) => {
-        console.log('Compressed image length:', compressedBase64.length);
         const currentUser = this.user();
         if (currentUser) {
-          console.log('Calling updateProfile with avatar...');
           const success = await this.auth.updateProfile({ avatarUrl: compressedBase64 });
-          console.log('updateProfile result:', success);
           if (success) {
             currentUser.avatarUrl = compressedBase64;
             this.user.set({...currentUser});
@@ -134,8 +134,6 @@ export class ProfilePage implements OnInit {
         console.error('Error compressing image:', error);
         alert('Error procesando la imagen.');
       });
-    } else {
-      console.log('No file selected');
     }
   }
   

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, computed, ChangeDetectionStrategy } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
 import { ProductWithPrices, PriceComparison } from '../../shared/types';
+import { generateSizes, findOptimizedImageByName } from '../../shared/utils/image.utils';
 
 /**
  * Componente de tarjeta de producto reutilizable.
@@ -9,7 +9,7 @@ import { ProductWithPrices, PriceComparison } from '../../shared/types';
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [],
   templateUrl: './product-card.html',
   styleUrls: ['./product-card.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,6 +45,42 @@ export class ProductCard {
    * Referencia a Math para usar en el template.
    */
   protected readonly Math = Math;
+
+  /**
+   * Obtiene la imagen optimizada basada en el nombre del producto.
+   */
+  private optimizedImageName = computed(() => {
+    const product = this.product;
+    if (!product?.name) return null;
+    return findOptimizedImageByName(product.name);
+  });
+
+  /**
+   * Genera srcset para la imagen del producto.
+   */
+  imageSrcset = computed(() => {
+    const optimized = this.optimizedImageName();
+    if (optimized) {
+      return `optimized/${optimized}-small.webp 400w, optimized/${optimized}-medium.webp 800w, optimized/${optimized}-large.webp 1200w`;
+    }
+    return '';
+  });
+
+  /**
+   * Genera sizes para la imagen del producto.
+   */
+  imageSizes = generateSizes('card');
+
+  /**
+   * Genera src fallback (tamaño medium o placeholder).
+   */
+  imageSrc = computed(() => {
+    const optimized = this.optimizedImageName();
+    if (optimized) {
+      return `optimized/${optimized}-medium.webp`;
+    }
+    return 'optimized/sinFotojpg-medium.webp';
+  });
 
   onViewProduct(): void {
     this.viewProduct.emit(this.product);

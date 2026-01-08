@@ -2,6 +2,8 @@ import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { LucideAngularModule, Lock, Clock, ShoppingCart, Home, Truck, Trash2 } from 'lucide-angular';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { CartService, CartItem, Cart } from '../../core/services/cart.service';
@@ -11,19 +13,48 @@ import { ToastService } from '../../shared/services/toast.service';
 import { ToastComponent } from '../../components/toast/toast';
 import { environment } from '../../../environments/environment';
 
+interface RecommendedProduct {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string;
+}
+
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, Header, Footer, ToastComponent],
+  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, Header, Footer, ToastComponent],
   templateUrl: './cart.html',
   styleUrl: './cart.sass'
 })
 export class CartPage implements OnInit {
   private router = inject(Router);
+  private http = inject(HttpClient);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   private toastService = inject(ToastService);
+  private apiUrl = environment.apiUrl;
+  
+  // Lucide Icons
+  readonly LockIcon = Lock;
+  readonly ClockIcon = Clock;
+  readonly CartIcon = ShoppingCart;
+  readonly HomeIcon = Home;
+  readonly TruckIcon = Truck;
+  readonly TrashIcon = Trash2;
+  
+  // Mapa de logos de supermercados
+  private readonly storeLogos: { [key: string]: string } = {
+    'Mercadona': 'optimized/mercadona-small.webp',
+    'Carrefour': 'optimized/carrefour-small.webp',
+    'Lidl': 'optimized/lidl-small.webp',
+    'Dia': 'optimized/dia-small.webp',
+    'Día': 'optimized/dia-small.webp'
+  };
+  
+  // Productos recomendados
+  recommendedProducts = signal<RecommendedProduct[]>([]);
   
   // Estado de checkout
   checkoutLoading = signal(false);
@@ -65,6 +96,37 @@ export class CartPage implements OnInit {
     // Solo cargar carrito si el usuario está autenticado
     if (this.authService.isLoggedIn()) {
       this.cartService.loadCart();
+    }
+    // Cargar productos recomendados
+    this.loadRecommendedProducts();
+  }
+
+  loadRecommendedProducts(): void {
+    this.http.get<any>(`${this.apiUrl}/products?size=4&onSale=true`).subscribe({
+      next: (response) => {
+        const products = response.content || [];
+        this.recommendedProducts.set(products.slice(0, 4).map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          imageUrl: this.getImageUrl(p.imageUrl)
+        })));
+      },
+      error: (err) => console.error('Error loading recommendations:', err)
+    });
+  }
+
+  async addRecommendation(product: RecommendedProduct): Promise<void> {
+    if (!this.authService.isLoggedIn()) {
+      this.toastService.warning('Inicia sesión para añadir productos');
+      return;
+    }
+    
+    const success = await this.cartService.addToCart(product.id, 1);
+    if (success) {
+      this.toastService.success(`${product.name} añadido al carrito`);
+    } else {
+      this.toastService.error('Error al añadir producto');
     }
   }
 
@@ -156,6 +218,10 @@ export class CartPage implements OnInit {
       return `${environment.apiUrl.replace('/api', '')}${imageUrl}`;
     }
     return imageUrl;
+  }
+
+  getStoreLogo(storeName: string): string {
+    return this.storeLogos[storeName] || '';
   }
 
   isLoggedIn(): boolean {

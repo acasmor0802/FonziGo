@@ -24,9 +24,7 @@
             [class.category-item--active]="selectedCategory() === category.id"
             (click)="selectCategory(category.id)"
           >
-            <div class="category-item__icon">
-              <span class="category-item__emoji">{{ category.icon }}</span>
-            </div>
+            <lucide-icon [img]="category.icon" [size]="48" [strokeWidth]="1.5" class="category-item__icon"></lucide-icon>
             <span class="category-item__name">{{ category.name }}</span>
           </button>
         }
@@ -39,21 +37,16 @@
 
   <!-- Search Bar -->
   <section class="search-section">
-    <div class="search-section__container">
-      <div class="search-section__form">
-        <input 
-          type="text" 
-          class="search-section__input" 
-          placeholder="Buscar un producto..."
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          (keyup.enter)="searchProducts($any($event.target).value)"
-        />
-        <button class="search-btn" (click)="searchProducts(searchQuery())">
-          Buscar
-        </button>
-      </div>
-    </div>
+    <form class="search-section__form" (submit)="$event.preventDefault(); searchProducts(searchQuery())">
+      <input 
+        type="search" 
+        class="search-section__input" 
+        placeholder="Buscar un producto..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+      >
+      <button type="submit" class="search-btn">Buscar</button>
+    </form>
   </section>
 
   <!-- Main Content with Filters -->
@@ -102,7 +95,8 @@
                     [class.filter-option--active]="selectedCategory() === category.id"
                     (click)="selectCategory(category.id)"
                   >
-                    {{ category.icon }} {{ category.name }}
+                    <lucide-icon [img]="category.icon" [size]="18" [strokeWidth]="2" class="filter-option__icon"></lucide-icon>
+                    {{ category.name }}
                   </button>
                 </li>
               }
@@ -198,7 +192,7 @@
           @if (cardOfferProducts().length > 0) {
             <div class="products-block">
               <div class="products-block__header">
-                <h2 class="products-block__title">🔥 Ofertas</h2>
+                <h2 class="products-block__title">Ofertas</h2>
                 @if (hasMoreOffers()) {
                   <div class="carousel-controls">
                     <button 
@@ -236,7 +230,7 @@
               </div>
             } @else {
               <div class="products-empty">
-                <span class="products-empty__icon">🔍</span>
+                <lucide-icon [img]="SearchIcon" [size]="64" [strokeWidth]="1.5" class="products-empty__lucide-icon"></lucide-icon>
                 <h3 class="products-empty__title">No se encontraron productos</h3>
                 <p class="products-empty__text">
                   Prueba a cambiar los filtros o buscar algo diferente

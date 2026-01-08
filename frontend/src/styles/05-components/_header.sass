@@ -290,22 +290,6 @@
 
   // Carrito con badge de contador
 
-  // Icono del carrito con SVG
-  &__cart-icon
-    display: flex
-    align-items: center
-    gap: var(--spacing-2)
-    color: #FFF1D5
-    +smooth-transition(color)
-    
-    svg
-      display: inline-block
-      vertical-align: middle
-      flex-shrink: 0
-
-    &:hover
-      color: var(--secundary-yellow-alt)
-
   // Icono del tema con SVG
   &__theme-icon
     display: flex
@@ -352,13 +336,23 @@
   &__profile-img
     width: 40px
     height: 40px
+    min-width: 40px
+    min-height: 40px
+    max-width: 40px
+    max-height: 40px
     border-radius: 50%
     object-fit: cover
+    aspect-ratio: 1 / 1
+    flex-shrink: 0
     border: 2px solid var(--secundary-yellow-alt)
 
     @media (max-width: $breakpoint-md)
       width: 50px
       height: 50px
+      min-width: 50px
+      min-height: 50px
+      max-width: 50px
+      max-height: 50px
 
   &__profile-name
     color: #FFF1D5

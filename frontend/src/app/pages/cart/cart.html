@@ -7,7 +7,7 @@
     @if (!isLoggedIn()) {
       <!-- Not Logged In State -->
       <div class="cart-empty">
-        <span class="cart-empty__icon">🔐</span>
+        <lucide-icon [img]="LockIcon" [size]="64" [strokeWidth]="1.5" class="cart-empty__lucide-icon"></lucide-icon>
         <h2 class="cart-empty__title">Inicia sesión para ver tu carrito</h2>
         <p class="cart-empty__text">Necesitas iniciar sesión para gestionar tu carrito de compras.</p>
         <a routerLink="/login" class="btn btn--primary btn--large">
@@ -17,13 +17,13 @@
     } @else if (loading()) {
       <!-- Loading State -->
       <div class="cart-empty">
-        <span class="cart-empty__icon">⏳</span>
+        <lucide-icon [img]="ClockIcon" [size]="64" [strokeWidth]="1.5" class="cart-empty__lucide-icon cart-empty__lucide-icon--spin"></lucide-icon>
         <h2 class="cart-empty__title">Cargando carrito...</h2>
       </div>
     } @else if (cartItems().length === 0) {
       <!-- Empty Cart State -->
       <div class="cart-empty">
-        <span class="cart-empty__icon">🛒</span>
+        <lucide-icon [img]="CartIcon" [size]="64" [strokeWidth]="1.5" class="cart-empty__lucide-icon"></lucide-icon>
         <h2 class="cart-empty__title">Tu carrito está vacío</h2>
         <p class="cart-empty__text">Parece que aún no has añadido ningún producto a tu carrito.</p>
         <button class="btn btn--primary btn--large" (click)="continueShopping()">
@@ -45,7 +45,11 @@
           @for (storeGroup of itemsByStore(); track storeGroup[0]) {
             <div class="store-group">
               <div class="store-group__header">
-                <span class="store-group__icon">🏪</span>
+                @if (getStoreLogo(storeGroup[0])) {
+                  <img [src]="getStoreLogo(storeGroup[0])" [alt]="storeGroup[0]" class="store-group__logo">
+                } @else {
+                  <lucide-icon [img]="HomeIcon" [size]="24" [strokeWidth]="2" class="store-group__lucide-icon"></lucide-icon>
+                }
                 <span class="store-group__name">{{ storeGroup[0] }}</span>
                 <span class="store-group__count">{{ storeGroup[1].length }} productos</span>
               </div>
@@ -125,7 +129,7 @@
           
           @if (savings() > 0) {
             <div class="order-summary__row order-summary__row--savings">
-              <span>🎉 Ahorro total</span>
+              <span>Ahorro total</span>
               <span>-{{ savings() | number:'1.2-2' }}€</span>
             </div>
           }
@@ -141,7 +145,7 @@
           
           @if (subtotal() < 30 && subtotal() > 0) {
             <div class="order-summary__shipping-msg">
-              <span>🚚</span>
+              <lucide-icon [img]="TruckIcon" [size]="18" [strokeWidth]="2"></lucide-icon>
               <span>¡Añade {{ (30 - subtotal()) | number:'1.2-2' }}€ más para envío GRATIS!</span>
             </div>
             <div class="order-summary__progress">
@@ -169,48 +173,34 @@
           </button>
           
           <div class="order-summary__secure">
-            <span>🔒</span>
+            <lucide-icon [img]="LockIcon" [size]="16" [strokeWidth]="2" class="order-summary__lock-icon"></lucide-icon>
             <span>Pago 100% seguro</span>
           </div>
           
           <div class="order-summary__methods">
-            <span>💳</span>
-            <span>💶</span>
-            <span>📱</span>
+            <span class="order-summary__method">Visa</span>
+            <span class="order-summary__method">MC</span>
+            <span class="order-summary__method">Bizum</span>
           </div>
         </aside>
       </div>
       
       <!-- Recommendations -->
-      <section class="cart-recommendations">
-        <h2 class="cart-recommendations__title">También te puede interesar</h2>
-        <div class="cart-recommendations__grid">
-          <div class="recommendation-card">
-            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
-            <h4 class="recommendation-card__name">Queso Manchego Curado</h4>
-            <span class="recommendation-card__price">4.99€</span>
-            <button class="recommendation-card__add">+ Añadir</button>
+      @if (recommendedProducts().length > 0) {
+        <section class="cart-recommendations">
+          <h2 class="cart-recommendations__title">También te puede interesar</h2>
+          <div class="cart-recommendations__grid">
+            @for (product of recommendedProducts(); track product.id) {
+              <div class="recommendation-card">
+                <img [src]="product.imageUrl" [alt]="product.name" class="recommendation-card__image">
+                <h4 class="recommendation-card__name">{{ product.name }}</h4>
+                <span class="recommendation-card__price">{{ product.price | number:'1.2-2' }}€</span>
+                <button class="recommendation-card__add" (click)="addRecommendation(product)">+ Añadir</button>
+              </div>
+            }
           </div>
-          <div class="recommendation-card">
-            <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
-            <h4 class="recommendation-card__name">Manzanas Golden 1kg</h4>
-            <span class="recommendation-card__price">1.89€</span>
-            <button class="recommendation-card__add">+ Añadir</button>
-          </div>
-          <div class="recommendation-card">
-            <img src="https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
-            <h4 class="recommendation-card__name">Tomates Rama 500g</h4>
-            <span class="recommendation-card__price">1.29€</span>
-            <button class="recommendation-card__add">+ Añadir</button>
-          </div>
-          <div class="recommendation-card">
-            <img src="https://images.unsplash.com/photo-1598790989221-c0d4e7b0b3a5?w=150&h=150&fit=crop" alt="Producto" class="recommendation-card__image">
-            <h4 class="recommendation-card__name">Café Molido Natural</h4>
-            <span class="recommendation-card__price">3.45€</span>
-            <button class="recommendation-card__add">+ Añadir</button>
-          </div>
-        </div>
-      </section>
+        </section>
+      }
     }
     
   </div>

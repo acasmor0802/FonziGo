@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LucideAngularModule, Search, Apple, Milk, Beef, Croissant, Wine, Package, Snowflake, Brush, SprayCan, PawPrint, LucideIconData } from 'lucide-angular';
 
 // Import Components
 import { Header } from '../../layout/header/header';
@@ -17,36 +18,25 @@ import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { ProductWithPrices as CardProduct, PriceComparison } from '../../shared/types';
 
-// Mapa de iconos de categorías (para solucionar problemas de encoding)
-const CATEGORY_ICONS: { [key: string]: string } = {
-  'Frutas y Verduras': '🍎',
-  'Lácteos y Huevos': '🥛',
-  'L??cteos y Huevos': '🥛',
-  'Lacteos y Huevos': '🥛',
-  'Lácteos': '🥛',
-  'L??cteos': '🥛',
-  'Lacteos': '🥛',
-  'Carnes y Pescados': '🥩',
-  'Panadería': '🥖',
-  'Panader??a': '🥖',
-  'Panaderáa': '🥖',
-  'Panaderia': '🥖',
-  'Bebidas': '🥤',
-  'Despensa': '🥫',
-  'Congelados': '🧊',
-  'Limpieza': '🧹',
-  'Cuidado Personal': '🧴',
-  'Mascotas': '🐕'
+// Mapa de iconos de Lucide para categorías por slug
+const CATEGORY_ICONS: { [key: string]: LucideIconData } = {
+  'frutas-verduras': Apple,
+  'lacteos-huevos': Milk,
+  'carnes-pescados': Beef,
+  'panaderia': Croissant,
+  'bebidas': Wine,
+  'despensa': Package,
+  'congelados': Snowflake,
+  'limpieza': Brush,
+  'cuidado-personal': SprayCan,
+  'mascotas': PawPrint
 };
 
-// Función para normalizar nombres de categorías
-function normalizeCategoryName(name: string): string {
-  return name
-    .replace(/[??]+/g, 'á')
-    .replace(/á+/g, 'á')
-    .replace(/L[áa]?cteos/gi, 'Lácteos')
-    .replace(/Panaderia/gi, 'Panadería')
-    .replace(/Panaderáa/gi, 'Panadería');
+/**
+ * Obtiene el icono de Lucide para una categoría por su slug
+ */
+function getCategoryIconBySlug(slug: string): LucideIconData {
+  return CATEGORY_ICONS[slug] || Apple;
 }
 
 interface BackendProduct {
@@ -69,7 +59,7 @@ interface BackendProduct {
 interface BackendCategory {
   id: number;
   name: string;
-  icon: string;
+  icon: LucideIconData;
   slug: string;
 }
 
@@ -93,6 +83,7 @@ interface PriceRange {
   imports: [
     CommonModule,
     RouterModule,
+    LucideAngularModule,
     Header,
     Footer,
     ProductCard,
@@ -113,6 +104,9 @@ export class ProductsPage implements OnInit {
   private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private apiUrl = environment.apiUrl;
+  
+  // Lucide Icons
+  readonly SearchIcon = Search;
   
   // Exponer Math para el template
   readonly Math = Math;
@@ -313,11 +307,10 @@ export class ProductsPage implements OnInit {
   loadCategories(): void {
     this.http.get<BackendCategory[]>(`${this.apiUrl}/categories`).subscribe({
       next: (categories) => {
-        // Mapear iconos y normalizar nombres correctamente
+        // Mapear iconos SVG por slug
         const mappedCategories = categories.map(cat => ({
           ...cat,
-          name: normalizeCategoryName(cat.name),
-          icon: CATEGORY_ICONS[cat.name] || CATEGORY_ICONS[normalizeCategoryName(cat.name)] || cat.icon
+          icon: getCategoryIconBySlug(cat.slug)
         }));
         this.categories.set(mappedCategories);
         // Check if we need to set category from URL after loading

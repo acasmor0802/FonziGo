@@ -4,7 +4,7 @@
   <!-- Hero del supermercado -->
   <section class="supermarket-hero" [style.--store-color]="currentSupermarket().color">
     <div class="supermarket-hero__content">
-      <span class="supermarket-hero__icon">{{ currentSupermarket().icon }}</span>
+      <img [src]="currentSupermarket().logo" [alt]="currentSupermarket().name" class="supermarket-hero__logo">
       <h1 class="supermarket-hero__name">{{ currentSupermarket().name }}</h1>
       <p class="supermarket-hero__slogan">{{ currentSupermarket().slogan }}</p>
     </div>

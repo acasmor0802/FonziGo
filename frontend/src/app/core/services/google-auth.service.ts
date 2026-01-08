@@ -65,7 +65,6 @@ export class GoogleAuthService {
             width: 300
           }
         );
-        console.log('Botón de Google Sign-In inicializado correctamente');
       } catch (err) {
         console.error('Error al inicializar botón de Google:', err);
         this.error.set('Error al cargar el botón de Google');
@@ -90,7 +89,6 @@ export class GoogleAuthService {
   private async authenticateWithBackend(credential: string): Promise<void> {
     this.loading.set(true);
     this.error.set(null);
-    console.log('Enviando credencial a backend...');
 
     try {
       const response = await firstValueFrom(
@@ -99,29 +97,19 @@ export class GoogleAuthService {
         })
       );
 
-      console.log('Respuesta del backend:', response);
-
       if (response && response.token) {
-        // Guardar token
         localStorage.setItem('auth_token', response.token);
-        console.log('Token guardado en localStorage');
         
-        // Obtener datos del usuario con el token en el header
         const user = await firstValueFrom(
           this.http.get<User>(`${environment.apiUrl}/auth/me`, {
             headers: { 'Authorization': `Bearer ${response.token}` }
           })
         );
         
-        console.log('Datos del usuario:', user);
-        
-        // Guardar en localStorage Y actualizar AuthService
         localStorage.setItem('auth_user', JSON.stringify(user));
         this.authService.isLoggedIn.set(true);
         this.authService.currentUser.set(user);
         
-        console.log('Usuario autenticado, redirigiendo...');
-        // Usar Router de Angular en lugar de window.location
         this.router.navigate(['/productos']);
       } else {
         console.error('Respuesta sin token:', response);

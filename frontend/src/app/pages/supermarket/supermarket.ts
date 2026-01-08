@@ -1,7 +1,8 @@
-import { Component, computed, signal, inject, OnInit } from '@angular/core';
+import { Component, computed, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
@@ -13,7 +14,7 @@ interface SupermarketInfo {
   id: string;
   name: string;
   color: string;
-  icon: string;
+  logo: string;
   slogan: string;
   backendId: number;
 }
@@ -83,6 +84,7 @@ interface CardPrice {
 export class SupermarketPage implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
   private apiUrl = environment.apiUrl;
 
   supermarketId = signal<string>('');
@@ -94,7 +96,7 @@ export class SupermarketPage implements OnInit {
       id: 'mercadona',
       name: 'Mercadona',
       color: '#00a650',
-      icon: '🟢',
+      logo: 'optimized/mercadona-medium.webp',
       slogan: 'Supermercados de confianza',
       backendId: 1
     },
@@ -102,7 +104,7 @@ export class SupermarketPage implements OnInit {
       id: 'carrefour',
       name: 'Carrefour',
       color: '#004e9a',
-      icon: '🔵',
+      logo: 'optimized/carrefour-medium.webp',
       slogan: 'Mejor precio cada día',
       backendId: 2
     },
@@ -110,7 +112,7 @@ export class SupermarketPage implements OnInit {
       id: 'lidl',
       name: 'Lidl',
       color: '#0050aa',
-      icon: '🟡',
+      logo: 'optimized/Lidl-medium.webp',
       slogan: 'La calidad no es cara',
       backendId: 3
     },
@@ -118,7 +120,7 @@ export class SupermarketPage implements OnInit {
       id: 'dia',
       name: 'Día',
       color: '#e30613',
-      icon: '🔴',
+      logo: 'optimized/dia-medium.webp',
       slogan: 'Calidad y precio',
       backendId: 4
     }
@@ -138,7 +140,9 @@ export class SupermarketPage implements OnInit {
   });
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(params => {
       this.supermarketId.set(params['id'] || 'mercadona');
       this.loadProducts();
     });
