@@ -2,7 +2,10 @@
   <div class="product-modal" (click)="onBackdropClick($event)">
     <div class="product-modal__content">
       <!-- Close Button -->
-      <button class="product-modal__close" (click)="onClose()">✕</button>
+      <button class="product-modal__close" (click)="onClose()">
+        <lucide-icon [img]="PackageIcon" [size]="0" style="display: none;"></lucide-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
       
       <!-- Scrollable Content -->
       <div class="product-modal__scroll">
@@ -20,11 +23,12 @@
         <div class="product-modal__main">
           <!-- Product Image -->
           <div class="product-modal__image">
-            @if (product.image && !isEmojiOnly(product.image)) {
-              <img [src]="product.image" [alt]="product.name">
-            } @else {
-              <span class="product-modal__emoji">{{ product.image || '📦' }}</span>
-            }
+            <img 
+              [src]="getProductImage(product.name, product.image)" 
+              [alt]="product.name"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
 
           <!-- Product Details -->
@@ -85,11 +89,12 @@
               @for (similar of similarProducts; track similar.id) {
                 <div class="similar-product" (click)="onSelectSimilar(similar)">
                   <div class="similar-product__image">
-                    @if (similar.image && !isEmojiOnly(similar.image)) {
-                      <img [src]="similar.image" [alt]="similar.name">
-                    } @else {
-                      <span class="similar-product__emoji">{{ similar.image || '📦' }}</span>
-                    }
+                    <img 
+                      [src]="getProductImage(similar.name, similar.image)" 
+                      [alt]="similar.name"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div class="similar-product__info">
                     <h4 class="similar-product__name">{{ similar.name }}</h4>

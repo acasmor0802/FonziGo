@@ -129,7 +129,9 @@
             <div class="contact-info__grid">
               @for (info of contactInfo; track info.title) {
                 <div class="info-card">
-                  <span class="info-card__icon">{{ info.icon }}</span>
+                  <span class="info-card__icon">
+                    <lucide-icon [img]="info.iconComponent" [size]="24" [strokeWidth]="2"></lucide-icon>
+                  </span>
                   <div class="info-card__content">
                     <h3 class="info-card__title">{{ info.title }}</h3>
                     @if (info.link) {
@@ -183,7 +185,10 @@
         loading="lazy" 
         referrerpolicy="no-referrer-when-downgrade">
       </iframe>
-      <p class="map-container__address">📍 C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz</p>
+      <p class="map-container__address">
+        <img src="ubicacion.svg" alt="" class="map-icon" width="20" height="20" />
+        C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz
+      </p>
     </div>
   </section>
 </main>

@@ -1,8 +1,9 @@
-import { Component, signal, computed, inject, OnInit } from '@angular/core';
+import { Component, signal, computed, inject, OnInit, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LucideAngularModule, Lock, Clock, ShoppingCart, Home, Truck, Trash2 } from 'lucide-angular';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
@@ -12,12 +13,15 @@ import { OrderService } from '../../core/services/order.service';
 import { ToastService } from '../../shared/services/toast.service';
 import { ToastComponent } from '../../components/toast/toast';
 import { environment } from '../../../environments/environment';
+import { findOptimizedImageByName } from '../../shared/utils/image.utils';
+import { SKIP_ERROR_TOAST } from '../../core/interceptors/error.interceptor';
 
 interface RecommendedProduct {
   id: number;
   name: string;
   price: number;
   imageUrl: string;
+  supermarketName: string;
 }
 
 @Component({
@@ -25,7 +29,8 @@ interface RecommendedProduct {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, Header, Footer, ToastComponent],
   templateUrl: './cart.html',
-  styleUrl: './cart.sass'
+  styleUrl: './cart.sass',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartPage implements OnInit {
   private router = inject(Router);
@@ -34,6 +39,7 @@ export class CartPage implements OnInit {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   private toastService = inject(ToastService);
+  private destroyRef = inject(DestroyRef);
   private apiUrl = environment.apiUrl;
   
   // Lucide Icons
@@ -48,7 +54,7 @@ export class CartPage implements OnInit {
   private readonly storeLogos: { [key: string]: string } = {
     'Mercadona': 'optimized/mercadona-small.webp',
     'Carrefour': 'optimized/carrefour-small.webp',
-    'Lidl': 'optimized/lidl-small.webp',
+    'Lidl': 'optimized/Lidl-small.webp',
     'Dia': 'optimized/dia-small.webp',
     'Día': 'optimized/dia-small.webp'
   };
@@ -102,14 +108,18 @@ export class CartPage implements OnInit {
   }
 
   loadRecommendedProducts(): void {
-    this.http.get<any>(`${this.apiUrl}/products?size=4&onSale=true`).subscribe({
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+    this.http.get<any>(`${this.apiUrl}/products?size=4&onSale=true`, { context }).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
         const products = response.content || [];
         this.recommendedProducts.set(products.slice(0, 4).map((p: any) => ({
           id: p.id,
           name: p.name,
           price: p.price,
-          imageUrl: this.getImageUrl(p.imageUrl)
+          imageUrl: this.getImageUrl(p.imageUrl, p.name),
+          supermarketName: p.supermarketName || 'Tienda'
         })));
       },
       error: (err) => console.error('Error loading recommendations:', err)
@@ -207,17 +217,22 @@ export class CartPage implements OnInit {
     }
   }
 
-  getImageUrl(imageUrl: string): string {
-    if (!imageUrl) {
-      return '/assets/images/placeholder.jpg';
-    }
-    if (imageUrl.startsWith('http')) {
+  getImageUrl(imageUrl: string, productName?: string): string {
+    // Si hay imagen válida del backend
+    if (imageUrl && imageUrl.startsWith('http')) {
       return imageUrl;
     }
-    if (imageUrl.startsWith('/api/')) {
-      return `${environment.apiUrl.replace('/api', '')}${imageUrl}`;
+    
+    // Si hay nombre de producto, intentar buscar imagen optimizada
+    if (productName) {
+      const optimized = findOptimizedImageByName(productName);
+      if (optimized) {
+        return `optimized/${optimized}-medium.webp`;
+      }
     }
-    return imageUrl;
+    
+    // Imagen placeholder por defecto
+    return 'optimized/sinFotojpg-medium.webp';
   }
 
   getStoreLogo(storeName: string): string {

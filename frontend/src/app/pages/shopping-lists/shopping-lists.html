@@ -1,29 +1,162 @@
-<section class="lists-page">
+<app-toast></app-toast>
+<app-header></app-header>
+
+<main class="lists-page">
   <div class="container">
     <div class="lists-page__header">
       <h1 class="lists-page__title">Mis Listas de Compra</h1>
-      <button class="btn btn--primary" (click)="toggleCreate()">
-        {{ isCreating() ? 'Cancelar' : '+ Nueva Lista' }}
-      </button>
+      @if (!isCreating()) {
+        <button class="btn btn--primary" (click)="startCreating()">
+          <lucide-icon [img]="PlusIcon" [size]="18" [strokeWidth]="2"></lucide-icon>
+          Nueva Lista
+        </button>
+      }
     </div>
     
+    <!-- ================================================== -->
+    <!-- FORMULARIO CON FORMARRAY (FASE 3 - Requisito)      -->
+    <!-- ================================================== -->
     @if (isCreating()) {
-      <div class="create-form">
-        <input 
-          type="text" 
-          class="create-form__input"
-          placeholder="Nombre de la lista..."
-          [ngModel]="newListName()"
-          (ngModelChange)="newListName.set($event)"
-          (keyup.enter)="createList()"
-        >
-        <button class="btn btn--primary" (click)="createList()">
-          Crear
-        </button>
-      </div>
+      <form [formGroup]="listForm" (ngSubmit)="saveList()" class="list-form">
+        <div class="list-form__header">
+          <h2 class="list-form__title">
+            {{ editingListId() ? 'Editar Lista' : 'Nueva Lista de Compra' }}
+          </h2>
+          <button type="button" class="list-form__close" (click)="cancelEdit()">
+            <lucide-icon [img]="XIcon" [size]="24" [strokeWidth]="2"></lucide-icon>
+          </button>
+        </div>
+        
+        <!-- Nombre de la lista -->
+        <div class="form-group">
+          <label for="listName" class="form-label">Nombre de la lista *</label>
+          <input 
+            type="text" 
+            id="listName"
+            formControlName="name"
+            class="form-input"
+            [class.form-input--error]="nameControl?.invalid && nameControl?.touched"
+            placeholder="Ej: Compra semanal"
+          >
+          @if (nameControl?.invalid && nameControl?.touched) {
+            <span class="form-error">
+              @if (nameControl?.errors?.['required']) { El nombre es obligatorio }
+              @else if (nameControl?.errors?.['minlength']) { Mínimo 2 caracteres }
+              @else if (nameControl?.errors?.['maxlength']) { Máximo 50 caracteres }
+            </span>
+          }
+        </div>
+        
+        <!-- FormArray de productos -->
+        <div class="form-section">
+          <div class="form-section__header">
+            <h3 class="form-section__title">
+              <lucide-icon [img]="CartIcon" [size]="20" [strokeWidth]="2"></lucide-icon>
+              Productos ({{ items.length }})
+            </h3>
+            <button type="button" class="btn btn--secondary btn--sm" (click)="addItem()">
+              <lucide-icon [img]="PlusIcon" [size]="16" [strokeWidth]="2"></lucide-icon>
+              Añadir producto
+            </button>
+          </div>
+          
+          <!-- Iteración sobre el FormArray -->
+          <div formArrayName="items" class="items-list">
+            @for (itemCtrl of items.controls; track $index; let i = $index) {
+              <div [formGroupName]="i" class="item-row">
+                <div class="item-row__number">{{ i + 1 }}</div>
+                
+                <div class="item-row__fields">
+                  <!-- Nombre del producto -->
+                  <div class="item-field item-field--name">
+                    <input 
+                      type="text"
+                      formControlName="productName"
+                      class="form-input"
+                      [class.form-input--error]="hasItemError(i, 'productName')"
+                      placeholder="Nombre del producto"
+                    >
+                    @if (hasItemError(i, 'productName')) {
+                      <span class="form-error">{{ getItemErrorMessage(i, 'productName') }}</span>
+                    }
+                  </div>
+                  
+                  <!-- Cantidad -->
+                  <div class="item-field item-field--qty">
+                    <label class="item-field__label">Cantidad</label>
+                    <input 
+                      type="number"
+                      formControlName="quantity"
+                      class="form-input form-input--sm"
+                      [class.form-input--error]="hasItemError(i, 'quantity')"
+                      min="1"
+                      max="99"
+                    >
+                  </div>
+                  
+                  <!-- Precio estimado -->
+                  <div class="item-field item-field--price">
+                    <label class="item-field__label">Precio (€)</label>
+                    <input 
+                      type="number"
+                      formControlName="estimatedPrice"
+                      class="form-input form-input--sm"
+                      [class.form-input--error]="hasItemError(i, 'estimatedPrice')"
+                      min="0"
+                      step="0.01"
+                    >
+                  </div>
+                  
+                  <!-- Notas -->
+                  <div class="item-field item-field--notes">
+                    <input 
+                      type="text"
+                      formControlName="notes"
+                      class="form-input"
+                      placeholder="Notas (opcional)"
+                    >
+                  </div>
+                </div>
+                
+                <!-- Botón eliminar item -->
+                <button 
+                  type="button" 
+                  class="item-row__delete" 
+                  (click)="removeItem(i)"
+                  [disabled]="items.length === 1"
+                  title="Eliminar producto"
+                >
+                  <lucide-icon [img]="TrashIcon" [size]="18" [strokeWidth]="2"></lucide-icon>
+                </button>
+              </div>
+            }
+          </div>
+          
+          @if (items.length === 0) {
+            <p class="items-empty">No hay productos. Añade al menos uno.</p>
+          }
+        </div>
+        
+        <!-- Total estimado -->
+        <div class="form-total">
+          <span class="form-total__label">Total estimado:</span>
+          <span class="form-total__value">{{ getFormTotal() | number:'1.2-2' }}€</span>
+        </div>
+        
+        <!-- Botones del formulario -->
+        <div class="form-actions">
+          <button type="button" class="btn btn--outline" (click)="cancelEdit()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn--primary" [disabled]="listForm.invalid">
+            {{ editingListId() ? 'Guardar cambios' : 'Crear lista' }}
+          </button>
+        </div>
+      </form>
     }
     
-    @if (lists().length > 0) {
+    <!-- Lista de listas existentes -->
+    @if (!isCreating() && lists().length > 0) {
       <div class="lists-grid">
         @for (list of lists(); track list.id) {
           <article class="list-card">
@@ -34,37 +167,55 @@
                 (click)="deleteList(list.id)"
                 title="Eliminar lista"
               >
-                ×
+                <lucide-icon [img]="TrashIcon" [size]="18" [strokeWidth]="2"></lucide-icon>
               </button>
             </div>
             
             <div class="list-card__stats">
               <span class="list-card__items">
-                📦 {{ list.itemCount }} productos
+                <lucide-icon [img]="PackageIcon" [size]="16" [strokeWidth]="2"></lucide-icon>
+                {{ list.items.length }} productos
               </span>
               <span class="list-card__total">
-                💰 ~{{ list.totalEstimate.toFixed(2) }}€
+                <lucide-icon [img]="WalletIcon" [size]="16" [strokeWidth]="2"></lucide-icon>
+                ~{{ getListTotal(list) | number:'1.2-2' }}€
               </span>
             </div>
+            
+            <!-- Preview de productos -->
+            <ul class="list-card__preview">
+              @for (item of list.items.slice(0, 3); track item.productName) {
+                <li>{{ item.quantity }}x {{ item.productName }}</li>
+              }
+              @if (list.items.length > 3) {
+                <li class="list-card__more">+{{ list.items.length - 3 }} más...</li>
+              }
+            </ul>
             
             <p class="list-card__date">
               Creada: {{ list.createdAt | date:'dd/MM/yyyy' }}
             </p>
             
-            <button class="btn btn--secondary btn--block">
-              Ver lista
+            <button class="btn btn--secondary btn--block" (click)="editList(list)">
+              Editar lista
             </button>
           </article>
         }
       </div>
-    } @else {
+    } @else if (!isCreating()) {
       <div class="empty-state">
-        <span class="empty-state__icon">📝</span>
+        <lucide-icon [img]="FileTextIcon" [size]="48" [strokeWidth]="1.5" class="empty-state__icon"></lucide-icon>
         <h2>No tienes listas de compra</h2>
-        <p>Crea tu primera lista para empezar a ahorrar</p>
+        <p>Crea tu primera lista para empezar a organizar tus compras</p>
+        <button class="btn btn--primary" (click)="startCreating()">
+          <lucide-icon [img]="PlusIcon" [size]="18" [strokeWidth]="2"></lucide-icon>
+          Crear mi primera lista
+        </button>
       </div>
     }
     
     <a routerLink="/" class="lists-page__back">← Volver al inicio</a>
   </div>
-</section>
+</main>
+
+<app-footer></app-footer>

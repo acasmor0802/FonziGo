@@ -104,7 +104,7 @@
     height: 32px
     object-fit: contain
     border-radius: var(--radius-sm)
-    background: white
+    background: var(--background-white)
     padding: 2px
     flex-shrink: 0
 
@@ -191,7 +191,7 @@
     display: inline-block
     font-size: var(--text-xs)
     background: var(--error)
-    color: white
+    color: var(--text-light)
     padding: 2px 6px
     border-radius: var(--radius-sm)
     font-weight: var(--font-bold)
@@ -252,13 +252,17 @@
     display: flex
     align-items: center
     justify-content: center
-    background: none
+    background: var(--background-alt)
     border: none
-    color: var(--primary-blue-alt)
+    color: var(--primary-blue)
     cursor: pointer
     font-size: 0.9rem
     border-radius: 50%
     transition: all var(--transition-fast)
+
+    :host-context(.dark-mode) &
+      background: var(--background-alt)
+      color: var(--primary-blue)
 
     +media-breakpoint-up(sm)
       position: static
@@ -267,7 +271,7 @@
 
     &:hover
       background: var(--error)
-      color: white
+      color: var(--text-light)
 
 // ===============================================
 // Cart Actions
@@ -414,13 +418,25 @@
     transform: translateY(-4px)
     box-shadow: var(--shadow-md)
 
-  &__image
-    width: 100%
-    max-width: 120px
-    height: 100px
-    object-fit: cover
-    border-radius: var(--radius-md)
+  &__image-container
+    display: flex
+    justify-content: center
+    align-items: center
     margin-bottom: var(--spacing-3)
+
+  &__image
+    width: 100px
+    height: 100px
+    object-fit: contain
+    border-radius: var(--radius-md)
+
+  &__store
+    display: block
+    font-size: var(--text-xs)
+    color: var(--primary-blue-alt)
+    margin-bottom: var(--spacing-1)
+    text-transform: uppercase
+    letter-spacing: 0.5px
 
   &__name
     font-size: var(--text-sm)
@@ -485,7 +501,7 @@
     &:hover
       border-color: var(--primary-blue)
       background: var(--primary-blue)
-      color: white
+      color: var(--text-light)
 
   &--danger-outline
     background: transparent
@@ -494,7 +510,7 @@
 
     &:hover
       background: var(--error)
-      color: white
+      color: var(--text-light)
 
   &--large
     padding: var(--spacing-4) var(--spacing-6)

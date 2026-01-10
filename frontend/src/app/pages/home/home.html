@@ -99,17 +99,19 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <div class="cta__container">
-      <h2>¿Listo para empezar a ahorrar?</h2>
-      <p>Crea tu cuenta gratuita y accede a funciones exclusivas como listas de compra personalizadas</p>
-      <div class="cta__buttons">
-        <a routerLink="/register" class="cta__btn cta__btn--primary">Crear cuenta gratis</a>
-        <a routerLink="/login" class="cta__btn cta__btn--secondary">Ya tengo cuenta</a>
+  <!-- CTA (solo visible si no está logueado) -->
+  @if (!isLoggedIn) {
+    <section class="cta">
+      <div class="cta__container">
+        <h2>¿Listo para empezar a ahorrar?</h2>
+        <p>Crea tu cuenta gratuita y accede a funciones exclusivas como listas de compra personalizadas</p>
+        <div class="cta__buttons">
+          <a routerLink="/register" class="cta__btn cta__btn--primary">Crear cuenta gratis</a>
+          <a routerLink="/login" class="cta__btn cta__btn--secondary">Ya tengo cuenta</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  }
 </main>
 
 <app-footer></app-footer>

@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule, Package } from 'lucide-angular';
+import { findOptimizedImageByName } from '../../shared/utils/image.utils';
 
 export interface ProductDetail {
   id: string;
@@ -19,7 +21,7 @@ export interface ProductDetail {
 @Component({
   selector: 'app-product-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './product-modal.html',
   styleUrls: ['./product-modal.sass']
 })
@@ -29,6 +31,9 @@ export class ProductModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() addToCart = new EventEmitter<ProductDetail>();
   @Output() selectProduct = new EventEmitter<ProductDetail>();
+  
+  // Lucide Icons
+  readonly PackageIcon = Package;
   
   userRating = signal(0);
   hoverRating = signal(0);
@@ -72,7 +77,7 @@ export class ProductModalComponent {
   }
 
   /**
-   * Verifica si la cadena es solo un emoji (no una URL de imagen)
+   * Verifica si la cadena es solo un emoji o está vacía (no una URL de imagen)
    */
   isEmojiOnly(str: string): boolean {
     if (!str) return true;
@@ -83,5 +88,32 @@ export class ProductModalComponent {
     // Verificar si es solo emojis o caracteres especiales
     const emojiRegex = /^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\s]+$/u;
     return emojiRegex.test(str) || str.length <= 4;
+  }
+  
+  /**
+   * Obtiene la imagen del producto usando el sistema de imágenes optimizadas
+   * Prioriza imágenes locales sobre las del backend para evitar 404
+   */
+  getProductImage(productName: string, fallbackImage?: string): string {
+    // Primero intentar encontrar imagen optimizada por nombre del producto
+    const optimized = findOptimizedImageByName(productName);
+    if (optimized) {
+      return `optimized/${optimized}-medium.webp`;
+    }
+    
+    // Solo usar imagen del backend si es una URL externa completa (http)
+    if (fallbackImage && fallbackImage.startsWith('http') && !this.isEmojiOnly(fallbackImage)) {
+      return fallbackImage;
+    }
+    
+    // Imagen placeholder por defecto
+    return 'optimized/sinFotojpg-medium.webp';
+  }
+  
+  /**
+   * Verifica si el producto tiene una imagen real (no emoji ni vacía)
+   */
+  hasRealImage(image: string): boolean {
+    return !!image && !this.isEmojiOnly(image);
   }
 }

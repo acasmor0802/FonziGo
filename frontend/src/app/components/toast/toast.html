@@ -9,7 +9,9 @@
       role="alert"
       aria-live="polite"
     >
-      <div class="toast__icon">{{ getIcon(toast.type) }}</div>
+      <div class="toast__icon">
+        <lucide-icon [img]="getIconComponent(toast.type)" [size]="18" [strokeWidth]="2"></lucide-icon>
+      </div>
 
       <div class="toast__content">
         <div class="toast__title">{{ toast.title }}</div>
@@ -23,7 +25,7 @@
         (click)="dismiss(toast.id)"
         aria-label="Cerrar notificación"
       >
-        ✕
+        <lucide-icon [img]="XIcon" [size]="16" [strokeWidth]="2"></lucide-icon>
       </button>
     </div>
   }

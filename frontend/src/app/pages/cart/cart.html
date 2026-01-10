@@ -57,7 +57,7 @@
               <div class="store-group__items">
                 @for (item of storeGroup[1]; track item.id) {
                   <div class="cart-item">
-                    <img [src]="getImageUrl(item.productImage)" [alt]="item.productName" class="cart-item__image">
+                    <img [src]="getImageUrl(item.productImage, item.productName)" [alt]="item.productName" class="cart-item__image">
                     
                     <div class="cart-item__details">
                       <h3 class="cart-item__name">{{ item.productName }}</h3>
@@ -98,7 +98,7 @@
                     </div>
                     
                     <button type="button" class="cart-item__remove" (click)="removeItem(item.id)" title="Eliminar">
-                      ✕
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                   </div>
                 }
@@ -192,7 +192,10 @@
           <div class="cart-recommendations__grid">
             @for (product of recommendedProducts(); track product.id) {
               <div class="recommendation-card">
-                <img [src]="product.imageUrl" [alt]="product.name" class="recommendation-card__image">
+                <div class="recommendation-card__image-container">
+                  <img [src]="product.imageUrl" [alt]="product.name" class="recommendation-card__image">
+                </div>
+                <span class="recommendation-card__store">{{ product.supermarketName }}</span>
                 <h4 class="recommendation-card__name">{{ product.name }}</h4>
                 <span class="recommendation-card__price">{{ product.price | number:'1.2-2' }}€</span>
                 <button class="recommendation-card__add" (click)="addRecommendation(product)">+ Añadir</button>

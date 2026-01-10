@@ -11,6 +11,7 @@ import { NotFoundPage } from './pages/not-found/not-found';
 import { PrivacyPage } from './pages/privacy/privacy';
 import { TermsPage } from './pages/terms/terms';
 import { authGuard } from './core/guards/auth.guard';
+import { pendingChangesGuard } from './core/guards/pending-changes.guard';
 import { productsResolver } from './core/resolvers/product.resolver';
 
 export const routes: Routes = [
@@ -62,13 +63,8 @@ export const routes: Routes = [
     path: 'perfil',
     loadComponent: () => import('./pages/profile/profile').then(m => m.ProfilePage),
     canActivate: [authGuard],
+    canDeactivate: [pendingChangesGuard],
     data: { breadcrumb: 'Mi Perfil' }
-  },
-  {
-    path: 'mis-listas',
-    loadComponent: () => import('./pages/shopping-lists/shopping-lists').then(m => m.ShoppingListsPage),
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Mis Listas' }
   },
   {
     path: 'carrito',

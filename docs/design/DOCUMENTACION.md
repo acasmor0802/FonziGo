@@ -1879,7 +1879,6 @@ A continuación se muestran todos los mockups diseñados en Figma que sirvieron 
 | Login | `/login` | Inicio de sesión con validación |
 | Register | `/register` | Registro con validación avanzada |
 | Perfil | `/perfil` | Perfil de usuario (lazy loaded, protegido) |
-| Mis Listas | `/mis-listas` | Listas de compra (lazy loaded, protegido) |
 | Carrito | `/carrito` | Carrito de compras (lazy loaded) |
 | Privacidad | `/privacidad` | Política de privacidad |
 | Términos | `/terminos` | Términos y condiciones |

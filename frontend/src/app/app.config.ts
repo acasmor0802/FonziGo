@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { provideRouter, withPreloading, PreloadAllModules, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -11,9 +11,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     // FASE 4 - Router con precarga de módulos lazy
+    // FASE 6 - scrollPositionRestoration para mantener scroll al navegar
     provideRouter(
       routes,
-      withPreloading(PreloadAllModules) // Precarga todos los módulos lazy en segundo plano
+      withPreloading(PreloadAllModules), // Precarga todos los módulos lazy en segundo plano
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }) // Restaura scroll al volver atrás
     ),
     // FASE 5 - HttpClient con interceptors
     provideHttpClient(

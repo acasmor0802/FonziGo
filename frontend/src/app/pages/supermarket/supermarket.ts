@@ -1,13 +1,14 @@
-import { Component, computed, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, computed, signal, inject, OnInit, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { ProductCard } from '../../components/product-card/product-card';
 import { environment } from '../../../environments/environment';
+import { SKIP_ERROR_TOAST } from '../../core/interceptors/error.interceptor';
 
 /** Tipo para datos de UI del supermercado */
 interface SupermarketInfo {
@@ -79,7 +80,8 @@ interface CardPrice {
     ProductCard
   ],
   templateUrl: './supermarket.html',
-  styleUrls: ['./supermarket.sass']
+  styleUrls: ['./supermarket.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SupermarketPage implements OnInit {
   private http = inject(HttpClient);
@@ -151,8 +153,11 @@ export class SupermarketPage implements OnInit {
   loadProducts(): void {
     const supermarket = this.currentSupermarket();
     this.loading.set(true);
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
 
-    this.http.get<{ content: BackendProduct[] }>(`${this.apiUrl}/products?supermarketId=${supermarket.backendId}&size=50`).subscribe({
+    this.http.get<{ content: BackendProduct[] }>(`${this.apiUrl}/products?supermarketId=${supermarket.backendId}&size=50`, { context }).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
         const backendProducts: BackendProduct[] = response.content || [];
         this.products.set(backendProducts.map(p => this.convertToCardProduct(p)));
@@ -169,6 +174,9 @@ export class SupermarketPage implements OnInit {
     const discount = p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : undefined;
     const supermarket = this.currentSupermarket();
     
+    // Usar imagen del backend o placeholder
+    const imageUrl = p.imageUrl || '';
+    
     return {
       id: p.id,
       name: p.name,
@@ -177,8 +185,8 @@ export class SupermarketPage implements OnInit {
       categoryId: p.categoryId,
       categoryName: p.categoryName || 'General',
       unit: p.unit || 'unidad',
-      image: p.imageUrl || '📦',
-      imageUrl: p.imageUrl || '📦',
+      image: imageUrl,
+      imageUrl: imageUrl,
       onSale: p.onSale || !!discount,
       lowestPrice: p.price,
       highestPrice: p.originalPrice || p.price,

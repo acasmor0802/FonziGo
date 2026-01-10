@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ButtonComponent } from '../button/button';
 import { ToastService } from '../../shared/services/toast.service';
@@ -20,6 +20,7 @@ export class Login implements OnInit, AfterViewInit {
   private authService = inject(AuthService);
   private googleAuthService = inject(GoogleAuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   loginForm!: FormGroup;
   submitted = signal(false);
@@ -82,7 +83,9 @@ export class Login implements OnInit, AfterViewInit {
       
       if (success) {
         this.toastService.success('¡Inicio de sesión exitoso!');
-        this.router.navigate(['/']);
+        // Redirigir a returnUrl si existe, sino a inicio
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+        this.router.navigateByUrl(returnUrl);
       } else {
         this.toastService.error('Credenciales incorrectas');
       }

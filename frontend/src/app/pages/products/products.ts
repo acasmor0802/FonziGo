@@ -1,7 +1,7 @@
-import { Component, ViewChild, ElementRef, signal, computed, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, signal, computed, inject, OnInit, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LucideAngularModule, Search, Apple, Milk, Beef, Croissant, Wine, Package, Snowflake, Brush, SprayCan, PawPrint, LucideIconData } from 'lucide-angular';
 
@@ -17,6 +17,7 @@ import { CartService } from '../../core/services/cart.service';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { ProductWithPrices as CardProduct, PriceComparison } from '../../shared/types';
+import { SKIP_ERROR_TOAST } from '../../core/interceptors/error.interceptor';
 
 // Mapa de iconos de Lucide para categorías por slug
 const CATEGORY_ICONS: { [key: string]: LucideIconData } = {
@@ -92,7 +93,8 @@ interface PriceRange {
     LoadingSpinnerComponent
   ],
   templateUrl: './products.html',
-  styleUrls: ['./products.sass']
+  styleUrls: ['./products.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsPage implements OnInit {
   @ViewChild('categoriesList') categoriesList!: ElementRef;
@@ -305,7 +307,10 @@ export class ProductsPage implements OnInit {
   }
 
   loadCategories(): void {
-    this.http.get<BackendCategory[]>(`${this.apiUrl}/categories`).subscribe({
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+    this.http.get<BackendCategory[]>(`${this.apiUrl}/categories`, { context }).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (categories) => {
         // Mapear iconos SVG por slug
         const mappedCategories = categories.map(cat => ({
@@ -346,7 +351,11 @@ export class ProductsPage implements OnInit {
       params = params.set('search', search.trim());
     }
 
-    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params }).subscribe({
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params, context }).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
         this.allProducts.set(response.content);
         // Reset a página 0 cuando se cargan nuevos productos
@@ -376,7 +385,11 @@ export class ProductsPage implements OnInit {
       params = params.set('search', search.trim());
     }
 
-    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params }).subscribe({
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params, context }).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
         this.offerProducts.set(response.content);
       },

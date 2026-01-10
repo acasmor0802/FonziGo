@@ -109,6 +109,8 @@ const PRODUCT_IMAGE_BY_NAME: Record<string, string> = {
   'zumo de naranja': 'zumoNaranjaMercadona',
   // Despensa
   'aceite de oliva virgen extra': 'aceiteOlivaHacendado',
+  'aceite oliva virgen extra': 'aceiteOlivaHacendado',
+  'aceite oliva': 'aceiteOlivaHacendado',
   'pasta espaguetis': 'spaghettiMercadona',
   // Congelados
   'guisantes congelados': 'guisanteFinoMercadona',
@@ -129,16 +131,20 @@ const PRODUCT_IMAGE_BY_NAME: Record<string, string> = {
 const PRODUCT_KEYWORDS: Array<{ keywords: string[]; image: string }> = [
   { keywords: ['leche', 'entera'], image: 'lecheEnteraHacendado' },
   { keywords: ['huevos', 'camperos'], image: 'huevosLHacendado' },
+  { keywords: ['huevo'], image: 'huevosLHacendado' },
   { keywords: ['pechuga', 'pollo'], image: 'pechugaPolloHacendado' },
+  { keywords: ['pollo'], image: 'pechugaPolloHacendado' },
   { keywords: ['salmon', 'salmón'], image: 'salmonHacendado' },
   { keywords: ['croissant'], image: 'croissantHacendado' },
-  { keywords: ['pan', 'molde', 'integral'], image: 'panMoldeIntegral' },
-  { keywords: ['plátano', 'platano', 'canarias'], image: 'platanoCanariasMercadona' },
-  { keywords: ['manzana', 'golden'], image: 'manzanaGoldenMercadona' },
+  { keywords: ['pan', 'molde'], image: 'panMoldeIntegral' },
+  { keywords: ['plátano', 'platano'], image: 'platanoCanariasMercadona' },
+  { keywords: ['manzana'], image: 'manzanaGoldenMercadona' },
   { keywords: ['agua', 'mineral'], image: 'aguaMineralMercadonajpg' },
   { keywords: ['zumo', 'naranja'], image: 'zumoNaranjaMercadona' },
-  { keywords: ['aceite', 'oliva'], image: 'aceiteOlivaHacendado' },
-  { keywords: ['espagueti', 'pasta', 'spaghetti'], image: 'spaghettiMercadona' },
+  { keywords: ['aceite'], image: 'aceiteOlivaHacendado' },
+  { keywords: ['oliva'], image: 'aceiteOlivaHacendado' },
+  { keywords: ['espagueti', 'spaghetti', 'spagueti'], image: 'spaghettiMercadona' },
+  { keywords: ['pasta'], image: 'spaghettiMercadona' },
   { keywords: ['guisante'], image: 'guisanteFinoMercadona' },
   { keywords: ['pizza'], image: 'pizza4Quesos' },
   { keywords: ['detergente'], image: 'detergenteLiquidoMercadona' },
@@ -146,6 +152,8 @@ const PRODUCT_KEYWORDS: Array<{ keywords: string[]; image: string }> = [
   { keywords: ['gel', 'ducha'], image: 'gelDuchaMercadona' },
   { keywords: ['pienso', 'perro'], image: 'comidaPerrosAdultosMercadona' },
   { keywords: ['comida', 'gato'], image: 'comidaGatoHumedaMercadona' },
+  { keywords: ['gato'], image: 'comidaGatoHumedaMercadona' },
+  { keywords: ['perro'], image: 'comidaPerrosAdultosMercadona' },
 ];
 
 /**

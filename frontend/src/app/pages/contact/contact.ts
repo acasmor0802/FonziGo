@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LucideAngularModule, Mail, Phone, MapPin, Clock, LucideIconData } from 'lucide-angular';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
 import { ButtonComponent } from '../../components/button/button';
@@ -9,7 +10,7 @@ import { ToastService } from '../../shared/services/toast.service';
 import { telefonoValidator } from '../../shared/validators/custom-validators';
 
 interface ContactInfo {
-  icon: string;
+  iconComponent: LucideIconData;
   title: string;
   content: string;
   link?: string;
@@ -27,6 +28,7 @@ interface FAQ {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    LucideAngularModule,
     Header,
     Footer,
     ButtonComponent,
@@ -41,24 +43,24 @@ export class ContactPage {
 
   contactInfo: ContactInfo[] = [
     {
-      icon: '📧',
+      iconComponent: Mail,
       title: 'Email',
       content: 'acasmor@gmail.com',
       link: 'mailto:acasmor@gmail.com'
     },
     {
-      icon: '📱',
+      iconComponent: Phone,
       title: 'Teléfono',
       content: '+34 600 000 000',
       link: 'tel:+34600000000'
     },
     {
-      icon: '📍',
+      iconComponent: MapPin,
       title: 'Dirección',
       content: 'C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz'
     },
     {
-      icon: '⏰',
+      iconComponent: Clock,
       title: 'Horario',
       content: 'Lun - Vie: 9:00 - 18:00'
     }

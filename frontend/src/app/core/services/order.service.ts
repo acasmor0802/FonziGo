@@ -1,7 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { SKIP_ERROR_TOAST } from '../interceptors/error.interceptor';
 
 export interface OrderItem {
   id: number;
@@ -29,9 +30,10 @@ export class OrderService {
 
   async loadOrders(userId: number): Promise<void> {
     this.loading.set(true);
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
     try {
       const orders = await firstValueFrom(
-        this.http.get<Order[]>(`${this.API_URL}/user/${userId}`)
+        this.http.get<Order[]>(`${this.API_URL}/user/${userId}`, { context })
       );
       this.orders.set(orders);
     } catch (error) {
@@ -60,9 +62,10 @@ export class OrderService {
   }
 
   async getOrder(orderId: number): Promise<Order | null> {
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
     try {
       return await firstValueFrom(
-        this.http.get<Order>(`${this.API_URL}/${orderId}`)
+        this.http.get<Order>(`${this.API_URL}/${orderId}`, { context })
       );
     } catch (error) {
       console.error('Error getting order:', error);

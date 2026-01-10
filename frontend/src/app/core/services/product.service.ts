@@ -1,8 +1,9 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import type { Product, Category, ProductsResponse, ProductFilters } from '../../shared/types';
+import { SKIP_ERROR_TOAST } from '../interceptors/error.interceptor';
 
 // Re-exports para compatibilidad
 export type { Product, Category, ProductsResponse } from '../../shared/types';
@@ -58,7 +59,9 @@ export class ProductService {
       params = params.set('search', search.trim());
     }
 
-    return this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params }).pipe(
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    return this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params, context }).pipe(
       tap(response => {
         this.products.set(response.content);
         this.totalPages.set(response.totalPages);
@@ -78,7 +81,9 @@ export class ProductService {
    * Carga las categorías disponibles.
    */
   loadCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}/categories`).pipe(
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    return this.http.get<Category[]>(`${this.apiUrl}/categories`, { context }).pipe(
       tap(categories => this.categories.set(categories)),
       catchError(error => {
         console.error('[ProductService] Error loading categories:', error);
@@ -91,7 +96,9 @@ export class ProductService {
    * Obtiene un producto por su ID.
    */
   getProductById(id: number): Observable<Product | null> {
-    return this.http.get<Product>(`${this.apiUrl}/products/${id}`).pipe(
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    return this.http.get<Product>(`${this.apiUrl}/products/${id}`, { context }).pipe(
       catchError(error => {
         console.error(`[ProductService] Error loading product ${id}:`, error);
         return of(null);
@@ -140,7 +147,9 @@ export class ProductService {
       params = params.set('search', search.trim());
     }
 
-    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params }).pipe(
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params, context }).pipe(
       tap(response => {
         this.products.update(current => [...current, ...response.content]);
         this.currentPage.set(response.number);
@@ -158,7 +167,9 @@ export class ProductService {
    * Obtiene productos en oferta.
    */
   getProductsOnSale(): Observable<ProductsResponse> {
-    return this.http.get<ProductsResponse>(`${this.apiUrl}/products?onSale=true`).pipe(
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
+
+    return this.http.get<ProductsResponse>(`${this.apiUrl}/products?onSale=true`, { context }).pipe(
       catchError(error => {
         console.error('[ProductService] Error loading sale products:', error);
         return of(this.emptyResponse());

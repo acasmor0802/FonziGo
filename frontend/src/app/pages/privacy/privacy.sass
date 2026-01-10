@@ -1,6 +1,14 @@
 @use '../../../styles/00-settings/variables' as *
 @use '../../../styles/01-tools/mixins' as *
 
+.breadcrumb-container
+  max-width: 1200px
+  margin: 0 auto
+  padding: var(--spacing-4) var(--spacing-4) 0
+  
+  +media-breakpoint-up(md)
+    padding: var(--spacing-4) var(--spacing-8) 0
+
 .legal-page
   min-height: 100vh
   background: var(--background)

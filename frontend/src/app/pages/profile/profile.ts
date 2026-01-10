@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject, computed } from '@angular/core';
+import { Component, OnInit, signal, inject, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { AuthService, User } from '../../core/services/auth.service';
 import { OrderService, Order } from '../../core/services/order.service';
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
+import { FormComponent } from '../../core/guards/pending-changes.guard';
 
 interface Purchase {
   id: string;
@@ -28,9 +29,10 @@ interface PurchaseItem {
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule, Header, Footer],
   templateUrl: './profile.html',
-  styleUrl: './profile.sass'
+  styleUrl: './profile.sass',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, FormComponent {
   private auth = inject(AuthService);
   private orderService = inject(OrderService);
   private router = inject(Router);
@@ -43,6 +45,7 @@ export class ProfilePage implements OnInit {
   user = signal<User | null>(null);
   isEditing = signal(false);
   editName = signal('');
+  private originalName = '';
   selectedPurchase = signal<Purchase | null>(null);
   
   // Pedidos del backend
@@ -79,6 +82,7 @@ export class ProfilePage implements OnInit {
     this.user.set(currentUser);
     if (currentUser) {
       this.editName.set(currentUser.name);
+      this.originalName = currentUser.name;
       // Cargar pedidos del usuario
       this.orderService.loadOrders(currentUser.id);
     }
@@ -87,6 +91,11 @@ export class ProfilePage implements OnInit {
     if (!this.auth.isLoggedIn()) {
       this.router.navigate(['/login']);
     }
+  }
+  
+  // Implementación de FormComponent para pendingChangesGuard
+  hasUnsavedChanges(): boolean {
+    return this.isEditing() && this.editName() !== this.originalName;
   }
   
   toggleEdit(): void {
@@ -100,6 +109,7 @@ export class ProfilePage implements OnInit {
           if (success) {
             currentUser.name = newName;
             this.user.set({...currentUser});
+            this.originalName = newName; // Actualizar nombre original
           }
         });
       }

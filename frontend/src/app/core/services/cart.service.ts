@@ -1,7 +1,8 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { SKIP_ERROR_TOAST } from '../interceptors/error.interceptor';
 
 export interface CartItem {
   id: number;
@@ -37,9 +38,10 @@ export class CartService {
 
   async loadCart(): Promise<void> {
     this.loading.set(true);
+    const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
     try {
       const cart = await firstValueFrom(
-        this.http.get<Cart>(this.API_URL)
+        this.http.get<Cart>(this.API_URL, { context })
       );
       this.cart.set(cart);
     } catch (error) {
