@@ -203,7 +203,7 @@
                       (click)="prevOffers()"
                     >←</button>
                     <span class="carousel-indicator">
-                      {{ offerCarouselIndex() + 1 }}-{{ Math.min(offerCarouselIndex() + offersPerView, cardOfferProducts().length) }} de {{ cardOfferProducts().length }}
+                      {{ offerCarouselIndex() + 1 }}-{{ Math.min(offerCarouselIndex() + offersPerView(), cardOfferProducts().length) }} de {{ cardOfferProducts().length }}
                     </span>
                     <button 
                       class="carousel-btn" 

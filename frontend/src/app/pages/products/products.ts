@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, signal, computed, inject, OnInit, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, ElementRef, signal, computed, inject, OnInit, DestroyRef, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
@@ -129,7 +129,29 @@ export class ProductsPage implements OnInit {
 
   // Carrusel de ofertas
   offerCarouselIndex = signal(0);
-  offersPerView = 4;
+  offersPerView = signal(5);
+
+  // Listener para recalcular ofertas por fila al cambiar tamaño de ventana
+  @HostListener('window:resize')
+  onResize() {
+    this.calculateOffersPerView();
+  }
+
+  private calculateOffersPerView() {
+    const width = window.innerWidth;
+    if (width < 768) {
+      this.offersPerView.set(2); // Mobile: 2 productos
+    } else if (width < 1024) {
+      this.offersPerView.set(4); // Tablet: 4 productos
+    } else {
+      this.offersPerView.set(5); // Desktop: 5 productos
+    }
+    // Reset carousel index if needed
+    const maxIndex = Math.max(0, this.cardOfferProducts().length - this.offersPerView());
+    if (this.offerCarouselIndex() > maxIndex) {
+      this.offerCarouselIndex.set(maxIndex);
+    }
+  }
 
   // Rangos de precio
   priceRanges: PriceRange[] = [
@@ -260,11 +282,11 @@ export class ProductsPage implements OnInit {
   cardProducts = computed(() => this.paginatedProducts().map(p => this.convertToCardProduct(p)));
   cardOfferProducts = computed(() => this.sortedOfferProducts().map(p => this.convertToCardProduct(p)));
   
-  // Ofertas visibles en el carrusel (máximo 4)
+  // Ofertas visibles en el carrusel (dinámico según ancho)
   visibleOffers = computed(() => {
     const all = this.cardOfferProducts();
     const start = this.offerCarouselIndex();
-    return all.slice(start, start + this.offersPerView);
+    return all.slice(start, start + this.offersPerView());
   });
   
   // Total pages array for pagination - usa computedTotalPages
@@ -274,11 +296,11 @@ export class ProductsPage implements OnInit {
   
   // Si hay más ofertas para mostrar
   hasMoreOffers = computed(() => {
-    return this.cardOfferProducts().length > this.offersPerView;
+    return this.cardOfferProducts().length > this.offersPerView();
   });
   
   canGoNext = computed(() => {
-    return this.offerCarouselIndex() + this.offersPerView < this.cardOfferProducts().length;
+    return this.offerCarouselIndex() + this.offersPerView() < this.cardOfferProducts().length;
   });
   
   canGoPrev = computed(() => {
@@ -286,6 +308,9 @@ export class ProductsPage implements OnInit {
   });
 
   ngOnInit(): void {
+    // Calcular ofertas por fila al inicio
+    this.calculateOffersPerView();
+    
     // Load categories
     this.loadCategories();
     

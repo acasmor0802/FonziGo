@@ -390,15 +390,19 @@
     font-size: var(--text-sm)
     color: var(--primary-blue-alt)
     display: none
+    line-height: 1
+    margin: 0
+    padding: var(--spacing-2) 0
 
     +media-breakpoint-up(sm)
-      display: inline
+      display: block
 
   &__sort-select
     padding: var(--spacing-2) var(--spacing-3)
     border: 1px solid var(--primary-blue-light)
     border-radius: var(--radius-md)
     font-size: var(--text-sm)
+    line-height: 1
     color: var(--primary-blue)
     background: var(--background-alt)
     cursor: pointer
@@ -412,6 +416,9 @@
 // ===============================================
 .products-block
   margin-bottom: var(--spacing-8)
+
+  & + &
+    margin-top: var(--spacing-8)
 
   &__header
     display: flex
@@ -430,6 +437,7 @@
     font-weight: var(--font-bold)
     color: var(--primary-blue)
     margin: 0
+    padding-bottom: var(--spacing-4)
 
     +media-breakpoint-up(md)
       font-size: var(--text-xl)
@@ -501,9 +509,9 @@
       & > *
         scroll-snap-align: start
 
-    // Desktop: 4 productos con controles de carrusel
+    // Desktop: 5 productos (fila completa)
     +media-breakpoint-up(lg)
-      grid-template-columns: repeat(4, minmax(150px, 200px))
+      grid-template-columns: repeat(5, 1fr)
       overflow-x: visible
       scroll-snap-type: none
 

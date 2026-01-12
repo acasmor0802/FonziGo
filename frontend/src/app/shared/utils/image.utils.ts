@@ -144,7 +144,8 @@ const PRODUCT_KEYWORDS: Array<{ keywords: string[]; image: string }> = [
   { keywords: ['aceite'], image: 'aceiteOlivaHacendado' },
   { keywords: ['oliva'], image: 'aceiteOlivaHacendado' },
   { keywords: ['espagueti', 'spaghetti', 'spagueti'], image: 'spaghettiMercadona' },
-  { keywords: ['pasta'], image: 'spaghettiMercadona' },
+  // Pasta de dientes - debe ir ANTES de 'pasta' genérico
+  { keywords: ['pasta de dientes', 'pasta dientes', 'dentífrico', 'dentifrico'], image: 'pastaDeDientesMercadona' },
   { keywords: ['guisante'], image: 'guisanteFinoMercadona' },
   { keywords: ['pizza'], image: 'pizza4Quesos' },
   { keywords: ['detergente'], image: 'detergenteLiquidoMercadona' },

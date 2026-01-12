@@ -16,6 +16,9 @@
   padding: var(--spacing-10) var(--spacing-4)
   text-align: center
 
+  .dark-mode &
+    background: linear-gradient(135deg, #333F51 0%, var(--secundary-yellow-alt) 100%)
+
   +media-breakpoint-up(md)
     padding: var(--spacing-16) var(--spacing-10)
 
@@ -44,6 +47,9 @@
     margin-bottom: var(--spacing-4)
     line-height: var(--line-height-tight)
 
+    .dark-mode &
+      color: var(--primary-blue)
+
     +media-breakpoint-up(md)
       font-size: var(--text-4xl)
 
@@ -58,6 +64,9 @@
     margin-left: auto
     margin-right: auto
     line-height: var(--line-height-relaxed)
+
+    .dark-mode &
+      color: var(--primary-blue-alt)
 
     +media-breakpoint-up(md)
       font-size: var(--text-lg)
