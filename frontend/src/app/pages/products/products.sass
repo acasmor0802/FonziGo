@@ -53,27 +53,12 @@
       justify-content: center
 
   &__arrow
-    flex-shrink: 0
-    width: 36px
-    height: 36px
-    border-radius: 50%
-    border: 2px solid var(--primary-blue)
-    background: var(--background)
-    color: var(--primary-blue)
-    font-size: var(--text-lg)
-    cursor: pointer
-    display: flex
-    align-items: center
-    justify-content: center
+    // Oculto en móvil y tablet (se puede arrastrar)
+    display: none
 
     +media-breakpoint-up(lg)
+      // En desktop tampoco se muestra porque las categorías caben
       display: none
-
-    transition: all var(--transition-fast)
-
-    &:hover
-      background: var(--primary-blue)
-      color: var(--background)
 
 .category-item
   display: flex
@@ -432,9 +417,12 @@
     display: flex
     justify-content: space-between
     align-items: center
-    margin-bottom: var(--spacing-4)
+    margin-bottom: var(--spacing-6)
     flex-wrap: wrap
     gap: var(--spacing-2)
+
+    +media-breakpoint-up(md)
+      margin-bottom: var(--spacing-8)
 
   &__title
     font-family: var(--font-secondary)
@@ -450,9 +438,13 @@
 // CAROUSEL CONTROLS
 // ===============================================
 .carousel-controls
-  display: flex
+  display: none
   align-items: center
   gap: var(--spacing-2)
+
+  // Solo visible en desktop (lg+)
+  +media-breakpoint-up(lg)
+    display: flex
 
 .carousel-btn
   width: 32px
@@ -494,25 +486,42 @@
     gap: var(--spacing-4)
 
   &--offers
-    grid-template-columns: repeat(auto-fit, minmax(140px, 180px))
+    // Mobile: 2 productos por fila
+    grid-template-columns: repeat(2, 1fr)
 
-    +media-breakpoint-up(sm)
-      grid-template-columns: repeat(auto-fit, minmax(150px, 200px))
+    // Tablet: 4 productos en una sola fila (scroll horizontal si es necesario)
+    +media-breakpoint-up(md)
+      grid-template-columns: repeat(4, minmax(150px, 200px))
+      overflow-x: auto
+      scroll-snap-type: x mandatory
+      -webkit-overflow-scrolling: touch
+      scrollbar-width: none
+      &::-webkit-scrollbar
+        display: none
+      & > *
+        scroll-snap-align: start
 
+    // Desktop: 4 productos con controles de carrusel
     +media-breakpoint-up(lg)
       grid-template-columns: repeat(4, minmax(150px, 200px))
+      overflow-x: visible
+      scroll-snap-type: none
 
   &--all
-    grid-template-columns: repeat(auto-fit, minmax(140px, 180px))
+    // Mobile: 2 productos por fila
+    grid-template-columns: repeat(2, 1fr)
 
-    +media-breakpoint-up(sm)
-      grid-template-columns: repeat(auto-fit, minmax(150px, 200px))
+    // Tablet: 3 productos por fila
+    +media-breakpoint-up(md)
+      grid-template-columns: repeat(3, 1fr)
 
+    // Desktop pequeño: 4 productos
     +media-breakpoint-up(lg)
-      grid-template-columns: repeat(5, minmax(150px, 200px))
+      grid-template-columns: repeat(4, 1fr)
 
+    // Desktop grande: 5 productos
     +media-breakpoint-up(xl)
-      grid-template-columns: repeat(6, minmax(150px, 200px))
+      grid-template-columns: repeat(5, 1fr)
 
 // ===============================================
 // PRODUCTS EMPTY STATE

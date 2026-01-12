@@ -226,14 +226,16 @@
   transition: all var(--transition-fast)
 
   &.active
-    color: var(--secundary-yellow-alt)
+    color: #FFD700  // Amarillo dorado fijo para mejor visibilidad
     transform: scale(1.1)
 
   &.product-rated
-    color: var(--secundary-yellow)
+    color: #FFC107  // Amarillo ámbar para estrellas valoradas
+    text-shadow: 0 0 2px rgba(255, 193, 7, 0.5)
 
   &:hover
     transform: scale(1.2)
+    color: #FFD700
 
 // Similar Products Grid
 .similar-products-grid

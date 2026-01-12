@@ -1411,7 +1411,51 @@ Layout responsive:
 
 ---
 
-## 4.6 Código de Ejemplo Completo
+## 4.6 Capturas Comparativas Responsive
+
+A continuación se muestran capturas reales de la aplicación implementada en Angular en los 3 viewports principales.
+
+### Página Principal (Home)
+
+| Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|----------------|----------------|------------------|
+| ![Home Mobile](mockups/home-mobile-375.png) | ![Home Tablet](mockups/home-tablet-768.png) | ![Home Desktop](mockups/home-desktop-1280.png) |
+
+**Adaptaciones:**
+- Hero con texto centrado en todos los viewports
+- Logos de supermercados en grid 2→4 columnas
+- Sección "Cómo funciona" en stack vertical → horizontal
+
+---
+
+### Página de Productos
+
+| Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|----------------|----------------|------------------|
+| ![Productos Mobile](mockups/productos-mobile-375.png) | ![Productos Tablet](mockups/productos-tablet-768.png) | ![Productos Desktop](mockups/productos-desktop-1280.png) |
+
+**Adaptaciones:**
+- Categorías con scroll horizontal en móvil/tablet, centradas en desktop
+- Grid de productos: 2 cols (móvil) → 3 cols (tablet) → 4-5 cols (desktop)
+- Filtros: drawer lateral en móvil/tablet → sidebar fijo en desktop
+- Controles de carrusel ocultos en móvil/tablet (arrastrables)
+
+---
+
+### Página de Contacto
+
+| Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|----------------|----------------|------------------|
+| ![Contacto Mobile](mockups/contacto-mobile-375.png) | ![Contacto Tablet](mockups/contacto-tablet-768.png) | ![Contacto Desktop](mockups/contacto-desktop-1280.png) |
+
+**Adaptaciones:**
+- Layout formulario + info: stack vertical → 2 columnas
+- Cards de información en grid adaptativo
+- Mapa con altura responsive
+
+---
+
+## 4.7 Código de Ejemplo Completo
 
 ### Componente con Mobile-First + Container Queries
 
@@ -1541,21 +1585,44 @@ FonziGo utiliza una estrategia de formatos modernos para optimizar la carga:
 
 ### Elemento picture para Art Direction
 
+El elemento `<picture>` permite servir diferentes tamaños de imagen según el viewport, optimizando la carga en cada dispositivo.
+
+**Implementación en logos de supermercados (home.html):**
+
 ```html
 <picture>
-  <!-- Mobile: imagen cuadrada -->
+  <!-- Mobile: imagen pequeña (400px) -->
   <source 
-    media="(max-width: 640px)" 
-    srcset="hero-mobile.webp"
+    media="(max-width: 576px)" 
+    srcset="optimized/mercadona-small.webp"
+    type="image/webp"
   >
-  <!-- Desktop: imagen panorámica -->
+  <!-- Tablet: imagen mediana (800px) -->
   <source 
-    media="(min-width: 641px)" 
-    srcset="hero-desktop.webp"
+    media="(max-width: 1024px)" 
+    srcset="optimized/mercadona-medium.webp"
+    type="image/webp"
   >
-  <img src="hero-fallback.jpg" alt="Hero banner">
+  <!-- Desktop: imagen grande (1200px) -->
+  <source 
+    srcset="optimized/mercadona-large.webp"
+    type="image/webp"
+  >
+  <img 
+    src="optimized/mercadona-medium.webp" 
+    alt="Mercadona" 
+    class="store-card__img"
+    loading="lazy"
+    decoding="async"
+  >
 </picture>
 ```
+
+**Ubicaciones con `<picture>` implementado:**
+- Mercadona logo (home)
+- Carrefour logo (home)
+- Lidl logo (home)
+- Día logo (home)
 
 ### Loading Lazy
 
@@ -1814,14 +1881,28 @@ select
 
 ## 6.5 Capturas de Pantalla
 
+### Comparativa Modo Claro vs Modo Oscuro
+
+| Página | Modo Claro | Modo Oscuro |
+|--------|------------|-------------|
+| **Home** | ![Home Light](mockups/Home.png) | ![Home Dark](mockups/home-dark.png) |
+| **Productos** | ![Productos Light](mockups/Productos.png) | ![Productos Dark](mockups/productos-dark.png) |
+| **Contacto** | ![Contacto Light](mockups/contacto-desktop-1280.png) | ![Contacto Dark](mockups/contacto-dark.png) |
+
 ### Página Principal - Modo Claro
 ![Home Light](mockups/Home.png)
 
 ### Página Principal - Modo Oscuro
-*(Captura pendiente - mismo diseño con colores invertidos)*
+![Home Dark](mockups/home-dark.png)
 
 ### Página de Productos - Modo Claro
 ![Products Light](mockups/Productos.png)
+
+### Página de Productos - Modo Oscuro
+![Products Dark](mockups/productos-dark.png)
+
+### Página de Contacto - Modo Oscuro
+![Contacto Dark](mockups/contacto-dark.png)
 
 ### Página de Login - Modo Claro
 ![Login Light](mockups/InicioSesion.png)
@@ -1949,13 +2030,50 @@ A continuación se muestran todos los mockups diseñados en Figma que sirvieron 
 - Flexbox: ✅ Todos los navegadores
 - Signals de Angular: ✅ Todos los navegadores
 
-## 7.5 Despliegue
+## 7.5 Capturas Finales
+
+### Capturas Responsive - Todas las Páginas
+
+#### Página Principal (Home)
+
+| Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|----------------|----------------|------------------|
+| ![Home Mobile](mockups/home-mobile-375.png) | ![Home Tablet](mockups/home-tablet-768.png) | ![Home Desktop](mockups/home-desktop-1280.png) |
+
+#### Página de Productos
+
+| Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|----------------|----------------|------------------|
+| ![Productos Mobile](mockups/productos-mobile-375.png) | ![Productos Tablet](mockups/productos-tablet-768.png) | ![Productos Desktop](mockups/productos-desktop-1280.png) |
+
+#### Página de Contacto
+
+| Mobile (375px) | Tablet (768px) | Desktop (1280px) |
+|----------------|----------------|------------------|
+| ![Contacto Mobile](mockups/contacto-mobile-375.png) | ![Contacto Tablet](mockups/contacto-tablet-768.png) | ![Contacto Desktop](mockups/contacto-desktop-1280.png) |
+
+### Capturas Modo Oscuro
+
+| Página | Modo Claro | Modo Oscuro |
+|--------|------------|-------------|
+| **Home** | ![Home Light](mockups/Home.png) | ![Home Dark](mockups/home-dark.png) |
+| **Productos** | ![Productos Light](mockups/Productos.png) | ![Productos Dark](mockups/productos-dark.png) |
+| **Contacto** | ![Contacto Light](mockups/contacto-desktop-1280.png) | ![Contacto Dark](mockups/contacto-dark.png) |
+
+### Capturas Adicionales
+
+| Página | Captura |
+|--------|---------|
+| **Inicio de Sesión** | ![Login](mockups/InicioSesion.png) |
+| **Carrito** | ![Carrito](mockups/Carrito.png) |
+
+## 7.6 Despliegue
 
 ### URL de Producción
 
-**Frontend:** `https://fonzigo.vercel.app` *(ejemplo)*
+**Frontend:** https://acasmor0802.github.io/FonziGo/
 
-**Backend API:** `https://fonzigo-api.railway.app` *(ejemplo)*
+**Backend API:** Actualmente en desarrollo local (Docker Compose)
 
 ### Verificación de Funcionamiento
 
@@ -1968,13 +2086,28 @@ A continuación se muestran todos los mockups diseñados en Figma que sirvieron 
 
 ### Plataformas de Despliegue
 
-| Componente | Plataforma | Justificación |
-|------------|------------|---------------|
-| Frontend | Vercel/Netlify | Optimizado para SPAs, CDN global |
-| Backend | Railway/Render | Soporte Java/Spring Boot, PostgreSQL |
-| Base de datos | Railway/Render | PostgreSQL incluido |
+| Componente | Plataforma | Estado |
+|------------|------------|--------|
+| Frontend | GitHub Pages | ✅ Desplegado |
+| Backend | Docker Compose (local) | ✅ Funcional |
+| Base de datos | PostgreSQL (Docker) | ✅ Funcional |
 
-## 7.6 Build de Producción
+### Despliegue Local con Docker
+
+```bash
+# Levantar toda la aplicación
+docker compose up --build -d
+
+# Verificar contenedores
+docker compose ps
+
+# Acceder a la aplicación
+# Frontend: http://localhost
+# Backend API: http://localhost:8080
+# Base de datos: localhost:5432
+```
+
+## 7.7 Build de Producción
 
 ### Comandos de Build
 
@@ -1995,7 +2128,7 @@ cd backend
 - ✅ Lazy loading chunks generados
 - ✅ Assets optimizados
 
-## 7.7 Problemas Conocidos y Mejoras Futuras
+## 7.8 Problemas Conocidos y Mejoras Futuras
 
 ### Problemas Menores
 
