@@ -21,7 +21,7 @@
     font-family: var(--font-secondary)
     font-size: var(--text-2xl)
     font-weight: var(--font-bold)
-    color: var(--primary-blue)
+    color: var(--text-color)
     
     +media-breakpoint-up(md)
       font-size: var(--text-3xl)
@@ -29,12 +29,12 @@
   &__back
     display: inline-block
     margin-top: var(--spacing-8)
-    color: var(--primary-blue-alt)
+    color: var(--text-color)
     text-decoration: none
     font-size: var(--text-sm)
     
     &:hover
-      color: var(--primary-blue)
+      color: var(--text-color)
       text-decoration: underline
 
 // ===============================================
@@ -59,7 +59,7 @@
     font-family: var(--font-secondary)
     font-size: var(--text-xl)
     font-weight: var(--font-bold)
-    color: var(--primary-blue)
+    color: var(--text-color)
     margin: 0
   
   &__close
@@ -85,7 +85,7 @@
 .form-label
   display: block
   font-weight: var(--font-semibold)
-  color: var(--primary-blue)
+  color: var(--text-color)
   margin-bottom: var(--spacing-2)
   font-size: var(--text-sm)
 
@@ -96,12 +96,12 @@
   border-radius: var(--radius-md)
   font-size: var(--text-base)
   background: var(--background)
-  color: var(--primary-blue)
+  color: var(--text-color)
   transition: all var(--transition-fast)
   
   &:focus
     outline: none
-    border-color: var(--primary-blue)
+    border-color: var(--text-color)
     box-shadow: 0 0 0 3px rgba(51, 63, 81, 0.1)
   
   &--error
@@ -134,7 +134,7 @@
     gap: var(--spacing-2)
     font-size: var(--text-lg)
     font-weight: var(--font-semibold)
-    color: var(--primary-blue)
+    color: var(--text-color)
     margin: 0
 
 // ===============================================
@@ -245,12 +245,12 @@
   
   &__label
     font-weight: var(--font-semibold)
-    color: var(--primary-blue)
+    color: var(--text-color)
   
   &__value
     font-size: var(--text-xl)
     font-weight: var(--font-bold)
-    color: var(--primary-blue)
+    color: var(--text-color)
 
 .form-actions
   display: flex
@@ -275,7 +275,7 @@
   &:hover
     transform: translateY(-4px)
     box-shadow: var(--shadow-md)
-    border-color: var(--primary-blue)
+    border-color: var(--text-color)
   
   &__header
     display: flex
@@ -287,7 +287,7 @@
     font-family: var(--font-secondary)
     font-size: var(--text-lg)
     font-weight: var(--font-bold)
-    color: var(--primary-blue)
+    color: var(--text-color)
     margin: 0
   
   &__delete
@@ -325,7 +325,7 @@
     padding: 0
     margin: 0 0 var(--spacing-4) 0
     font-size: var(--text-sm)
-    color: var(--primary-blue)
+    color: var(--text-color)
     
     li
       padding: var(--spacing-1) 0
@@ -359,7 +359,7 @@
   
   h2
     font-family: var(--font-secondary)
-    color: var(--primary-blue)
+    color: var(--text-color)
     margin-bottom: var(--spacing-2)
   
   p
@@ -396,18 +396,18 @@
   
   &--secondary
     background: var(--secundary-yellow-alt)
-    color: var(--primary-blue)
+    color: var(--text-color)
     
     &:hover
       background: var(--secundary-yellow-dark)
   
   &--outline
     background: transparent
-    color: var(--primary-blue)
+    color: var(--text-color)
     border: 2px solid var(--primary-blue-light)
     
     &:hover
-      border-color: var(--primary-blue)
+      border-color: var(--text-color)
       background: var(--background)
   
   &--sm

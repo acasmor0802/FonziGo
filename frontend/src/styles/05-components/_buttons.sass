@@ -24,7 +24,7 @@
 
   &--primary
     background-color: var(--secundary-yellow-alt)
-    color: var(--primary-blue)
+    color: var(--btn-primary-bg)
     box-shadow: var(--shadow-sm)
 
     &:hover:not(:disabled)
@@ -36,8 +36,8 @@
       outline-offset: 2px
 
   &--secondary
-    background-color: var(--primary-blue)
-    color: var(--background)
+    background-color: var(--btn-primary-bg)
+    color: var(--btn-primary-text)
     box-shadow: var(--shadow-sm)
 
     &:hover:not(:disabled)
@@ -50,16 +50,16 @@
 
   &--outline
     background-color: transparent
-    color: var(--primary-blue)
-    border: var(--border-medium) solid var(--primary-blue)
+    color: var(--text-color)
+    border: var(--border-medium) solid var(--text-color)
 
     &:hover:not(:disabled)
-      background-color: var(--primary-blue)
-      color: var(--background)
+      background-color: var(--btn-primary-bg)
+      color: var(--btn-primary-text)
 
   &--ghost
     background-color: transparent
-    color: var(--primary-blue)
+    color: var(--text-color)
     box-shadow: none
 
     &:hover:not(:disabled)

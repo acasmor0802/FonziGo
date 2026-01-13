@@ -44,7 +44,7 @@
       <!-- AHORRO -->
       @if (savingsAmount() > 0) {
         <div class="product-card__savings">
-          ¡Ahorras €{{ savingsAmount().toFixed(2) }}!
+          ¡Ahorras {{ savingsAmount().toFixed(2) }}€!
         </div>
       } @else {
         <div class="product-card__savings-placeholder"></div>

@@ -28,7 +28,7 @@
 
   &__legend
     @include font-style(var(--text-2xl), var(--font-semibold))
-    color: var(--primary-blue)
+    color: var(--text-color)
     margin-bottom: var(--spacing-2)
 
   // Campos de formulario
@@ -41,7 +41,7 @@
     font-family: var(--font-secondary)
     font-size: var(--text-sm)
     font-weight: var(--font-semibold)
-    color: var(--primary-blue)
+    color: var(--text-color)
 
   &__required
     color: var(--error)
@@ -53,7 +53,7 @@
     border: var(--border-medium) solid var(--primary-blue-light)
     border-radius: var(--radius-md)
     background-color: var(--background)
-    color: var(--primary-blue)
+    color: var(--text-color)
     +smooth-transition(border-color, box-shadow)
 
     &::placeholder
@@ -61,7 +61,7 @@
 
     &:focus
       outline: none
-      border-color: var(--primary-blue)
+      border-color: var(--text-color)
       box-shadow: 0 0 0 3px rgba(51, 63, 81, 0.1)
 
     &--error
@@ -88,13 +88,13 @@
     align-items: center
     gap: var(--spacing-2)
     font-size: var(--text-sm)
-    color: var(--primary-blue)
+    color: var(--text-color)
     cursor: pointer
 
   &__checkbox
     width: 18px
     height: 18px
-    accent-color: var(--primary-blue)
+    accent-color: var(--text-color)
     cursor: pointer
 
   &__forgot
@@ -104,14 +104,14 @@
     +smooth-transition(color)
 
     &:hover
-      color: var(--primary-blue)
+      color: var(--text-color)
       text-decoration: underline
 
   &__submit
     ::ng-deep .btn
       width: 100%
       background-color: var(--secundary-yellow-alt)
-      color: var(--primary-blue)
+      color: var(--text-color)
       border: none
       padding: var(--spacing-3) var(--spacing-4)
       font-weight: var(--font-semibold)
@@ -161,7 +161,7 @@
       width: 100%
       justify-content: center
       background-color: var(--background)
-      color: var(--primary-blue)
+      color: var(--text-color)
       border: var(--border-medium) solid var(--primary-blue-light)
       display: flex
       align-items: center
@@ -173,9 +173,9 @@
       +smooth-transition(all)
       
       &:hover:not(:disabled):not(.btn--loading)
-        background-color: var(--primary-blue)
-        color: var(--background)
-        border-color: var(--primary-blue)
+        background-color: var(--btn-primary-bg)
+        color: var(--btn-primary-text)
+        border-color: var(--btn-primary-bg)
         transform: translateY(var(--button-hover-lift))
         box-shadow: var(--shadow-md)
     
@@ -223,7 +223,7 @@
     text-align: center
 
   &__link
-    color: var(--primary-blue)
+    color: var(--text-color)
     font-weight: var(--font-semibold)
     text-decoration: none
     +smooth-transition(color)
