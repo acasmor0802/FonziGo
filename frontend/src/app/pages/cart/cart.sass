@@ -462,9 +462,12 @@
     border: none
     border-radius: var(--radius-md)
     font-weight: var(--font-semibold)
-    color: var(--text-color)
+    color: var(--text-dark)
     cursor: pointer
     transition: all var(--transition-fast)
+
+    :host-context(.dark-mode) &
+      color: var(--text-dark)
 
     &:hover
       background: var(--secundary-yellow)

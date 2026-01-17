@@ -93,7 +93,10 @@
 
   &__upload-icon
     display: flex
-    color: var(--text-color)
+    color: var(--text-dark)
+
+    :host-context(.dark-mode) &
+      color: var(--text-dark)
 
   &__info
     flex: 1
