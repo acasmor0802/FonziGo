@@ -29,7 +29,7 @@
           </button>
         }
       </div>
-      <button class="categories-scroll__arrow" (click)="scrollCategories()">
+      <button class="categories-scroll__arrow" (click)="scrollCategories()" aria-label="Desplazar categorías a la derecha">
         →
       </button>
     </div>
@@ -38,7 +38,9 @@
   <!-- Search Bar -->
   <section class="search-section">
     <form class="search-section__form" (submit)="$event.preventDefault(); searchProducts(searchQuery())">
+      <label for="search-products" class="visually-hidden">Buscar productos</label>
       <input 
+        id="search-products"
         type="search" 
         class="search-section__input" 
         placeholder="Buscar un producto..."
@@ -54,17 +56,17 @@
     <div class="products-section__container">
       
       <!-- Mobile filter toggle -->
-      <button class="filter-toggle" (click)="toggleFilters()">
-        <span class="filter-toggle__icon">⚙️</span>
+      <button class="filter-toggle" (click)="toggleFilters()" [attr.aria-expanded]="showFilters()" aria-controls="filters-panel" aria-label="Mostrar u ocultar filtros">
+        <span class="filter-toggle__icon" aria-hidden="true">⚙️</span>
         <span>Filtros</span>
         @if (hasActiveFilters()) {
-          <span class="filter-toggle__badge">•</span>
+          <span class="filter-toggle__badge" aria-hidden="true">•</span>
         }
       </button>
 
       <div class="products-layout">
         <!-- Sidebar Filters -->
-        <aside class="filters" [class.filters--open]="showFilters()">
+        <aside id="filters-panel" class="filters" [class.filters--open]="showFilters()" role="region" aria-label="Filtros de productos">
           <div class="filters__header">
             <h2 class="filters__title">Filtros</h2>
             @if (hasActiveFilters()) {
@@ -72,8 +74,8 @@
                 Limpiar todo
               </button>
             }
-            <button class="filters__close" (click)="toggleFilters()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <button class="filters__close" (click)="toggleFilters()" aria-label="Cerrar panel de filtros">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
           </div>
 
@@ -171,7 +173,7 @@
         <div class="products-main">
           <!-- Toolbar -->
           <div class="products-toolbar">
-            <p class="products-toolbar__count">
+            <p class="products-toolbar__count" aria-live="polite" aria-atomic="true">
               {{ sortedProducts().length }} productos encontrados
             </p>
             <div class="products-toolbar__sort">
@@ -201,14 +203,16 @@
                       class="carousel-btn" 
                       [disabled]="!canGoPrev()"
                       (click)="prevOffers()"
+                      aria-label="Ver ofertas anteriores"
                     >←</button>
-                    <span class="carousel-indicator">
+                    <span class="carousel-indicator" aria-live="polite">
                       {{ offerCarouselIndex() + 1 }}-{{ Math.min(offerCarouselIndex() + offersPerView(), cardOfferProducts().length) }} de {{ cardOfferProducts().length }}
                     </span>
                     <button 
                       class="carousel-btn" 
                       [disabled]="!canGoNext()"
                       (click)="nextOffers()"
+                      aria-label="Ver siguientes ofertas"
                     >→</button>
                   </div>
                 }
@@ -246,11 +250,12 @@
 
           <!-- Pagination -->
           @if (computedTotalPages() > 1) {
-            <nav class="pagination">
+            <nav class="pagination" aria-label="Paginación de productos">
               <button
                 class="pagination__btn"
                 [disabled]="currentPage() === 0"
                 (click)="goToPage(currentPage() - 1)"
+                aria-label="Página anterior"
               >
                 ←
               </button>
@@ -260,6 +265,8 @@
                   class="pagination__btn"
                   [class.pagination__btn--active]="currentPage() === $index"
                   (click)="goToPage($index)"
+                  [attr.aria-label]="'Ir a página ' + ($index + 1)"
+                  [attr.aria-current]="currentPage() === $index ? 'page' : null"
                 >
                   {{ $index + 1 }}
                 </button>
@@ -269,6 +276,7 @@
                 class="pagination__btn"
                 [disabled]="currentPage() === computedTotalPages() - 1"
                 (click)="goToPage(currentPage() + 1)"
+                aria-label="Página siguiente"
               >
                 →
               </button>

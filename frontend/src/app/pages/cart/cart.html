@@ -34,7 +34,7 @@
       <!-- Cart Header -->
       <div class="cart-header">
         <h1 class="cart-header__title">Tu Carrito</h1>
-        <span class="cart-header__count">{{ itemCount() }} productos</span>
+        <span class="cart-header__count" aria-live="polite">{{ itemCount() }} productos</span>
       </div>
 
       <div class="cart-layout">
@@ -81,14 +81,16 @@
                         type="button"
                         class="cart-item__qty-btn"
                         (click)="updateQuantity(item.id, item.quantity - 1)"
-                        [disabled]="item.quantity <= 1">
+                        [disabled]="item.quantity <= 1"
+                        [attr.aria-label]="'Reducir cantidad de ' + item.productName">
                         −
                       </button>
-                      <span class="cart-item__qty-value">{{ item.quantity }}</span>
+                      <span class="cart-item__qty-value" aria-label="Cantidad actual">{{ item.quantity }}</span>
                       <button 
                         type="button"
                         class="cart-item__qty-btn"
-                        (click)="updateQuantity(item.id, item.quantity + 1)">
+                        (click)="updateQuantity(item.id, item.quantity + 1)"
+                        [attr.aria-label]="'Aumentar cantidad de ' + item.productName">
                         +
                       </button>
                     </div>
@@ -97,8 +99,8 @@
                       {{ (item.price * item.quantity) | number:'1.2-2' }}€
                     </div>
                     
-                    <button type="button" class="cart-item__remove" (click)="removeItem(item.id)" title="Eliminar">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    <button type="button" class="cart-item__remove" (click)="removeItem(item.id)" [attr.aria-label]="'Eliminar ' + item.productName + ' del carrito'">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                   </div>
                 }
@@ -145,10 +147,10 @@
           
           @if (subtotal() < 30 && subtotal() > 0) {
             <div class="order-summary__shipping-msg">
-              <lucide-icon [img]="TruckIcon" [size]="18" [strokeWidth]="2"></lucide-icon>
+              <lucide-icon [img]="TruckIcon" [size]="18" [strokeWidth]="2" aria-hidden="true"></lucide-icon>
               <span>¡Añade {{ (30 - subtotal()) | number:'1.2-2' }}€ más para envío GRATIS!</span>
             </div>
-            <div class="order-summary__progress">
+            <div class="order-summary__progress" role="progressbar" [attr.aria-valuenow]="subtotal()" aria-valuemin="0" aria-valuemax="30" [attr.aria-label]="'Progreso hacia envío gratis: ' + subtotal() + ' de 30 euros'">
               <div class="order-summary__progress-bar" [style.width.%]="(subtotal() / 30) * 100"></div>
             </div>
           }
@@ -164,6 +166,7 @@
             class="btn btn--primary btn--large btn--full" 
             (click)="checkout()"
             [disabled]="checkoutLoading() || cartItems().length === 0"
+            [attr.aria-busy]="checkoutLoading()"
           >
             @if (checkoutLoading()) {
               Procesando...
@@ -173,7 +176,7 @@
           </button>
           
           <div class="order-summary__secure">
-            <lucide-icon [img]="LockIcon" [size]="16" [strokeWidth]="2" class="order-summary__lock-icon"></lucide-icon>
+            <lucide-icon [img]="LockIcon" [size]="16" [strokeWidth]="2" class="order-summary__lock-icon" aria-hidden="true"></lucide-icon>
             <span>Pago 100% seguro</span>
           </div>
           
@@ -196,9 +199,9 @@
                   <img [src]="product.imageUrl" [alt]="product.name" class="recommendation-card__image">
                 </div>
                 <span class="recommendation-card__store">{{ product.supermarketName }}</span>
-                <h4 class="recommendation-card__name">{{ product.name }}</h4>
+                <h3 class="recommendation-card__name">{{ product.name }}</h3>
                 <span class="recommendation-card__price">{{ product.price | number:'1.2-2' }}€</span>
-                <button class="recommendation-card__add" (click)="addRecommendation(product)">+ Añadir</button>
+                <button class="recommendation-card__add" (click)="addRecommendation(product)" [attr.aria-label]="'Añadir ' + product.name + ' al carrito'">+ Añadir</button>
               </div>
             }
           </div>

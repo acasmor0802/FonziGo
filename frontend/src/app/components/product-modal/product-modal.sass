@@ -61,11 +61,11 @@
     svg
       stroke: var(--secundary-yellow-alt)
 
-    .dark-mode &
+    :host-context(.dark-mode) &
       background: var(--secundary-yellow-alt)
 
       svg
-        stroke: var(--primary-blue)
+        stroke: #333F51
 
     &:hover
       background: var(--primary-blue-alt)
@@ -73,6 +73,12 @@
 
       svg
         stroke: var(--secundary-yellow-alt)
+
+    :host-context(.dark-mode) &:hover
+      background: #FFC850
+
+      svg
+        stroke: #333F51
 
   &__badge
     position: absolute
@@ -144,11 +150,17 @@
       font-size: var(--text-xs)
       color: var(--primary-blue-alt)
 
-    .rating-average
-      font-size: var(--text-sm)
-      color: var(--secundary-yellow-dark)
-      font-weight: var(--font-semibold)
+.rating-average
+  font-size: var(--text-sm)
+  color: var(--secundary-yellow-dark)
+  font-weight: var(--font-semibold)
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.5), 1px -1px 0 rgba(0,0,0,0.5), -1px 1px 0 rgba(0,0,0,0.5), 1px 1px 0 rgba(0,0,0,0.5)
+  
+  .dark-mode &
+    text-shadow: none
 
+// Continuación de .product-modal
+.product-modal
   &__price
     display: flex
     align-items: center
@@ -179,18 +191,23 @@
 
   &__actions
     margin-bottom: var(--spacing-8)
+    display: flex
+    justify-content: center
 
   &__add-btn
     width: 100%
-    padding: var(--spacing-4)
+    max-width: 200px
+    padding: var(--spacing-3) var(--spacing-6)
     background: var(--secundary-yellow-alt)
-    color: var(--text-dark)
-    border: var(--border-medium) solid var(--text-dark)
-    border-radius: var(--radius-lg)
+    color: #333F51
+    border: 2px solid #333F51
+    border-radius: var(--radius-md)
     font-size: var(--text-base)
     font-weight: var(--font-bold)
+    font-family: var(--font-secondary)
     cursor: pointer
     transition: all var(--transition-fast)
+    text-align: center
 
     &:hover
       background: var(--secundary-yellow)
@@ -199,6 +216,14 @@
 
     &:active
       transform: translateY(0)
+
+    :host-context(.dark-mode) &
+      background: #FFF1D5
+      color: #333F51
+      border-color: #333F51
+
+      &:hover
+        background: #FFD379
 
   &__similar
     border-top: 1px solid var(--primary-blue-light)
@@ -228,14 +253,28 @@
   &.active
     color: #FFD700  // Amarillo dorado fijo para mejor visibilidad
     transform: scale(1.1)
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6)
+    paint-order: stroke fill
+    
+    .dark-mode &
+      -webkit-text-stroke: none
 
   &.product-rated
     color: #FFC107  // Amarillo ámbar para estrellas valoradas
-    text-shadow: 0 0 2px rgba(255, 193, 7, 0.5)
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6)
+    paint-order: stroke fill
+    
+    .dark-mode &
+      -webkit-text-stroke: none
 
   &:hover
     transform: scale(1.2)
     color: #FFD700
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6)
+    paint-order: stroke fill
+    
+    .dark-mode &
+      -webkit-text-stroke: none
 
 // Similar Products Grid
 .similar-products-grid

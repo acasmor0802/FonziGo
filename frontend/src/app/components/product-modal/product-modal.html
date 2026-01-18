@@ -1,10 +1,9 @@
 @if (product) {
-  <div class="product-modal" (click)="onBackdropClick($event)">
+  <div class="product-modal" (click)="onBackdropClick($event)" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
     <div class="product-modal__content">
       <!-- Close Button -->
-      <button class="product-modal__close" (click)="onClose()">
-        <lucide-icon [img]="PackageIcon" [size]="0" style="display: none;"></lucide-icon>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      <button class="product-modal__close" (click)="onClose()" aria-label="Cerrar modal de producto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
       
       <!-- Scrollable Content -->
@@ -15,7 +14,7 @@
         
         <!-- Header -->
         <header class="product-modal__header">
-          <h2 class="product-modal__title">{{ product.name }}</h2>
+          <h2 id="product-modal-title" class="product-modal__title">{{ product.name }}</h2>
           <p class="product-modal__store">{{ product.store }}</p>
         </header>
 
@@ -35,7 +34,7 @@
           <div class="product-modal__details">
             <!-- User Rating -->
             <div class="product-modal__rating-input">
-              <div class="rating-stars-interactive">
+              <div class="rating-stars-interactive" role="radiogroup" aria-label="Valoración del producto">
                 @for (i of [1, 2, 3, 4, 5]; track i) {
                   <button 
                     class="rating-star"
@@ -44,6 +43,8 @@
                     (mouseenter)="setHoverRating(i)"
                     (mouseleave)="clearHoverRating()"
                     (click)="setUserRating(i)"
+                    [attr.aria-label]="'Valorar con ' + i + (i === 1 ? ' estrella' : ' estrellas')"
+                    [attr.aria-pressed]="userRating() === i"
                   >
                     ★
                   </button>
