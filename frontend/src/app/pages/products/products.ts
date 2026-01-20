@@ -99,6 +99,11 @@ interface PriceRange {
 export class ProductsPage implements OnInit {
   @ViewChild('categoriesList') categoriesList!: ElementRef;
 
+  // Drag scroll state
+  private isDragging = false;
+  private startX = 0;
+  private scrollLeft = 0;
+
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private toastService = inject(ToastService);
@@ -494,6 +499,39 @@ export class ProductsPage implements OnInit {
   scrollCategories(): void {
     if (this.categoriesList) {
       this.categoriesList.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
+    }
+  }
+
+  // Drag scroll methods
+  onDragStart(event: MouseEvent): void {
+    const element = this.categoriesList?.nativeElement;
+    if (!element) return;
+    
+    this.isDragging = true;
+    this.startX = event.pageX - element.offsetLeft;
+    this.scrollLeft = element.scrollLeft;
+    element.style.cursor = 'grabbing';
+    element.style.userSelect = 'none';
+  }
+
+  onDragMove(event: MouseEvent): void {
+    if (!this.isDragging) return;
+    
+    event.preventDefault();
+    const element = this.categoriesList?.nativeElement;
+    if (!element) return;
+    
+    const x = event.pageX - element.offsetLeft;
+    const walk = (x - this.startX) * 2; // Multiplicador para scroll más rápido
+    element.scrollLeft = this.scrollLeft - walk;
+  }
+
+  onDragEnd(): void {
+    this.isDragging = false;
+    const element = this.categoriesList?.nativeElement;
+    if (element) {
+      element.style.cursor = 'grab';
+      element.style.userSelect = 'auto';
     }
   }
 

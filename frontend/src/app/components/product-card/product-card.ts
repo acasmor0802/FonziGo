@@ -17,6 +17,7 @@ import { generateSizes, findOptimizedImageByName } from '../../shared/utils/imag
 export class ProductCard {
   @Input({ required: true }) product!: ProductWithPrices;
   @Input() variant: 'grid' | 'comparison' = 'grid';
+  @Input() index: number = 0; // Índice del producto en la lista
   @Output() viewProduct = new EventEmitter<ProductWithPrices>();
 
   /**
@@ -84,5 +85,13 @@ export class ProductCard {
 
   onViewProduct(): void {
     this.viewProduct.emit(this.product);
+  }
+
+  /**
+   * Determina si el producto está en la primera fila (primeros 6 productos).
+   * Útil para optimizar carga con fetchpriority="high".
+   */
+  isFirstRow(): boolean {
+    return this.index < 6;
   }
 }

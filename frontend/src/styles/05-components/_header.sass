@@ -13,18 +13,24 @@
   top: 0
   z-index: var(--z-header)
   box-shadow: var(--shadow-md)
+  min-height: 72px
+  contain: layout style
 
   @media (max-width: $breakpoint-sm)
     padding: var(--spacing-2) var(--spacing-1)
+    min-height: 64px
 
   @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
     padding: var(--spacing-3) var(--spacing-10)
+    min-height: 68px
 
   @media (min-width: $breakpoint-md)
     padding: var(--spacing-3) var(--spacing-10)
+    min-height: 72px
 
   @media (min-width: $breakpoint-lg)
     padding: var(--spacing-3) var(--spacing-16)
+    min-height: 72px
 
   // Contenedor principal con distribución espacio-entre
   &__container

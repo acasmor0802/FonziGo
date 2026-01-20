@@ -16,12 +16,16 @@
   padding: var(--spacing-2) var(--spacing-2)
   background: var(--background)
   border-bottom: 1px solid var(--primary-blue-light)
+  min-height: 120px
+  contain: layout
 
   +media-breakpoint-up(md)
     padding: var(--spacing-4) var(--spacing-10)
+    min-height: 140px
 
   +media-breakpoint-up(lg)
     padding: var(--spacing-4) var(--spacing-16)
+    min-height: 140px
 
   &__wrapper
     display: flex
@@ -38,19 +42,26 @@
     scroll-behavior: smooth
     flex: 1
     padding: var(--spacing-2) 0
+    cursor: grab
+    user-select: none
+    min-height: 100px
+    align-items: flex-start
 
     scrollbar-width: none
     -ms-overflow-style: none
     &::-webkit-scrollbar
       display: none
 
+    &:active
+      cursor: grabbing
+
     +media-breakpoint-up(md)
       gap: var(--spacing-8)
 
     +media-breakpoint-up(lg)
       gap: var(--spacing-10)
-      flex: none
-      justify-content: center
+      // Mantener scroll horizontal en lugar de centrar
+      flex: 1
 
   &__arrow
     // Oculto en móvil y tablet (se puede arrastrar)
@@ -68,11 +79,15 @@
   text-decoration: none
   flex-shrink: 0
   min-width: 70px
+  min-height: 85px
   cursor: pointer
   transition: transform var(--transition-fast)
   background: none
   border: none
   padding: 0
+  pointer-events: auto
+  will-change: transform
+  contain: layout style paint
 
   &:hover
     transform: translateY(-2px)
@@ -110,12 +125,16 @@
 .search-section
   padding: var(--spacing-2) var(--spacing-2)
   background: var(--background-alt)
+  min-height: 80px
+  contain: layout
 
   +media-breakpoint-up(md)
     padding: var(--spacing-4) var(--spacing-10)
+    min-height: 90px
 
   +media-breakpoint-up(lg)
     padding: var(--spacing-4) var(--spacing-16)
+    min-height: 90px
 
   &__container
     max-width: 600px
@@ -489,6 +508,7 @@
   display: grid
   gap: var(--spacing-3)
   justify-content: center
+  contain: layout style paint
 
   +media-breakpoint-up(md)
     gap: var(--spacing-4)

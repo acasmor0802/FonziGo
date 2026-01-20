@@ -17,14 +17,21 @@
   <!-- Categories Scroll Section -->
   <section class="categories-scroll">
     <div class="categories-scroll__wrapper">
-      <div class="categories-scroll__list" #categoriesList>
+      <div 
+        class="categories-scroll__list" 
+        #categoriesList
+        (mousedown)="onDragStart($event)"
+        (mousemove)="onDragMove($event)"
+        (mouseup)="onDragEnd()"
+        (mouseleave)="onDragEnd()"
+      >
         @for (category of categories(); track category.id) {
           <button 
             class="category-item" 
             [class.category-item--active]="selectedCategory() === category.id"
             (click)="selectCategory(category.id)"
           >
-            <lucide-icon [img]="category.icon" [size]="48" [strokeWidth]="1.5" class="category-item__icon"></lucide-icon>
+            <lucide-icon [img]="category.icon" [size]="48" [strokeWidth]="1.5" class="category-item__icon" [attr.width]="48" [attr.height]="48"></lucide-icon>
             <span class="category-item__name">{{ category.name }}</span>
           </button>
         }
@@ -218,8 +225,8 @@
                 }
               </div>
               <div class="products-grid products-grid--offers">
-                @for (product of visibleOffers(); track product.id) {
-                  <app-product-card [product]="product" (viewProduct)="openProductModal($event)"></app-product-card>
+                @for (product of visibleOffers(); track product.id; let i = $index) {
+                  <app-product-card [product]="product" [index]="i" (viewProduct)="openProductModal($event)"></app-product-card>
                 }
               </div>
             </div>
@@ -230,8 +237,8 @@
             <h2 class="products-block__title">Todos Los Productos</h2>
             @if (cardProducts().length > 0) {
               <div class="products-grid products-grid--all">
-                @for (product of cardProducts(); track product.id) {
-                  <app-product-card [product]="product" (viewProduct)="openProductModal($event)"></app-product-card>
+                @for (product of cardProducts(); track product.id; let i = $index) {
+                  <app-product-card [product]="product" [index]="i" (viewProduct)="openProductModal($event)"></app-product-card>
                 }
               </div>
             } @else {
