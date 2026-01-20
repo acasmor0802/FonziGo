@@ -24,12 +24,11 @@ $savings-height: 22px
   height: 100%
   min-height: 380px
   cursor: pointer
-  +smooth-transition(all)
+  // Solo animar transform y opacity (GPU composited) para mejor CLS
+  transition: transform var(--transition-base) ease-out
 
   &:hover
-    box-shadow: var(--shadow-lg)
     transform: translateY(-2px)
-    border-color: var(--secundary-yellow-alt)
 
   // --- Image Section ---
   &__image
@@ -122,7 +121,6 @@ $savings-height: 22px
     
     span
       font-size: var(--text-sm)
-      +smooth-transition(color)
       
       &.active
         color: #FFD700  // Amarillo dorado fijo para visibilidad

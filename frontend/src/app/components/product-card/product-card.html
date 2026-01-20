@@ -8,6 +8,8 @@
       [alt]="product.name"
       loading="lazy"
       decoding="async"
+      width="200"
+      height="200"
     />
     @if (bestPrice()?.discount) {
       <span class="product-card__badge">-{{ bestPrice()!.discount }}%</span>
