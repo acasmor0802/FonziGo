@@ -122,16 +122,18 @@
     ::ng-deep .btn
       width: 100%
       background-color: var(--secundary-yellow-alt)
-      color: var(--text-dark)
-      border: var(--border-medium) solid var(--text-dark)
-      padding: var(--spacing-3) var(--spacing-4)
-      font-weight: var(--font-semibold)
+      color: var(--primary-blue)
+      border: var(--border-medium) solid var(--primary-blue)
+      padding: var(--spacing-3) var(--spacing-6)
+      font-weight: var(--font-bold)
+      font-family: var(--font-secondary)
+      text-align: center
       +smooth-transition(background-color, transform)
 
       &:hover:not(:disabled):not(.btn--loading)
-        background-color: var(--secundary-yellow-dark)
-        transform: translateY(var(--button-hover-lift))
-        box-shadow: var(--button-shadow-yellow)
+        background-color: var(--secundary-yellow)
+        transform: translateY(-2px)
+        box-shadow: 0 4px 12px rgba(255, 200, 50, 0.4)
 
       &:active
         transform: translateY(0)

@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
-import { Observable, tap, catchError, of } from 'rxjs';
+import { Observable, tap, catchError, of, firstValueFrom, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import type { Product, Category, ProductsResponse, ProductFilters } from '../../shared/types';
 import { SKIP_ERROR_TOAST } from '../interceptors/error.interceptor';
@@ -109,32 +109,36 @@ export class ProductService {
   /**
    * Filtra productos por categoría.
    */
-  filterByCategory(categoryId: number | null): void {
+  async filterByCategory(categoryId: number | null): Promise<void> {
     this.selectedCategory.set(categoryId);
-    this.loadProducts(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, categoryId ?? undefined, this.searchQuery() || undefined).subscribe();
+    await firstValueFrom(
+      this.loadProducts(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, categoryId ?? undefined, this.searchQuery() || undefined)
+    );
   }
 
   /**
    * Busca productos por texto.
    */
-  search(query: string): void {
+  async search(query: string): Promise<void> {
     this.searchQuery.set(query);
     const categoryId = this.selectedCategory();
-    this.loadProducts(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, categoryId ?? undefined, query || undefined).subscribe();
+    await firstValueFrom(
+      this.loadProducts(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, categoryId ?? undefined, query || undefined)
+    );
   }
 
   /**
    * Carga más productos (scroll infinito).
    */
-  loadMore(): void {
+  async loadMore(): Promise<void> {
     if (!this.hasMore() || this.loading()) return;
-    
+
     const nextPage = this.currentPage() + 1;
     const categoryId = this.selectedCategory();
     const search = this.searchQuery();
-    
+
     this.loading.set(true);
-    
+
     let params = new HttpParams()
       .set('page', nextPage.toString())
       .set('size', DEFAULT_PAGE_SIZE.toString());
@@ -149,18 +153,25 @@ export class ProductService {
 
     const context = new HttpContext().set(SKIP_ERROR_TOAST, true);
 
-    this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params, context }).pipe(
-      tap(response => {
+    try {
+      const response = await firstValueFrom(
+        this.http.get<ProductsResponse>(`${this.apiUrl}/products`, { params, context }).pipe(
+          catchError(error => {
+            console.error('[ProductService] Error loading more products:', error);
+            return throwError(() => error);
+          })
+        )
+      );
+
+      if (response) {
         this.products.update(current => [...current, ...response.content]);
         this.currentPage.set(response.number);
-        this.loading.set(false);
-      }),
-      catchError(error => {
-        console.error('[ProductService] Error loading more products:', error);
-        this.loading.set(false);
-        return of(null);
-      })
-    ).subscribe();
+      }
+    } catch (error) {
+      // Error ya manejado en catchError
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   /**

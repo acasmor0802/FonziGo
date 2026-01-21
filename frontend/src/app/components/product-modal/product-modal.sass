@@ -199,8 +199,8 @@
     max-width: 200px
     padding: var(--spacing-3) var(--spacing-6)
     background: var(--secundary-yellow-alt)
-    color: #333F51
-    border: 2px solid #333F51
+    color: var(--primary-blue)
+    border: var(--border-medium) solid var(--primary-blue)
     border-radius: var(--radius-md)
     font-size: var(--text-base)
     font-weight: var(--font-bold)
@@ -218,12 +218,12 @@
       transform: translateY(0)
 
     :host-context(.dark-mode) &
-      background: #FFF1D5
-      color: #333F51
-      border-color: #333F51
+      background: var(--background)
+      color: var(--primary-blue)
+      border-color: var(--primary-blue)
 
       &:hover
-        background: #FFD379
+        background: var(--secundary-yellow-alt)
 
   &__similar
     border-top: 1px solid var(--primary-blue-light)
