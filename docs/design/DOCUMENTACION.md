@@ -2030,12 +2030,6 @@ A continuación se muestran todos los mockups diseñados en Figma que sirvieron 
 - Flexbox: ✅ Todos los navegadores
 - Signals de Angular: ✅ Todos los navegadores
 
-### Auditoría Lighthouse
-
-Resultados de la auditoría de rendimiento con Chrome DevTools Lighthouse:
-
-![Lighthouse Audit](mockups/lighthouse.png)
-
 ## 7.5 Capturas Finales
 
 ### Capturas Responsive - Todas las Páginas
@@ -2077,47 +2071,26 @@ Resultados de la auditoría de rendimiento con Chrome DevTools Lighthouse:
 
 ### URL de Producción
 
-| Servicio | URL | Estado |
-|----------|-----|--------|
-| **Frontend** | https://fonzigo-frontend.onrender.com | ✅ Desplegado |
-| **Backend API** | https://fonzigo.onrender.com | ✅ Desplegado |
-| **Swagger UI** | https://fonzigo.onrender.com/swagger-ui.html | ✅ Accesible |
-| **Base de datos** | PostgreSQL en Render | ✅ Funcionando |
+**Frontend:** https://acasmor0802.github.io/FonziGo/
 
-> **Nota:** Los servicios gratuitos de Render pueden tardar ~30-50 segundos en "despertar" si han estado inactivos.
+**Backend API:** Actualmente en desarrollo local (Docker Compose)
 
-### Verificación de Funcionamiento en Producción
+### Verificación de Funcionamiento
 
 - [x] Navegación entre páginas
 - [x] Formularios funcionales
-- [x] Consumo de API REST
-- [x] Sistema de autenticación JWT
-- [x] Login con Google OAuth2
+- [x] Consumo de API
+- [x] Sistema de autenticación
 - [x] Tema claro/oscuro
 - [x] Responsive en producción
-- [x] Carga de productos desde base de datos
-- [x] Categorías y filtros funcionando
-- [x] Carrito de compras operativo
 
 ### Plataformas de Despliegue
 
-| Componente | Plataforma | Región | Estado |
-|------------|------------|--------|--------|
-| Frontend | Render (Docker) | Frankfurt (EU) | ✅ Desplegado |
-| Backend | Render (Docker) | Frankfurt (EU) | ✅ Desplegado |
-| Base de datos | Render PostgreSQL 17 | Frankfurt (EU) | ✅ Funcionando |
-
-### Variables de Entorno Configuradas (Backend)
-
-| Variable | Descripción |
-|----------|-------------|
-| `SPRING_DATASOURCE_URL` | Conexión a PostgreSQL |
-| `SPRING_DATASOURCE_USERNAME` | Usuario de la base de datos |
-| `SPRING_DATASOURCE_PASSWORD` | Contraseña (secreto) |
-| `SPRING_JPA_HIBERNATE_DDL_AUTO` | Modo de actualización de esquema |
-| `SPRING_JPA_DATABASE_PLATFORM` | Dialecto PostgreSQL |
-| `SECURITY_JWT_SECRET_KEY` | Clave secreta para JWT |
-| `GOOGLE_CLIENT_ID` | ID de cliente OAuth2 |
+| Componente | Plataforma | Estado |
+|------------|------------|--------|
+| Frontend | GitHub Pages | ✅ Desplegado |
+| Backend | Docker Compose (local) | ✅ Funcional |
+| Base de datos | PostgreSQL (Docker) | ✅ Funcional |
 
 ### Despliegue Local con Docker
 
