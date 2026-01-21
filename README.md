@@ -1,14 +1,18 @@
-# FonziGo 🛒
+# FonziGo
 
 Aplicación web para comparar precios de productos entre diferentes supermercados.
 
-[![Deploy to GitHub Pages](https://github.com/acasmor0802/FonziGo/actions/workflows/deploy.yml/badge.svg)](https://github.com/acasmor0802/FonziGo/actions/workflows/deploy.yml)
+## Demo en Vivo
 
-## 🚀 Demo en Vivo
+| Servicio | URL |
+|----------|-----|
+| **Frontend** | https://fonzigo-frontend.onrender.com |
+| **Backend API** | https://fonzigo.onrender.com |
+| **Swagger UI** | https://fonzigo.onrender.com/swagger-ui.html |
 
-**Frontend:** https://acasmor0802.github.io/FonziGo/
+> **Nota:** Los servicios gratuitos de Render pueden tardar ~30-50 segundos en "despertar" si han estado inactivos.
 
-## 📋 Características
+## Características
 
 - ✅ Comparación de precios entre supermercados
 - ✅ Sistema de diseño completo con ITCSS + BEM
@@ -19,7 +23,7 @@ Aplicación web para comparar precios de productos entre diferentes supermercado
 - ✅ Carrito de compras persistente
 - ✅ API REST documentada con Swagger
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 ### Frontend
 - **Framework:** Angular 21 (standalone components, signals)
@@ -35,7 +39,7 @@ Aplicación web para comparar precios de productos entre diferentes supermercado
 - **Documentación API:** OpenAPI 3 (Swagger)
 - **Build:** Gradle 8.x
 
-## 📦 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 FonziGo/
@@ -49,16 +53,16 @@ FonziGo/
 ├── database/          # Scripts SQL
 ├── docs/              # Documentación
 │   └── design/        # Documentación de diseño
-└── .github/           # GitHub Actions workflows
+└── docker-compose.yaml # Configuración Docker
 ```
 
-## 🚀 Inicio Rápido
+## Inicio Rápido
 
 ### Prerequisitos
 
 - Node.js 20+
-- Java 17+
-- PostgreSQL 14+
+- Java 21+
+- PostgreSQL 17+
 
 ### Desarrollo Local - Frontend
 
@@ -85,13 +89,13 @@ API disponible en http://localhost:8080
 docker-compose up
 ```
 
-## 📖 Documentación
+## Documentación
 
-- [📘 Guía de Despliegue](DEPLOYMENT.md) - Cómo desplegar en GitHub Pages
-- [🎨 Documentación de Diseño](docs/design/DOCUMENTACION.md) - Sistema de diseño completo
-- [📄 Documentación Técnica](DOCUMENTACION_TECNICA.md) - Arquitectura y decisiones técnicas
+- [Guía de Despliegue](DEPLOYMENT.md) - Cómo desplegar la aplicación
+- [Documentación de Diseño](docs/design/DOCUMENTACION.md) - Sistema de diseño completo
+- [Documentación Técnica](DOCUMENTACION_TECNICA.md) - Arquitectura y decisiones técnicas
 
-## 🎨 Sistema de Diseño
+## Sistema de Diseño
 
 El proyecto implementa un sistema de diseño completo documentado:
 
@@ -103,7 +107,7 @@ El proyecto implementa un sistema de diseño completo documentado:
 
 Ver [documentación completa de diseño](docs/design/DOCUMENTACION.md).
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Frontend
@@ -115,7 +119,7 @@ cd backend
 ./gradlew test
 ```
 
-## 📦 Build para Producción
+## Build para Producción
 
 ### Frontend
 
@@ -135,22 +139,23 @@ cd backend
 
 El JAR estará en `build/libs/`
 
-## 🚀 Despliegue
+## Despliegue
 
-### Despliegue Automático (GitHub Actions)
+La aplicación está desplegada en **Render**:
 
-El proyecto se despliega automáticamente en GitHub Pages con cada push a `main`.
+| Componente | Plataforma | Región |
+|------------|------------|--------|
+| Frontend | Render (Docker) | Frankfurt (EU) |
+| Backend | Render (Docker) | Frankfurt (EU) |
+| Base de datos | Render PostgreSQL 17 | Frankfurt (EU) |
 
-Ver [DEPLOYMENT.md](DEPLOYMENT.md) para detalles completos.
-
-### Despliegue Manual
+### Despliegue Local con Docker
 
 ```bash
-cd frontend
-npm run deploy
+docker-compose up --build -d
 ```
 
-## 🤝 Contribuir
+## Contribuir
 
 1. Fork el proyecto
 2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
@@ -158,15 +163,15 @@ npm run deploy
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-## 📝 Licencia
+## Licencia
 
 Este proyecto es de código abierto y está disponible bajo la [Licencia MIT](LICENSE).
 
-## 👤 Autor
+## Autor
 
 acasmor0802 - [@acasmor0802](https://github.com/acasmor0802)
 
-## 🙏 Agradecimientos
+## Agradecimientos
 
 - Inspirado en comparadores de precios existentes
 - Diseño basado en principios de Material Design
