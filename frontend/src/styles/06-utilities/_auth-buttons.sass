@@ -1,0 +1,45 @@
+// 06-utilities/_auth-buttons.sass
+// ===============================================
+// Botones de Autenticación - Estilos Globales
+// ===============================================
+// Clase reutilizable para botones de submit en formularios de autenticación
+// Sigue BEM: Modificador del bloque .btn
+// Reutilizable en: login, register, contact, profile, etc.
+
+@use '../00-settings/variables' as *
+@use '../01-tools/mixins' as *
+
+// Modificador para botones de submit de autenticación
+.btn--auth-submit
+  width: 100%
+  white-space: normal
+  padding: var(--spacing-3) var(--spacing-6)
+  background: var(--secundary-yellow-alt)
+  color: var(--primary-blue)
+  border: var(--border-medium) solid var(--primary-blue)
+  border-radius: var(--radius-md)
+  font-size: var(--text-base)
+  font-weight: var(--font-bold)
+  font-family: var(--font-secondary)
+  cursor: pointer
+  transition: all var(--transition-fast)
+  text-align: center
+
+  // Hover idéntico al botón "Añadir" del modal
+  &:hover:not(:disabled):not(.btn--loading)
+    background: var(--secundary-yellow)
+    transform: translateY(-2px)
+    box-shadow: 0 4px 12px rgba(255, 200, 50, 0.4)
+
+  // Active idéntico al botón "Añadir" del modal
+  &:active
+    transform: translateY(0)
+
+  // Dark mode idéntico al botón "Añadir" del modal
+  :host-context(.dark-mode) &
+    background: var(--background)
+    color: var(--primary-blue)
+    border-color: var(--primary-blue)
+
+    &:hover:not(:disabled):not(.btn--loading)
+      background: var(--secundary-yellow-alt)

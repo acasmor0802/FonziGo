@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,7 +12,8 @@ import { GoogleAuthService } from '../../core/services/google-auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, ButtonComponent],
   templateUrl: './login.html',
-  styleUrls: ['./login.sass']
+  styleUrls: ['./login.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class Login implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);

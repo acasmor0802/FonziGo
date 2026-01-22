@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,7 +19,8 @@ interface SelectOption {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, ButtonComponent],
   templateUrl: './register.html',
-  styleUrls: ['./register.sass']
+  styleUrls: ['./register.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class Register implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);

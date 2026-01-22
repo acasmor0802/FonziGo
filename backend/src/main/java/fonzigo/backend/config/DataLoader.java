@@ -103,8 +103,7 @@ public class DataLoader implements CommandLineRunner {
             buildSupermarket("Mercadona", "/images/supermarkets/mercadona.png"),
             buildSupermarket("Carrefour", "/images/supermarkets/carrefour.png"),
             buildSupermarket("Lidl", "/images/supermarkets/lidl.png"),
-            buildSupermarket("Dia", "/images/supermarkets/dia.png"),
-            buildSupermarket("Alcampo", "/images/supermarkets/alcampo.png")
+            buildSupermarket("Dia", "/images/supermarkets/dia.png")
         );
         supermarketRepository.saveAll(supermarkets);
         log.debug("Cargados {} supermercados", supermarkets.size());

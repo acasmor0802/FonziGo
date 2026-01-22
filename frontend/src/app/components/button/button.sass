@@ -41,12 +41,16 @@
 
   &--primary
     background-color: var(--secundary-yellow-alt)
-    color: var(--text-dark)
-    border: var(--border-medium) solid var(--text-dark)
+    color: var(--primary-blue)
+    border: var(--border-medium) solid var(--primary-blue)
+    border-radius: var(--radius-md)
+    font-weight: var(--font-bold)
     +hover-lift
 
     &:hover:not(:disabled):not(.btn--loading)
-      background-color: var(--secundary-yellow-dark)
+      background-color: var(--secundary-yellow)
+      transform: translateY(-2px)
+      box-shadow: 0 4px 12px rgba(255, 200, 50, 0.4)
 
   &--secondary
     background-color: transparent
