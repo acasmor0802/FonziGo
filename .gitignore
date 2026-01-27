@@ -1,0 +1,68 @@
+# ==============================================================================
+# FonziGo - Root .gitignore
+# ==============================================================================
+
+# Environment files (NEVER commit these!)
+.env
+.env.local
+.env.prod
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker volumes and data
+db-data/
+caddy-data/
+uploads/
+backups/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+dist/
+build/
+*.jar
+*.war
+target/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Node modules (if any at root)
+node_modules/
+
+# Gradle (if any at root)
+.gradle/
+
+# Spring Boot
+spring.log
+
+# Backup files
+*.bak
+*.backup
+
+# SSL certificates (should never be committed)
+*.pem
+*.key
+*.crt

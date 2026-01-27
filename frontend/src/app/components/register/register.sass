@@ -5,7 +5,7 @@
 // -----------------------------------------------
 // Register Form Component
 // Formulario estructurado con <form>, <fieldset>, <legend>
-// HTML5 semántico completo con formularios reactivos
+// HTML5 semántico completo
 // -----------------------------------------------
 
 .register
@@ -28,95 +28,26 @@
 
   &__legend
     @include font-style(var(--text-2xl), var(--font-semibold))
-    color: var(--text-color)
+    color: var(--primary-blue)
     margin-bottom: var(--spacing-2)
 
-  // Campos de formulario
-  &__field
-    display: flex
-    flex-direction: column
-    gap: var(--spacing-2)
+  &__submit
+    ::ng-deep .btn
+      width: 100%
+      background-color: var(--secundary-yellow-alt)
+      color: var(--primary-blue)
+      border: none
+      padding: var(--spacing-3) var(--spacing-4)
+      font-weight: var(--font-semibold)
+      +smooth-transition(background-color, transform)
 
-  &__label
-    font-family: var(--font-secondary)
-    font-size: var(--text-sm)
-    font-weight: var(--font-semibold)
-    color: var(--text-color)
+      &:hover:not(:disabled):not(.btn--loading)
+        background-color: var(--secundary-yellow-dark)
+        transform: translateY(var(--button-hover-lift))
+        box-shadow: var(--button-shadow-yellow)
 
-  &__required
-    color: var(--error)
-
-  &__input, &__select
-    font-family: var(--font-primary)
-    font-size: var(--text-base)
-    padding: var(--spacing-3) var(--spacing-4)
-    border: var(--border-medium) solid var(--primary-blue-light)
-    border-radius: var(--radius-md)
-    background-color: var(--background)
-    color: var(--text-color)
-    +smooth-transition(border-color, box-shadow)
-
-    &::placeholder
-      color: var(--primary-blue-light)
-
-    &:focus
-      outline: none
-      border-color: var(--text-color)
-      box-shadow: 0 0 0 3px rgba(51, 63, 81, 0.1)
-
-    &--error
-      border-color: var(--error)
-
-      &:focus
-        box-shadow: 0 0 0 3px rgba(206, 130, 130, 0.2)
-
-    &--pending
-      border-color: var(--secundary-yellow-alt)
-
-  &__select
-    cursor: pointer
-    appearance: none
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333F51' d='M6 8L1 3h10z'/%3E%3C/svg%3E")
-    background-repeat: no-repeat
-    background-position: right var(--spacing-4) center
-    padding-right: var(--spacing-10)
-
-  &__error
-    font-size: var(--text-xs)
-    color: var(--error)
-    font-weight: var(--font-medium)
-
-  &__pending
-    font-size: var(--text-xs)
-    color: var(--secundary-yellow-dark)
-    font-weight: var(--font-medium)
-
-  &__help
-    font-size: var(--text-xs)
-    color: var(--primary-blue-light)
-
-  // Terms checkbox
-  &__terms
-    display: flex
-    flex-direction: column
-    gap: var(--spacing-2)
-
-  &__checkbox-label
-    display: flex
-    align-items: flex-start
-    gap: var(--spacing-2)
-    font-size: var(--text-sm)
-    color: var(--text-color)
-    cursor: pointer
-    line-height: var(--line-height-normal)
-
-  &__checkbox
-    width: 18px
-    height: 18px
-    margin-top: 2px
-    accent-color: var(--text-color)
-    cursor: pointer
-    flex-shrink: 0
+      &:active
+        transform: translateY(0)
 
   &__divider
     display: flex
@@ -139,37 +70,49 @@
 
   &__social
     display: flex
-    flex-direction: column
-    align-items: center
     gap: var(--spacing-3)
     width: 100%
 
-  &__google-btn-container
-    display: flex
-    justify-content: center
-    width: 100%
-    min-height: 44px
+  &__social-btn
+    flex: 1
+    min-width: 0
+    
+    ::ng-deep .btn
+      width: 100%
+      justify-content: center
+      background-color: var(--background)
+      color: var(--primary-blue)
+      border: var(--border-medium) solid var(--primary-blue-light)
+      display: flex
+      align-items: center
+      gap: var(--spacing-2)
+      font-weight: var(--font-semibold)
+      font-size: var(--text-sm)
+      padding: var(--spacing-3) var(--spacing-4)
+      box-shadow: var(--shadow-sm)
+      +smooth-transition(all)
+      
+      &:hover:not(:disabled):not(.btn--loading)
+        background-color: var(--primary-blue)
+        color: var(--background)
+        border-color: var(--primary-blue)
+        transform: translateY(var(--button-hover-lift))
+        box-shadow: var(--shadow-md)
+    
+    &--google ::ng-deep .btn:hover:not(:disabled):not(.btn--loading)
+      background-color: var(--google-blue)
+      border-color: var(--google-blue)
+      
+    &--apple ::ng-deep .btn:hover:not(:disabled):not(.btn--loading)
+      background-color: var(--apple-black)
+      border-color: var(--apple-black)
 
-  &__google-loading
+  &__social-icon
+    font-size: var(--text-2xl)
+    line-height: 1
     display: flex
     align-items: center
     justify-content: center
-    padding: var(--spacing-3)
-    background-color: var(--google-blue)
-    color: var(--text-light)
-    border-radius: var(--radius-md)
-    font-size: var(--text-sm)
-    width: 100%
-    max-width: 300px
-
-  &__google-error
-    padding: var(--spacing-2) var(--spacing-3)
-    background-color: var(--error-bg)
-    color: var(--error-text)
-    border-radius: var(--radius-md)
-    font-size: var(--text-sm)
-    width: 100%
-    text-align: center
 
   &__footer
     font-size: var(--text-sm)
@@ -177,7 +120,7 @@
     text-align: center
 
   &__link
-    color: var(--text-color)
+    color: var(--primary-blue)
     font-weight: var(--font-semibold)
     text-decoration: none
     +smooth-transition(color)
@@ -185,13 +128,3 @@
     &:hover
       color: var(--primary-blue-alt)
       text-decoration: underline
-
-
-// Responsive
-@media (max-width: 576px)
-  .register
-    padding: var(--spacing-6)
-    margin: var(--spacing-4)
-
-    &__social
-      flex-direction: column

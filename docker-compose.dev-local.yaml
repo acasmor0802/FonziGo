@@ -1,7 +1,8 @@
-# =============================================================================
-# FonziGo - Docker Compose Configuration
-# Ejecutar con: docker-compose up -d
-# =============================================================================
+# ==============================================================================
+# FonziGo - Docker Compose (Development - Without SSL)
+# For local testing without SSL/HTTPS
+# Run with: docker-compose -f docker-compose.dev-local.yaml up -d
+# ==============================================================================
 
 networks:
   fonzigo-network:
@@ -11,7 +12,7 @@ networks:
 volumes:
   db-data:
     driver: local
-    name: fonzigo-db-data
+    name: fonzigo-db-data-local
 
 # -----------------------------------------------------------------------------
 # Services
@@ -19,13 +20,13 @@ volumes:
 services:
 
   # ---------------------------------------------------------------------------
-  # Database - PostgreSQL 17
+  # Database - PostgreSQL 17 (Local Development)
   # ---------------------------------------------------------------------------
   database:
     build:
       context: .
       dockerfile: database/Dockerfile
-    container_name: fonzigo-database
+    container_name: fonzigo-database-local
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -33,26 +34,25 @@ services:
       - fonzigo-network
     volumes:
       - db-data:/var/lib/postgresql/data
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: fonzigo
-      POSTGRES_USER: fonzi
-      POSTGRES_PASSWORD: fonzipass
       TZ: Europe/Madrid
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fonzi -d fonzigo"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
 
   # ---------------------------------------------------------------------------
-  # Backend - Spring Boot 4.0 / Java 21
+  # Backend - Spring Boot 4.0 / Java 21 (Local Development)
   # ---------------------------------------------------------------------------
   backend:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    container_name: fonzigo-backend
+    container_name: fonzigo-backend-local
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -61,11 +61,9 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/fonzigo
-      SPRING_DATASOURCE_USERNAME: fonzi
-      SPRING_DATASOURCE_PASSWORD: fonzipass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       TZ: Europe/Madrid
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
@@ -75,13 +73,13 @@ services:
       start_period: 60s
 
   # ---------------------------------------------------------------------------
-  # Frontend - Angular 19 / Nginx
+  # Frontend - Angular 21 / Nginx (Local Development)
   # ---------------------------------------------------------------------------
   frontend:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    container_name: fonzigo-frontend
+    container_name: fonzigo-frontend-local
     restart: unless-stopped
     ports:
       - "80:80"
@@ -90,3 +88,13 @@ services:
     depends_on:
       backend:
         condition: service_started
+    env_file:
+      - .env
+    environment:
+      TZ: Europe/Madrid
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

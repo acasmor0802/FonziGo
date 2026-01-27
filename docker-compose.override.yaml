@@ -1,0 +1,35 @@
+# ==============================================================================
+# FonziGo - Docker Compose Override (Development)
+# This file overrides docker-compose.dev.yaml for local development
+# ==============================================================================
+
+services:
+  # Development database with exposed port
+  database:
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+
+  # Development backend with hot reload
+  backend:
+    ports:
+      - "8080:8080"
+      - "5005:5005"  # Debug port
+    volumes:
+      - ./backend/src:/app/src:ro
+      - ./backend/build.gradle:/app/build.gradle:ro
+    environment:
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+
+  # Development frontend with live reload
+  frontend:
+    ports:
+      - "4200:80"
+    volumes:
+      - ./frontend/src:/app/src:ro
+      - ./frontend/src/styles:/app/src/styles:ro
+
+# Note: This override file is automatically loaded by Docker Compose
+# when placed alongside docker-compose.dev.yaml

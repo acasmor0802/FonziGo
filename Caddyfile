@@ -1,0 +1,174 @@
+# ==============================================================================
+# FonziGo - Caddy Configuration for fonzigo.app
+# Automatic SSL via Let's Encrypt
+# ==============================================================================
+
+# Global options
+{
+    # Email for SSL certificate notifications
+    email admin@fonzigo.app
+    
+    # Production mode (use Let's Encrypt staging for testing)
+    # To test, uncomment: on_demand_tls {
+    #     ask https://example.com/validate
+    # }
+    
+    # Disable admin API in production (security)
+    admin off
+    
+    # Graceful shutdown
+    graceful_shutdown_timeout 10s
+    
+    # Log configuration
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 100mb
+            roll_keep 5
+            roll_keep_for 720h
+        }
+        format json
+        level INFO
+    }
+}
+
+# Main domain - fonzigo.app
+fonzigo.app {
+    # Encode response with gzip
+    encode gzip zstd
+    
+    # Frontend (Angular SPA)
+    handle / {
+        reverse_proxy frontend:80 {
+            # Headers to pass
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            
+            # Health checks
+            health_uri /health
+            health_interval 30s
+            health_timeout 5s
+        }
+        
+        # Security headers
+        header {
+            X-Frame-Options "SAMEORIGIN"
+            X-Content-Type-Options "nosniff"
+            X-XSS-Protection "1; mode=block"
+            Referrer-Policy "strict-origin-when-cross-origin"
+            Permissions-Policy "camera=(), microphone=(), geolocation=()"
+            Cache-Control "no-cache, no-store, must-revalidate"
+            Pragma "no-cache"
+            Expires "0"
+        }
+    }
+    
+    # Backend API
+    handle /api/* {
+        reverse_proxy backend:8080 {
+            # Headers to pass
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            
+            # Health checks
+            health_uri /actuator/health
+            health_interval 30s
+            health_timeout 5s
+        }
+        
+        # CORS headers for API
+        header {
+            Access-Control-Allow-Origin "https://fonzigo.app"
+            Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+            Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+            Access-Control-Max-Age "86400"
+            Access-Control-Allow-Credentials "true"
+        }
+        
+        # Security headers for API
+        header {
+            X-Frame-Options "DENY"
+            X-Content-Type-Options "nosniff"
+            X-XSS-Protection "1; mode=block"
+            Referrer-Policy "strict-origin-when-cross-origin"
+        }
+    }
+    
+    # Swagger UI (only in production if needed, can be disabled)
+    handle /swagger-ui.html {
+        reverse_proxy backend:8080
+    }
+    
+    handle /v3/api-docs {
+        reverse_proxy backend:8080
+    }
+    
+    # Static assets (images, fonts, etc.) - cache aggressively
+    handle /assets/* /images/* {
+        reverse_proxy frontend:80
+        
+        # Cache headers
+        header {
+            Cache-Control "public, max-age=31536000, immutable"
+        }
+    }
+    
+    # Health check endpoint (always respond)
+    handle /health {
+        respond "OK" 200
+        header Content-Type text/plain
+    }
+    
+    # Handle OPTIONS requests for CORS
+    @options method OPTIONS
+    handle @options {
+        respond "" 204
+    }
+    
+    # Rate limiting (100 requests per minute per IP)
+    @ratelimit {
+        remote_ip
+        rate_limit 100 1m
+    }
+    handle @ratelimit {
+        respond "Rate limit exceeded. Please try again later." 429
+    }
+}
+
+# Redirect www to non-www
+www.fonzigo.app {
+    redir https://fonzigo.app{uri} permanent
+}
+
+# HTTP to HTTPS redirect (for all domains)
+:80 {
+    # Allow ACME challenge for SSL
+    @http {
+        protocol http
+    }
+    
+    # Handle Let's Encrypt challenges
+    handle /.well-known/acme-challenge/* {
+        respond "{uri}" 200
+    }
+    
+    # Redirect everything else to HTTPS
+    @http {
+        protocol http
+        path /.well-known/acme-challenge/*
+    }
+    handle @http {
+        respond "{uri}" 200
+    }
+    
+    # All other HTTP traffic redirect to HTTPS
+    redir https://{host}{uri} permanent
+}
+
+# HTTP to HTTPS redirect for www.fonzigo.app
+:8080 {
+    redir https://fonzigo.app{uri} permanent
+}

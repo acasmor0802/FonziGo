@@ -1,4 +1,62 @@
-# Guía de Despliegue en GitHub Pages
+# Guía de Despliegue
+
+## 🚀 Opciones de Despliegue
+
+1. **VPS (Recomendado)** - Ubuntu 24.04 + Docker + Caddy con SSL automático
+   - [Ver guía completa](DEPLOYMENT_VPS.md)
+   - Ventajas: Control total, SSL automático, escalable, más barato a largo plazo
+
+2. **GitHub Pages** - Frontend estático gratuito
+   - Para el frontend estático
+   - Backend requiere servicio separado
+
+3. **Render** - PaaS gratuito con limitaciones
+   - Actual deployment activo
+   - Tiempos de "cold start" (30-50s)
+
+---
+
+## 📊 Comparación de Plataformas
+
+| Característica | VPS | GitHub Pages | Render |
+|--------------|------|-------------|---------|
+| **Coste** | $5-20/mes | Gratis | Gratis/$7/mes |
+| **Control** | Total | Limitado | Limitado |
+| **SSL** | Automático (Caddy) | Automático | Automático |
+| **Cold Start** | No | No | Sí (30-50s) |
+| **Escalabilidad** | Fácil | No | Pago |
+| **Base de datos** | Incluida | No | Incluida |
+| **Dificultad** | Media | Fácil | Fácil |
+
+---
+
+## 🚀 Despliegue VPS (Recomendado)
+
+### Quick Start (5 minutos)
+
+```bash
+# 1. Conectarse al VPS
+ssh root@your-vps-ip
+
+# 2. Clonar y setup
+cd /opt
+git clone https://github.com/acasmor0802/FonziGo.git
+cd FonziGo
+sudo bash scripts/vps-setup.sh
+
+# 3. Configurar variables
+nano .env.prod
+# Generar passwords: openssl rand -base64 32
+
+# 4. Desplegar
+./deploy.sh
+```
+
+**📚 Documentación completa:** [DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md)
+
+---
+
+## 📄 Despliegue en GitHub Pages (Solo Frontend)
 
 ## 🚀 Despliegue del Frontend
 

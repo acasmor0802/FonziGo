@@ -43,17 +43,25 @@ Aplicación web para comparar precios de productos entre diferentes supermercado
 
 ```
 FonziGo/
-├── frontend/           # Aplicación Angular
-│   ├── src/
-│   │   ├── app/       # Componentes y páginas
-│   │   └── styles/    # Sistema de diseño ITCSS
-│   └── public/        # Assets estáticos
-├── backend/           # API Spring Boot
-│   └── src/
-├── database/          # Scripts SQL
-├── docs/              # Documentación
-│   └── design/        # Documentación de diseño
-└── docker-compose.yaml # Configuración Docker
+ ├── frontend/           # Aplicación Angular
+ │   ├── src/
+ │   │   ├── app/       # Componentes y páginas
+ │   │   └── styles/    # Sistema de diseño ITCSS
+ │   └── public/        # Assets estáticos
+ ├── backend/           # API Spring Boot
+ │   └── src/
+ ├── database/          # Scripts SQL
+ ├── docs/              # Documentación
+ │   ├── deployment/    # Guías de despliegue (VPS, Render)
+ │   └── design/        # Documentación de diseño
+ ├── scripts/           # Scripts de automatización
+ ├── docker-compose.prod.yaml      # Producción (VPS)
+ ├── docker-compose.dev.yaml       # Desarrollo
+ ├── docker-compose.dev-local.yaml  # Desarrollo local sin SSL
+ ├── docker-compose.override.yaml   # Overrides de desarrollo
+ ├── Caddyfile                   # Configuración de reverse proxy y SSL
+ ├── deploy.sh                   # Script de despliegue
+ └── update.sh                   # Script de actualización
 ```
 
 ## Inicio Rápido
@@ -91,7 +99,7 @@ docker-compose up
 
 ## Documentación
 
-- [Guía de Despliegue](DEPLOYMENT.md) - Cómo desplegar la aplicación
+- [Guía de Despliegue](docs/deployment/README.md) - Guías de despliegue (VPS, Render, GitHub Pages)
 - [Documentación de Diseño](docs/design/DOCUMENTACION.md) - Sistema de diseño completo
 - [Documentación Técnica](DOCUMENTACION_TECNICA.md) - Arquitectura y decisiones técnicas
 
@@ -141,7 +149,41 @@ El JAR estará en `build/libs/`
 
 ## Despliegue
 
-La aplicación está desplegada en **Render**:
+### Producción (VPS - Recomendado)
+
+La aplicación puede desplegarse en un VPS con Ubuntu 24.04 usando Docker y Caddy con SSL automático.
+
+**Documentación completa:** [DEPLOYMENT_VPS.md](docs/deployment/DEPLOYMENT_VPS.md)
+
+**Características del despliegue VPS:**
+- ✅ Docker containerization
+- ✅ Caddy con SSL automático (Let's Encrypt)
+- ✅ Despliegue automatizado
+- ✅ Health checks
+- ✅ Logging y monitoreo
+- ✅ Seguridad hardening
+
+**Quick Start:**
+```bash
+# 1. Conectarse al VPS
+ssh root@your-vps-ip
+
+# 2. Clonar y ejecutar setup
+cd /opt
+git clone https://github.com/acasmor0802/FonziGo.git
+cd FonziGo
+sudo bash scripts/vps-setup.sh
+
+# 3. Configurar variables de entorno
+nano .env.prod
+
+# 4. Desplegar
+./deploy.sh
+```
+
+### Producción (Render)
+
+La aplicación también está desplegada en **Render** (opcional):
 
 | Componente | Plataforma | Región |
 |------------|------------|--------|
@@ -151,17 +193,15 @@ La aplicación está desplegada en **Render**:
 
 ### Despliegue Local con Docker
 
+**Desarrollo:**
 ```bash
-docker-compose up --build -d
+docker-compose -f docker-compose.dev.yaml --env-file .env up -d
 ```
 
-## Contribuir
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+**Producción (local):**
+```bash
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
+```
 
 ## Licencia
 
@@ -170,9 +210,3 @@ Este proyecto es de código abierto y está disponible bajo la [Licencia MIT](LI
 ## Autor
 
 acasmor0802 - [@acasmor0802](https://github.com/acasmor0802)
-
-## Agradecimientos
-
-- Inspirado en comparadores de precios existentes
-- Diseño basado en principios de Material Design
-- Arquitectura CSS basada en ITCSS de Harry Roberts
