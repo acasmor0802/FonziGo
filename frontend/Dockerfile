@@ -1,51 +1,49 @@
-# =============================================================================
-# FonziGo Frontend - Multi-stage Dockerfile
-# Angular 21 application served with Nginx
-# =============================================================================
+# ==============================================================================
+# FonziGo Frontend - Dockerfile for Angular 21
+# ==============================================================================
 
-# -----------------------------------------------------------------------------
-# Stage 1: Build
-# -----------------------------------------------------------------------------
+# Build stage
 FROM node:22.16-alpine3.21 AS builder
-
-LABEL maintainer="FonziGo Team"
-LABEL stage="builder"
 
 WORKDIR /app
 
-# Copiar archivos de dependencias primero (mejor uso de caché)
+# Copy package files
 COPY frontend/package.json frontend/package-lock.json ./
 
-# Instalar dependencias en modo CI (limpio y reproducible)
+# Install dependencies
 RUN npm ci --no-audit --no-fund
 
-# Copiar código fuente
-COPY frontend/ ./
+# Copy source code
+COPY frontend/ .
 
-# Construir para producción
+# Build for production
 RUN npm run build -- --configuration production
 
-# -----------------------------------------------------------------------------
-# Stage 2: Serve
-# -----------------------------------------------------------------------------
-FROM nginx:1.25.4-alpine3.18 AS production
+# Production stage
+FROM nginx:1.27.1-alpine AS production
 
 LABEL maintainer="FonziGo Team"
 LABEL description="FonziGo Frontend - Angular SPA"
 
-# Copiar archivos compilados
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
+# Copy built files from builder
 COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
 
-# Copiar configuración de Nginx
+# Copy nginx configuration
 COPY frontend/nginx.conf /etc/nginx/nginx.conf
 
-# Instalar curl para healthcheck
-RUN apk add --no-cache curl
+# Create directories for caching if they don't exist
+RUN mkdir -p /usr/share/nginx/html/assets
+
+# Set permissions
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html
 
 EXPOSE 80
 
-# Healthcheck para Docker (usando curl que está disponible)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl --fail --silent http://localhost:80/ || exit 1
+    CMD curl --fail --silent http://localhost/80/health || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]

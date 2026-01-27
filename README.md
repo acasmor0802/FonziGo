@@ -6,11 +6,9 @@ Aplicación web para comparar precios de productos entre diferentes supermercado
 
 | Servicio | URL |
 |----------|-----|
-| **Frontend** | https://fonzigo-frontend.onrender.com |
-| **Backend API** | https://fonzigo.onrender.com |
-| **Swagger UI** | https://fonzigo.onrender.com/swagger-ui.html |
-
-> **Nota:** Los servicios gratuitos de Render pueden tardar ~30-50 segundos en "despertar" si han estado inactivos.
+| **Frontend** | https://fonzigo.app |
+| **Backend API** | https://fonzigo.app |
+| **Swagger UI** | https://fonzigo.app/swagger-ui.html |
 
 ## Características
 
@@ -52,7 +50,7 @@ FonziGo/
  │   └── src/
  ├── database/          # Scripts SQL
  ├── docs/              # Documentación
- │   ├── deployment/    # Guías de despliegue (VPS, Render)
+ │   ├── deployment/    # Guías de despliegue (VPS, Digitalocean)
  │   └── design/        # Documentación de diseño
  ├── scripts/           # Scripts de automatización
  ├── docker-compose.prod.yaml      # Producción (VPS)
@@ -99,7 +97,7 @@ docker-compose up
 
 ## Documentación
 
-- [Guía de Despliegue](docs/deployment/README.md) - Guías de despliegue (VPS, Render, GitHub Pages)
+- [Guía de Despliegue](docs/deployment/README.md) - Guías de despliegue (VPS, Digitalocean, GitHub Pages)
 - [Documentación de Diseño](docs/design/DOCUMENTACION.md) - Sistema de diseño completo
 - [Documentación Técnica](DOCUMENTACION_TECNICA.md) - Arquitectura y decisiones técnicas
 
@@ -181,15 +179,15 @@ nano .env.prod
 ./deploy.sh
 ```
 
-### Producción (Render)
+### Producción (Digitalocean)
 
-La aplicación también está desplegada en **Render** (opcional):
+La aplicación también está desplegada en **Digitalocean** (opcional):
 
 | Componente | Plataforma | Región |
 |------------|------------|--------|
-| Frontend | Render (Docker) | Frankfurt (EU) |
-| Backend | Render (Docker) | Frankfurt (EU) |
-| Base de datos | Render PostgreSQL 17 | Frankfurt (EU) |
+| Frontend | Digitalocean (Docker) | Frankfurt (EU) |
+| Backend | Digitalocean (Docker) | Frankfurt (EU) |
+| Base de datos | Digitalocean PostgreSQL 17 | Frankfurt (EU) |
 
 ### Despliegue Local con Docker
 
