@@ -16,9 +16,6 @@
     # Disable admin API in production (security)
     admin off
     
-    # Graceful shutdown
-    graceful_shutdown_timeout 10s
-    
     # Log configuration
     log {
         output file /var/log/caddy/access.log {
