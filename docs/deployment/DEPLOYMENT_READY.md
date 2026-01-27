@@ -364,4 +364,4 @@ curl -I https://fonzigo.app
 
 Commit the changes, push to GitHub, and deploy to your VPS following the QUICKSTART.md guide.
 
-**Last Updated**: 2025-01-27
+**Last Updated**: 2026-01-27

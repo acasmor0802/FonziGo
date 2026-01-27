@@ -8,6 +8,7 @@ This folder contains all documentation related to deploying FonziGo to productio
 
 | Document | Description | When to Use |
 |-----------|-------------|---------------|
+| **[AUTO_CONFIGURE.md](AUTO_CONFIGURE.md)** | Auto-configuration scripts | First time setup ⭐ |
 | **[QUICKSTART.md](QUICKSTART.md)** | 5-minute quick deployment guide | First time deploying |
 | **[DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md)** | Complete VPS deployment guide | Full production deployment |
 | **[DEPLOYMENT.md](DEPLOYMENT.md)** | Platform comparison and options | Choosing deployment platform |
@@ -18,9 +19,10 @@ This folder contains all documentation related to deploying FonziGo to productio
 
 ## 🚀 Quick Start
 
-1. **Read** [QUICKSTART.md](QUICKSTART.md) for 5-minute deployment
-2. **Follow** [DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md) for complete guide
-3. **Check** [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for implementation details
+1. **Run** [auto-setup.sh](../../auto-setup.sh) - Generates ALL credentials automatically ⭐
+2. **Read** [AUTO_CONFIGURE.md](AUTO_CONFIGURE.md) - Detailed auto-configuration guide
+3. **Follow** [QUICKSTART.md](QUICKSTART.md) for 5-minute deployment
+4. **Check** [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for implementation details
 
 ---
 
@@ -36,8 +38,10 @@ This folder contains all documentation related to deploying FonziGo to productio
 
 ## 🔧 Deployment Scripts
 
-All deployment scripts are located in the project root:
+All deployment scripts are located in at project root:
 
+- `auto-setup.sh` ⭐ - One-click auto-configuration (generates ALL credentials)
+- `auto-configure.sh` - Interactive auto-configuration (detailed steps)
 - `deploy.sh` - Production deployment script
 - `update.sh` - Quick update script
 - `scripts/vps-setup.sh` - Initial VPS setup
@@ -104,4 +108,4 @@ For deployment issues:
 
 ---
 
-**Last Updated:** 2025-01-27
+**Last Updated:** 2026-01-27
