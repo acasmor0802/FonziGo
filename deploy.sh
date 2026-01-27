@@ -84,23 +84,95 @@ fi
 
 log_success "Environment configuration is valid"
 
+# Function to install Docker if not present
+install_docker() {
+    log_warn "Docker not found, installing..."
+    
+    # Check if running as root
+    if [ "$EUID" -ne 0 ]; then
+        log_error "Please run as root (use sudo) or re-run with sudo"
+        exit 1
+    fi
+    
+    # Update package index
+    log_info "Updating package index..."
+    apt-get update -qq
+    
+    # Install dependencies
+    log_info "Installing dependencies..."
+    apt-get install -y -qq apt-transport-https ca-certificates curl gnupg lsb-release
+    
+    # Add Docker's official GPG key
+    log_info "Adding Docker GPG key..."
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    
+    # Set up Docker repository
+    log_info "Adding Docker repository..."
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+    
+    # Install Docker Engine
+    log_info "Installing Docker Engine..."
+    apt-get update -qq
+    apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    
+    # Install docker-compose standalone (more reliable)
+    log_info "Installing Docker Compose..."
+    curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    
+    # Enable and start Docker
+    log_info "Enabling and starting Docker..."
+    systemctl enable docker
+    systemctl start docker
+    
+    log_success "Docker and Docker Compose installed successfully!"
+    
+    # Add current user to docker group
+    if [ -n "$SUDO_USER" ]; then
+        log_info "Adding user $SUDO_USER to docker group..."
+        usermod -aG docker "$SUDO_USER"
+        log_warn "You may need to log out and log back in for group changes to take effect"
+    fi
+}
+
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+    log_warn "Docker is not installed!"
+    install_docker
+fi
+
+# Check if Docker Compose is installed
+if ! command -v docker-compose &> /dev/null; then
+    log_warn "Docker Compose is not installed!"
+    install_docker
+fi
+
 # Check if Docker is running
 log_info "Checking Docker status..."
 if ! docker info > /dev/null 2>&1; then
-    log_error "Docker is not running!"
-    log_info "Start Docker with: sudo systemctl start docker"
-    exit 1
+    log_warn "Docker is installed but not running..."
+    log_info "Starting Docker..."
+    systemctl start docker
+    
+    # Wait for Docker to start
+    sleep 3
+    
+    if ! docker info > /dev/null 2>&1; then
+        log_error "Failed to start Docker!"
+        exit 1
+    fi
 fi
 log_success "Docker is running"
 
-# Check if docker-compose is available
-log_info "Checking Docker Compose..."
-if ! command -v docker-compose &> /dev/null; then
-    log_error "Docker Compose is not installed!"
-    log_info "Install it with: sudo apt install docker-compose"
+# Verify Docker Compose
+log_info "Verifying Docker Compose..."
+docker-compose version > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    log_success "Docker Compose is available and working"
+else
+    log_error "Docker Compose verification failed!"
     exit 1
 fi
-log_success "Docker Compose is available"
 
 # Check if Caddyfile is valid
 log_info "Validating Caddyfile..."
