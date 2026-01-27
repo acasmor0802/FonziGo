@@ -95,12 +95,36 @@ fonzigo.app {
         header Content-Type text/plain
     }
     
-    # Handle OPTIONS requests for CORS
+    # Handle OPTIONS requests for CORS - DENTRO del bloque del sitio
     @options method OPTIONS
     handle @options {
         respond "" 204
     }
+} 
+
+# Redirect www to non-www
+www.fonzigo.app {
+    redir https://fonzigo.app{uri} permanent
+} 
+
+# HTTP to HTTPS redirect (for all domains)
+:80 {
+    # Handle Let's Encrypt challenges
+    handle /.well-known/acme-challenge/* {
+        respond "{uri}" 200
+    }
+    
+    # Redirect everything else to HTTPS
+    redir https://{host}{uri} permanent
 }
+    
+        # Handle OPTIONS requests for CORS
+        @options method OPTIONS
+        handle @options {
+            respond "" 204
+        }
+    } 
+} 
 
 # Redirect www to non-www
 www.fonzigo.app {
