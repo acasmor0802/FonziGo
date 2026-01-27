@@ -18,10 +18,10 @@ echo ""
 # Generate all credentials
 echo "🔐 Generating secure credentials..."
 
-DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-28)
-JWT_SECRET=$(openssl rand -base64 64 | tr -d "=+/" | cut -c1-60)
-SESSION_SECRET=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-28)
-API_KEY=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-28)
+DB_PASS=$(openssl rand -base64 32 | tr -d "=+/\n" | cut -c1-28)
+JWT_SECRET=$(openssl rand -base64 64 | tr -d "=+/\n" | cut -c1-60)
+SESSION_SECRET=$(openssl rand -base64 32 | tr -d "=+/\n" | cut -c1-28)
+API_KEY=$(openssl rand -base64 32 | tr -d "=+/\n" | cut -c1-28)
 
 echo -e "${GREEN}✅ All credentials generated${NC}"
 echo ""

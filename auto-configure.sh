@@ -44,7 +44,7 @@ echo ""
 # Function to generate secure random string in base64
 generate_password() {
     local length=$1
-    openssl rand -base64 $length | tr -d "=+/" | cut -c1-$(expr $length - 4)
+    openssl rand -base64 $length | tr -d "=+/\n" | cut -c1-$(expr $length - 4)
 }
 
 # Step 1: Generate all secure credentials
