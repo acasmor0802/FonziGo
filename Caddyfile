@@ -28,18 +28,13 @@ fonzigo.app {
     # Encode response with gzip
     encode gzip zstd
     
-    # Frontend (Angular SPA) - PRESERVAR HEADERS DE NGINX
+    # Frontend (Angular SPA)
     handle / {
         reverse_proxy frontend:80 {
             # Health checks
             health_uri /health
             health_interval 30s
             health_timeout 5s
-            # IMPORTANTE: Pasar headers del backend sin modificar
-            header_up Host {host}
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
     }
     
@@ -50,14 +45,9 @@ fonzigo.app {
             health_uri /actuator/health
             health_interval 30s
             health_timeout 5s
-            # Pasar headers sin modificar
-            header_up Host {host}
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
         
-        # CORS y security headers (aplicados DESPUÉS del proxy)
+        # CORS y security headers (aplicados por Caddy)
         header {
             Access-Control-Allow-Origin "*"
             Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
@@ -80,15 +70,9 @@ fonzigo.app {
         reverse_proxy backend:8080
     }
     
-    # Static assets (images, fonts, etc.) - PRESERVAR HEADERS DE NGINX
+    # Static assets (images, fonts, etc.)
     handle /assets/* {
-        reverse_proxy frontend:80 {
-            # IMPORTANTE: Pasar headers del backend sin modificar
-            header_up Host {host}
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-        }
+        reverse_proxy frontend:80
     }
     
     # Health check endpoint (always respond)
@@ -97,7 +81,7 @@ fonzigo.app {
         header Content-Type text/plain
     }
     
-    # Handle OPTIONS requests for CORS - DENTRO del bloque del sitio
+    # Handle OPTIONS requests for CORS
     @options method OPTIONS
     handle @options {
         respond "" 204
