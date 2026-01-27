@@ -8,11 +8,6 @@
     # Email for SSL certificate notifications
     email admin@fonzigo.app
     
-    # Production mode (use Let's Encrypt staging for testing)
-    # To test, uncomment: on_demand_tls {
-    #     ask https://example.com/validate
-    # }
-    
     # Disable admin API in production (security)
     admin off
     
@@ -36,12 +31,6 @@ fonzigo.app {
     # Frontend (Angular SPA)
     handle / {
         reverse_proxy frontend:80 {
-            # Headers to pass
-            header_up Host {host}
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-            
             # Health checks
             health_uri /health
             health_interval 30s
@@ -64,12 +53,6 @@ fonzigo.app {
     # Backend API
     handle /api/* {
         reverse_proxy backend:8080 {
-            # Headers to pass
-            header_up Host {host}
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-            
             # Health checks
             health_uri /actuator/health
             health_interval 30s
@@ -104,7 +87,7 @@ fonzigo.app {
     }
     
     # Static assets (images, fonts, etc.) - cache aggressively
-    handle /assets/* /images/* {
+    handle /assets/* {
         reverse_proxy frontend:80
         
         # Cache headers
@@ -133,30 +116,11 @@ www.fonzigo.app {
 
 # HTTP to HTTPS redirect (for all domains)
 :80 {
-    # Allow ACME challenge for SSL
-    @http {
-        protocol http
-    }
-    
     # Handle Let's Encrypt challenges
     handle /.well-known/acme-challenge/* {
         respond "{uri}" 200
     }
     
     # Redirect everything else to HTTPS
-    @http {
-        protocol http
-        path /.well-known/acme-challenge/*
-    }
-    handle @http {
-        respond "{uri}" 200
-    }
-    
-    # All other HTTP traffic redirect to HTTPS
     redir https://{host}{uri} permanent
-}
-
-# HTTP to HTTPS redirect for www.fonzigo.app
-:8080 {
-    redir https://fonzigo.app{uri} permanent
 }
