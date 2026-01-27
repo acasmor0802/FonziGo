@@ -82,8 +82,8 @@ public class SecurityConfig {
             "http://localhost",
             "http://localhost:80",
             "http://localhost:4200",
-            "https://fonzigo.onrender.com",
-            "https://fonzigo-frontend.onrender.com"
+            "https://fonzigo.app",
+            "https://www.fonzigo.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
