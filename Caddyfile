@@ -37,6 +37,7 @@ fonzigo.app {
             health_timeout 5s
             # IMPORTANTE: Pasar headers del backend sin modificar
             header_up Host {host}
+            header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
             header_up X-Forwarded-Proto {scheme}
         }
@@ -51,6 +52,7 @@ fonzigo.app {
             health_timeout 5s
             # Pasar headers sin modificar
             header_up Host {host}
+            header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
             header_up X-Forwarded-Proto {scheme}
         }
@@ -83,10 +85,10 @@ fonzigo.app {
         reverse_proxy frontend:80 {
             # IMPORTANTE: Pasar headers del backend sin modificar
             header_up Host {host}
+            header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
             header_up X-Forwarded-Proto {scheme}
         }
-    }
     }
     
     # Health check endpoint (always respond)
@@ -100,31 +102,7 @@ fonzigo.app {
     handle @options {
         respond "" 204
     }
-} 
-
-# Redirect www to non-www
-www.fonzigo.app {
-    redir https://fonzigo.app{uri} permanent
-} 
-
-# HTTP to HTTPS redirect (for all domains)
-:80 {
-    # Handle Let's Encrypt challenges
-    handle /.well-known/acme-challenge/* {
-        respond "{uri}" 200
-    }
-    
-    # Redirect everything else to HTTPS
-    redir https://{host}{uri} permanent
 }
-    
-        # Handle OPTIONS requests for CORS
-        @options method OPTIONS
-        handle @options {
-            respond "" 204
-        }
-    } 
-} 
 
 # Redirect www to non-www
 www.fonzigo.app {
