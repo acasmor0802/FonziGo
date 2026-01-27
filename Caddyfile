@@ -124,15 +124,6 @@ fonzigo.app {
     handle @options {
         respond "" 204
     }
-    
-    # Rate limiting (100 requests per minute per IP)
-    @ratelimit {
-        remote_ip
-        rate_limit 100 1m
-    }
-    handle @ratelimit {
-        respond "Rate limit exceeded. Please try again later." 429
-    }
 }
 
 # Redirect www to non-www
