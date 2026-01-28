@@ -1,6 +1,32 @@
 import { AbstractControl, ValidationErrors, ValidatorFn, FormGroup } from '@angular/forms';
 
 /**
+ * Validador de email más estricto que Validators.email
+ * Verifica formato completo incluyendo TLD válido
+ */
+export function strictEmailValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
+    // Regex más estricta para emails válidos
+    // - Local part: letras, números, puntos, guiones, underscores
+    // - Domain: letras, números, guiones
+    // - TLD: 2-10 caracteres (cubre .com, .es, .info, .museum, etc.)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+
+    if (!emailRegex.test(value)) {
+      return { email: { message: 'El email no tiene un formato válido' } };
+    }
+
+    return null;
+  };
+}
+
+/**
  * Valida la fortaleza de una contraseña
  * Requisitos: mayúscula, minúscula, número, símbolo, mínimo 8 caracteres
  */

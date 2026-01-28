@@ -106,6 +106,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.delete(user);
     }
 
+    @Override
+    public boolean emailExists(String email) {
+        return usuarioRepository.findByEmail(email).isPresent();
+    }
+
     private UsuarioDTO convertToDto(Usuario user) {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setId(user.getId());

@@ -13,4 +13,5 @@ public interface UsuarioService {
     UsuarioDTO registerUser(UsuarioRegistroDTO usuarioRegistroDTO);
     UsuarioDTO updateUser(Long id, UsuarioDTO usuarioDTO);
     void deleteUser(Long id);
+    boolean emailExists(String email);
 }

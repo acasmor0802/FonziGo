@@ -1,18 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable, of, timer } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsyncValidatorsService {
-  // Simular base de datos de usuarios existentes
-  private existingEmails = [
-    'test@example.com',
-    'user@test.com',
-    'admin@fonzigo.com'
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
 
   private existingUsernames = [
     'admin',
@@ -22,7 +20,7 @@ export class AsyncValidatorsService {
 
   /**
    * Valida si un email ya está registrado
-   * Simula una llamada a API con debounce
+   * Llama al backend para verificar
    */
   emailUnique(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -32,10 +30,12 @@ export class AsyncValidatorsService {
 
       return timer(500).pipe(
         switchMap(() => {
-          return this.checkEmailExists(control.value);
+          return this.http.get<{ exists: boolean }>(`${this.apiUrl}/auth/check-email`, {
+            params: { email: control.value }
+          });
         }),
-        map(exists => {
-          if (exists) {
+        map(response => {
+          if (response.exists) {
             return {
               emailUnique: {
                 message: 'Este email ya está registrado',
@@ -107,11 +107,6 @@ export class AsyncValidatorsService {
         catchError(() => of(null))
       );
     };
-  }
-
-  private checkEmailExists(email: string): Observable<boolean> {
-    const exists = this.existingEmails.includes(email.toLowerCase());
-    return of(exists);
   }
 
   private checkUsernameExists(username: string): Observable<boolean> {

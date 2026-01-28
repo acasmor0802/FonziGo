@@ -90,4 +90,11 @@ public class AuthenticationController {
             return ResponseEntity.status(401).build();
         }
     }
+
+    @GetMapping("/check-email")
+    @Operation(summary = "Verificar disponibilidad de email", description = "Comprueba si un email ya está registrado")
+    public ResponseEntity<java.util.Map<String, Boolean>> checkEmail(@RequestParam String email) {
+        boolean exists = usuarioService.emailExists(email);
+        return ResponseEntity.ok(java.util.Map.of("exists", exists));
+    }
 }

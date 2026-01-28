@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { ButtonComponent } from '../button/button';
 import { ToastService } from '../../shared/services/toast.service';
 import { AsyncValidatorsService } from '../../shared/validators/async-validators.service';
-import { passwordStrength, passwordMatch, telefonoValidator } from '../../shared/validators/custom-validators';
+import { passwordStrength, passwordMatch, telefonoValidator, strictEmailValidator } from '../../shared/validators/custom-validators';
 import { AuthService } from '../../core/services/auth.service';
 import { GoogleAuthService } from '../../core/services/google-auth.service';
 
@@ -60,7 +60,7 @@ export class Register implements OnInit, AfterViewInit {
 
   private initForm(): void {
     this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email], [this.asyncValidators.emailUnique()]],
+      email: ['', [Validators.required, strictEmailValidator()], [this.asyncValidators.emailUnique()]],
       phone: ['', [Validators.required, telefonoValidator()]],
       provincia: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8), passwordStrength()]],
@@ -84,7 +84,7 @@ export class Register implements OnInit, AfterViewInit {
 
     const errors = control.errors;
     if (errors['required']) return 'Este campo es obligatorio';
-    if (errors['email']) return 'Email inválido';
+    if (errors['email']) return errors['email'].message || 'Email inválido';
     if (errors['emailUnique']) return 'Este email ya está registrado';
     if (errors['minlength']) return `Mínimo ${errors['minlength'].requiredLength} caracteres`;
     if (errors['telefono']) return errors['telefono'].message;
@@ -119,7 +119,9 @@ export class Register implements OnInit, AfterViewInit {
     this.registerForm.markAllAsTouched();
 
     if (this.registerForm.invalid) {
-      this.toastService.error('Por favor, corrige los errores del formulario');
+      // Mostrar el primer error específico encontrado
+      const errorMsg = this.getFirstFormError();
+      this.toastService.error(errorMsg || 'Por favor, corrige los errores del formulario');
       return;
     }
 
@@ -133,18 +135,35 @@ export class Register implements OnInit, AfterViewInit {
     try {
       const { email, password } = this.registerForm.value;
       const success = await this.authService.register(email, password);
-      
+
       if (success) {
         this.toastService.success('¡Cuenta creada exitosamente!');
         this.router.navigate(['/']);
       } else {
-        this.toastService.error('Error al crear la cuenta');
+        this.toastService.error('Error al crear la cuenta. El email podría estar ya registrado.');
       }
     } catch {
       this.toastService.error('Error al crear la cuenta');
     } finally {
       this.loading.set(false);
     }
+  }
+
+  private getFirstFormError(): string | null {
+    const controls = ['email', 'phone', 'provincia', 'password', 'confirmPassword', 'acceptTerms'];
+
+    for (const name of controls) {
+      const control = this.registerForm.get(name);
+      if (control?.errors) {
+        return this.getErrorMessage(name);
+      }
+    }
+
+    if (this.registerForm.hasError('passwordMatch')) {
+      return 'Las contraseñas no coinciden';
+    }
+
+    return null;
   }
 
   registerWithGoogle(): void {
