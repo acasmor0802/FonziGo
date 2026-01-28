@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, signal, computed, ViewEncapsulation, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule, Sun, Moon, ShoppingCart } from 'lucide-angular';
@@ -15,14 +15,21 @@ import { CartService } from '../../core/services/cart.service';
   encapsulation: ViewEncapsulation.None // Estilos globales desde 05-components/_header.sass
 })
 export class Header implements OnInit {
+  @ViewChild('mobileMenu') mobileMenu!: ElementRef;
+
   private auth = inject(AuthService);
   private cartService = inject(CartService);
-  
+
   // Lucide Icons
   readonly SunIcon = Sun;
   readonly MoonIcon = Moon;
   readonly CartIcon = ShoppingCart;
-  
+
+  // Drag scroll state
+  private isMenuDragging = false;
+  private menuStartY = 0;
+  private menuScrollTop = 0;
+
   isDarkMode = signal(false);
   isMobileMenuOpen = signal(false);
   isLoggedIn = this.auth.isLoggedIn;
@@ -93,5 +100,36 @@ export class Header implements OnInit {
   logout(): void {
     this.auth.logout();
     this.closeMobileMenu();
+  }
+
+  // Drag scroll methods for mobile menu
+  onMenuDragStart(event: MouseEvent): void {
+    const element = this.mobileMenu?.nativeElement;
+    if (!element) return;
+
+    this.isMenuDragging = true;
+    this.menuStartY = event.pageY - element.offsetTop;
+    this.menuScrollTop = element.scrollTop;
+    element.style.cursor = 'grabbing';
+  }
+
+  onMenuDragMove(event: MouseEvent): void {
+    if (!this.isMenuDragging) return;
+
+    event.preventDefault();
+    const element = this.mobileMenu?.nativeElement;
+    if (!element) return;
+
+    const y = event.pageY - element.offsetTop;
+    const walk = (y - this.menuStartY) * 1.5;
+    element.scrollTop = this.menuScrollTop - walk;
+  }
+
+  onMenuDragEnd(): void {
+    this.isMenuDragging = false;
+    const element = this.mobileMenu?.nativeElement;
+    if (element) {
+      element.style.cursor = 'grab';
+    }
   }
 }

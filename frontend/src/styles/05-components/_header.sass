@@ -20,13 +20,9 @@
     padding: var(--spacing-2) var(--spacing-1)
     min-height: 64px
 
-  @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+  @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg)
     padding: var(--spacing-3) var(--spacing-10)
     min-height: 68px
-
-  @media (min-width: $breakpoint-md)
-    padding: var(--spacing-3) var(--spacing-10)
-    min-height: 72px
 
   @media (min-width: $breakpoint-lg)
     padding: var(--spacing-3) var(--spacing-16)
@@ -71,7 +67,7 @@
       height: var(--spacing-10)
       max-width: calc(var(--spacing-10) * 3)
 
-    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg)
       height: calc(var(--spacing-10) + var(--spacing-1))
       max-width: calc(var(--spacing-12) * 2.8)
 
@@ -123,10 +119,10 @@
     flex-shrink: 0
     gap: var(--spacing-6)
 
-    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg)
       gap: var(--spacing-4)
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       position: fixed
       top: 0
       right: calc(var(--spacing-6) * -100)
@@ -141,6 +137,14 @@
       box-shadow: var(--shadow-xl)
       transition: right var(--transition-base)
       z-index: var(--z-mobile-menu)
+      overflow-y: auto
+      overflow-x: hidden
+      overscroll-behavior: contain
+      -webkit-overflow-scrolling: touch
+      cursor: grab
+
+      &:active
+        cursor: grabbing
 
       &--open
         right: 0
@@ -150,7 +154,7 @@
     display: none
     z-index: var(--z-hamburger)
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       display: flex
     
     ::ng-deep .btn
@@ -173,7 +177,7 @@
 
   // Overlay oscuro (solo móvil y tablet)
   &__overlay
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       position: fixed
       inset: 0
       background-color: rgba(0, 0, 0, 0.5)
@@ -185,7 +189,7 @@
     gap: var(--spacing-6)
     align-items: center
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       flex-direction: column
       width: 100%
       gap: var(--spacing-4)
@@ -247,7 +251,7 @@
         background: transparent
         box-shadow: none
 
-    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md)
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg)
       font-size: var(--text-xl)
       
       ::ng-deep .btn
@@ -318,7 +322,7 @@
     align-items: center
     gap: var(--spacing-3)
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       flex-direction: column
       width: 100%
       gap: var(--spacing-4)
@@ -335,7 +339,7 @@
     &:hover
       background-color: rgba(255, 255, 255, 0.1)
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       justify-content: center
       padding: var(--spacing-3)
 
@@ -352,7 +356,7 @@
     flex-shrink: 0
     border: 2px solid var(--secundary-yellow-alt)
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       width: 50px
       height: 50px
       min-width: 50px
@@ -384,6 +388,6 @@
       color: var(--error)
       background-color: rgba(255, 255, 255, 0.1)
 
-    @media (max-width: $breakpoint-md)
+    @media (max-width: $breakpoint-lg)
       width: 100%
       padding: var(--spacing-3)

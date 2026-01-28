@@ -33,7 +33,15 @@
     </app-button>
 
     <!-- Action Items -->
-    <section class="header__actions" [class.header__actions--open]="isMobileMenuOpen()">
+    <section
+      class="header__actions"
+      [class.header__actions--open]="isMobileMenuOpen()"
+      #mobileMenu
+      (mousedown)="onMenuDragStart($event)"
+      (mousemove)="onMenuDragMove($event)"
+      (mouseup)="onMenuDragEnd()"
+      (mouseleave)="onMenuDragEnd()"
+    >
       <!-- Theme Toggle -->
       <app-button
         variant="ghost"
