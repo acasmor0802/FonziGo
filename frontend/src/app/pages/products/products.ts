@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideAngularModule, Search, Apple, Milk, Beef, Croissant, Wine, Package, Snowflake, Brush, SprayCan, PawPrint, LucideIconData } from 'lucide-angular';
+import { LucideAngularModule, Search, Apple, Milk, Beef, Croissant, Wine, Package, Snowflake, Brush, SprayCan, PawPrint, SlidersHorizontal, LucideIconData } from 'lucide-angular';
 
 // Import Components
 import { Header } from '../../layout/header/header';
@@ -114,6 +114,7 @@ export class ProductsPage implements OnInit {
   
   // Lucide Icons
   readonly SearchIcon = Search;
+  readonly FilterIcon = SlidersHorizontal;
   
   // Exponer Math para el template
   readonly Math = Math;

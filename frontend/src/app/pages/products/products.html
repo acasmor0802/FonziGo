@@ -64,7 +64,7 @@
       
       <!-- Mobile filter toggle -->
       <button class="filter-toggle" (click)="toggleFilters()" [attr.aria-expanded]="showFilters()" aria-controls="filters-panel" aria-label="Mostrar u ocultar filtros">
-        <span class="filter-toggle__icon" aria-hidden="true">⚙️</span>
+        <lucide-icon [img]="FilterIcon" [size]="18" [strokeWidth]="2" class="filter-toggle__icon" aria-hidden="true"></lucide-icon>
         <span>Filtros</span>
         @if (hasActiveFilters()) {
           <span class="filter-toggle__badge" aria-hidden="true">•</span>
