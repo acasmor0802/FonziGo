@@ -16,23 +16,23 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 echo ""
-echo "🔄 FonziGo Quick Update Script"
+echo " FonziGo Quick Update Script"
 echo "=============================="
 echo ""
 

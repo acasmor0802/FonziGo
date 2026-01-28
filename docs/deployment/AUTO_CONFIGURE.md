@@ -1,39 +1,39 @@
-# 🔧 Auto-Configuration Scripts
+#  Auto-Configuration Scripts
 
 Two scripts to automatically generate secure credentials and configure all environment files.
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Option 1: One-Click Setup (Simple)
 ```bash
 ./auto-setup.sh
 ```
 This script:
-- ✅ Generates ALL credentials automatically
-- ✅ Creates `.env` (development)
-- ✅ Creates `.env.prod` (production)
-- ✅ Creates `.credentials-backup.txt`
-- ✅ Sets secure permissions (600)
-- ✅ Ready to deploy immediately
+-  Generates ALL credentials automatically
+-  Creates `.env` (development)
+-  Creates `.env.prod` (production)
+-  Creates `.credentials-backup.txt`
+-  Sets secure permissions (600)
+-  Ready to deploy immediately
 
 ### Option 2: Interactive Setup (Detailed)
 ```bash
 ./auto-configure.sh
 ```
 This script:
-- ✅ Generates ALL credentials automatically
-- ✅ Creates `.env` (development)
-- ✅ Creates `.env.prod` (production)
-- ✅ Creates `.credentials-backup.txt`
-- ✅ Shows detailed step-by-step progress
-- ✅ Provides security warnings
-- ✅ Next steps guidance
+-  Generates ALL credentials automatically
+-  Creates `.env` (development)
+-  Creates `.env.prod` (production)
+-  Creates `.credentials-backup.txt`
+-  Shows detailed step-by-step progress
+-  Provides security warnings
+-  Next steps guidance
 
 ---
 
-## 📋 What Gets Generated
+##  What Gets Generated
 
 | Credential | Length | Usage |
 |------------|---------|--------|
@@ -46,41 +46,41 @@ All generated using OpenSSL with base64 encoding.
 
 ---
 
-## 🔐 Security Features
+##  Security Features
 
 ### Auto-Generated Credentials
-- ✅ Strong random passwords
-- ✅ Base64 encoding for compatibility
-- ✅ No predictable patterns
-- ✅ No default values
+-  Strong random passwords
+-  Base64 encoding for compatibility
+-  No predictable patterns
+-  No default values
 
 ### File Permissions
-- ✅ `.env` - 600 (owner read/write only)
-- ✅ `.env.prod` - 600 (owner read/write only)
-- ✅ `.credentials-backup.txt` - 600 (owner read/write only)
+-  `.env` - 600 (owner read/write only)
+-  `.env.prod` - 600 (owner read/write only)
+-  `.credentials-backup.txt` - 600 (owner read/write only)
 
 ### Backup File
-- ✅ All credentials saved to `.credentials-backup.txt`
-- ✅ Includes generation timestamp
-- ✅ Includes hostname and user
-- ⚠️ **Must be deleted after saving to password manager**
+-  All credentials saved to `.credentials-backup.txt`
+-  Includes generation timestamp
+-  Includes hostname and user
+-  **Must be deleted after saving to password manager**
 
 ---
 
-## 📁 Files Created
+##  Files Created
 
 ```
 FonziGo/
-├── .env                       # Development environment (auto-generated)
-├── .env.prod                  # Production environment (auto-generated)
-├── .credentials-backup.txt     # Credentials backup (delete after saving)
-├── auto-setup.sh               # ⭐ One-click setup script
-└── auto-configure.sh          # Interactive setup script
+ .env                       # Development environment (auto-generated)
+ .env.prod                  # Production environment (auto-generated)
+ .credentials-backup.txt     # Credentials backup (delete after saving)
+ auto-setup.sh               #  One-click setup script
+ auto-configure.sh          # Interactive setup script
 ```
 
 ---
 
-## 🎯 Usage Examples
+##  Usage Examples
 
 ### Development Setup
 ```bash
@@ -108,7 +108,7 @@ cd /opt/FonziGo
 
 ---
 
-## 📋 Environment Variables Created
+##  Environment Variables Created
 
 ### Database
 ```bash
@@ -160,7 +160,7 @@ ALLOWED_ORIGINS=https://fonzigo.app,https://www.fonzigo.app  (prod)
 
 ---
 
-## 🔄 Regenerating Credentials
+##  Regenerating Credentials
 
 If you need to regenerate credentials:
 
@@ -176,26 +176,26 @@ openssl rand -base64 64  # for JWT
 
 ---
 
-## ⚠️ Security Best Practices
+##  Security Best Practices
 
 ### DO
-- ✅ Run auto-setup before first deployment
-- ✅ Save credentials to a password manager
-- ✅ Delete `.credentials-backup.txt` after saving
-- ✅ Keep `.env.prod` in `.gitignore`
-- ✅ Use environment-specific files
-- ✅ Rotate credentials regularly
+-  Run auto-setup before first deployment
+-  Save credentials to a password manager
+-  Delete `.credentials-backup.txt` after saving
+-  Keep `.env.prod` in `.gitignore`
+-  Use environment-specific files
+-  Rotate credentials regularly
 
 ### DON'T
-- ❌ Commit `.env` or `.env.prod` to Git
-- ❌ Share credentials via email or chat
-- ❌ Use default/weak passwords
-- ❌ Store credentials in plain text files
-- ❌ Forget to delete backup files
+-  Commit `.env` or `.env.prod` to Git
+-  Share credentials via email or chat
+-  Use default/weak passwords
+-  Store credentials in plain text files
+-  Forget to delete backup files
 
 ---
 
-## 📝 Customization
+##  Customization
 
 After running auto-setup, you may want to customize:
 
@@ -225,7 +225,7 @@ nano .env.prod
 
 ---
 
-## 🔍 Verification
+##  Verification
 
 ### Check files exist
 ```bash
@@ -254,7 +254,7 @@ docker-compose -f docker-compose.prod.yaml --env-file .env.prod config
 
 ---
 
-## 🚨 Troubleshooting
+##  Troubleshooting
 
 ### Script fails to run
 ```bash
@@ -297,7 +297,7 @@ ls -la | grep -E "env|backup"
 
 ---
 
-## 📊 Comparison: auto-setup.sh vs auto-configure.sh
+##  Comparison: auto-setup.sh vs auto-configure.sh
 
 | Feature | auto-setup.sh | auto-configure.sh |
 |---------|---------------|-------------------|
@@ -310,7 +310,7 @@ ls -la | grep -E "env|backup"
 
 ---
 
-## ✅ Checklist After Running
+##  Checklist After Running
 
 - [ ] Script executed successfully
 - [ ] `.env` created
@@ -324,7 +324,7 @@ ls -la | grep -E "env|backup"
 
 ---
 
-## 📞 Support
+##  Support
 
 For issues:
 1. Check [QUICKSTART.md](docs/deployment/QUICKSTART.md)

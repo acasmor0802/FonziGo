@@ -17,27 +17,27 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 log_step() {
-    echo -e "${CYAN}▶ $1${NC}"
+    echo -e "${CYAN} $1${NC}"
 }
 
 echo ""
-echo "🔧 FonziGo Auto-Configuration Script"
+echo " FonziGo Auto-Configuration Script"
 echo "=================================="
 echo ""
 
@@ -139,7 +139,7 @@ cat > .env.prod <<EOF
 # ==============================================================================
 # FonziGo - Production Environment Variables
 # Auto-generated on $(date)
-# ⚠️  SECURITY WARNING: Keep this file secure!
+#   SECURITY WARNING: Keep this file secure!
 # ==============================================================================
 
 # -----------------------------------------------------------------------------
@@ -220,7 +220,7 @@ cat > .credentials-backup.txt <<EOF
 # ==============================================================================
 # FonziGo - Credentials Backup
 # Auto-generated on $(date)
-# ⚠️  SECURITY WARNING: Keep this file secure! Delete after storing securely!
+#   SECURITY WARNING: Keep this file secure! Delete after storing securely!
 # ==============================================================================
 
 # IMPORTANT: Save these credentials in a secure password manager!
@@ -269,28 +269,28 @@ chmod 600 .credentials-backup.txt
 log_success "Saved credentials to .credentials-backup.txt"
 
 echo ""
-log_success "🎉 Auto-configuration complete!"
+log_success " Auto-configuration complete!"
 echo ""
 
 # Display summary
-echo "📋 Configuration Summary:"
-echo "─────────────────────────────────────────────────"
+echo " Configuration Summary:"
 echo ""
-echo "✅ .env created (development)"
-echo "✅ .env.prod created (production)"
-echo "✅ .credentials-backup.txt created"
-echo "✅ All files secured with chmod 600"
+echo ""
+echo " .env created (development)"
+echo " .env.prod created (production)"
+echo " .credentials-backup.txt created"
+echo " All files secured with chmod 600"
 echo ""
 
 # Display what was generated (for verification, not full passwords)
 log_info "Generated Credentials:"
-echo "  • Database password: ${DB_PASSWORD:0:10}... (stored in backup)"
-echo "  • JWT secret: ${JWT_SECRET:0:10}... (stored in backup)"
-echo "  • Session secret: ${SESSION_SECRET:0:10}... (stored in backup)"
-echo "  • API key: ${API_KEY:0:10}... (stored in backup)"
+echo "   Database password: ${DB_PASSWORD:0:10}... (stored in backup)"
+echo "   JWT secret: ${JWT_SECRET:0:10}... (stored in backup)"
+echo "   Session secret: ${SESSION_SECRET:0:10}... (stored in backup)"
+echo "   API key: ${API_KEY:0:10}... (stored in backup)"
 echo ""
 
-log_warn "⚠️  IMPORTANT SECURITY NOTES:"
+log_warn "  IMPORTANT SECURITY NOTES:"
 echo ""
 echo "1. All credentials have been generated and stored in .credentials-backup.txt"
 echo "2. Open .credentials-backup.txt to view all credentials"
@@ -299,7 +299,7 @@ echo "4. After saving securely, delete .credentials-backup.txt:"
 echo "   rm .credentials-backup.txt"
 echo ""
 
-log_info "📝 Next Steps:"
+log_info " Next Steps:"
 echo ""
 echo "1. Update Google Client ID in both .env files if needed:"
 echo "   nano .env"
@@ -314,7 +314,7 @@ echo "3. Deploy the application:"
 echo "   ./deploy.sh"
 echo ""
 
-log_warn "⚠️  BACKUP YOUR CREDENTIALS:"
+log_warn "  BACKUP YOUR CREDENTIALS:"
 echo ""
 echo "Before deploying, make sure to save the credentials from:"
 echo "   .credentials-backup.txt"
@@ -322,12 +322,12 @@ echo ""
 echo "Use a secure password manager to store them."
 echo ""
 
-log_info "🔐 File Permissions:"
+log_info " File Permissions:"
 echo ""
 echo "  .env              - 600 (owner read/write only)"
 echo "  .env.prod         - 600 (owner read/write only)"
 echo "  .credentials-backup.txt - 600 (owner read/write only)"
 echo ""
 
-log_success "✨ All environment files are now configured automatically!"
+log_success " All environment files are now configured automatically!"
 echo ""

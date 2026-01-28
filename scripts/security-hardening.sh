@@ -16,23 +16,23 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 echo ""
-echo "🔒 FonziGo Security Hardening Script"
+echo " FonziGo Security Hardening Script"
 echo "=================================="
 echo ""
 
@@ -279,27 +279,27 @@ fi
 echo ""
 
 # Print summary
-log_success "🎉 Security hardening complete!"
+log_success " Security hardening complete!"
 echo ""
-echo "📋 Security hardening summary:"
-echo "  ✅ SSH hardened (root login disabled, key-based auth only)"
-echo "  ✅ Kernel security parameters applied"
-echo "  ✅ Unused services disabled"
-echo "  ✅ AIDE (Intrusion Detection) installed"
-echo "  ✅ Shared memory secured"
-echo "  ✅ Automatic security updates configured"
-echo "  ✅ Docker hardened"
-echo "  ✅ Fail2ban strengthened"
-echo "  ✅ System file permissions secured"
-echo "  ✅ Rootkit Hunter installed"
+echo " Security hardening summary:"
+echo "   SSH hardened (root login disabled, key-based auth only)"
+echo "   Kernel security parameters applied"
+echo "   Unused services disabled"
+echo "   AIDE (Intrusion Detection) installed"
+echo "   Shared memory secured"
+echo "   Automatic security updates configured"
+echo "   Docker hardened"
+echo "   Fail2ban strengthened"
+echo "   System file permissions secured"
+echo "   Rootkit Hunter installed"
 echo ""
-echo "📝 Important notes:"
+echo " Important notes:"
 echo "  - SSH root login is disabled"
 echo "  - SSH password authentication is disabled (use SSH keys only)"
 echo "  - Fail2ban will ban IPs after 3 failed attempts"
 echo "  - Security updates will be installed automatically"
 echo ""
-echo "🔍 Security audit commands:"
+echo " Security audit commands:"
 echo "  - Check system integrity: aide --check"
 echo "  - Scan for rootkits: rkhunter --check"
 echo "  - View fail2ban status: fail2ban-client status"

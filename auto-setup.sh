@@ -11,19 +11,19 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${GREEN}🚀 FonziGo One-Click Auto Setup${NC}"
+echo -e "${GREEN} FonziGo One-Click Auto Setup${NC}"
 echo "=================================="
 echo ""
 
 # Generate all credentials
-echo "🔐 Generating secure credentials..."
+echo " Generating secure credentials..."
 
 DB_PASS=$(openssl rand -base64 32 | tr -d "=+/\n" | cut -c1-28)
 JWT_SECRET=$(openssl rand -base64 64 | tr -d "=+/\n" | cut -c1-60)
 SESSION_SECRET=$(openssl rand -base64 32 | tr -d "=+/\n" | cut -c1-28)
 API_KEY=$(openssl rand -base64 32 | tr -d "=+/\n" | cut -c1-28)
 
-echo -e "${GREEN}✅ All credentials generated${NC}"
+echo -e "${GREEN} All credentials generated${NC}"
 echo ""
 
 # Create .env (development)
@@ -99,21 +99,21 @@ JWT SECRET: $JWT_SECRET
 SESSION SECRET: $SESSION_SECRET
 API KEY: $API_KEY
 
-⚠️  SAVE THESE CREDENTIALS SECURELY!
+  SAVE THESE CREDENTIALS SECURELY!
 After saving, delete this file with: rm .credentials-backup.txt
 EOF
 
 # Set secure permissions
 chmod 600 .env .env.prod .credentials-backup.txt
 
-echo -e "${GREEN}✅ All files created and secured!${NC}"
+echo -e "${GREEN} All files created and secured!${NC}"
 echo ""
-echo "📁 Files created:"
-echo "  ✅ .env (development)"
-echo "  ✅ .env.prod (production)"
-echo "  ✅ .credentials-backup.txt (credentials backup)"
+echo " Files created:"
+echo "   .env (development)"
+echo "   .env.prod (production)"
+echo "   .credentials-backup.txt (credentials backup)"
 echo ""
-echo "📋 Credentials saved in .credentials-backup.txt"
-echo -e "${BLUE}ℹ️  Open it to view: cat .credentials-backup.txt${NC}"
+echo " Credentials saved in .credentials-backup.txt"
+echo -e "${BLUE}  Open it to view: cat .credentials-backup.txt${NC}"
 echo ""
-echo -e "${GREEN}🎉 Ready to deploy! Run: ./deploy.sh${NC}"
+echo -e "${GREEN} Ready to deploy! Run: ./deploy.sh${NC}"

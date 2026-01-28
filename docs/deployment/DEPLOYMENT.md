@@ -1,13 +1,13 @@
-# Guía de Despliegue
+# Gua de Despliegue
 
-## 🚀 Opciones de Despliegue
+##  Opciones de Despliegue
 
-1. **VPS (Recomendado)** - Ubuntu 24.04 + Docker + Caddy con SSL automático
-   - [Ver guía completa](DEPLOYMENT_VPS.md)
-   - Ventajas: Control total, SSL automático, escalable, más barato a largo plazo
+1. **VPS (Recomendado)** - Ubuntu 24.04 + Docker + Caddy con SSL automtico
+   - [Ver gua completa](DEPLOYMENT_VPS.md)
+   - Ventajas: Control total, SSL automtico, escalable, ms barato a largo plazo
 
-2. **GitHub Pages** - Frontend estático gratuito
-   - Para el frontend estático
+2. **GitHub Pages** - Frontend esttico gratuito
+   - Para el frontend esttico
    - Backend requiere servicio separado
 
 3. **Render** - PaaS gratuito con limitaciones
@@ -16,21 +16,21 @@
 
 ---
 
-## 📊 Comparación de Plataformas
+##  Comparacin de Plataformas
 
-| Característica | VPS | GitHub Pages | Render |
+| Caracterstica | VPS | GitHub Pages | Render |
 |--------------|------|-------------|---------|
 | **Coste** | $5-20/mes | Gratis | Gratis/$7/mes |
 | **Control** | Total | Limitado | Limitado |
-| **SSL** | Automático (Caddy) | Automático | Automático |
-| **Cold Start** | No | No | Sí (30-50s) |
-| **Escalabilidad** | Fácil | No | Pago |
+| **SSL** | Automtico (Caddy) | Automtico | Automtico |
+| **Cold Start** | No | No | S (30-50s) |
+| **Escalabilidad** | Fcil | No | Pago |
 | **Base de datos** | Incluida | No | Incluida |
-| **Dificultad** | Media | Fácil | Fácil |
+| **Dificultad** | Media | Fcil | Fcil |
 
 ---
 
-## 🚀 Despliegue VPS (Recomendado)
+##  Despliegue VPS (Recomendado)
 
 ### Quick Start (5 minutos)
 
@@ -52,23 +52,23 @@ nano .env.prod
 ./deploy.sh
 ```
 
-**📚 Documentación completa:** [DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md)
+** Documentacin completa:** [DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md)
 
 ---
 
-## 📄 Despliegue en GitHub Pages (Solo Frontend)
+##  Despliegue en GitHub Pages (Solo Frontend)
 
-## 🚀 Despliegue del Frontend
+##  Despliegue del Frontend
 
-### Opción 1: Despliegue Automático con GitHub Actions (Recomendado)
+### Opcin 1: Despliegue Automtico con GitHub Actions (Recomendado)
 
-El proyecto está configurado para desplegarse automáticamente en GitHub Pages cada vez que haces push a la rama `main`.
+El proyecto est configurado para desplegarse automticamente en GitHub Pages cada vez que haces push a la rama `main`.
 
-#### Configuración inicial en GitHub:
+#### Configuracin inicial en GitHub:
 
 1. **Activa GitHub Pages:**
    - Ve a tu repositorio en GitHub
-   - Settings → Pages
+   - Settings  Pages
    - Source: selecciona **GitHub Actions**
 
 2. **Hacer push al repositorio:**
@@ -79,11 +79,11 @@ El proyecto está configurado para desplegarse automáticamente en GitHub Pages 
    ```
 
 3. **Verifica el despliegue:**
-   - Ve a la pestaña **Actions** en tu repositorio
-   - Espera a que el workflow termine (ícono verde ✅)
-   - Tu sitio estará disponible en: `https://acasmor0802.github.io/FonziGo/`
+   - Ve a la pestaa **Actions** en tu repositorio
+   - Espera a que el workflow termine (cono verde )
+   - Tu sitio estar disponible en: `https://acasmor0802.github.io/FonziGo/`
 
-### Opción 2: Despliegue Manual
+### Opcin 2: Despliegue Manual
 
 Si prefieres desplegar manualmente:
 
@@ -98,39 +98,39 @@ npm install
 npm run deploy
 ```
 
-## 📋 URLs del Proyecto
+##  URLs del Proyecto
 
-- **Producción:** https://acasmor0802.github.io/FonziGo/
+- **Produccin:** https://acasmor0802.github.io/FonziGo/
 - **Desarrollo local:** http://localhost:4200
 
-## ⚙️ Configuración del Backend
+##  Configuracin del Backend
 
-⚠️ **IMPORTANTE:** GitHub Pages solo sirve contenido estático. El backend de Spring Boot debe desplegarse en otro servicio:
+ **IMPORTANTE:** GitHub Pages solo sirve contenido esttico. El backend de Spring Boot debe desplegarse en otro servicio:
 
 ### Opciones para el Backend:
 
 #### 1. **Railway** (Recomendado - Gratis)
 - Conecta tu repo de GitHub
-- Railway detecta automáticamente Spring Boot
+- Railway detecta automticamente Spring Boot
 - URL: `https://[tu-app].railway.app`
 
 **Pasos:**
 1. Ve a [railway.app](https://railway.app)
-2. New Project → Deploy from GitHub
+2. New Project  Deploy from GitHub
 3. Selecciona el repositorio FonziGo
 4. Selecciona la carpeta `backend`
-5. Railway desplegará automáticamente
+5. Railway desplegar automticamente
 
 #### 2. **Render** (Gratis con limitaciones)
-- Servicio gratuito que duerme después de 15 min sin uso
+- Servicio gratuito que duerme despus de 15 min sin uso
 - URL: `https://[tu-app].onrender.com`
 
 #### 3. **Heroku** (Ya no tiene plan gratuito)
-- Opción de pago ($7/mes)
+- Opcin de pago ($7/mes)
 
 ### Configurar la URL del Backend en Angular
 
-Después de desplegar el backend, actualiza la URL en tu frontend:
+Despus de desplegar el backend, actualiza la URL en tu frontend:
 
 ```typescript
 // frontend/src/environments/environment.prod.ts
@@ -145,13 +145,13 @@ Luego reconstruye y despliega:
 npm run deploy
 ```
 
-## 🔧 Solución de Problemas
+##  Solucin de Problemas
 
 ### Error 404 en rutas de Angular
 
 Si al navegar a `/productos` obtienes 404:
-- ✅ Verifica que el archivo `404.html` existe en `frontend/public/`
-- ✅ Asegúrate de que `.nojekyll` está en `frontend/public/`
+-  Verifica que el archivo `404.html` existe en `frontend/public/`
+-  Asegrate de que `.nojekyll` est en `frontend/public/`
 
 ### Estilos no se cargan
 
@@ -184,29 +184,29 @@ public class CorsConfig {
 }
 ```
 
-## 📊 Monitoreo
+##  Monitoreo
 
 - **Estado del despliegue:** https://github.com/acasmor0802/FonziGo/actions
 - **Logs del backend:** Panel de tu servicio (Railway/Render)
 
-## 🔄 Actualizar el Sitio
+##  Actualizar el Sitio
 
 ```bash
-# Hacer cambios en el código
+# Hacer cambios en el cdigo
 git add .
-git commit -m "Descripción de cambios"
+git commit -m "Descripcin de cambios"
 git push origin main
 
-# GitHub Actions desplegará automáticamente
+# GitHub Actions desplegar automticamente
 ```
 
-## 📝 Comandos Útiles
+##  Comandos tiles
 
 ```bash
 # Desarrollo local
 npm start
 
-# Build de producción
+# Build de produccin
 npm run build:prod
 
 # Despliegue manual
@@ -217,9 +217,9 @@ cd dist/frontend/browser
 npx http-server
 ```
 
-## ✅ Checklist de Despliegue
+##  Checklist de Despliegue
 
-- [ ] GitHub Pages activado en Settings → Pages
+- [ ] GitHub Pages activado en Settings  Pages
 - [ ] Workflow de GitHub Actions configurado (`.github/workflows/deploy.yml`)
 - [ ] Base href configurado como `/FonziGo/`
 - [ ] Archivos `.nojekyll` y `404.html` en `public/`

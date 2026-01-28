@@ -14,23 +14,23 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 echo ""
-echo "🏥 FonziGo Health Check"
+echo " FonziGo Health Check"
 echo "======================="
 echo ""
 
@@ -57,10 +57,10 @@ check_service() {
         # Test URL if provided
         if [ -n "$url" ]; then
             if curl -sf -o /dev/null -w "%{http_code}" "$url" | grep -q "200\|204"; then
-                echo -n "  ✓ Endpoint accessible: $url"
+                echo -n "   Endpoint accessible: $url"
                 echo ""
             else
-                echo -n "  ⚠ Endpoint not accessible: $url"
+                echo -n "   Endpoint not accessible: $url"
                 echo ""
             fi
         fi
@@ -83,7 +83,7 @@ check_service() {
         # Test URL if provided
         if [ -n "$url" ]; then
             if curl -sf -o /dev/null -w "%{http_code}" "$url" | grep -q "200\|204"; then
-                echo -n "  ✓ Endpoint accessible: $url"
+                echo -n "   Endpoint accessible: $url"
                 echo ""
                 return 0
             else
@@ -281,6 +281,6 @@ check_logs_for_errors
 echo "======================="
 log_success "Health check complete!"
 echo ""
-echo "📊 Quick status:"
+echo " Quick status:"
 docker ps --format "table {{.Names}}\t{{.Status}}"
 echo ""

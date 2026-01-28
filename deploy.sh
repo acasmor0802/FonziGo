@@ -16,24 +16,24 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 # Print header
 echo ""
-echo "🚀 FonziGo Deployment Script"
+echo " FonziGo Deployment Script"
 echo "============================"
 echo ""
 
@@ -296,27 +296,27 @@ docker-compose -f docker-compose.prod.yaml --env-file .env.prod logs --tail=20
 echo ""
 
 # Print deployment summary
-log_success "🎉 Deployment complete!"
+log_success " Deployment complete!"
 echo ""
-echo "📋 Deployment Summary:"
+echo " Deployment Summary:"
 echo "  - All containers started successfully"
 echo "  - Health checks performed"
 echo "  - Application should be accessible shortly"
 echo ""
-echo "🌐 Your application:"
+echo " Your application:"
 echo "  Frontend: https://fonzigo.app"
 echo "  API: https://fonzigo.app/api"
 echo "  Swagger: https://fonzigo.app/swagger-ui.html"
 echo "  Health: https://fonzigo.app/health"
 echo ""
-echo "📊 Monitoring commands:"
+echo " Monitoring commands:"
 echo "  - View logs: docker-compose -f docker-compose.prod.yaml logs -f"
 echo "  - Check status: docker-compose -f docker-compose.prod.yaml ps"
 echo "  - Restart all: docker-compose -f docker-compose.prod.yaml restart"
 echo "  - Stop all: docker-compose -f docker-compose.prod.yaml down"
 echo "  - View container stats: docker stats"
 echo ""
-echo "🔧 Troubleshooting:"
+echo " Troubleshooting:"
 echo "  - If SSL fails: Check DNS points to correct IP"
 echo "  - If containers won't start: Check logs with 'docker-compose logs'"
 echo "  - If database fails: Check volume exists with 'docker volume ls'"

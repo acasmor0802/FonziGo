@@ -16,22 +16,22 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
-echo "🚀 FonziGo VPS Setup Script"
+echo " FonziGo VPS Setup Script"
 echo "============================="
 echo ""
 
@@ -276,9 +276,9 @@ log_success "Monitoring tools installed"
 
 # Print summary
 echo ""
-log_success "🎉 VPS setup complete!"
+log_success " VPS setup complete!"
 echo ""
-echo "📋 Setup Summary:"
+echo " Setup Summary:"
 echo "  - Docker and Docker Compose installed"
 echo "  - Firewall configured (ports: 22, 80, 443)"
 echo "  - Fail2ban configured for SSH protection"
@@ -287,7 +287,7 @@ echo "  - Environment files created"
 echo "  - Docker daemon configured for security"
 echo "  - Log rotation configured"
 echo ""
-echo "📝 CRITICAL NEXT STEPS:"
+echo " CRITICAL NEXT STEPS:"
 echo ""
 echo "1. Edit production environment file:"
 echo "   nano /opt/fonzigo/.env.prod"
@@ -298,7 +298,7 @@ echo "   - SECURITY_JWT_SECRET_KEY (run: openssl rand -base64 64)"
 echo "   - GOOGLE_CLIENT_ID (your production Google OAuth client ID)"
 echo ""
 echo "3. Point your DNS (fonzigo.app) to this VPS IP address:"
-echo "   A record: fonzigo.app → $(curl -s ifconfig.me)"
+echo "   A record: fonzigo.app  $(curl -s ifconfig.me)"
 echo ""
 echo "4. Wait for DNS propagation (usually 5-30 minutes)"
 echo ""
@@ -306,7 +306,7 @@ echo "5. Deploy the application:"
 echo "   cd /opt/fonzigo"
 echo "   ./deploy.sh"
 echo ""
-echo "🔍 Useful commands:"
+echo " Useful commands:"
 echo "   - Check service status: docker-compose -f /opt/fonzigo/docker-compose.prod.yaml ps"
 echo "   - View logs: docker-compose -f /opt/fonzigo/docker-compose.prod.yaml logs -f"
 echo "   - Restart services: docker-compose -f /opt/fonzigo/docker-compose.prod.yaml restart"

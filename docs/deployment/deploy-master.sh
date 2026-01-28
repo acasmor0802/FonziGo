@@ -17,31 +17,31 @@ NC='\033[0m' # No Color
 
 # Functions
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 log_step() {
     echo ""
-    echo -e "${CYAN}▶ $1${NC}"
+    echo -e "${CYAN} $1${NC}"
 }
 
 log_header() {
     echo ""
-    echo -e "${MAGENTA}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${MAGENTA}${NC}"
     echo -e "${MAGENTA}  $1${NC}"
-    echo -e "${MAGENTA}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${MAGENTA}${NC}"
     echo ""
 }
 
@@ -54,7 +54,7 @@ check_caddy_errors() {
         log_error "Caddy has rate_limit error (module not available)"
         return 1
     else
-        log_success "✅ No rate_limit errors in Caddy"
+        log_success " No rate_limit errors in Caddy"
     fi
     
     # Check for parsing errors
@@ -62,15 +62,15 @@ check_caddy_errors() {
         log_error "Caddy has parsing errors"
         return 1
     else
-        log_success "✅ No parsing errors in Caddy"
+        log_success " No parsing errors in Caddy"
     fi
     
     # Check for SSL certificate errors
     if docker logs fonzigo-caddy 2>&1 | grep -qi "certificate.*error\|obtaining.*error"; then
-        log_warn "⚠️ Caddy has SSL certificate errors"
+        log_warn " Caddy has SSL certificate errors"
         return 1
     else
-        log_success "✅ No SSL certificate errors in Caddy"
+        log_success " No SSL certificate errors in Caddy"
     fi
     
     return 0
@@ -89,7 +89,7 @@ check_frontend_health() {
     if ! docker ps --format '{{.Health}}' --filter "name=fonzigo-frontend" | grep -q "healthy"; then
         log_warn "Frontend is running but NOT healthy"
     else
-        log_success "✅ Frontend is healthy"
+        log_success " Frontend is healthy"
     fi
     
     return 0
@@ -110,7 +110,7 @@ check_frontend_content() {
         log_error "index.html is too small ($size bytes) - likely empty or corrupted"
         return 1
     else
-        log_success "✅ index.html exists ($size bytes)"
+        log_success " index.html exists ($size bytes)"
     fi
     
     # Check for JS files
@@ -119,7 +119,7 @@ check_frontend_content() {
         log_error "No JavaScript files found in container"
         return 1
     else
-        log_success "✅ Found $js_count JavaScript file(s)"
+        log_success " Found $js_count JavaScript file(s)"
     fi
     
     # Check for CSS files
@@ -127,7 +127,7 @@ check_frontend_content() {
     if [ "$css_count" -eq 0 ]; then
         log_warn "No CSS files found in container"
     else
-        log_success "✅ Found $css_count CSS file(s)"
+        log_success " Found $css_count CSS file(s)"
     fi
     
     return 0
@@ -141,7 +141,7 @@ check_frontend_via_caddy() {
         log_error "Frontend health endpoint returned HTTP $response (expected 200)"
         return 1
     else
-        log_success "✅ Frontend health endpoint returned 200"
+        log_success " Frontend health endpoint returned 200"
     fi
     
     # Check main page
@@ -150,7 +150,7 @@ check_frontend_via_caddy() {
         log_error "Frontend main page returned HTTP $response (expected 200)"
         return 1
     else
-        log_success "✅ Frontend main page returned 200"
+        log_success " Frontend main page returned 200"
     fi
     
     return 0
@@ -182,7 +182,7 @@ diagnose_frontend() {
         log_error "Nginx configuration has errors"
         issues=$((issues + 1))
     else
-        log_success "✅ Nginx configuration is valid"
+        log_success " Nginx configuration is valid"
     fi
     
     return $issues
@@ -193,13 +193,13 @@ fix_caddy() {
     
     # Check if Caddyfile needs rate_limit removal
     if grep -q "rate_limit\|@ratelimit" Caddyfile; then
-        log_warn "⚠️ Caddyfile still has rate_limit (should be removed)"
+        log_warn " Caddyfile still has rate_limit (should be removed)"
         log_info "Creating clean Caddyfile..."
         
         # This will be done by the new Caddyfile we created
         return 1
     else
-        log_success "✅ Caddyfile is clean (no rate_limit)"
+        log_success " Caddyfile is clean (no rate_limit)"
         return 0
     fi
 }
@@ -218,19 +218,19 @@ fix_frontend_dockerfile() {
     
     # Check if dist/frontend/browser/ or dist/browser exists
     if docker exec fonzigo-frontend test -d /app/dist/frontend/browser; then
-        log_success "✅ Angular build found in /app/dist/frontend/browser/"
+        log_success " Angular build found in /app/dist/frontend/browser/"
     elif docker exec fonzigo-frontend test -d /app/dist/browser; then
-        log_warn "⚠️ Angular build found in /app/dist/browser/ (different from expected /app/dist/frontend/browser/)"
+        log_warn " Angular build found in /app/dist/browser/ (different from expected /app/dist/frontend/browser/)"
     else
-        log_error "❌ Angular build NOT found in container"
+        log_error " Angular build NOT found in container"
         return 1
     fi
     
     # Check if files are being served
     if docker exec fonzigo-frontend test -f /usr/share/nginx/html/index.html; then
-        log_success "✅ Files are being served from /usr/share/nginx/html/"
+        log_success " Files are being served from /usr/share/nginx/html/"
     else
-        log_error "❌ Files NOT being served from /usr/share/nginx/html/"
+        log_error " Files NOT being served from /usr/share/nginx/html/"
         return 1
     fi
     
@@ -260,12 +260,12 @@ rebuild_frontend() {
     while [ $attempts -lt 24 ]; do
         local health=$(docker ps --format '{{.Health}}' --filter "name=fonzigo-frontend" | grep -o "healthy")
         if [ -n "$health" ]; then
-            log_success "✅ Frontend is healthy after $((attempts * 5)) seconds"
+            log_success " Frontend is healthy after $((attempts * 5)) seconds"
             return 0
         fi
         
         if [ $attempts -eq 23 ]; then
-            log_warn "⚠️ Frontend not healthy after 2 minutes, but will continue with deployment"
+            log_warn " Frontend not healthy after 2 minutes, but will continue with deployment"
             return 0
         fi
         
@@ -278,7 +278,7 @@ rebuild_frontend() {
 
 main() {
     echo ""
-    echo "🚀 FonziGo MASTER Deployment Script"
+    echo " FonziGo MASTER Deployment Script"
     echo "=================================="
     echo ""
     
@@ -289,12 +289,12 @@ main() {
         exit 1
     fi
     
-    log_success "✅ Environment files found"
+    log_success " Environment files found"
     
     # Step 2: Check Caddy
     log_step "Step 2/6: Checking Caddy configuration"
     if ! check_caddy_errors; then
-        log_warn "⚠️ Caddy has errors, will try to fix..."
+        log_warn " Caddy has errors, will try to fix..."
         # Don't exit, continue with deployment
     fi
     
@@ -303,21 +303,21 @@ main() {
     local frontend_issues=$(diagnose_frontend)
     
     if [ $frontend_issues -eq 0 ]; then
-        log_success "✅ No frontend issues detected"
+        log_success " No frontend issues detected"
     else
-        log_warn "⚠️ Detected $frontend_issues frontend issue(s)"
+        log_warn " Detected $frontend_issues frontend issue(s)"
         log_info "Attempting to fix frontend..."
         
         # Fix Dockerfile if needed
         if ! fix_frontend_dockerfile; then
             log_error "Failed to fix Frontend Dockerfile"
         else
-            log_success "✅ Frontend Dockerfile verified and correct"
+            log_success " Frontend Dockerfile verified and correct"
         fi
         
         # Rebuild frontend if needed
         if [ $frontend_issues -gt 0 ]; then
-            log_warn "⚠️ Rebuilding frontend to fix issues..."
+            log_warn " Rebuilding frontend to fix issues..."
             if ! rebuild_frontend; then
                 log_error "Failed to rebuild frontend"
             fi
@@ -330,34 +330,34 @@ main() {
     # Database
     local db_health=$(docker ps --format '{{.Health}}' --filter "name=fonzigo-database" | grep -o "healthy")
     if [ -n "$db_health" ]; then
-        log_success "✅ Database is healthy"
+        log_success " Database is healthy"
     else
-        log_warn "⚠️ Database health status: $(docker ps --format '{{.Health}}' --filter "name=fonzigo-database" | grep -o "unhealthy\|starting" || echo "not running")"
+        log_warn " Database health status: $(docker ps --format '{{.Health}}' --filter "name=fonzigo-database" | grep -o "unhealthy\|starting" || echo "not running")"
     fi
     
     # Backend
     local backend_health=$(docker ps --format '{{.Health}}' --filter "name=fonzigo-backend" | grep -o "healthy")
     if [ -n "$backend_health" ]; then
-        log_success "✅ Backend is healthy"
+        log_success " Backend is healthy"
     else
-        log_warn "⚠️ Backend health status: $(docker ps --format '{{.Health}}' --filter "name=fonzigo-backend" | grep -o "unhealthy\|starting" || echo "not running")"
+        log_warn " Backend health status: $(docker ps --format '{{.Health}}' --filter "name=fonzigo-backend" | grep -o "unhealthy\|starting" || echo "not running")"
     fi
     
     # Caddy
     local caddy_health=$(docker ps --format '{{.Health}}' --filter "name=fonzigo-caddy" | grep -o "healthy")
     if [ -n "$caddy_health" ]; then
-        log_success "✅ Caddy is healthy"
+        log_success " Caddy is healthy"
     else
-        log_warn "⚠️ Caddy health status: $(docker ps --format '{{.Health}}' --filter "name=fonzigo-caddy" | grep -o "unhealthy\|starting" || echo "not running")"
+        log_warn " Caddy health status: $(docker ps --format '{{.Health}}' --filter "name=fonzigo-caddy" | grep -o "unhealthy\|starting" || echo "not running")"
     fi
     
     # Step 5: Verify SSL
     log_step "Step 5/6: Verifying SSL certificate"
     
     if docker logs fonzigo-caddy 2>&1 | grep -qi "certificate.*obtained\|certificate.*successfully"; then
-        log_success "✅ SSL certificate obtained successfully"
+        log_success " SSL certificate obtained successfully"
     else
-        log_warn "⚠️ SSL certificate not yet obtained (may take a few more minutes)"
+        log_warn " SSL certificate not yet obtained (may take a few more minutes)"
     fi
     
     # Step 6: Final verification
@@ -369,25 +369,25 @@ main() {
     # Health endpoint
     local health_response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/health)
     if [ "$health_response" = "200" ]; then
-        log_success "✅ /health endpoint: 200 OK"
+        log_success " /health endpoint: 200 OK"
     else
-        log_warn "⚠️ /health endpoint: $health_response (expected 200)"
+        log_warn " /health endpoint: $health_response (expected 200)"
     fi
     
     # Main page
     local main_response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/)
     if [ "$main_response" = "200" ]; then
-        log_success "✅ Main page: 200 OK"
+        log_success " Main page: 200 OK"
     else
-        log_warn "⚠️ Main page: $main_response (expected 200)"
+        log_warn " Main page: $main_response (expected 200)"
     fi
     
     # Backend API
     local api_response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/api/actuator/health)
     if [ "$api_response" = "200" ]; then
-        log_success "✅ Backend API: 200 OK"
+        log_success " Backend API: 200 OK"
     else
-        log_warn "⚠️ Backend API: $api_response (expected 200)"
+        log_warn " Backend API: $api_response (expected 200)"
     fi
     
     # Summary
@@ -396,16 +396,16 @@ main() {
     echo ""
     
     echo "Services Status:"
-    echo "  ├─ fonzigo-database: $(docker ps --format '{{.Status}}' --filter "name=fonzigo-database" | head -1)"
-    echo "  ├─ fonzigo-backend:  $(docker ps --format '{{.Status}}' --filter "name=fonzigo-backend" | head -1)"
-    echo "  ├─ fonzigo-frontend: $(docker ps --format '{{.Status}}' --filter "name=fonzigo-foreground" | head -1)"
-    echo "  └─ fonzigo-caddy: $(docker ps --format '{{.Status}}' --filter "name=fonzigo-caddy' | head -1)"
+    echo "   fonzigo-database: $(docker ps --format '{{.Status}}' --filter "name=fonzigo-database" | head -1)"
+    echo "   fonzigo-backend:  $(docker ps --format '{{.Status}}' --filter "name=fonzigo-backend" | head -1)"
+    echo "   fonzigo-frontend: $(docker ps --format '{{.Status}}' --filter "name=fonzigo-foreground" | head -1)"
+    echo "   fonzigo-caddy: $(docker ps --format '{{.Status}}' --filter "name=fonzigo-caddy' | head -1)"
     echo ""
     
     echo "Endpoints Test:"
-    echo "  ├─ /health: $health_response ($(test $health_response = "200" && echo "✅" || echo "❌"))"
-    echo "  ├─ / (main): $main_response ($(test $main_response = "200" && echo "✅" || echo "❌"))"
-    echo "  └─ /api/actuator/health: $api_response ($(test $api_response = "200" && echo "✅" || echo "❌"))"
+    echo "   /health: $health_response ($(test $health_response = "200" && echo "" || echo ""))"
+    echo "   / (main): $main_response ($(test $main_response = "200" && echo "" || echo ""))"
+    echo "   /api/actuator/health: $api_response ($(test $api_response = "200" && echo "" || echo ""))"
     echo ""
     
     echo "Next Steps:"
@@ -416,9 +416,9 @@ main() {
     echo ""
     
     if [ "$health_response" = "200" ] && [ "$main_response" = "200" ] && [ "$api_response" = "200" ]; then
-        log_success "🎉 DEPLOYMENT SUCCESSFUL - All services are running and responding!"
+        log_success " DEPLOYMENT SUCCESSFUL - All services are running and responding!"
     else
-        log_warn "⚠️ Some services may not be fully ready yet"
+        log_warn " Some services may not be fully ready yet"
         log_info "Wait 1-2 more minutes and run this script again: ./deploy-master.sh"
     fi
 }

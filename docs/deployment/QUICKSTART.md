@@ -4,7 +4,7 @@ Quick reference guide for deploying FonziGo on VPS.
 
 ---
 
-## 🚀 Quick Deployment (5 minutes)
+##  Quick Deployment (5 minutes)
 
 ```bash
 # 1. Connect to VPS
@@ -33,7 +33,7 @@ nano .env.prod
 
 ---
 
-## 🔧 Configuration Steps
+##  Configuration Steps
 
 ### Generate Secure Passwords
 
@@ -61,7 +61,7 @@ Value: YOUR_VPS_IP
 
 ---
 
-## 📊 Monitoring Commands
+##  Monitoring Commands
 
 ```bash
 # Health check
@@ -79,7 +79,7 @@ docker stats
 
 ---
 
-## 🔄 Update Application
+##  Update Application
 
 ```bash
 cd /opt/FonziGo
@@ -88,7 +88,7 @@ cd /opt/FonziGo
 
 ---
 
-## 🛠️ Troubleshooting
+##  Troubleshooting
 
 ### Container won't start
 ```bash
@@ -116,7 +116,7 @@ docker exec -it fonzigo-database psql -U fonzi -d fonzigo_prod -c "SELECT 1"
 
 ---
 
-## 📁 Important Files
+##  Important Files
 
 | File | Purpose |
 |------|---------|
@@ -129,7 +129,7 @@ docker exec -it fonzigo-database psql -U fonzi -d fonzigo_prod -c "SELECT 1"
 
 ---
 
-## 🔐 Security Checklist
+##  Security Checklist
 
 - [ ] Changed POSTGRES_PASSWORD from default
 - [ ] Changed SECURITY_JWT_SECRET_KEY from default
@@ -141,7 +141,7 @@ docker exec -it fonzigo-database psql -U fonzi -d fonzigo_prod -c "SELECT 1"
 
 ---
 
-## 🌐 Access URLs
+##  Access URLs
 
 After deployment, access at:
 
@@ -152,7 +152,7 @@ After deployment, access at:
 
 ---
 
-## 📞 Support
+##  Support
 
 - Full guide: [DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md)
 - Issues: https://github.com/acasmor0802/FonziGo/issues

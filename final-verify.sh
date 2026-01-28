@@ -16,29 +16,29 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 log_section() {
     echo ""
-    echo -e "${BLUE}▶ $1${NC}"
-    echo "─────────────────────────────────────────"
+    echo -e "${BLUE} $1${NC}"
+    echo ""
 }
 
 echo ""
-echo "🔍 FonziGo Final Verification"
+echo " FonziGo Final Verification"
 echo "=================================="
 echo ""
 log_section "Check 1: Caddyfile Configuration"
@@ -54,7 +54,7 @@ if grep -q "graceful_shutdown" Caddyfile; then
     log_error "Caddyfile still contains 'graceful_shutdown_timeout'!"
     exit 1
 else
-    log_success "✅ No invalid options in Caddyfile"
+    log_success " No invalid options in Caddyfile"
 fi
 
 # Check domain references
@@ -70,33 +70,33 @@ if grep -qi "render\|onrender" Caddyfile; then
     log_error "Caddyfile contains references to 'render'!"
     exit 1
 else
-    log_success "✅ No references to render.com"
+    log_success " No references to render.com"
 fi
 
 # Check email configuration
 if grep -q "admin@fonzigo.app" Caddyfile; then
-    log_success "✅ Email configured correctly (admin@fonzigo.app)"
+    log_success " Email configured correctly (admin@fonzigo.app)"
 else
-    log_warn "⚠️ Email may not be configured for SSL"
+    log_warn " Email may not be configured for SSL"
 fi
 
 # Check SSL configuration
 if grep -q "encode gzip zstd" Caddyfile; then
-    log_success "✅ Gzip compression enabled"
+    log_success " Gzip compression enabled"
 else
-    log_warn "⚠️ Compression may not be enabled"
+    log_warn " Compression may not be enabled"
 fi
 
 # Check routing configuration
 if grep -q "reverse_proxy backend:8080" Caddyfile; then
-    log_success "✅ Backend routing configured (/api/* → backend:8080)"
+    log_success " Backend routing configured (/api/*  backend:8080)"
 else
     log_error "Backend routing not found!"
     exit 1
 fi
 
 if grep -q "reverse_proxy frontend:80" Caddyfile; then
-    log_success "✅ Frontend routing configured (/ → frontend:80)"
+    log_success " Frontend routing configured (/  frontend:80)"
 else
     log_error "Frontend routing not found!"
     exit 1
@@ -104,16 +104,16 @@ fi
 
 # Check CORS configuration
 if grep -q "Access-Control-Allow-Origin.*https://fonzigo.app" Caddyfile; then
-    log_success "✅ CORS configured for fonzigo.app"
+    log_success " CORS configured for fonzigo.app"
 else
-    log_warn "⚠️ CORS may not be configured correctly"
+    log_warn " CORS may not be configured correctly"
 fi
 
 # Check rate limiting
 if grep -q "rate_limit" Caddyfile; then
-    log_success "✅ Rate limiting enabled"
+    log_success " Rate limiting enabled"
 else
-    log_warn "⚠️ Rate limiting may not be configured"
+    log_warn " Rate limiting may not be configured"
 fi
 
 log_section "Check 2: Frontend Nginx Configuration"
@@ -129,7 +129,7 @@ if grep -q "proxy_pass" frontend/nginx.conf; then
     log_error "nginx.conf contains proxy_pass (should only serve static files)!"
     exit 1
 else
-    log_success "✅ No proxy_pass in nginx.conf"
+    log_success " No proxy_pass in nginx.conf"
 fi
 
 # Check for Render references
@@ -137,12 +137,12 @@ if grep -qi "render\|onrender" frontend/nginx.conf; then
     log_error "nginx.conf contains references to 'render'!"
     exit 1
 else
-    log_success "✅ No references to render.com"
+    log_success " No references to render.com"
 fi
 
 # Check server configuration
 if grep -q "server {" frontend/nginx.conf && grep -q "listen 80" frontend/nginx.conf; then
-    log_success "✅ Server configured to listen on port 80"
+    log_success " Server configured to listen on port 80"
 else
     log_error "Server configuration not correct!"
     exit 1
@@ -150,14 +150,14 @@ fi
 
 # Check root path
 if grep -q "root /usr/share/nginx/html" frontend/nginx.conf; then
-    log_success "✅ Root path configured"
+    log_success " Root path configured"
 else
-    log_warn "⚠️ Root path may not be correct"
+    log_warn " Root path may not be correct"
 fi
 
 # Check SPA routing
 if grep -q "try_files.*index.html" frontend/nginx.conf; then
-    log_success "✅ SPA routing configured (try_files to index.html)"
+    log_success " SPA routing configured (try_files to index.html)"
 else
     log_error "SPA routing not configured!"
     exit 1
@@ -165,9 +165,9 @@ fi
 
 # Check health endpoint
 if grep -q "location /health" frontend/nginx.conf; then
-    log_success "✅ Health endpoint configured (/health)"
+    log_success " Health endpoint configured (/health)"
 else
-    log_warn "⚠️ Health endpoint may not be configured"
+    log_warn " Health endpoint may not be configured"
 fi
 
 log_section "Check 3: Docker Compose Files"
@@ -183,40 +183,40 @@ if ! grep -q "env-file.*.env.prod" docker-compose.prod.yaml; then
     log_error "docker-compose.prod.yaml doesn't use .env.prod!"
     exit 1
 else
-    log_success "✅ docker-compose.prod.yaml uses .env.prod"
+    log_success " docker-compose.prod.yaml uses .env.prod"
 fi
 
 # Check network configuration
 if grep -q "fonzigo-network" docker-compose.prod.yaml; then
-    log_success "✅ Network configured (fonzigo-network)"
+    log_success " Network configured (fonzigo-network)"
 else
-    log_warn "⚠️ Network may not be configured"
+    log_warn " Network may not be configured"
 fi
 
 # Check services
 if grep -q "service.*database" docker-compose.prod.yaml; then
-    log_success "✅ Database service defined"
+    log_success " Database service defined"
 else
     log_error "Database service not found!"
     exit 1
 fi
 
 if grep -q "service.*backend" docker-compose.prod.yaml; then
-    log_success "✅ Backend service defined"
+    log_success " Backend service defined"
 else
     log_error "Backend service not found!"
     exit 1
 fi
 
 if grep -q "service.*frontend" docker-compose.prod.yaml; then
-    log_success "✅ Frontend service defined"
+    log_success " Frontend service defined"
 else
     log_error "Frontend service not found!"
     exit 1
 fi
 
 if grep -q "service.*caddy" docker-compose.prod.yaml; then
-    log_success "✅ Caddy service defined"
+    log_success " Caddy service defined"
 else
     log_error "Caddy service not found!"
     exit 1
@@ -224,7 +224,7 @@ fi
 
 # Check port configuration
 if grep -q "80:80\|443:443" docker-compose.prod.yaml; then
-    log_success "✅ Ports 80 and 443 exposed on Caddy"
+    log_success " Ports 80 and 443 exposed on Caddy"
 else
     log_error "Caddy ports not exposed!"
     exit 1
@@ -247,12 +247,12 @@ if [ -f .env.prod ]; then
         log_error "Please run: ./auto-setup.sh"
         exit 1
     else
-        log_success "✅ No default values in .env.prod"
+        log_success " No default values in .env.prod"
     fi
     
     # Check domain
     if grep -q "CADDY_DOMAIN=.*fonzigo.app" .env.prod; then
-        log_success "✅ CADDY_DOMAIN is set to fonzigo.app"
+        log_success " CADDY_DOMAIN is set to fonzigo.app"
     else
         log_error "CADDY_DOMAIN not set to fonzigo.app!"
         exit 1
@@ -260,7 +260,7 @@ if [ -f .env.prod ]; then
     
     # Check API URL
     if grep -q "API_URL=.*https://fonzigo.app/api" .env.prod; then
-        log_success "✅ API_URL is set to https://fonzigo.app/api"
+        log_success " API_URL is set to https://fonzigo.app/api"
     else
         log_error "API_URL not set to https://fonzigo.app/api!"
         exit 1
@@ -268,12 +268,12 @@ if [ -f .env.prod ]; then
     
     # Check allowed origins
     if grep -q "ALLOWED_ORIGINS=.*fonzigo.app" .env.prod; then
-        log_success "✅ ALLOWED_ORIGINS includes fonzigo.app"
+        log_success " ALLOWED_ORIGINS includes fonzigo.app"
     else
-        log_warn "⚠️ ALLOWED_ORIGINS may not be configured correctly"
+        log_warn " ALLOWED_ORIGINS may not be configured correctly"
     fi
 else
-    log_warn "⚠️ .env.prod not found (run ./auto-setup.sh)"
+    log_warn " .env.prod not found (run ./auto-setup.sh)"
 fi
 
 log_section "Check 5: Backend Spring Configuration"
@@ -285,7 +285,7 @@ if [ ! -f backend/src/main/resources/application.properties ]; then
 fi
 
 # Check that backend uses environment variables
-log_success "✅ Backend configured to use environment variables"
+log_success " Backend configured to use environment variables"
 log_info "Backend will use SPRING_DATASOURCE_URL from .env.prod"
 
 log_section "Check 6: Frontend Angular Configuration"
@@ -298,7 +298,7 @@ fi
 
 # Check production flag
 if grep -q "production: true" frontend/src/environments/environment.prod.ts; then
-    log_success "✅ production flag set to true"
+    log_success " production flag set to true"
 else
     log_error "production flag not set to true!"
     exit 1
@@ -306,7 +306,7 @@ fi
 
 # Check API URL
 if grep -q "apiUrl.*https://fonzigo.app/api" frontend/src/environments/environment.prod.ts; then
-    log_success "✅ apiUrl is set to https://fonzigo.app/api"
+    log_success " apiUrl is set to https://fonzigo.app/api"
 else
     log_error "apiUrl not set to https://fonzigo.app/api!"
     exit 1
@@ -328,7 +328,7 @@ for script in deploy.sh update.sh auto-setup.sh auto-configure.sh verify-config.
 done
 
 if [ "$SCRIPTS_OK" = true ]; then
-    log_success "✅ All scripts exist and are executable"
+    log_success " All scripts exist and are executable"
 else
     log_error "Some scripts are missing or not executable!"
 fi
@@ -346,7 +346,7 @@ for doc in docs/deployment/QUICKSTART.md docs/deployment/DEPLOYMENT_VPS.md docs/
 done
 
 if [ "$DEPLOYMENT_DOCS_OK" = true ]; then
-    log_success "✅ All deployment documentation exists"
+    log_success " All deployment documentation exists"
 else
     log_error "Some deployment documentation is missing!"
 fi
@@ -359,24 +359,24 @@ fi
 log_section "Final Summary"
 
 echo ""
-echo "✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"
-echo "🎉 ALL CHECKS PASSED!"
-echo "✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"
 echo ""
-echo "📋 Configuration is 100% correct for fonzigo.app"
+echo " ALL CHECKS PASSED!"
 echo ""
-echo "✅ Caddyfile: Valid (no invalid options, correct domain references)"
-echo "✅ nginx.conf: Valid (no proxy_pass, serves static files only)"
-echo "✅ Docker Compose: Valid (all services defined, correct ports)"
-echo "✅ Environment: Ready (.env.prod.example exists, no default values expected)"
-echo "✅ Backend: Configured to use environment variables"
-echo "✅ Frontend: Production configuration correct"
-echo "✅ Scripts: All deployment scripts exist and executable"
-echo "✅ Documentation: Complete deployment guides available"
 echo ""
-echo "🚀 READY FOR 100% WORKING DEPLOYMENT!"
+echo " Configuration is 100% correct for fonzigo.app"
 echo ""
-echo "📝 Next Steps:"
+echo " Caddyfile: Valid (no invalid options, correct domain references)"
+echo " nginx.conf: Valid (no proxy_pass, serves static files only)"
+echo " Docker Compose: Valid (all services defined, correct ports)"
+echo " Environment: Ready (.env.prod.example exists, no default values expected)"
+echo " Backend: Configured to use environment variables"
+echo " Frontend: Production configuration correct"
+echo " Scripts: All deployment scripts exist and executable"
+echo " Documentation: Complete deployment guides available"
+echo ""
+echo " READY FOR 100% WORKING DEPLOYMENT!"
+echo ""
+echo " Next Steps:"
 echo ""
 echo "1. On VPS, run:"
 echo "   cd /opt/FonziGo"

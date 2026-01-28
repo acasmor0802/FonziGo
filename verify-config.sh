@@ -15,23 +15,23 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}  $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN} $1${NC}"
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}  $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}❌ $1${NC}"
+    echo -e "${RED} $1${NC}"
 }
 
 echo ""
-echo "🔍 FonziGo Configuration Verification"
+echo " FonziGo Configuration Verification"
 echo "==================================="
 echo ""
 
@@ -187,39 +187,39 @@ if [ "$SCRIPTS_OK" = true ]; then
 fi
 
 echo ""
-log_success "🎉 Verification Complete!"
+log_success " Verification Complete!"
 echo ""
-echo "📋 Configuration Summary:"
-echo "─────────────────────────────────────────────────"
+echo " Configuration Summary:"
+echo ""
 echo ""
 echo "Domain: fonzigo.app"
-echo "  ✅ Caddyfile configured correctly"
-echo "  ✅ No invalid options in Caddyfile"
-echo "  ✅ All references point to fonzigo.app"
+echo "   Caddyfile configured correctly"
+echo "   No invalid options in Caddyfile"
+echo "   All references point to fonzigo.app"
 echo ""
 echo "Nginx:"
-echo "  ✅ Configured to serve static files only"
-echo "  ✅ No proxy_pass conflicts with Caddy"
+echo "   Configured to serve static files only"
+echo "   No proxy_pass conflicts with Caddy"
 echo ""
 echo "Environment (.env.prod):"
-echo "  ✅ CADDY_DOMAIN = fonzigo.app"
-echo "  ✅ API_URL = https://fonzigo.app/api"
+echo "   CADDY_DOMAIN = fonzigo.app"
+echo "   API_URL = https://fonzigo.app/api"
 echo ""
 echo "Backend:"
-echo "  ✅ Uses environment variables"
+echo "   Uses environment variables"
 echo ""
 echo "Frontend:"
-echo "  ✅ apiUrl = https://fonzigo.app/api"
+echo "   apiUrl = https://fonzigo.app/api"
 echo ""
 echo "Scripts:"
 if [ "$SCRIPTS_OK" = true ]; then
-    echo "  ✅ All scripts are executable"
+    echo "   All scripts are executable"
 else
-    echo "  ⚠️  Some scripts need chmod +x"
+    echo "    Some scripts need chmod +x"
 fi
 echo ""
 
-log_info "🚀 Ready to deploy!"
+log_info " Ready to deploy!"
 echo ""
 echo "Next steps:"
 echo "1. Deploy application:"
