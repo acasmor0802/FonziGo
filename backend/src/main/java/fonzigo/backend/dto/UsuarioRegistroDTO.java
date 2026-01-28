@@ -8,8 +8,7 @@ import lombok.Data;
 @Data
 public class UsuarioRegistroDTO {
     
-    @NotBlank(message = "El nombre es requerido")
-    @Size(min = 2, max = 35, message = "El nombre debe tener entre 2 y 35 caracteres")
+    @Size(max = 35, message = "El nombre no puede exceder 35 caracteres")
     private String name;
     
     @NotBlank(message = "El email es requerido")

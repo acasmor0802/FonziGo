@@ -110,7 +110,7 @@ export class AuthService {
       const request: RegisterRequest = {
         email,
         password,
-        name: name || email.split('@')[0]
+        name: (name || email.split('@')[0]).substring(0, 35)
       };
       
       await firstValueFrom(
