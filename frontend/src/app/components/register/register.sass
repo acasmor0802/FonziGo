@@ -31,6 +31,63 @@
     color: var(--primary-blue)
     margin-bottom: var(--spacing-2)
 
+  &__field
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+
+  &__label
+    font-family: var(--font-secondary)
+    font-size: var(--text-sm)
+    font-weight: var(--font-semibold)
+    color: var(--text-color)
+    text-transform: uppercase
+
+  &__required
+    color: var(--error)
+
+  &__input,
+  &__select
+    font-family: var(--font-primary)
+    font-size: var(--text-base)
+    padding: var(--spacing-3) var(--spacing-4)
+    border: var(--border-medium) solid var(--primary-blue-light)
+    border-radius: var(--radius-md)
+    background-color: var(--background)
+    color: var(--text-color)
+    +smooth-transition(border-color, box-shadow)
+
+    &::placeholder
+      color: var(--primary-blue-light)
+
+    &:focus
+      outline: none
+      border-color: var(--text-color)
+      box-shadow: 0 0 0 3px rgba(51, 63, 81, 0.1)
+
+    &--error
+      border-color: var(--error)
+
+      &:focus
+        box-shadow: 0 0 0 3px rgba(206, 130, 130, 0.2)
+
+    &--pending
+      border-color: var(--warning)
+
+  &__error
+    font-size: var(--text-xs)
+    color: var(--error)
+    font-weight: var(--font-medium)
+
+  &__pending
+    font-size: var(--text-xs)
+    color: var(--warning)
+    font-weight: var(--font-medium)
+
+  &__help
+    font-size: var(--text-xs)
+    color: var(--primary-blue-light)
+
   &__submit
     ::ng-deep .btn
       width: 100%
@@ -70,8 +127,25 @@
 
   &__social
     display: flex
+    flex-direction: column
+    align-items: center
     gap: var(--spacing-3)
     width: 100%
+
+  &__google-btn-container
+    display: flex
+    justify-content: center
+    width: 100%
+
+  &__google-loading
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    text-align: center
+
+  &__google-error
+    font-size: var(--text-sm)
+    color: var(--error)
+    text-align: center
 
   &__social-btn
     flex: 1
@@ -113,6 +187,28 @@
     display: flex
     align-items: center
     justify-content: center
+
+  &__terms
+    display: flex
+    flex-direction: column
+    gap: var(--spacing-2)
+
+  &__checkbox-label
+    display: flex
+    align-items: flex-start
+    gap: var(--spacing-2)
+    font-size: var(--text-sm)
+    color: var(--text-color)
+    cursor: pointer
+    line-height: 1.4
+
+  &__checkbox
+    width: 18px
+    height: 18px
+    min-width: 18px
+    margin-top: 2px
+    accent-color: var(--primary-blue)
+    cursor: pointer
 
   &__footer
     font-size: var(--text-sm)

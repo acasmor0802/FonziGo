@@ -30,8 +30,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 100, message = "El nombre no puede exceder 100 caracteres")
-    @Column(length = 100)
+    @Size(max = 35, message = "El nombre no puede exceder 35 caracteres")
+    @Column(length = 35)
     private String name;
 
     @NotBlank(message = "El email es requerido")
