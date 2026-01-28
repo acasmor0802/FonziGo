@@ -59,22 +59,24 @@ export class ProfilePage implements OnInit, FormComponent {
       return [];
     }
     
-    return orders.map(order => {
-      // Calcular total sumando precio * cantidad de cada item
-      const total = order.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      
-      return {
-        id: order.id.toString(),
-        date: new Date(order.orderDate),
-        store: 'FonziGo',
-        total: total,
-        items: order.orderItems.map(item => ({
-          name: item.productName,
-          quantity: item.quantity,
-          price: item.price
-        }))
-      };
-    });
+    return orders
+      .map(order => {
+        // Calcular total sumando precio * cantidad de cada item
+        const total = order.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        return {
+          id: order.id.toString(),
+          date: new Date(order.orderDate),
+          store: 'FonziGo',
+          total: total,
+          items: order.orderItems.map(item => ({
+            name: item.productName,
+            quantity: item.quantity,
+            price: item.price
+          }))
+        };
+      })
+      .sort((a, b) => b.date.getTime() - a.date.getTime());
   });
   
   ngOnInit(): void {
