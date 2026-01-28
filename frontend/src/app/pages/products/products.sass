@@ -633,8 +633,14 @@
   .filter-option__icon
     color: var(--secundary-yellow)
 
-  .filter-option--active
-    color: var(--primary-blue)
+  .filter-group__list .filter-option
+    color: var(--background)
 
     &:hover
       color: var(--background)
+
+  .filter-group__list .filter-option.filter-option--active
+    color: var(--primary-blue)
+
+    &:hover
+      color: var(--primary-blue-alt)
