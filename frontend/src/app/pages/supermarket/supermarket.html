@@ -12,9 +12,9 @@
 
   <!-- Ofertas -->
   @if (featuredProducts().length > 0) {
-    <section class="products-section">
+    <section class="products-section products-section--alt">
       <div class="products-section__container">
-        <h2 class="products-section__title">🔥 Ofertas de {{ currentSupermarket().name }}</h2>
+        <h2 class="products-section__title">Ofertas de {{ currentSupermarket().name }}</h2>
         <div class="products-grid products-grid--offers">
           @for (product of featuredProducts(); track product.id) {
             <app-product-card [product]="product"></app-product-card>
@@ -25,7 +25,7 @@
   }
 
   <!-- Todos los productos -->
-  <section class="products-section products-section--alt">
+  <section class="products-section">
     <div class="products-section__container">
       <h2 class="products-section__title">Todos los productos</h2>
       <div class="products-grid products-grid--all">
