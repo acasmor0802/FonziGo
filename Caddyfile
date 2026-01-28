@@ -52,8 +52,6 @@ fonzigo.app {
             health_timeout 5s
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
     }
 
@@ -62,8 +60,6 @@ fonzigo.app {
         reverse_proxy backend:8080 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
     }
 
@@ -71,8 +67,6 @@ fonzigo.app {
         reverse_proxy backend:8080 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
     }
 
@@ -81,8 +75,6 @@ fonzigo.app {
         reverse_proxy frontend:80 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
     }
 
@@ -94,8 +86,6 @@ fonzigo.app {
             health_timeout 5s
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
         }
     }
 }
