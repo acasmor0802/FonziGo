@@ -27,64 +27,76 @@
 fonzigo.app {
     # Encode response with gzip
     encode gzip zstd
-    
-    # Frontend (Angular SPA)
-    handle / {
-        reverse_proxy frontend:80 {
-            # Health checks
-            health_uri /health
-            health_interval 30s
-            health_timeout 5s
-        }
+
+    # Handle OPTIONS requests for CORS preflight (PRIMERO - antes de otros handlers)
+    @options method OPTIONS
+    handle @options {
+        header Access-Control-Allow-Origin "https://fonzigo.app"
+        header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+        header Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        header Access-Control-Allow-Credentials "true"
+        header Access-Control-Max-Age "86400"
+        respond "" 204
     }
-    
-    # Backend API
+
+    # Health check endpoint
+    handle /health {
+        respond "OK" 200
+    }
+
+    # Backend API - CORS manejado por Spring, NO por Caddy
     handle /api/* {
         reverse_proxy backend:8080 {
-            # Health checks
             health_uri /actuator/health
             health_interval 30s
             health_timeout 5s
-        }
-        
-        # CORS y security headers (aplicados por Caddy)
-        header {
-            Access-Control-Allow-Origin "*"
-            Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-            Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
-            Access-Control-Max-Age "86400"
-            Access-Control-Allow-Credentials "true"
-            X-Frame-Options "DENY"
-            X-Content-Type-Options "nosniff"
-            X-XSS-Protection "1; mode=block"
-            Referrer-Policy "strict-origin-when-cross-origin"
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
         }
     }
-    
-    # Swagger UI (only in production if needed, can be disabled)
-    handle /swagger-ui.html {
-        reverse_proxy backend:8080
+
+    # Swagger UI
+    handle /swagger-ui* {
+        reverse_proxy backend:8080 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
     }
-    
-    handle /v3/api-docs {
-        reverse_proxy backend:8080
+
+    handle /v3/api-docs* {
+        reverse_proxy backend:8080 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
     }
-    
-    # Static assets (images, fonts, etc.)
+
+    # Static assets
     handle /assets/* {
-        reverse_proxy frontend:80
+        reverse_proxy frontend:80 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
     }
-    
-    # Health check endpoint (always respond)
-    handle /health {
-        respond "OK" 200
-        header Content-Type text/plain
-    }
-    
-    # Handle OPTIONS requests for CORS
-    @options method OPTIONS
-    handle @options {
-        respond "" 204
+
+    # Frontend (Angular SPA) - catch-all, debe ir al final
+    handle {
+        reverse_proxy frontend:80 {
+            health_uri /health
+            health_interval 30s
+            health_timeout 5s
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
     }
 }
 
@@ -95,11 +107,16 @@ www.fonzigo.app {
 
 # HTTP to HTTPS redirect (for all domains)
 :80 {
+    # Health check para Docker (NO redirigir a HTTPS)
+    handle /health {
+        respond "OK" 200
+    }
+
     # Handle Let's Encrypt challenges
     handle /.well-known/acme-challenge/* {
         respond "{uri}" 200
     }
-    
+
     # Redirect everything else to HTTPS
     redir https://{host}{uri} permanent
 }
