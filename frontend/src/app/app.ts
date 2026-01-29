@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { CookieBanner } from './components/cookie-banner/cookie-banner';
 
@@ -9,4 +10,10 @@ import { CookieBanner } from './components/cookie-banner/cookie-banner';
   templateUrl: './app.html',
   styleUrl: './app.sass'
 })
-export class App {}
+export class App implements OnInit {
+  private document = inject(DOCUMENT);
+
+  ngOnInit(): void {
+    this.document.documentElement.lang = 'es';
+  }
+}
