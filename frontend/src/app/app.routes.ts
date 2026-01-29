@@ -16,52 +16,61 @@ import { productsResolver } from './core/resolvers/product.resolver';
 
 export const routes: Routes = [
   // Rutas públicas
-  { 
-    path: '', 
+  {
+    path: '',
     component: HomePage,
+    title: 'FonziGo - Compara precios de supermercados',
     data: { breadcrumb: 'Inicio' }
   },
-  { 
-    path: 'productos', 
+  {
+    path: 'productos',
     component: ProductsPage,
+    title: 'Productos - FonziGo',
     resolve: { products: productsResolver },
     data: { breadcrumb: 'Productos' }
   },
-  { 
-    path: 'supermercado/:id', 
+  {
+    path: 'supermercado/:id',
     component: SupermarketPage,
+    title: 'Supermercado - FonziGo',
     data: { breadcrumb: 'Supermercado' }
   },
-  { 
-    path: 'contacto', 
+  {
+    path: 'contacto',
     component: ContactPage,
+    title: 'Contacto - FonziGo',
     data: { breadcrumb: 'Contacto' }
   },
   {
     path: 'privacidad',
     component: PrivacyPage,
+    title: 'Política de Privacidad - FonziGo',
     data: { breadcrumb: 'Política de Privacidad' }
   },
   {
     path: 'terminos',
     component: TermsPage,
+    title: 'Términos y Condiciones - FonziGo',
     data: { breadcrumb: 'Términos y Condiciones' }
   },
-  { 
-    path: 'login', 
+  {
+    path: 'login',
     component: LoginPage,
+    title: 'Iniciar Sesión - FonziGo',
     data: { breadcrumb: 'Iniciar Sesión' }
   },
-  { 
-    path: 'register', 
+  {
+    path: 'register',
     component: RegisterPage,
+    title: 'Registro - FonziGo',
     data: { breadcrumb: 'Registro' }
   },
-  
+
   // Rutas con lazy loading (FASE 4 - Requisito)
   {
     path: 'perfil',
     loadComponent: () => import('./pages/profile/profile').then(m => m.ProfilePage),
+    title: 'Mi Perfil - FonziGo',
     canActivate: [authGuard],
     canDeactivate: [pendingChangesGuard],
     data: { breadcrumb: 'Mi Perfil' }
@@ -69,25 +78,29 @@ export const routes: Routes = [
   {
     path: 'carrito',
     loadComponent: () => import('./pages/cart/cart').then(m => m.CartPage),
+    title: 'Mi Carrito - FonziGo',
     data: { breadcrumb: 'Mi Carrito' }
   },
-  
+
   // Rutas de desarrollo
-  { 
-    path: 'style-guide', 
+  {
+    path: 'style-guide',
     component: StyleGuide,
+    title: 'Guía de Estilos - FonziGo',
     data: { breadcrumb: 'Guía de Estilos' }
   },
-  { 
-    path: 'legacy', 
+  {
+    path: 'legacy',
     component: Main,
+    title: 'Legacy - FonziGo',
     data: { breadcrumb: 'Legacy' }
   },
-  
+
   // Ruta 404 - Siempre al final (FASE 4 - Requisito wildcard)
-  { 
-    path: '**', 
+  {
+    path: '**',
     component: NotFoundPage,
+    title: 'Página no encontrada - FonziGo',
     data: { breadcrumb: 'Página no encontrada' }
   }
 ];

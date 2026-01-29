@@ -4,7 +4,7 @@
     <div class="header__left">
       <section class="header__logo-section">
         <a routerLink="/" class="header__logo-link" aria-label="Ir a página principal">
-          <img src="1.svg" alt="FonziGo" class="header__logo" width="120" height="40" fetchpriority="high">
+          <img src="1.svg" alt="" role="presentation" class="header__logo" width="120" height="40" fetchpriority="high">
         </a>
       </section>
 
@@ -26,9 +26,9 @@
       [class.header__hamburger--active]="isMobileMenuOpen()"
     >
       @if (isMobileMenuOpen()) {
-        <img src="cancelar.svg" alt="Cerrar menú" class="header__hamburger-icon" width="24" height="24">
+        <img src="cancelar.svg" alt="" role="presentation" class="header__hamburger-icon" width="24" height="24">
       } @else {
-        <img src="menu_1.svg" alt="Abrir menú" class="header__hamburger-icon" width="24" height="24">
+        <img src="menu_1.svg" alt="" role="presentation" class="header__hamburger-icon" width="24" height="24">
       }
     </app-button>
 
@@ -60,7 +60,7 @@
       </app-button>
 
       <!-- Shopping Cart -->
-      <a routerLink="/carrito" class="header__cart-link" (click)="closeMobileMenu()">
+      <a routerLink="/carrito" class="header__cart-link" aria-label="Carrito de la compra" (click)="closeMobileMenu()">
         <span class="header__cart-icon">
           <lucide-icon [img]="CartIcon" [size]="20" [strokeWidth]="2"></lucide-icon>
         </span>

@@ -2,10 +2,10 @@
 
 <main class="landing">
   <!-- Hero Banner Profesional -->
-  <section class="hero">
+  <section class="hero" aria-labelledby="hero-title">
     <div class="hero__container">
       <div class="hero__badge">Ahorra hasta un 30% en tu compra</div>
-      <h1 class="hero__title">Compara precios de supermercados en segundos</h1>
+      <h1 id="hero-title" class="hero__title">Compara precios de supermercados en segundos</h1>
       <p class="hero__subtitle">Encuentra las mejores ofertas de Mercadona, Carrefour, Lidl y Día en un solo lugar.</p>
       <div class="hero__actions">
         <a routerLink="/productos" class="hero__btn hero__btn--primary">Empezar a comparar</a>
@@ -15,14 +15,14 @@
   </section>
 
   <!-- Supermercados -->
-  <section class="stores">
+  <section class="stores" aria-labelledby="stores-title">
     <div class="stores__container">
       <div class="stores__header">
-        <h2>Supermercados disponibles</h2>
+        <h2 id="stores-title">Supermercados disponibles</h2>
         <p>Selecciona un supermercado para ver sus productos y ofertas actuales</p>
       </div>
       <div class="stores__grid">
-        <a routerLink="/supermercado/mercadona" class="store-card">
+        <a routerLink="/supermercado/mercadona" class="store-card" aria-label="Ver productos de Mercadona">
           <picture>
             <!-- Mobile: imagen pequeña -->
             <source 
@@ -41,9 +41,10 @@
               srcset="optimized/mercadona-large.webp"
               type="image/webp"
             >
-            <img 
-              src="optimized/mercadona-medium.webp" 
-              alt="Mercadona" 
+            <img
+              src="optimized/mercadona-medium.webp"
+              alt=""
+              role="presentation"
               class="store-card__img"
               loading="lazy"
               decoding="async"
@@ -51,7 +52,7 @@
           </picture>
           <span class="store-card__name">Mercadona</span>
         </a>
-        <a routerLink="/supermercado/carrefour" class="store-card">
+        <a routerLink="/supermercado/carrefour" class="store-card" aria-label="Ver productos de Carrefour">
           <picture>
             <!-- Mobile: imagen pequeña -->
             <source 
@@ -70,9 +71,10 @@
               srcset="optimized/carrefour-large.webp"
               type="image/webp"
             >
-            <img 
-              src="optimized/carrefour-medium.webp" 
-              alt="Carrefour" 
+            <img
+              src="optimized/carrefour-medium.webp"
+              alt=""
+              role="presentation"
               class="store-card__img"
               loading="lazy"
               decoding="async"
@@ -80,7 +82,7 @@
           </picture>
           <span class="store-card__name">Carrefour</span>
         </a>
-        <a routerLink="/supermercado/lidl" class="store-card">
+        <a routerLink="/supermercado/lidl" class="store-card" aria-label="Ver productos de Lidl">
           <picture>
             <!-- Mobile: imagen pequeña -->
             <source 
@@ -99,9 +101,10 @@
               srcset="optimized/Lidl-large.webp"
               type="image/webp"
             >
-            <img 
-              src="optimized/Lidl-medium.webp" 
-              alt="Lidl" 
+            <img
+              src="optimized/Lidl-medium.webp"
+              alt=""
+              role="presentation"
               class="store-card__img"
               loading="lazy"
               decoding="async"
@@ -109,7 +112,7 @@
           </picture>
           <span class="store-card__name">Lidl</span>
         </a>
-        <a routerLink="/supermercado/dia" class="store-card">
+        <a routerLink="/supermercado/dia" class="store-card" aria-label="Ver productos de Día">
           <picture>
             <!-- Mobile: imagen pequeña -->
             <source 
@@ -128,9 +131,10 @@
               srcset="optimized/dia-large.webp"
               type="image/webp"
             >
-            <img 
-              src="optimized/dia-medium.webp" 
-              alt="Día" 
+            <img
+              src="optimized/dia-medium.webp"
+              alt=""
+              role="presentation"
               class="store-card__img"
               loading="lazy"
               decoding="async"
@@ -143,9 +147,9 @@
   </section>
 
   <!-- Cómo funciona -->
-  <section class="steps">
+  <section class="steps" aria-labelledby="steps-title">
     <div class="steps__container">
-      <h2>¿Cómo funciona?</h2>
+      <h2 id="steps-title">¿Cómo funciona?</h2>
       <p class="steps__subtitle">Tres simples pasos para empezar a ahorrar</p>
       <div class="steps__list">
         <div class="steps__item">
@@ -169,9 +173,9 @@
 
   <!-- CTA (solo visible si no está logueado) -->
   @if (!isLoggedIn) {
-    <section class="cta">
+    <section class="cta" aria-labelledby="cta-title">
       <div class="cta__container">
-        <h2>¿Listo para empezar a ahorrar?</h2>
+        <h2 id="cta-title">¿Listo para empezar a ahorrar?</h2>
         <p>Crea tu cuenta gratuita y accede a funciones exclusivas como listas de compra personalizadas</p>
         <div class="cta__buttons">
           <a routerLink="/register" class="cta__btn cta__btn--primary">Crear cuenta gratis</a>
