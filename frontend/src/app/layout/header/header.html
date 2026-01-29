@@ -3,8 +3,8 @@
     <!-- Logo + Nav Section (agrupados) -->
     <div class="header__left">
       <section class="header__logo-section">
-        <a routerLink="/" class="header__logo-link" aria-label="Ir a página principal">
-          <img src="1.svg" alt="FonziGo" class="header__logo" width="120" height="40" fetchpriority="high">
+        <a routerLink="/" class="header__logo-link">
+          <img src="1.svg" alt="FonziGo - Ir a página principal" class="header__logo" width="120" height="40" fetchpriority="high">
         </a>
       </section>
 
@@ -60,11 +60,11 @@
       </app-button>
 
       <!-- Shopping Cart -->
-      <a routerLink="/carrito" class="header__cart-link" aria-label="Carrito de la compra" (click)="closeMobileMenu()">
-        <span class="header__cart-icon" aria-hidden="true">
+      <a routerLink="/carrito" class="header__cart-link" title="Carrito de la compra" (click)="closeMobileMenu()">
+        <span class="header__cart-icon">
           <lucide-icon [img]="CartIcon" [size]="20" [strokeWidth]="2"></lucide-icon>
         </span>
-        <span class="visually-hidden">Carrito</span>
+        <span class="visually-hidden">Carrito de la compra</span>
         @if (cartItemCount() > 0) {
           <span class="header__cart-badge">{{ cartItemCount() }}</span>
         }
