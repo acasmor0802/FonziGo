@@ -17,7 +17,7 @@
         color: var(--text-color)
         margin-bottom: var(--spacing-2)
     
-    &__description
+    &__subtitle
         font-size: var(--text-lg)
         color: var(--primary-blue-light)
 
@@ -51,7 +51,7 @@
         height: 40px
         border: 4px solid var(--stats-accent-light)
         border-top-color: var(--stats-accent)
-        border-radius: radius(50%)
+        border-radius: 50%
         animation: spin 1s linear infinite
 
     &__loading-text
@@ -71,17 +71,25 @@
         color: var(--color-error)
         margin-bottom: var(--spacing-2)
 
-    &__retry-button
+    &__retry-btn
         padding: var(--spacing-2) var(--spacing-4)
         background: var(--stats-accent)
         color: var(--text-light)
         border: none
         border-radius: var(--radius-md)
         cursor: pointer
+        font-weight: var(--font-semibold)
         +smooth-transition(background-color)
 
         &:hover
             background-color: var(--primary-blue-dark)
+
+        &:active
+            transform: translateY(0)
+
+        &:focus-visible
+            outline: 2px solid var(--stats-accent)
+            outline-offset: 2px
 
     &__empty
         grid-column: 1 / -1

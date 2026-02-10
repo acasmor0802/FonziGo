@@ -59,6 +59,16 @@
         font-weight: var(--font-bold)
         color: var(--text-color)
 
+        &--price
+            color: var(--stats-accent)
+
+        &--range
+            font-size: var(--text-sm)
+            color: var(--primary-blue-alt)
+
+        &--offers
+            color: var(--stats-highlight)
+
     &__percentage
         font-size: var(--text-sm)
         font-weight: var(--font-medium)
@@ -76,3 +86,15 @@
         font-weight: var(--font-medium)
         border-radius: var(--radius-sm)
         transition: background-color var(--transition-base), color var(--transition-base)
+
+        &--hot
+            background: var(--stats-highlight-light)
+            color: var(--stats-highlight)
+
+        &--sale
+            background: var(--stats-accent-light)
+            color: var(--stats-accent)
+
+        &--neutral
+            background: var(--background-alt)
+            color: var(--primary-blue-light)
