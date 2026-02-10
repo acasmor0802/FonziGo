@@ -219,4 +219,8 @@ export class ProductService {
       empty: true
     };
   }
+
+  getCategoryStats(): Observable<CategoryStats[]> {
+    return this.http.get<CategoryStats[]>(`${this.apiUrl}/products/stats`);
+  }
 }
