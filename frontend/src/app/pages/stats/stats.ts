@@ -2,14 +2,15 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { ProductService } from '../../core/services/product.service';
 import { CategoryStats } from '../../shared/types';
 import { StatsCardComponent } from '../../components/stats-card/stats-card';
+import { Header } from '../../layout/header/header';
+import { Footer } from '../../layout/footer/footer';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [StatsCardComponent],
+  imports: [StatsCardComponent, Header, Footer],
   templateUrl: './stats.html',
-  styleUrls: [],
-  encapsulation: 2 
+  styleUrls: []
 })
 export class StatsPage implements OnInit {
   private productService = inject(ProductService);

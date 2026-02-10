@@ -1,14 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { CategoryStats } from '../../shared/types';
 
 @Component({
   selector: 'app-stats-card',
   standalone: true,
-  imports: [DecimalPipe],
+  imports: [],
   templateUrl: './stats-card.html',
   styleUrls: [],
-  encapsulation: 2
 })
 export class StatsCardComponent {
   @Input({ required: true }) stat!: CategoryStats;
