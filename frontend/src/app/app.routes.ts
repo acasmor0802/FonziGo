@@ -23,6 +23,12 @@ export const routes: Routes = [
     data: { breadcrumb: 'Inicio' }
   },
   {
+    path: 'estadisticas',
+    loadComponent: () => import('./pages/stats/stats').then(m => m.StatsPage),
+    title: 'Estadísticas - FonziGo',
+    data: { breadcrumb: 'Estadísticas' }
+  },
+  {
     path: 'productos',
     component: ProductsPage,
     title: 'Productos - FonziGo',
