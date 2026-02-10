@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import fonzigo.backend.dto.ProductDTO;
+import fonzigo.backend.dto.CategoryStatsDTO;
 import fonzigo.backend.service.ProductService;
 import fonzigo.backend.service.FileUploadService;
 import jakarta.validation.Valid;
@@ -132,5 +133,13 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/stats")
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(summary = "Estadisticas de productos por categoria. Necesita autentificación")
+    public ResponseEntity<List<CategoryStatsDTO>> getCategoryStats() {
+        List<CategoryStatsDTO> stats = productService.gerCategoryStats();
+        return ResponseEntity.ok(stats);
     }
 }

@@ -214,3 +214,17 @@ export interface ProductWithPrices extends Omit<ProductUI, 'supermarketId' | 'su
   lowestPrice: number;
   highestPrice: number;
 }
+
+// =============================================================================
+// STATS
+// =============================================================================
+export interface CategoryStats {
+  categoryId: number;
+  categoryName: string;
+  categoryIcon: string;
+  productCount: number;
+  averagePrice: number;
+  onSaleCount: number;
+  minPrice: number;
+  maxPrice: number;
+}

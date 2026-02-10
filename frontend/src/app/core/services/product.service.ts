@@ -2,7 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
 import { Observable, tap, catchError, of, firstValueFrom, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import type { Product, Category, ProductsResponse, ProductFilters } from '../../shared/types';
+import type { Product, Category, ProductsResponse, ProductFilters, CategoryStats } from '../../shared/types';
 import { SKIP_ERROR_TOAST } from '../interceptors/error.interceptor';
 
 // Re-exports para compatibilidad

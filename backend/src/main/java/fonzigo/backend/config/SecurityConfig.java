@@ -63,7 +63,7 @@ public class SecurityConfig {
                 // Endpoints públicos - Autenticación
                 .requestMatchers("/api/auth/**").permitAll()
                 // Endpoints públicos - Catálogo (solo lectura)
-                .requestMatchers("/api/products", "/api/products/**").permitAll()
+                .requestMatchers("/api/products/stats", "/api/products/**").permitAll()
                 .requestMatchers("/api/categories", "/api/categories/**").permitAll()
                 .requestMatchers("/api/supermarkets", "/api/supermarkets/**").permitAll()
                 .requestMatchers("/api/images/**").permitAll()

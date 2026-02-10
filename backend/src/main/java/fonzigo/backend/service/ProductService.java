@@ -2,6 +2,7 @@
 package fonzigo.backend.service;
 
 import fonzigo.backend.dto.ProductDTO;
+import fonzigo.backend.dto.CategoryStatsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -25,4 +26,6 @@ public interface ProductService {
     ProductDTO updateProduct(Long id, ProductDTO productDTO);
     void deleteProduct(Long id);
     ProductDTO updateProductImage(Long id, String imageUrl);
+    
+    List<CategoryStatsDTO> getCategoryStats();
 }

@@ -1,6 +1,7 @@
 
 package fonzigo.backend.repository;
 
+import fonzigo.backend.dto.CategoryStatsDTO;
 import fonzigo.backend.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     
     @Query("SELECT COUNT(p) FROM Product p WHERE p.stock = 0")
     long countOutOfStock();
+    
+    @Query("SELECT new fonzigo.backend.dto.CategoryStatsDTO(c.id, c.name, c.icon, COUNT(p), COALESCE(AVG(p.price), 0), SUM(CASE WHEN p.onSale = true THEN 1 ELSE 0 END), COALESCE(MIN(p.price), 0), COALESCE(MAX(p.price), 0)) " +
+           "FROM Category c LEFT JOIN Product p ON p.category.id = c.id " +
+           "GROUP BY c.id")
+    List<CategoryStatsDTO> findCategoryStats();
 }

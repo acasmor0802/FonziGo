@@ -2,6 +2,7 @@
 package fonzigo.backend.service;
 
 import fonzigo.backend.dto.ProductDTO;
+import fonzigo.backend.dto.CategoryStatsDTO;
 import fonzigo.backend.entity.Category;
 import fonzigo.backend.entity.Product;
 import fonzigo.backend.entity.Supermarket;
@@ -112,6 +113,13 @@ public class ProductServiceImpl implements ProductService {
         Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
     }
+
+    @Override
+    public List<CategoryStatsDTO> getCategoryStats() {
+        log.info("Recibiendo estadisticas de productos por categoria")
+        return productRepository.findCategoryStats();
+    }
+
 
     @Override
     @Transactional
