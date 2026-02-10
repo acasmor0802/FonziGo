@@ -1,1 +1,25 @@
-<p>stats works!</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estadísticas de Productos por Categoría</title>
+</head>
+<body>
+    <div class="stats-container">
+        <header class = "stats-header">
+            <h1 class = "stats-title">Estadisticas de categorias</h1>
+            <p class = "stats-subtitle">A continuación se muestran las estadísticas de productos por categoría:</p>
+        </header>
+        @if (loading()) {
+            <div class="stats-loading">
+                <p>Cargando estadísticas...</p>
+            </div>
+        } @else if (error()) {
+            <div class="stats-error">
+                <p>Error al cargar las estadísticas: {{ error() }}</p>
+            </div>
+        } @else {}
+    </div>
+</body>
+</html>
