@@ -1,0 +1,78 @@
+@use '../00-settings/variables' as *
+@use '../01-tools/mixins' as *
+
+.stats-card
+    display:flex
+    flex-direction: column
+    width: 100%
+    background-color: var(--background-card)
+    border-radius: var(--radius-sm)
+    transition: transform var(--transition-base), box-shadow var(--transition-base)
+
+    &:hover
+        box-shadow: var(--shadow-lg)
+    
+    &__header
+        display: flex
+        align-items: center
+        gap: var(--spacing-4)
+        padding: var(--spacing-4)
+        background-color: var(--stats-accent)
+        color: var(--text-light)
+
+    &__icon
+        font-size: var(--text-2xl)
+        
+    &__title
+        font-size: var(--text-lg)
+        font-weight: var(--font-semibold)
+        color: var(--text-light)
+        font-family: var(--font-secondary)
+    
+    &__body
+        display: flex
+        flex-direction: column
+        gap: var(--spacing-2)
+        padding: var(--spacing-4)
+        +mixins.mediabreakpoint-up(lg)
+            width: 50%
+            flex-direction: row
+            flex-wrap: wrap
+    
+    &__stat
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: var(--spacing-2)
+        +mixins.mediabreakpoint-up(lg)
+            width: 50%
+            flex-direction: column
+            gap: var(--spacing-1)
+    
+    &__label
+        font-size: var(--text-sm)
+        color: var(--primary-blue-light)
+        font-weight: var(--font-medium)
+
+    &__value
+        font-size: var(--text-lg)
+        font-weight: var(--font-bold)
+        color: var(--text-color)
+
+    &__percentage
+        font-size: var(--text-sm)
+        font-weight: var(--font-medium)
+        color: var(--stats-accent-light)
+
+    &__footer
+        padding: var(--spacing-4)
+        background-color: var(--stats-accent-light)
+        text-align: center
+    
+    &__badge
+        display: inline-block
+        padding: var(--spacing-1) var(--spacing-2)
+        font-size: var(--text-xs)
+        font-weight: var(--font-medium)
+        border-radius: var(--radius-sm)
+        transition: background-color var(--transition-base), color var(--transition-base)
