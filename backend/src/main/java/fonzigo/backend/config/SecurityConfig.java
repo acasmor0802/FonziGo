@@ -62,8 +62,10 @@ public class SecurityConfig {
                 .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                 // Endpoints públicos - Autenticación
                 .requestMatchers("/api/auth/**").permitAll()
+                // Estadísticas requieren autenticación
+                .requestMatchers("/api/products/stats").authenticated()
                 // Endpoints públicos - Catálogo (solo lectura)
-                .requestMatchers("/api/products/stats", "/api/products/**").permitAll()
+                .requestMatchers("/api/products/**").permitAll()
                 .requestMatchers("/api/categories", "/api/categories/**").permitAll()
                 .requestMatchers("/api/supermarkets", "/api/supermarkets/**").permitAll()
                 .requestMatchers("/api/images/**").permitAll()

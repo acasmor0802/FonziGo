@@ -1,25 +1,30 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estadísticas de Productos por Categoría</title>
-</head>
-<body>
-    <div class="stats-container">
-        <header class = "stats-header">
-            <h1 class = "stats-title">Estadisticas de categorias</h1>
-            <p class = "stats-subtitle">A continuación se muestran las estadísticas de productos por categoría:</p>
-        </header>
-        @if (loading()) {
-            <div class="stats-loading">
-                <p>Cargando estadísticas...</p>
-            </div>
-        } @else if (error()) {
-            <div class="stats-error">
-                <p>Error al cargar las estadísticas: {{ error() }}</p>
-            </div>
-        } @else {}
+<section class="stats-page">
+  <header class="stats-page__header">
+    <h1 class="stats-page__title">Estadisticas de categorias</h1>
+    <p class="stats-page__subtitle">A continuación se muestran las estadísticas de productos por categoría:</p>
+  </header>
+
+  @if (loading()) {
+    <div class="stats-page__loading" role="status" aria-label="Cargando estadísticas">
+      <span class="stats-page__spinner"></span>
+      <p class="stats-page__loading-text">Cargando estadísticas...</p>
     </div>
-</body>
-</html>
+  } @else if (error()) {
+    <aside class="stats-page__error" role="alert">
+      <p class="stats-page__error-text">{{ error() }}</p>
+      <button class="stats-page__retry-btn" (click)="retry()">Reintentar</button>
+    </aside>
+  } @else {
+    <ul class="stats-page__grid" role="list">
+      @for (item of stats(); track item.categoryId) {
+        <li class="stats-page__grid-item">
+          <app-stats-card [stat]="item"></app-stats-card>
+        </li>
+      } @empty {
+        <li class="stats-page__empty">
+          <p>No hay estadísticas disponibles.</p>
+        </li>
+      }
+    </ul>
+  }
+</section>

@@ -1,33 +1,39 @@
 <article class="stats-card">
-    <header class="stats-card-header">
-        <span class="stats-card_icon" aria-hidden="true">{{stat.categoryIcon}}</span>
-        <h2 class="stats-card_title">{{ stat.categoryName }}</h2>
-    </header>
-    <dl class="stats-card__body">
-        <div class="stats-card-content">
-            <dt class="stats-card__label">Número de productos:</dt>
-            <dd class="stats-card__value">{{ stat.productCount }}</dd>
-        </div>
-        <div class="stats-card-content">
-            <dt class="stats-card__label">Precio medio:</dt>
-            <dd class="stats-card__value">{{ formattedAvgPrice }}€</dd>
-        </div>
-        <div class="stats-card-content">
-            <dt class="stats-card__label">Rango:</dt>
-            <dd class="stats-card__value">{{ formattedMinPrice }}€ - {{formattedMaxPrice}}€</dd>
-        </div>
-        <div class="stats-card-content">
-            <dt class="stats-card__label">En oferta</dt>
-            <dd class="stats-card__value">{{ stat.onSaleCount }}</dd>
-        </div>
-    </dl>
-    <footer class="stats-card-footer">
-        @if (offeredPercentage > 30) {
-            <span class="stats-card__offer-percentage">Hay muchas ofertas</span>
-        } @else if (offeredPercentage > 0) {
-            <span class="stats-card__offer-percentage">Hay ofertas</span>
-        } @else {
-            <span class="stats-card __offer-percentage">No hay ofertas</span>
-        }
+  <header class="stats-card__header">
+    <span class="stats-card__icon" aria-hidden="true">{{ stat.categoryIcon }}</span>
+    <h2 class="stats-card__title">{{ stat.categoryName }}</h2>
+  </header>
+
+  <dl class="stats-card__body">
+    <div class="stats-card__stat">
+      <dt class="stats-card__label">Productos</dt>
+      <dd class="stats-card__value">{{ stat.productCount }}</dd>
+    </div>
+    <div class="stats-card__stat">
+      <dt class="stats-card__label">Precio medio</dt>
+      <dd class="stats-card__value stats-card__value--price">{{ formattedAvgPrice }}€</dd>
+    </div>
+    <div class="stats-card__stat">
+      <dt class="stats-card__label">Rango</dt>
+      <dd class="stats-card__value stats-card__value--range">{{ formattedMinPrice }}€ — {{ formattedMaxPrice }}€</dd>
+    </div>
+    <div class="stats-card__stat">
+      <dt class="stats-card__label">En oferta</dt>
+      <dd class="stats-card__value stats-card__value--offers">
+        {{ stat.onSaleCount }}
+        <small class="stats-card__percentage">({{ offerPercentage }}%)</small>
+      </dd>
+    </div>
+  </dl>
+
+  <footer class="stats-card__footer">
+    @if (offerPercentage > 30) {
+      <span class="stats-card__badge stats-card__badge--hot">🔥 Muchas ofertas</span>
+    } @else if (offerPercentage > 0) {
+      <span class="stats-card__badge stats-card__badge--sale">💰 Hay ofertas</span>
+    } @else {
+      <span class="stats-card__badge stats-card__badge--neutral">Sin ofertas</span>
+    }
+  </footer>
 </article>
 

@@ -116,7 +116,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<CategoryStatsDTO> getCategoryStats() {
-        log.info("Recibiendo estadisticas de productos por categoria")
+        log.info("Obteniendo estadísticas de productos por categoría");
         return productRepository.findCategoryStats();
     }
 

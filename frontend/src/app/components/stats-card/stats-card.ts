@@ -1,5 +1,5 @@
-import { DecimalPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { CategoryStats } from '../../shared/types';
 
 @Component({
@@ -7,27 +7,26 @@ import { CategoryStats } from '../../shared/types';
   standalone: true,
   imports: [DecimalPipe],
   templateUrl: './stats-card.html',
-  styleUrls: []
+  styleUrls: [],
+  encapsulation: 2
 })
-export class StatsCard {
-  @Input({ required: true}) stats: CategoryStats | null = null;
+export class StatsCardComponent {
+  @Input({ required: true }) stat!: CategoryStats;
 
-  get formattedPrice(): string {
-    return this.stats ? this.stats.averageprice.toFixed(2) : '';
+  get formattedAvgPrice(): string {
+    return this.stat.averagePrice.toFixed(2);
   }
 
   get formattedMinPrice(): string {
-    return this.stats ? this.stats.minprice.toFixed(2) : '';
+    return this.stat.minPrice.toFixed(2);
   }
 
   get formattedMaxPrice(): string {
-    return this.stats ? this.stats.maxprice.toFixed(2) : '';
+    return this.stat.maxPrice.toFixed(2);
   }
 
   get offerPercentage(): number {
-    if (!this.stats || this.stats.productcount === 0) {
-      return 0;
-    }
-    return (this.stats.offercount / this.stats.productcount) * 100;
+    if (this.stat.productCount === 0) return 0;
+    return Math.round((this.stat.onSaleCount / this.stat.productCount) * 100);
   }
 }

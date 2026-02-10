@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
-import { OnInit, inject, signal} from '@angular/core';
-import { ProductService} from '../../core/services/product.service';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { ProductService } from '../../core/services/product.service';
 import { CategoryStats } from '../../shared/types';
-
+import { StatsCardComponent } from '../../components/stats-card/stats-card';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [],
+  imports: [StatsCardComponent],
   templateUrl: './stats.html',
   styleUrls: [],
+  encapsulation: 2 
 })
 export class StatsPage implements OnInit {
   private productService = inject(ProductService);
-  stats: CategoryStats[] = [];
+
+  stats = signal<CategoryStats[]>([]);
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
 
@@ -33,7 +34,7 @@ export class StatsPage implements OnInit {
         this.error.set('Error cuando cargas las estadisticas.');
         this.loading.set(false);
       }
-    })
+    });
   }
 
   retry(): void {

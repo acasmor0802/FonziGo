@@ -137,9 +137,10 @@ public class ProductController {
 
     @GetMapping("/stats")
     @SecurityRequirement(name = "bearerAuth")
-    @Operation(summary = "Estadisticas de productos por categoria. Necesita autentificación")
+    @Operation(summary = "Estadísticas por categoría",
+               description = "Resumen estadístico agrupado por categoría. Requiere autenticación.")
     public ResponseEntity<List<CategoryStatsDTO>> getCategoryStats() {
-        List<CategoryStatsDTO> stats = productService.gerCategoryStats();
+        List<CategoryStatsDTO> stats = productService.getCategoryStats();
         return ResponseEntity.ok(stats);
     }
 }

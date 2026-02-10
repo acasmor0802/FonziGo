@@ -13,6 +13,7 @@
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="header__nav-link">Inicio</a>
         <a routerLink="/productos" routerLinkActive="active" class="header__nav-link">Productos</a>
         <a routerLink="/contacto" routerLinkActive="active" class="header__nav-link">Contacto</a>
+        <a routerLink="/estadisticas" routerLinkActive="active" class="header__nav-link">Estadísticas</a>
       </nav>
     </div>
 
@@ -77,6 +78,7 @@
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="header__nav-link" (click)="closeMobileMenu()">Inicio</a>
           <a routerLink="/productos" routerLinkActive="active" class="header__nav-link" (click)="closeMobileMenu()">Productos</a>
           <a routerLink="/contacto" routerLinkActive="active" class="header__nav-link" (click)="closeMobileMenu()">Contacto</a>
+          <a routerLink="/estadisticas" routerLinkActive="active" class="header__nav-link" (click)="closeMobileMenu()">Estadísticas</a>
         </div>
         
         @if (isLoggedIn()) {
