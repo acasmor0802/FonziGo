@@ -64,9 +64,9 @@ He analizado el proyecto con 3 herramientas:
 
 | Herramienta | Puntuación/Errores | Captura |
 |-------------|-------------------|---------|
-| Lighthouse  | [X]/100           | ![Lighthouse inicial](./capturas/lighthouse-antes.png) |
+| Lighthouse  | 93/100           | ![Lighthouse inicial](./capturas/lighthouse-antes.png) |
 | WAVE        | [X] errores, [X] alertas | ![WAVE inicial](./capturas/wave-antes.png) |
-| TAW         | [X] problemas     | ![TAW](./capturas/taw.png) |
+| TAW         | 0 problemas, 15 advertencias | ![TAW](./capturas/taw.png) |
 
 ### 3 problemas más graves
 
@@ -307,7 +307,7 @@ Después de aplicar los cambios, volví a pasar las herramientas:
 
 | Herramienta | Antes | Después | Mejora |
 |-------------|-------|---------|--------|
-| Lighthouse  | [X]/100 | [X]/100 | +[X] puntos |
+| Lighthouse  | 93/100 | 100/100 | +7 puntos |
 | WAVE        | [X] errores | [X] errores | -[X] errores |
 | TAW         | [X] problemas | [X] problemas | -[X] problemas |
 
