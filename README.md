@@ -205,6 +205,49 @@ docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
 
 Este proyecto es de código abierto y está disponible bajo la [Licencia MIT](LICENSE).
 
+---
+
+## Proyecto 4 — Accesibilidad y Multimedia
+
+### Descripción
+
+Auditoría completa de accesibilidad del proyecto FonziGo. Se ha analizado, corregido y documentado la accesibilidad de toda la aplicación, y se ha implementado un componente multimedia accesible (carrusel de ofertas con navegación por teclado).
+
+### Componente multimedia añadido
+
+**Tipo:** Carrusel / Slider  
+**Descripción:** Componente `<app-carousel>` reutilizable con navegación por teclado (flechas, Home, End), roles ARIA completos y anuncio de posición para lectores de pantalla.
+
+### Resultados de auditoría de accesibilidad
+
+| Herramienta | Puntuación inicial | Puntuación final | Mejora |
+|-------------|-------------------|------------------|--------|
+| Lighthouse  | [X]/100           | [X]/100          | +[X]   |
+| WAVE        | [X] errores       | [X] errores      | -[X]   |
+| TAW         | [X] problemas     | [X] problemas    | -[X]   |
+
+**Nivel de conformidad alcanzado:** WCAG 2.1 AA
+
+### Documentación completa
+
+📄 **[Ver análisis completo de accesibilidad](./docs/accesibilidad/README.md)**
+
+### Verificación realizada
+
+- ✅ Auditoría con Lighthouse, WAVE y TAW
+- ✅ Test con lector de pantalla (NVDA)
+- ✅ Test de navegación por teclado
+- ✅ Verificación cross-browser (Chrome, Firefox, Edge)
+
+### Tecnologías utilizadas
+
+- HTML5 semántico (landmarks, ARIA, jerarquía de encabezados)
+- SASS con arquitectura ITCSS + BEM (`:focus-visible`, `prefers-reduced-motion`)
+- Angular 21 (standalone components, signals)
+- Skip link, `visually-hidden`, `aria-live`, `aria-roledescription`
+
+---
+
 ## Autor
 
 acasmor0802 - [@acasmor0802](https://github.com/acasmor0802)

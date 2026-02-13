@@ -8,6 +8,7 @@ import { LucideAngularModule, Search, Apple, Milk, Beef, Croissant, Wine, Packag
 // Import Components
 import { Header } from '../../layout/header/header';
 import { Footer } from '../../layout/footer/footer';
+import { CarouselComponent } from '../../components/carousel/carousel';
 import { ProductCard } from '../../components/product-card/product-card';
 import { ProductModalComponent, ProductDetail } from '../../components/product-modal/product-modal';
 import { ToastComponent } from '../../components/toast/toast';
@@ -90,7 +91,8 @@ interface PriceRange {
     ProductCard,
     ProductModalComponent,
     ToastComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    CarouselComponent
   ],
   templateUrl: './products.html',
   styleUrls: ['./products.sass'],
@@ -470,6 +472,11 @@ export class ProductsPage implements OnInit {
     if (this.canGoPrev()) {
       this.offerCarouselIndex.update(i => i - 1);
     }
+  }
+
+  /** Callback del componente carousel cuando cambia el índice */
+  onCarouselIndexChange(index: number): void {
+    this.offerCarouselIndex.set(index);
   }
 
   clearFilters(): void {

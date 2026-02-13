@@ -13,7 +13,8 @@
 
 <app-header></app-header>
 
-<main class="products-page">
+<main id="main-content" class="products-page">
+  <h1 class="visually-hidden">Productos</h1>
   <!-- Categories Scroll Section -->
   <section class="categories-scroll">
     <div class="categories-scroll__wrapper">
@@ -199,36 +200,21 @@
             </div>
           </div>
 
-          <!-- Ofertas Section - Carrusel -->
+          <!-- Ofertas Section - Carrusel accesible -->
           @if (cardOfferProducts().length > 0) {
             <div class="products-block">
-              <div class="products-block__header">
-                <h2 class="products-block__title">Ofertas</h2>
-                @if (hasMoreOffers()) {
-                  <div class="carousel-controls">
-                    <button 
-                      class="carousel-btn" 
-                      [disabled]="!canGoPrev()"
-                      (click)="prevOffers()"
-                      aria-label="Ver ofertas anteriores"
-                    >←</button>
-                    <span class="carousel-indicator" aria-live="polite">
-                      {{ offerCarouselIndex() + 1 }}-{{ Math.min(offerCarouselIndex() + offersPerView(), cardOfferProducts().length) }} de {{ cardOfferProducts().length }}
-                    </span>
-                    <button 
-                      class="carousel-btn" 
-                      [disabled]="!canGoNext()"
-                      (click)="nextOffers()"
-                      aria-label="Ver siguientes ofertas"
-                    >→</button>
-                  </div>
-                }
-              </div>
-              <div class="products-grid products-grid--offers">
-                @for (product of visibleOffers(); track product.id; let i = $index) {
-                  <app-product-card [product]="product" [index]="i" (viewProduct)="openProductModal($event)"></app-product-card>
-                }
-              </div>
+              <app-carousel
+                title="Ofertas"
+                carouselId="offers-carousel"
+                [totalItems]="cardOfferProducts().length"
+                (indexChange)="onCarouselIndexChange($event)"
+              >
+                <div class="products-grid products-grid--offers">
+                  @for (product of visibleOffers(); track product.id; let i = $index) {
+                    <app-product-card [product]="product" [index]="i" (viewProduct)="openProductModal($event)"></app-product-card>
+                  }
+                </div>
+              </app-carousel>
             </div>
           }
 

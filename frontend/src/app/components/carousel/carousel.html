@@ -1,0 +1,56 @@
+<!-- Carrusel accesible con navegación por teclado y ARIA -->
+<div
+  class="carousel"
+  role="region"
+  [attr.aria-roledescription]="'carrusel'"
+  [attr.aria-labelledby]="carouselId + '-title'"
+  tabindex="0"
+>
+  <div class="carousel__header">
+    <h2 [id]="carouselId + '-title'" class="carousel__title">{{ title }}</h2>
+
+    @if (hasOverflow()) {
+      <div class="carousel__controls" role="group" aria-label="Controles del carrusel">
+        <button
+          class="carousel__btn carousel__btn--prev"
+          [disabled]="!canGoPrev()"
+          (click)="prev()"
+          [attr.aria-label]="'Mostrar elementos anteriores de ' + title"
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+
+        <span
+          class="carousel__indicator"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {{ positionText() }}
+        </span>
+
+        <button
+          class="carousel__btn carousel__btn--next"
+          [disabled]="!canGoNext()"
+          (click)="next()"
+          [attr.aria-label]="'Mostrar siguientes elementos de ' + title"
+        >
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Contenido proyectado (ng-content) -->
+  <div
+    class="carousel__viewport"
+    [attr.aria-label]="'Mostrando ' + positionText()"
+  >
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Instrucciones para lectores de pantalla -->
+  <p class="visually-hidden">
+    Usa las flechas izquierda y derecha del teclado para navegar entre los elementos.
+    Pulsa Inicio para ir al principio o Fin para ir al final.
+  </p>
+</div>

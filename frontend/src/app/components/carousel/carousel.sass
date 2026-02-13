@@ -1,0 +1,100 @@
+@use '../../../styles/00-settings/variables' as *
+@use '../../../styles/01-tools/mixins' as *
+
+// ===============================================
+// CAROUSEL COMPONENT - Accesible
+// ===============================================
+
+.carousel
+  // Focus visible cuando se navega por teclado
+  &:focus-visible
+    outline: 3px solid var(--primary-blue)
+    outline-offset: 4px
+    border-radius: var(--radius-md)
+
+  &:focus:not(:focus-visible)
+    outline: none
+
+  &__header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin-bottom: var(--spacing-3)
+    gap: var(--spacing-3)
+
+  &__title
+    font-size: var(--text-lg)
+    font-weight: var(--font-bold)
+    color: var(--text-color)
+    margin: 0
+    padding-bottom: var(--spacing-4)
+
+    +media-breakpoint-up(md)
+      font-size: var(--text-xl)
+
+  &__controls
+    display: none
+    align-items: center
+    gap: var(--spacing-2)
+
+    // Solo visible en desktop (lg+)
+    +media-breakpoint-up(lg)
+      display: flex
+
+  &__btn
+    width: 36px
+    height: 36px
+    border-radius: 50%
+    border: 2px solid var(--primary-blue)
+    background: var(--background)
+    color: var(--text-color)
+    font-size: var(--text-base)
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: center
+    transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast)
+
+    &:hover:not(:disabled)
+      background: var(--primary-blue)
+      color: var(--background)
+
+    &:focus-visible
+      outline: 3px solid var(--primary-blue)
+      outline-offset: 2px
+      box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.25)
+
+    &:focus:not(:focus-visible)
+      outline: none
+
+    &:disabled
+      opacity: 0.4
+      cursor: not-allowed
+
+  &__indicator
+    font-size: var(--text-sm)
+    color: var(--primary-blue-alt)
+    min-width: 80px
+    text-align: center
+    font-variant-numeric: tabular-nums
+
+  &__viewport
+    position: relative
+
+// Ocultar visualmente para lectores de pantalla
+.visually-hidden
+  position: absolute !important
+  width: 1px !important
+  height: 1px !important
+  padding: 0 !important
+  margin: -1px !important
+  overflow: hidden !important
+  clip: rect(0, 0, 0, 0) !important
+  white-space: nowrap !important
+  border: 0 !important
+
+// Respetar preferencias de movimiento reducido
+@media (prefers-reduced-motion: reduce)
+  .carousel
+    &__btn
+      transition: none
