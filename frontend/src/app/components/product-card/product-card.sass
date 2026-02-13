@@ -117,13 +117,17 @@ $savings-height: 22px
 
   .rating-stars
     display: flex
-    color: var(--card-text-color)
     
     span
       font-size: var(--text-sm)
+      line-height: 1
+
+      &::before
+        content: '★'
+        color: var(--card-text-color)
       
-      &.active
-        color: #b8860b  // Dorado oscuro para contraste AA
+      &.active::before
+        color: #b8860b
 
   .rating-text
     color: var(--card-text-color)

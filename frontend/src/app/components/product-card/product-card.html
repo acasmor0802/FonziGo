@@ -27,7 +27,7 @@
       <div class="product-card__rating">
         <span class="rating-stars" aria-hidden="true">
           @for (i of [1,2,3,4,5]; track i) {
-            <span [class.active]="i <= Math.round(product.rating!)">★</span>
+            <span [class.active]="i <= Math.round(product.rating!)"></span>
           }
         </span>
         <span class="rating-text">{{ product.rating }} ({{ product.reviews }})</span>
