@@ -223,7 +223,7 @@ Auditoría completa de accesibilidad del proyecto FonziGo. Se ha analizado, corr
 | Herramienta | Puntuación inicial | Puntuación final | Mejora |
 |-------------|-------------------|------------------|--------|
 | Lighthouse  | 93/100           | 100/100          | +7     |
-| WAVE        | [X] errores       | [X] errores      | -[X]   |
+| WAVE        | 0 errores, 3 alertas | 0 errores, 3 alertas | AIM 9.9/10 |
 | TAW         | 0 problemas, 15 adv. | 0 problemas, 15 adv. | 0      |
 
 **Nivel de conformidad alcanzado:** WCAG 2.1 AA

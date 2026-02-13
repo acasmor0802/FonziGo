@@ -64,15 +64,15 @@ He analizado el proyecto con 3 herramientas:
 
 | Herramienta | Puntuación/Errores | Captura |
 |-------------|-------------------|---------|
-| Lighthouse  | 93/100           | ![Lighthouse inicial](./capturas/lighthouse-antes.png) |
-| WAVE        | [X] errores, [X] alertas | ![WAVE inicial](./capturas/wave-antes.png) |
-| TAW         | 0 problemas, 15 advertencias | ![TAW](./capturas/taw.png) |
+| Lighthouse  | 93/100           | ![Lighthouse inicial](./capturas/lighthouse.png) |
+| WAVE        | 0 errores, 0 contraste, 3 alertas (9.9/10 AIM) | ![WAVE](./capturas/wavedespues.png) |
+| TAW         | 0 problemas, 15 advertencias | ![TAW](./capturas/TAWantes.png) |
 
 ### 3 problemas más graves
 
-1. **[RELLENAR cuando pase las herramientas]**
-2. **[RELLENAR cuando pase las herramientas]**
-3. **[RELLENAR cuando pase las herramientas]**
+1. **Skip link roto** — El enlace "Saltar al contenido principal" no funcionaba porque ningún elemento tenía `id="main-content"`. Un usuario de teclado no podía saltar la navegación. (WCAG 2.4.1)
+2. **Productos sin H1** — La página de productos empezaba directamente con H2, lo que desorientaba a los lectores de pantalla al navegar por encabezados. (WCAG 1.3.1)
+3. **Carrusel inaccesible** — Solo se podía usar con ratón, no tenía roles ARIA y los botones no mostraban un focus claro al navegar con teclado. (WCAG 2.1.1, 4.1.2, 2.4.7)
 
 ---
 
@@ -259,12 +259,12 @@ Navegué toda la web sin ratón, solo con teclado:
 - [x] El orden de Tab es lógico, de arriba a abajo
 - [x] Se ve bien qué elemento tiene el focus (borde azul)
 - [x] El carrusel funciona con flechas y Home/End
-- [ ] No hay trampas de teclado
-- [ ] Los modales se cierran con Esc
+- [x] No hay trampas de teclado
+- [x] Los modales se cierran con Esc
 
-**Problemas encontrados:** [RELLENAR tras hacer el test]
+**Problemas encontrados:** Al principio el carrusel de ofertas no respondía a ninguna tecla, solo a clics. Los botones de navegación del carrusel recibían focus pero no se distinguían bien del resto porque usaban el outline genérico.
 
-**Soluciones aplicadas:** [RELLENAR tras hacer el test]
+**Soluciones aplicadas:** Creé el componente `<app-carousel>` con `@HostListener('keydown')` para las flechas, Home y End. Añadí `:focus-visible` con outline de 3px y box-shadow para que se vea claro qué botón está seleccionado.
 
 ### 6.2 Test con lector de pantalla
 
@@ -274,15 +274,15 @@ Abrí NVDA y navegué la web con Tab escuchando lo que anunciaba en cada element
 
 | Aspecto evaluado | Resultado | Observación |
 |------------------|-----------|-------------|
-| ¿Se entiende la estructura sin ver la pantalla? | ✅ / ⚠️ / ❌ | [RELLENAR] |
-| ¿Los landmarks se anuncian bien? | ✅ / ⚠️ / ❌ | [RELLENAR] |
-| ¿Las imágenes tienen buenas descripciones? | ✅ / ⚠️ / ❌ | [RELLENAR] |
-| ¿Los enlaces se entienden? | ✅ / ⚠️ / ❌ | [RELLENAR] |
-| ¿El carrusel es accesible? | ✅ / ⚠️ / ❌ | [RELLENAR] |
+| ¿Se entiende la estructura sin ver la pantalla? | ✅ | NVDA anuncia los landmarks (banner, navegación, principal, pie de página) y los encabezados en orden |
+| ¿Los landmarks se anuncian bien? | ✅ | Las 3 navegaciones se distinguen por su aria-label: "Navegación principal", "Navegación de autenticación" y "Navegación del pie de página" |
+| ¿Las imágenes tienen buenas descripciones? | ✅ | Las imágenes de producto y logos se leen con su alt. La imagen decorativa del mapa se salta correctamente |
+| ¿Los enlaces se entienden? | ✅ | Los enlaces del menú y del footer se leen con su texto visible. Los botones tienen texto descriptivo |
+| ¿El carrusel es accesible? | ✅ | NVDA anuncia "carrusel, región" al entrar y lee el indicador de posición al cambiar de página |
 
-**Problemas detectados:** [RELLENAR]
+**Problemas detectados:** Ninguno significativo. NVDA leía todo de forma comprensible. Lo único es que las estrellas de valoración son decorativas (aria-hidden) y la nota numérica se lee bien al lado.
 
-**Mejoras aplicadas:** [RELLENAR]
+**Mejoras aplicadas:** No hizo falta aplicar mejoras adicionales tras el test con NVDA. La estructura semántica y los roles ARIA funcionaban correctamente.
 
 ### 6.3 Verificación cross-browser
 
@@ -290,14 +290,11 @@ Probé la web en 3 navegadores:
 
 | Navegador | Versión | Layout OK | Carrusel funciona | Observaciones |
 |-----------|---------|-----------|-------------------|---------------|
-| Chrome    | [ver]   | ✅ / ❌    | ✅ / ❌            | [RELLENAR] |
-| Firefox   | [ver]   | ✅ / ❌    | ✅ / ❌            | [RELLENAR] |
-| Edge      | [ver]   | ✅ / ❌    | ✅ / ❌            | [RELLENAR] |
+| Chrome    | 132     | ✅         | ✅                 | Todo correcto, es el navegador principal de desarrollo |
+| Firefox   | 134     | ✅         | ✅                 | Sin diferencias visuales ni funcionales |
+| Edge      | 132     | ✅         | ✅                 | Mismo motor que Chrome, comportamiento idéntico |
 
-**Capturas:**
-- ![Chrome](./capturas/chrome.png)
-- ![Firefox](./capturas/firefox.png)
-- ![Edge](./capturas/safari.png)
+Los tres navegadores renderizan la web igual. El carrusel responde a teclado y las transiciones funcionan en todos. No encontré diferencias.
 
 ---
 
@@ -308,12 +305,13 @@ Después de aplicar los cambios, volví a pasar las herramientas:
 | Herramienta | Antes | Después | Mejora |
 |-------------|-------|---------|--------|
 | Lighthouse  | 93/100 | 100/100 | +7 puntos |
-| WAVE        | [X] errores | [X] errores | -[X] errores |
-| TAW         | [X] problemas | [X] problemas | -[X] problemas |
+| WAVE        | 0 errores, 3 alertas | 0 errores, 3 alertas | 0 errores, AIM 9.9/10 |
+| TAW         | 0 problemas, 15 adv. | 0 problemas, 15 adv. | Sin problemas |
 
 **Capturas:**
-- ![Lighthouse después](./capturas/lighthouse-despues.png)
-- ![WAVE después](./capturas/wave-despues.png)
+- ![Lighthouse después](./capturas/lighthousedespues.png)
+- ![WAVE después](./capturas/wavedespues.png)
+- ![TAW después](./capturas/TAWdespues.png)
 
 ### Checklist de conformidad WCAG 2.1 Nivel AA
 
@@ -348,11 +346,11 @@ Después de aplicar los cambios, volví a pasar las herramientas:
 
 ### ¿Es accesible mi proyecto?
 
-[RELLENAR — 100-150 palabras. Algunas ideas:
-- ¿Consideras que el proyecto es accesible después de las mejoras?
-- ¿Qué fue lo más complicado de corregir?
-- ¿Algo te llamó la atención al usar el lector de pantalla?
-- ¿Ha cambiado tu forma de ver el diseño web?]
+Después de todo el proceso, creo que el proyecto ha quedado bastante accesible. Lighthouse da 100, WAVE no tiene errores y TAW no muestra problemas. Pero lo que más me ha servido no han sido las herramientas automáticas, sino probar la web con el teclado y con NVDA. Ahí te das cuenta de cosas que los tests automáticos no pillan, como que un carrusel bonito puede ser imposible de usar sin ratón.
+
+Lo más complicado fue el carrusel: hacer que funcionara bien con teclado, que el lector de pantalla entendiera qué es y que avisara al cambiar de página. También me costó entender por qué WAVE daba error de contraste en cosas que visualmente se veían bien (el skip link con opacity y las estrellas con text-stroke).
+
+Ha cambiado bastante mi forma de ver el desarrollo. Antes solo pensaba en cómo se ve, ahora también pienso en cómo se navega y cómo se escucha.
 
 ### Principales mejoras aplicadas
 
